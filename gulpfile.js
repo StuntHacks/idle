@@ -3,10 +3,10 @@ const fileInclude = require("gulp-file-include");
 
 gulp.task("html", function () {
   return gulp
-    .src(["html/index.html"])
+    .src(["src/html/index.html"])
     .pipe(
       fileInclude({
-        prefix: "@@",
+        prefix: "@",
         basepath: "@file",
       })
     )
@@ -14,5 +14,5 @@ gulp.task("html", function () {
 });
 
 gulp.task("watch", function () {
-  gulp.watch("html/**/*.html", gulp.series("html"));
+  gulp.watch("src/html/**/*.html", gulp.series("html"));
 });

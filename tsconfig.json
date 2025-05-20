@@ -2,12 +2,12 @@
   "compilerOptions": {
     "module": "commonjs",
     "lib": ["es5", "es6", "dom"],
-    "rootDir": "ts",
+    "rootDir": "src/ts",
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true
   },
-  "include": ["ts/**/*"],
+  "include": ["src/ts/**/*"],
   "exclude": ["**/*.spec.ts"]
 }

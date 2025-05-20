@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "watch": "parallelshell \"sass scss/main.scss build/main.css --style compressed --watch\" \"webpack -w\" \"gulp watch\"",
-    "build": "sass scss/main.scss build/main.css --style compressed && gulp html && webpack"
+    "watch": "parallelshell \"sass src/scss/main.scss build/main.css --style compressed --watch\" \"webpack -w\" \"gulp watch\"",
+    "build": "sass src/scss/main.scss build/main.css --style compressed && gulp html && webpack"
   },
   "devDependencies": {
     "gulp": "^5.0.0",
