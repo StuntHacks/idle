@@ -1,2 +1,7 @@
 @import "./helpers.scss";
-@import "./settings/icons.scss";
+@import "./settings/settings.scss";
+@import "./themes/themes.scss";
+
+body {
+    background-color: var(--color-bg);
+}

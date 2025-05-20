@@ -1,1 +1,1 @@
-.svg-defs{display:none}.icon{-webkit-mask:var(--icon-url) no-repeat center;mask:var(--icon-url) no-repeat center;--size: 20px;display:inline-block;width:var(--size);height:var(--size)}.icon.molecule{--icon-url: url(../assets/icons/molecule.svg) }/*# sourceMappingURL=main.css.map */
+svg>path{display:none}svg path,svg g{fill:var(--icon-color)}body{--color-bg: $color-mystic-purple}body{background-color:var(--color-bg)}/*# sourceMappingURL=main.css.map */
