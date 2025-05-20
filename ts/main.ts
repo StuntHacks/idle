@@ -1,4 +1,4 @@
-import { SaveHandler } from "./savehandler/SaveHandler";
+import { SaveHandler } from "./SaveHandler/SaveHandler";
 import { Settings } from "./utils/Settings";
 
 export const mainFunction = () => {

@@ -1,4 +1,4 @@
-import { SaveHandler } from '../savehandler/SaveHandler';
+import { SaveHandler } from '../SaveHandler/SaveHandler';
 import type { Settings as SettingsType } from '../types/Settings';
 
 export class Settings {
