@@ -1,9 +1,11 @@
 {
   "scripts": {
-    "watch": "parallelshell \"sass scss/main.scss build/main.css --style compressed --watch\" \"webpack -w\"",
-    "build": "sass scss/main.scss build/main.css --style compressed && webpack"
+    "watch": "parallelshell \"sass scss/main.scss build/main.css --style compressed --watch\" \"webpack -w\" \"gulp watch\"",
+    "build": "sass scss/main.scss build/main.css --style compressed && gulp html && webpack"
   },
   "devDependencies": {
+    "gulp": "^5.0.0",
+    "gulp-file-include": "^2.3.0",
     "parallelshell": "^3.0.1",
     "ts-loader": "^9.5.2",
     "typescript": "^5.8.3",
