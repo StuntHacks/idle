@@ -1,4 +1,3 @@
 import { mainFunction } from "./main";
 
-
-document.addEventListener("DOMContentLoaded", mainFunction)
+document.addEventListener("DOMContentLoaded", mainFunction);
