@@ -11,5 +11,5 @@ export const mainFunction = () => {
 
     let data = SaveHandler.getData();
     Settings.set(data.settings);
-    console.log(Settings.get())
+    console.log(Settings.default())
 }

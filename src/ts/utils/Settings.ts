@@ -6,9 +6,41 @@ export class Settings {
 
     public static default(): SettingsType {
         return {
-            logging: {
-                enabled: true,
-                verbose: false
+            general: {
+                title: "General settings",
+                settings: {
+                    noTabHistory: {
+                        value: false,
+                        default: false,
+                        name: "Disable tab history",
+                        description: "Doesn't save changing between tabs in the browser history, so the back button leaves this page instead"
+                    },
+                }
+            },
+            gameplay: {
+                title: "Gameplay settings",
+                settings: {
+                    noOfflineTime: {
+                        value: false,
+                        default: false,
+                        name: "Disable offline time"
+                    },
+                }
+            },
+            debug: {
+                title: "Debug settings",
+                settings: {
+                    logging: {
+                        value: true,
+                        default: true,
+                        name: "Enable logging"
+                    },
+                    verbose: {
+                        value: true,
+                        default: true,
+                        name: "Verbose logging"
+                    }
+                }
             }
         }
     }
