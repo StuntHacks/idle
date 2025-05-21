@@ -45,6 +45,10 @@ export class TranslatedElement extends HTMLElement {
 
     connectedCallback() {
         let lang = Settings.get().general.settings.language.value;
-        this.innerText = Utils.getNestedProperty(translations[lang], this.innerText);
+        let translated = Utils.getNestedProperty(translations[lang], this.innerText);
+
+        if (translated) {
+            this.innerText = translated;
+        }
     }
 }
