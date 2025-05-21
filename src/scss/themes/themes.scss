@@ -1,1 +1,7 @@
 @import "./default.scss";
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: opacity 250ms;
+}

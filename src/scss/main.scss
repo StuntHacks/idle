@@ -1,8 +1,11 @@
 @import "./helpers.scss";
+@import "./layout.scss";
+
 @import "./settings/settings.scss";
 @import "./themes/themes.scss";
 
-body {
-    background-color: var(--color-bg);
-    color: #FFF;
+@import "./partials/navigation";
+
+body.loading {
+    opacity: 0;
 }

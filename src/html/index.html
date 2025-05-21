@@ -6,17 +6,29 @@
     <script src="./index.js"></script>
     <link rel="stylesheet" href="./main.css">
     <title>Random Idler about the universe or something</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Lexend+Deca:wght@100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap"
+        rel="stylesheet">
 </head>
-<body>
+<body class="loading">
     <nav class="main-nav">
-        <span class="nav-entry" data-system="">
+        <span class="nav-entry" data-system="particle">
             @include('../assets/icons/molecule.svg')
         </span>
-        <span class="nav-entry" data-system="">
-            @include('../assets/icons/orbit.svg')
+        <span class="nav-entry" data-system="stellar">
+            @include('../assets/icons/orbital-rays.svg')
         </span>
-        <span class="nav-entry" data-system="">
-            @include('../assets/icons/orbit.svg')
+        <span class="nav-entry" data-system="biogenesis">
+            @include('../assets/icons/dna2.svg')
+        </span>
+        <span class="nav-entry" data-system="alien">
+            @include('../assets/icons/tentacle-strike.svg')
+        </span>
+        <span class="nav-entry" data-system="uncertainty">
+            @include('../assets/icons/uncertainty.svg')
         </span>
     </nav>
     <main>

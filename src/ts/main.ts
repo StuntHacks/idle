@@ -19,5 +19,7 @@ export const mainFunction = () => {
     console.log(Settings.get().debug.settings.verbose.value)
     console.log(Settings.get())
     
-    customElements.define("translated-string", TranslatedElement)
+    customElements.define("translated-string", TranslatedElement);
+
+    document.getElementsByTagName("body")[0].classList.remove("loading");
 }
