@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "lib": ["es5", "es6", "dom"],
+    "lib": ["ES2015", "dom"],
+    "target": "es6",
     "rootDir": "src/ts",
     "noImplicitAny": true,
     "removeComments": true,

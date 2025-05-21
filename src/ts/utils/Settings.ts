@@ -7,38 +7,44 @@ export class Settings {
     public static default(): SettingsType {
         return {
             general: {
-                title: "General settings",
+                title: "settings.general.title",
                 settings: {
+                    language: {
+                        value: "en",
+                        default: "en",
+                        name: "settings.general.language.name",
+                        description: ""
+                    },
                     noTabHistory: {
                         value: false,
                         default: false,
-                        name: "Disable tab history",
-                        description: "Doesn't save changing between tabs in the browser history, so the back button leaves this page instead"
+                        name: "settings.general.noTabHistory.name",
+                        description: "settings.general.noTabHistory.description"
                     },
                 }
             },
             gameplay: {
-                title: "Gameplay settings",
+                title: "settings.gameplay.title",
                 settings: {
                     noOfflineTime: {
                         value: false,
                         default: false,
-                        name: "Disable offline time"
+                        name: "settings.gameplay.name"
                     },
                 }
             },
             debug: {
-                title: "Debug settings",
+                title: "settings.debug.title",
                 settings: {
                     logging: {
                         value: true,
                         default: true,
-                        name: "Enable logging"
+                        name: "settings.debug.logging.name",
                     },
                     verbose: {
                         value: false,
                         default: false,
-                        name: "Verbose logging"
+                        name: "settings.debug.verbose.name",
                     }
                 }
             }
