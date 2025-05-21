@@ -36,8 +36,8 @@ export class Settings {
                         name: "Enable logging"
                     },
                     verbose: {
-                        value: true,
-                        default: true,
+                        value: false,
+                        default: false,
                         name: "Verbose logging"
                     }
                 }
@@ -59,7 +59,7 @@ export class Settings {
 
     public static reset(): void {
         // TODO: Implement reset logic
-        this.settings = undefined;
+        this.settings = this.default();
         SaveHandler.saveData();
     }
 }

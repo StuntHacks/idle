@@ -11,5 +11,7 @@ export const mainFunction = () => {
 
     let data = SaveHandler.getData();
     Settings.set(data.settings);
-    console.log(Settings.default())
+    console.log(Settings.get())
+    Settings.get().debug.settings.verbose.value = true;
+    console.log(Settings.get())
 }
