@@ -144,7 +144,6 @@ export class Wave {
     private draw(time: number) {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-        //console.log("draw: ", this.config.color)
         gradient.addColorStop(0, this.config.color.start);
         gradient.addColorStop(1, this.config.color.end);
         
@@ -187,6 +186,12 @@ export class Wave {
 
         const index = Math.floor((x / this.canvas.width) * this.config.pointCount);
 
+        if (this.config.rippleCallback) {
+            if (!this.config.rippleCallback(manual, this.config.id)) {
+                return false;
+            }
+        }
+
         this.ripples.push({
             index,
             startTime: performance.now(),
@@ -197,15 +202,12 @@ export class Wave {
             ttl: ttl ? ttl : this.config.rippleDelay,
         });
 
-        if (this.config.rippleCallback) {
-            this.config.rippleCallback(manual);
-        }
-
         return true;
     }
 }
 
 export interface WaveConfig {
+    id?: string;
     amplitude: number;
     frequency: number;
     speed: number;
@@ -215,7 +217,7 @@ export interface WaveConfig {
     height?: number;
     offset?: number;
     rippleDelay?: number;
-    rippleCallback?: (manual: boolean) => void;
+    rippleCallback?: (manual: boolean, id?: string) => boolean;
 }
 
 export interface WaveColor {
