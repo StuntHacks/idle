@@ -35,11 +35,11 @@ export class Wave {
             this.config.height = container.clientHeight;
         }
         
-        if (!this.config.rippleDelay) {
+        if (this.config.rippleDelay === undefined) {
             this.config.rippleDelay = 1500;
         }
 
-        if (!this.config.offset) {
+        if (this.config.offset === undefined) {
             this.config.offset = this.config.height / 2;
         }
 
@@ -97,7 +97,7 @@ export class Wave {
         function animate(timestamp: number) {
             self.time = self.config.speed * ((timestamp - start) / 10);
             self.draw(self.time);
-            self.ripples = self.ripples.filter((r: Ripple) => (performance.now() - r.startTime) < r.ttl); // keep only recent ones
+            self.ripples = self.ripples.filter((r: Ripple) => (performance.now() - r.startTime) < r.ttl);
             window.requestAnimationFrame(animate);
         }
         window.requestAnimationFrame(animate);
@@ -124,19 +124,16 @@ export class Wave {
         const now = performance.now();
 
         for (let r of this.ripples) {
-            const age = (now - r.startTime) / 1000; // age in seconds
+            const age = (now - r.startTime) / 1000;
             const distance = Math.abs(i - r.index);
             const propagation = age * r.speed;
 
-            // Only affect points near the wavefront
             const falloff = Math.exp(-r.decay * Math.pow(distance - propagation, 2));
 
-            // Ramping factor (ease in up to 1.0 over 0.5s)
             const rampUpTime = 0.5;
-            const ramp = Math.min(1, age / rampUpTime); // 0 → 1
-            const easedRamp = Math.sin((ramp * Math.PI) / 2); // easeOutSine
+            const ramp = Math.min(1, age / rampUpTime); 
+            const easedRamp = Math.sin((ramp * Math.PI) / 2);
 
-            // Ripple contribution
             const wave = Math.sin(distance - propagation);
             rippleOffset += r.strength * easedRamp * falloff * wave;
         }

@@ -31,7 +31,7 @@ export class QuantumFieldElement extends HTMLElement {
             colorGlow: this.getAttribute("color-glow"),
             colorHover: this.getAttribute("color-hover") || "#ffffff",
             pointCount: 10,
-            offset: offset + 200,
+            offset: 100 * parseInt(this.getAttribute("index")),
             rippleCallback: (manual: boolean) => {
                 this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { manual } }));
             }
