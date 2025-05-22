@@ -1,6 +1,4 @@
 import { TranslationMap } from "../types/Translations";
-import { Settings } from "../utils/Settings";
-import { Utils } from "../utils/utils";
 
 export const translations: TranslationMap = {
     "en": {
@@ -41,21 +39,6 @@ export const translations: TranslationMap = {
                     description: ""
                 },
             },
-        }
-    }
-}
-
-export class TranslatedElement extends HTMLElement {
-    constructor() {
-        super();
-    }
-
-    connectedCallback() {
-        let lang = Settings.get().general.settings.language.value;
-        let translated = Utils.getNestedProperty(translations[lang], this.innerText);
-
-        if (translated) {
-            this.innerText = translated;
         }
     }
 }

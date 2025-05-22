@@ -34,12 +34,12 @@
     </nav>
     <main id="main">
         <div class="system-tab" id="tab-fields">
-            <canvas class="field-wave" id="electron-field-canvas"></canvas>
-            <canvas class="field-wave" id="quark-field-blue-canvas"></canvas>
-            <canvas class="field-wave" id="quark-field-red-canvas"></canvas>
-            <canvas class="field-wave" id="quark-field-green-canvas"></canvas>
-            <canvas class="field-wave" id="electroweak-field-canvas"></canvas>
-            <canvas class="field-wave" id="higgs-field-canvas"></canvas>
+            <quantum-field id="electron-field-canvas" color-start="#ffffaa" color-end="#ffffDD" color-glow="#ffff00" index="1"></quantum-field>
+            <quantum-field id="quark-field-red-canvas" color-start="#ff0000" color-end="#ff00ff" color-glow="#ff00ff" index="2"></quantum-field>
+            <quantum-field id="quark-field-green-canvas" color-start="#00ff00" color-end="#00ffff" color-glow="#00ff00" index="3"></quantum-field>
+            <quantum-field id="quark-field-blue-canvas" color-start="#0000ff" color-end="#00ffff" color-glow="#00ffff" index="4"></quantum-field>
+            <quantum-field id="electroweak-field-canvas" color-start="#aaaaaa" color-end="#dddddd" color-glow="#dddddd" index="5"></quantum-field>
+            <quantum-field id="higgs-field-canvas" color-start="#998800" color-end="#bb9900" color-glow="#DDAA00" index="6"></quantum-field>
         </div>
     </main>
 </body>

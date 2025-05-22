@@ -199,6 +199,10 @@ export class Wave {
             ttl: ttl ? ttl : this.config.rippleDelay,
         });
 
+        if (this.config.rippleCallback) {
+            this.config.rippleCallback(manual);
+        }
+
         return true;
     }
 }
@@ -216,6 +220,7 @@ export interface WaveConfig {
     height?: number;
     offset?: number;
     rippleDelay?: number;
+    rippleCallback?: (manual: boolean) => void;
 }
 
 interface WavePoint {
