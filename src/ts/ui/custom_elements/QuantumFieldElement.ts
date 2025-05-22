@@ -38,22 +38,22 @@ export class QuantumFieldElement extends HTMLElement {
 
             this.colors = [
                 {
-                    start: "#0000ffBB",
-                    end: "#00ffffBB",
-                    glow: "#00ffffBB",
-                    hover: "#0000ff",
+                    start: "#0000ff",
+                    end: "#00ffff",
+                    glow: "#00ffff",
+                    hover: "#ffffff",
                 },
                 {
-                    start: "#00ff00BB",
-                    end: "#00ffffBB",
-                    glow: "#00ff00BB",
-                    hover: "#00ff00",
+                    start: "#00ff00",
+                    end: "#00ffff",
+                    glow: "#00ff00",
+                    hover: "#ffffff",
                 },
                 {
-                    start: "#ff0000BB",
-                    end: "#ff00ffBB",
-                    glow: "#ff00ffBB",
-                    hover: "#ff0000",
+                    start: "#ff0000",
+                    end: "#ff00ff",
+                    glow: "#ff00ff",
+                    hover: "#ffffff",
                 },
             ];
 
@@ -66,26 +66,22 @@ export class QuantumFieldElement extends HTMLElement {
                 return true;
             }
 
-            this.canvases.push(document.createElement("canvas"));
-            this.appendChild(this.canvases[0]);
+            let c = {
+                start: this.getAttribute("color-start"),
+                end: this.getAttribute("color-end"),
+                glow: this.getAttribute("color-glow"),
+                hover: this.getAttribute("color-hover") || "#ffffff",
+            }
 
-            this.colors = [
-                {
-                    start: this.getAttribute("color-start"),
-                    end: this.getAttribute("color-end"),
-                    glow: this.getAttribute("color-glow"),
-                    hover: this.getAttribute("color-hover") || "#ffffff",
-                },
-            ];
-
-            this.ids = [""];
+            this.colors = [c, c, c];
+            this.ids = ["", "", ""];
         }
 
         this.colors.forEach((color, index) => {
             this.canvases.push(document.createElement("canvas"));
             this.appendChild(this.canvases[index]);
             this.waves.push(new Wave(this.canvases[index], this.parentElement, {
-                amplitude: 10,
+                amplitude: 20,
                 frequency: 1,
                 speed: 0.02,
                 lineWidth: 3,
@@ -97,7 +93,7 @@ export class QuantumFieldElement extends HTMLElement {
                 },
                 pointCount: 10,
                 offset: offset,
-                rippleCallback: handleRipple,
+                rippleCallback: index === 1 ? handleRipple : () => true,
                 id: this.ids[index],
             }));
         });
