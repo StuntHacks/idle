@@ -3,9 +3,17 @@
 #tab-fields {
     position: relative;
     min-height: $content-height;
+    display: flex;
+    justify-content: center;
 
     canvas {
         position: absolute;
         top: 0;
+        z-index: 9;
+
+        &.hovered {
+            cursor: pointer;
+            z-index: 10;
+        }
     }
 }

@@ -6,17 +6,37 @@ export class Wave {
     private points: WavePoint[] = [];
     private ctx: CanvasRenderingContext2D;
     private time: number = 0;
-    private bounceHeight: number = 0;
-    private bounceSpeed: number = 1;
-    private bouncing: boolean = false;
+    private hover: boolean = false;
+    private ripples: Ripple[] = [];
 
     constructor(element: HTMLCanvasElement, container: HTMLElement, config: WaveConfig, autoStart: boolean = true) {
         this.canvas = element;
         this.config = config;
         this.ctx = this.canvas.getContext('2d');
+
+        container.addEventListener('mousemove', (e: MouseEvent) => {
+            if (this.checkHover(e.clientY)) {
+                this.hover = true;
+                this.canvas.classList.add("hovered");
+                this.ripple(e.clientX, false, 20, 10, 0.05, 1, 1000)
+            } else {
+                this.hover = false;
+                this.canvas.classList.remove("hovered");
+            }
+        });
+
+        container.addEventListener('click', (e: MouseEvent) => {
+            if (this.hover) {
+                this.ripple(e.clientX, true);
+            }
+        });
         
         if (!this.config.height) {
             this.config.height = container.clientHeight;
+        }
+        
+        if (!this.config.rippleDelay) {
+            this.config.rippleDelay = 1500;
         }
 
         if (!this.config.offset) {
@@ -31,6 +51,10 @@ export class Wave {
         if (autoStart) {
             this.start();
         }
+    }
+
+    private checkHover(y: number): boolean {
+        return y > this.config.offset + 100 && y < this.config.offset + 150;
     }
 
     private handleResize() {
@@ -73,6 +97,7 @@ export class Wave {
         function animate(timestamp: number) {
             self.time = self.config.speed * ((timestamp - start) / 10);
             self.draw(self.time);
+            self.ripples = self.ripples.filter((r: Ripple) => (performance.now() - r.startTime) < r.ttl); // keep only recent ones
             window.requestAnimationFrame(animate);
         }
         window.requestAnimationFrame(animate);
@@ -91,9 +116,32 @@ export class Wave {
 
     private getY(i: number, time: number) {
         const point = this.points[i];
-        const noise = Math.sin((point.offset + time) * this.config.frequency) * 0.6 +
-                Math.sin((point.offset * 0.5 + time * 0.8) * this.config.frequency) * 0.4;
-        return this.config.offset + noise * (this.config.amplitude + this.bounceHeight);
+        const baseNoise =
+            Math.sin((point.offset + time) * this.config.frequency) * 0.6 +
+            Math.sin((point.offset * 0.5 + time * 0.8) * this.config.frequency) * 0.4;
+
+        let rippleOffset = 0;
+        const now = performance.now();
+
+        for (let r of this.ripples) {
+            const age = (now - r.startTime) / 1000; // age in seconds
+            const distance = Math.abs(i - r.index);
+            const propagation = age * r.speed;
+
+            // Only affect points near the wavefront
+            const falloff = Math.exp(-r.decay * Math.pow(distance - propagation, 2));
+
+            // Ramping factor (ease in up to 1.0 over 0.5s)
+            const rampUpTime = 0.5;
+            const ramp = Math.min(1, age / rampUpTime); // 0 → 1
+            const easedRamp = Math.sin((ramp * Math.PI) / 2); // easeOutSine
+
+            // Ripple contribution
+            const wave = Math.sin(distance - propagation);
+            rippleOffset += r.strength * easedRamp * falloff * wave;
+        }
+
+        return this.config.offset + (baseNoise * this.config.amplitude + rippleOffset);
     }
 
     private draw(time: number) {
@@ -102,7 +150,7 @@ export class Wave {
         gradient.addColorStop(0, this.config.colorStart);
         gradient.addColorStop(1, this.config.colorEnd);
         
-        this.ctx.shadowColor = Utils.hexToRGB(this.config.colorGlow);
+        this.ctx.shadowColor = Utils.hexToRGB(this.hover ? this.config.colorHover : this.config.colorGlow);
         this.ctx.shadowBlur = 10;
         this.ctx.shadowOffsetX = 0;
         this.ctx.shadowOffsetY = 0;
@@ -134,39 +182,24 @@ export class Wave {
         this.ctx.stroke();
     }
 
-    public bounce(callback: (bounced: boolean) => void) {
-        if (this.bouncing) {
-            callback(false);
-            return;
+    public ripple(x: number, manual: boolean = false, strength: number = 120, speed: number = 10, decay: number = 0.05, max: number = 1, ttl: number | undefined = undefined) {
+        if (this.ripples.filter((r: Ripple) => r.manual === manual).length >= max) {
+            return false;
         }
 
-        this.bouncing = true;
-        var self = this;
+        const index = Math.floor((x / this.canvas.width) * this.config.pointCount);
 
-        function bounceUp() {
-            if (self.bounceHeight < 300) {
-                self.bounceHeight += self.bounceSpeed;
-                self.bounceSpeed += 0.5;
-                window.requestAnimationFrame(bounceUp);
-            } else {
-                window.requestAnimationFrame(bounceDown);
-            }
-        }
+        this.ripples.push({
+            index,
+            startTime: performance.now(),
+            strength,
+            speed,
+            decay,
+            manual,
+            ttl: ttl ? ttl : this.config.rippleDelay,
+        });
 
-        function bounceDown() {
-            if (self.bounceHeight > 0) {
-                self.bounceHeight -= self.bounceSpeed;
-                self.bounceSpeed -= 0.1;
-                window.requestAnimationFrame(bounceDown);
-            } else {
-                self.bounceHeight = 0;
-                self.bounceSpeed = 10;
-                callback(true);
-                self.bouncing = false;
-            }
-        }
-
-        window.requestAnimationFrame(bounceUp);
+        return true;
     }
 }
 
@@ -182,9 +215,20 @@ export interface WaveConfig {
     pointCount: number;
     height?: number;
     offset?: number;
+    rippleDelay?: number;
 }
 
 interface WavePoint {
     x: number;
     offset: number;
+}
+
+interface Ripple {
+    index: number;
+    startTime: number;
+    strength: number;
+    speed: number;
+    decay: number;
+    manual: boolean;
+    ttl: number;
 }

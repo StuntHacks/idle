@@ -27,7 +27,7 @@ export const main = () => {
         colorStart: "#ffffaa",
         colorEnd: "#ffffDD",
         colorGlow: "#ffff00",
-        colorHover: "#DDAA00",
+        colorHover: "#ffffff",
         pointCount: 10,
         offset: waveOffset * 1 + 200,
     });
@@ -40,7 +40,7 @@ export const main = () => {
         colorStart: "#ff0000",
         colorEnd: "#ff00ff",
         colorGlow: "#ff00ff",
-        colorHover: "#DDAA00",
+        colorHover: "#ffffff",
         pointCount: 10,
         offset: waveOffset * 2 + 200,
     });
@@ -53,7 +53,7 @@ export const main = () => {
         colorStart: "#00ff00",
         colorEnd: "#00ffff",
         colorGlow: "#00ff00",
-        colorHover: "#DDAA00",
+        colorHover: "#ffffff",
         pointCount: 10,
         offset: waveOffset * 3 + 200,
     });
@@ -66,7 +66,7 @@ export const main = () => {
         colorStart: "#0000ff",
         colorEnd: "#00ffff",
         colorGlow: "#00ffff",
-        colorHover: "#DDAA00",
+        colorHover: "#ffffff",
         pointCount: 10,
         offset: waveOffset * 4 + 200,
     });
@@ -79,7 +79,7 @@ export const main = () => {
         colorStart: "#AAAAAA",
         colorEnd: "#DDDDDD",
         colorGlow: "#DDDDDD",
-        colorHover: "#DDAA00",
+        colorHover: "#ffffff",
         pointCount: 10,
         offset: waveOffset * 5 + 200,
     });
@@ -92,15 +92,9 @@ export const main = () => {
         colorStart: "#998800",
         colorEnd: "#bb9900",
         colorGlow: "#DDAA00",
-        colorHover: "#DDAA00",
+        colorHover: "#ffffff",
         pointCount: 10,
         offset: waveOffset * 6 + 200,
-    });
-
-    document.addEventListener("click", () => {
-        higgsWave.bounce((bounced: boolean) => {
-            console.log("Bounce finished!", bounced);
-        })
     });
 
     // ready
