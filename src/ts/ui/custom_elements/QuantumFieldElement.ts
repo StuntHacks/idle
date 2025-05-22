@@ -11,6 +11,10 @@ export class QuantumFieldElement extends HTMLElement {
         super();
     }
 
+    ripple(x: number, manual: boolean = false, strength: number = 120, speed: number = 10, decay: number = 0.05, max: number = 1, ttl: number | undefined = undefined) {
+        this.wave.ripple(x, manual, strength, speed, decay, max, ttl);
+    }
+
     connectedCallback() {
         this.canvas = document.createElement("canvas");
         this.appendChild(this.canvas);
