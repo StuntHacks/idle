@@ -144,10 +144,11 @@ export class Wave {
     private draw(time: number) {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-        gradient.addColorStop(0, this.config.colorStart);
-        gradient.addColorStop(1, this.config.colorEnd);
+        //console.log("draw: ", this.config.color)
+        gradient.addColorStop(0, this.config.color.start);
+        gradient.addColorStop(1, this.config.color.end);
         
-        this.ctx.shadowColor = Utils.hexToRGB(this.hover ? this.config.colorHover : this.config.colorGlow);
+        this.ctx.shadowColor = Utils.hexToRGB(this.hover ? this.config.color.hover : this.config.color.glow);
         this.ctx.shadowBlur = 10;
         this.ctx.shadowOffsetX = 0;
         this.ctx.shadowOffsetY = 0;
@@ -209,15 +210,19 @@ export interface WaveConfig {
     frequency: number;
     speed: number;
     lineWidth: number;
-    colorStart: string;
-    colorEnd: string;
-    colorGlow: string;
-    colorHover: string;
+    color: WaveColor;
     pointCount: number;
     height?: number;
     offset?: number;
     rippleDelay?: number;
     rippleCallback?: (manual: boolean) => void;
+}
+
+export interface WaveColor {
+    start: string;
+    end: string;
+    glow: string;
+    hover: string;
 }
 
 interface WavePoint {

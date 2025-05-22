@@ -20,7 +20,7 @@ export const main = () => {
 
     let mainContainer = document.getElementById("main");
 
-    document.getElementById("electron-field-canvas").addEventListener("ripple", (e: CustomEventInit<RippleEvent>) => {
+    document.getElementById("electron-field").addEventListener("ripple", (e: CustomEventInit<RippleEvent>) => {
         console.log("rippled", e.detail.manual);
     })
 
