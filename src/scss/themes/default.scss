@@ -4,7 +4,10 @@ body {
     --color-bg: #{$color-gray-dark};
     --color-text: #{$color-white};
     --color-navigation: #{$color-gray-light};
-    --color-navigation-text: #{$color-gray-dark};
+    --color-navigation-active: #{$color-gray-dark};
+    --color-navigation-inactive: #{$color-gray3};
+    --color-navigation-disabled: #{$color-gray-light2};
+    --color-navigation-hover: #{$color-gray-light2};
 }
 
 body.dark-navigation {

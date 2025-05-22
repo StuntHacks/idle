@@ -5,6 +5,7 @@ export class QuantumFieldElement extends HTMLElement {
     private canvases: HTMLCanvasElement[] = [];
     private colors: WaveColor[] = [];
     private whichWave: string;
+    private ids: string[];
 
     constructor() {
         super();
@@ -15,12 +16,14 @@ export class QuantumFieldElement extends HTMLElement {
     }
 
     connectedCallback() {
-        let offset = ((this.parentElement.clientHeight / 6) / 2) * parseInt(this.getAttribute("index"));
+        let amount = parseInt(this.parentElement.getAttribute("data-fields"));
+        let offset = (this.parentElement.clientHeight / (amount + 1)) * parseInt(this.getAttribute("index"));
+        let handleRipple;
 
         if (this.getAttribute("type") === "rainbow") {
             const getNextDrop = (): string => ["red", "green", "blue", "all"][Math.floor(Math.random() * 4)]
 
-            const handleRipple = (manual: boolean, id: string) => {
+            handleRipple = (manual: boolean, id: string) => {
                 if (id === "blue") {
                     this.whichWave = getNextDrop();
                 }
@@ -32,13 +35,6 @@ export class QuantumFieldElement extends HTMLElement {
 
                 return false;
             }
-
-            this.canvases.push(document.createElement("canvas"));
-            this.canvases.push(document.createElement("canvas"));
-            this.canvases.push(document.createElement("canvas"));
-            this.canvases.forEach(canvas => {
-                this.appendChild(canvas);
-            });
 
             this.colors = [
                 {
@@ -61,49 +57,50 @@ export class QuantumFieldElement extends HTMLElement {
                 },
             ];
 
-            let ids = ["blue", "green", "red"];
+            this.ids = ["blue", "green", "red"];
 
-            this.colors.forEach((color, index) => {
-                this.waves.push(new Wave(this.canvases[index], this.parentElement, {
-                    amplitude: 10,
-                    frequency: 1,
-                    speed: 0.02,
-                    lineWidth: 3,
-                    color: {
-                        start: color.start,
-                        end: color.end,
-                        glow: color.glow,
-                        hover: color.hover,
-                    },
-                    pointCount: 10,
-                    offset: 100 * parseInt(this.getAttribute("index")),
-                    rippleCallback: handleRipple,
-                    id: ids[index],
-                }));
-            });
+            
         } else {
+            handleRipple = (manual: boolean) => {
+                this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { manual } }));
+                return true;
+            }
+
             this.canvases.push(document.createElement("canvas"));
             this.appendChild(this.canvases[0]);
 
-            this.waves.push(new Wave(this.canvases[0], this.parentElement, {
-                amplitude: 10,
-                frequency: 1,
-                speed: 0.02,
-                lineWidth: 3,
-                color: {
+            this.colors = [
+                {
                     start: this.getAttribute("color-start"),
                     end: this.getAttribute("color-end"),
                     glow: this.getAttribute("color-glow"),
                     hover: this.getAttribute("color-hover") || "#ffffff",
                 },
-                pointCount: 10,
-                offset: 100 * parseInt(this.getAttribute("index")),
-                rippleCallback: (manual: boolean) => {
-                    this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { manual } }));
-                    return true;
-                }
-            }));
+            ];
+
+            this.ids = [""];
         }
+
+        this.colors.forEach((color, index) => {
+            this.canvases.push(document.createElement("canvas"));
+            this.appendChild(this.canvases[index]);
+            this.waves.push(new Wave(this.canvases[index], this.parentElement, {
+                amplitude: 10,
+                frequency: 1,
+                speed: 0.02,
+                lineWidth: 3,
+                color: {
+                    start: color.start,
+                    end: color.end,
+                    glow: color.glow,
+                    hover: color.hover,
+                },
+                pointCount: 10,
+                offset: offset,
+                rippleCallback: handleRipple,
+                id: this.ids[index],
+            }));
+        });
     }
 }
 
