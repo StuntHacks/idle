@@ -4,9 +4,14 @@
 @import "./settings/settings.scss";
 @import "./themes/themes.scss";
 
-@import "./partials/navigation";
+@import "./partials/partials.scss";
 
 body.loading {
     opacity: 0;
     pointer-events: none;
+}
+
+.field-wave {
+    display: block;
+    width: 100%;
 }

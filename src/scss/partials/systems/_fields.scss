@@ -1,0 +1,11 @@
+@import "../../helpers.scss";
+
+#tab-fields {
+    position: relative;
+    min-height: $content-height;
+
+    canvas {
+        position: absolute;
+        top: 0;
+    }
+}

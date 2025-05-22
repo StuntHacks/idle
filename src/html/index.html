@@ -15,7 +15,7 @@
 </head>
 <body class="loading">
     <nav class="main-nav">
-        <span class="nav-entry active" data-system="particle">
+        <span class="nav-entry active" data-system="fields">
             @include('../assets/icons/molecule.svg')
         </span>
         <span class="nav-entry" data-system="stellar">
@@ -31,8 +31,15 @@
             @include('../assets/icons/astrolabe.svg')
         </span>
     </nav>
-    <main>
-        <translated-string>settings.general.noTabHistory.description</translated-string>
+    <main id="main">
+        <div class="system-tab" id="tab-fields">
+            <canvas class="field-wave" id="electron-field-canvas"></canvas>
+            <canvas class="field-wave" id="quark-field-blue-canvas"></canvas>
+            <canvas class="field-wave" id="quark-field-red-canvas"></canvas>
+            <canvas class="field-wave" id="quark-field-green-canvas"></canvas>
+            <canvas class="field-wave" id="electroweak-field-canvas"></canvas>
+            <canvas class="field-wave" id="higgs-field-canvas"></canvas>
+        </div>
     </main>
 </body>
 </html>
