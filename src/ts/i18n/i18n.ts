@@ -23,6 +23,13 @@ export const translations: TranslationMap = {
                     description: ""
                 },
             },
+            display: {
+                title: "Display settings",
+                darkNavigation: {
+                    name: "Dark header & footer",
+                    description: "Changes the color of header & footer to be the same as the theme background color"
+                },
+            },
             debug: {
                 title: "Debug settings",
                 logging: {

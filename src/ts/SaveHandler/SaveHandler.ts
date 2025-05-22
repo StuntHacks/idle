@@ -17,7 +17,7 @@ export class SaveHandler {
     }
 
     public static saveData(): void {
-        let data = this.encode(JSON.stringify(this.save));;
+        let data = this.encode(JSON.stringify(this.save));
         localStorage.setItem("saveFile", data);
     }
 

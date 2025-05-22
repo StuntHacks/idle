@@ -5,20 +5,26 @@ export interface Settings {
             language: Setting<"en" | "de">
             noTabHistory: Setting<boolean>;
         };
-    }
+    };
     gameplay: {
         title: string;
         settings: {
             noOfflineTime: Setting<boolean>;
         };
-    }
+    };
+    display: {
+        title: string;
+        settings: {
+            darkNavigation: Setting<boolean>;
+        }
+    };
     debug: {
         title: string;
         settings: {
             logging: Setting<boolean>;
             verbose: Setting<boolean>;
         };
-    },
+    };
 }
 
 export interface Setting<T> {

@@ -22,6 +22,13 @@ export interface Translation {
                 description: string;
             };
         };
+        display: {
+            title: string;
+            darkNavigation: {
+                name: string;
+                description: string;
+            };
+        };
         debug: {
             title: string;
             logging: {

@@ -1,6 +1,25 @@
 nav.main-nav {
     display: flex;
     position: sticky;
-    bottom: 0;
+    top: 0;
     overflow: hidden;
+    justify-content: center;
+
+    background-color: var(--color-navigation);
+    color: var(--color-navigation-text);
+    box-shadow: 1px 1px 11px 2px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 1px 1px 11px 2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 1px 11px 2px rgba(0,0,0,0.75);
+
+    transition: color 250ms, background-color 250ms;
+
+    .nav-entry {
+        margin: 40px 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        &.active {}
+    }
 }

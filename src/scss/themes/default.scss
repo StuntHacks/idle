@@ -1,6 +1,13 @@
 @import "../settings/colors.scss";
 
 body {
-    --color-bg: #{$color-mystic-purple};
+    --color-bg: #{$color-gray-dark};
     --color-text: #{$color-white};
+    --color-navigation: #{$color-gray-light};
+    --color-navigation-text: #{$color-gray-dark};
+}
+
+body.dark-navigation {
+    --color-navigation: #{$color-gray-dark};
+    --color-navigation-text: #{$color-gray-light};
 }

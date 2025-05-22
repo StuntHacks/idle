@@ -29,7 +29,17 @@ export class Settings {
                     noOfflineTime: {
                         value: false,
                         default: false,
-                        name: "settings.gameplay.name"
+                        name: "settings.gameplay.noOfflineTime.name"
+                    },
+                }
+            },
+            display: {
+                title: "settings.display.title",
+                settings: {
+                    darkNavigation: {
+                        value: false,
+                        default: false,
+                        name: "settings.display.darkNavigation.name"
                     },
                 }
             },

@@ -4,22 +4,16 @@ import { SaveHandler } from "./SaveHandler/SaveHandler";
 import { Settings } from "./utils/Settings";
 import { Utils } from "./utils/utils";
 
-export const mainFunction = () => {
-    
-    SaveHandler.initialize();
-    
+export const main = () => {
     if (!SaveHandler.loadData()) {
         SaveHandler.initialize();
     }
-    
+
     let data = SaveHandler.getData();
     Settings.set(data.settings);
-    console.log(Settings.get().debug.settings.verbose.value)
-    Settings.get().debug.settings.verbose.value = true;
-    console.log(Settings.get().debug.settings.verbose.value)
-    console.log(Settings.get())
-    
+
     customElements.define("translated-string", TranslatedElement);
 
+    // ready
     document.getElementsByTagName("body")[0].classList.remove("loading");
 }
