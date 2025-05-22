@@ -1,0 +1,145 @@
+.particle {
+    --size: 25px;
+    width: var(--size);
+    height: var(--size);
+    box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.75);
+    position: relative;
+
+    &::before {
+        font-weight: bold;
+        font-size: 18px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+    }
+
+    &.electron {
+        border-radius: 100%;
+        background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
+
+        &::before {
+            content: "e⁻";
+            transform: translate(-50%, -50%) translate(0.5px, -2px);
+        }
+    }
+
+    &.quark {
+        &::before {
+            //font-family: "Cantata One", serif;
+        }
+
+        &.up,
+        &.down {
+            border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+            border: 0;
+            transform: rotate(-45deg);
+            background: linear-gradient(304deg, var(--start-color) 0%, var(--end-color) 100%);
+        }
+
+        &.up {
+            &::before {
+                content: "u";
+                transform: translate(-50%, -50%) rotate(45deg) translate(-1.5px, -2px);
+            }
+        }
+
+        &.down {
+            transform: translateY(-2.5px) rotate(-225deg);
+            background: linear-gradient(124deg, var(--start-color) 0%, var(--end-color) 100%);
+
+            &::before {
+                content: "d";
+                transform: translate(-50%, -50%) rotate(225deg) translate(0px, 0px);
+            }
+        }
+
+        &.top,
+        &.bottom {
+            background: linear-gradient(270deg, var(--start-color) 0%, var(--end-color) 100%);
+            border-radius: 35% 35% 100% 100%;
+        }
+
+        &.top {
+            &::before {
+                content: "t";
+                transform: translate(-50%, -50%) translate(-0.5px, -2px);
+            }
+        }
+
+        &.bottom {
+            transform: rotate(180deg);
+            background: linear-gradient(90deg, var(--start-color) 0%, var(--end-color) 100%);
+
+            &::before {
+                content: "b";
+                transform: translate(-50%, -50%) rotate(180deg) translate(0.5px, 1px);
+            }
+        }
+
+        &.charm,
+        &.strange {
+            background: linear-gradient(270deg, var(--start-color) 0%, var(--end-color) 100%);
+            border-radius: 10% 50% 10% 50%;
+        }
+
+        &.charm {
+            &::before {
+                content: "c";
+                transform: translate(-50%, -50%) translate(-0.5px, -2px);
+            }
+        }
+
+        &.strange {
+            border-radius: 50% 10% 50% 10%;
+
+            &::before {
+                content: "s";
+                transform: translate(-50%, -50%) translate(-1.5px, -2px);
+            }
+        }
+
+        &.blue {
+            --start-color: rgb(35, 35, 185);
+            --end-color: rgba(0, 212, 255, 1);
+        }
+
+        &.red {
+            --start-color: rgb(143, 0, 0);
+            --end-color: rgb(255, 113, 194);
+        }
+
+        &.green {
+            --start-color: rgba(0, 163, 41, 1);
+            --end-color: rgba(0, 255, 217, 1);
+        }
+
+        &.rgb {
+            --start-color: rgb(255 28 28);
+            --mid-color: rgb(0, 153, 218);
+            --end-color: rgb(0, 255, 55);
+
+            &.up {
+                background: linear-gradient(275deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
+            }
+
+            &.down {
+                background: linear-gradient(95deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
+            }
+
+            &.top {
+                background: linear-gradient(228deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
+            }
+
+            &.bottom {
+                background: linear-gradient(48deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
+            }
+
+            &.charm,
+            &.strange {
+                background: linear-gradient(225deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
+            }
+        }
+    }
+}
