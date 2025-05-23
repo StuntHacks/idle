@@ -10,6 +10,17 @@ footer.main-footer {
 
         .fermions {
             flex-grow: 1;
+            position: relative;
+
+            translated-string {
+                text-transform: uppercase;
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                font-weight: 800;
+                z-index: 1;
+                color: $color-gray;
+            }
 
             .generation {
                 display: flex;
@@ -18,11 +29,10 @@ footer.main-footer {
                 position: relative;
 
                 translated-string {
-                    text-transform: uppercase;
-                    position: absolute;
+                    top: auto;
+                    right: auto;
                     bottom: 5px;
                     left: 5px;
-                    font-weight: 800;
                 }
 
                 &.first {
@@ -57,7 +67,7 @@ footer.main-footer {
             translated-string {
                 text-transform: uppercase;
                 position: absolute;
-                bottom: 5px;
+                top: 5px;
                 left: 5px;
                 font-weight: 800;
                 z-index: 1;

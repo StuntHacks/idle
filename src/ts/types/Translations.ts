@@ -46,33 +46,79 @@ export interface Translation {
 
         };
         footer: {
+            fermions: string;
             generations: {
                 first: string;
                 second: string;
                 third: string;
             };
             quarks: {
-                up: string;
-                down: string;
-                charm: string;
-                strange: string;
-                top: string;
-                bottom: string;
+                up: {
+                    name: string;
+                    flavorText: string;
+                };
+                down: {
+                    name: string;
+                    flavorText: string;
+                };
+                charm: {
+                    name: string;
+                    flavorText: string;
+                };
+                strange: {
+                    name: string;
+                    flavorText: string;
+                };
+                top: {
+                    name: string;
+                    flavorText: string;
+                };
+                bottom: {
+                    name: string;
+                    flavorText: string;
+                };
             };
             leptons: {
-                electron: string;
-                muon: string;
-                tau: string;
+                electron: {
+                    name: string;
+                    flavorText: string;
+                };
+                muon: {
+                    name: string;
+                    flavorText: string;
+                };
+                tau: {
+                    name: string;
+                    flavorText: string;
+                };
             };
             bosons: {
                 name: string;
-                higgs: string;
-                photon: string;
-                gluon: string;
-                wPlus: string;
-                wMinus: string;
-                z: string;
+                higgs: {
+                    name: string;
+                    flavorText: string;
+                };
+                photon: {
+                    name: string;
+                    flavorText: string;
+                };
+                gluon: {
+                    name: string;
+                    flavorText: string;
+                };
+                wPlus: {
+                    name: string;
+                    flavorText: string;
+                };
+                wMinus: {
+                    name: string;
+                    flavorText: string;
+                };
+                z: {
+                    name: string;
+                    flavorText: string;
+                };
             }
         };
     };
-}
+};

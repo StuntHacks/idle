@@ -45,32 +45,78 @@ export const translations: TranslationMap = {
 
             },
             footer: {
+                fermions: "Fermions",
                 generations: {
                     first: "Generation I",
                     second: "Generation II",
                     third: "Generation III",
                 },
                 quarks: {
-                    up: "Up",
-                    down: "Down",
-                    charm: "Charm",
-                    strange: "Strange",
-                    top: "Top",
-                    bottom: "Bottom",
+                    up: {
+                        name: "Up",
+                        flavorText: "",
+                    },
+                    down: {
+                        name: "Down",
+                        flavorText: "",
+                    },
+                    charm: {
+                        name: "Charm",
+                        flavorText: "",
+                    },
+                    strange: {
+                        name: "Strange",
+                        flavorText: "",
+                    },
+                    top: {
+                        name: "Top",
+                        flavorText: "",
+                    },
+                    bottom: {
+                        name: "Bottom",
+                        flavorText: "",
+                    },
                 },
                 leptons: {
-                    electron: "Electron",
-                    muon: "Muon",
-                    tau: "Tau",
+                    electron: {
+                        name: "Electron",
+                        flavorText: "",
+                    },
+                    muon: {
+                        name: "Muon",
+                        flavorText: "",
+                    },
+                    tau: {
+                        name: "Tau",
+                        flavorText: "",
+                    },
                 },
                 bosons: {
                     name: "Bosons",
-                    higgs: "Higgs Boson",
-                    gluon: "Gluon",
-                    photon: "Photon",
-                    wPlus: "W⁺",
-                    wMinus: "W⁻",
-                    z: "Z⁰",
+                    higgs: {
+                        name: "Higgs Boson",
+                        flavorText: "",
+                    },
+                    gluon: {
+                        name: "Gluon",
+                        flavorText: "",
+                    },
+                    photon: {
+                        name: "Photon",
+                        flavorText: "",
+                    },
+                    wPlus: {
+                        name: "W⁺ Boson",
+                        flavorText: "",
+                    },
+                    wMinus: {
+                        name: "W⁻ Boson",
+                        flavorText: "",
+                    },
+                    z: {
+                        name: "Z⁰ Boson",
+                        flavorText: "",
+                    },
                 }
             }
         }
