@@ -17,12 +17,17 @@ resource-gain {
 }
 
 @keyframes fadeOut {
-    from {
+    0% {
         transform: translateY(0px);
+        opacity: 0;
+    }
+
+    10% {
+        transform: translateY(-10px);
         opacity: 1;
     }
 
-    to {
+    100% {
         transform: translateY(-100px);
         opacity: 0;
     }
