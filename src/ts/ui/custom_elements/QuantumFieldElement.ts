@@ -18,6 +18,7 @@ export class QuantumFieldElement extends HTMLElement {
     connectedCallback() {
         let amount = parseInt(this.parentElement.getAttribute("data-fields"));
         let offset = (this.parentElement.clientHeight / (amount + 1)) * parseInt(this.getAttribute("index"));
+        (this.getElementsByClassName("field-label")[0] as HTMLDivElement).style.top = (offset - 60) + "px";
         let handleRipple;
 
         if (this.getAttribute("type") === "rainbow") {
