@@ -82,8 +82,13 @@ export class QuantumFieldElement extends HTMLElement {
                 hover: this.getAttribute("color-hover") || "#ffffff",
             }
 
-            this.colors = [c, c, c];
-            this.ids = [this.id, "", ""];
+            if (this.getAttribute("type") === "triple") {
+                this.colors = [c, c, c];
+                this.ids = [this.id, "", ""];
+            } else {
+                this.colors = [c];
+                this.ids = [this.id];
+            }
         }
 
         this.colors.forEach((color, index) => {
