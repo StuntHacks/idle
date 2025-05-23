@@ -11,8 +11,8 @@ export class QuantumFieldElement extends HTMLElement {
         super();
     }
 
-    ripple(x: number, manual: boolean = false, strength: number = 120, speed: number = 10, decay: number = 0.05, max: number = 1, ttl: number | undefined = undefined) {
-        this.waves.forEach(wave => { wave.ripple(x, manual, strength, speed, decay, max, ttl) });
+    ripple(x: number, manual: boolean = false, strength: number = 120, speed: number = 10, decay: number = 0.05, max: number = 1) {
+        this.waves.forEach(wave => { wave.ripple(x, manual, strength, speed, decay, max) });
     }
 
     connectedCallback() {
@@ -21,14 +21,24 @@ export class QuantumFieldElement extends HTMLElement {
         let handleRipple;
 
         if (this.getAttribute("type") === "rainbow") {
-            const getNextDrop = (): string => ["red", "green", "blue", "all"][Math.floor(Math.random() * 4)]
+            const getNextDrop = (): string => {
+                if (Math.random() < 0.1) {
+                    return "all";
+                }
+
+                return ["red", "green", "blue"][Math.floor(Math.random() * 4)];
+            }
 
             handleRipple = (manual: boolean, id: string) => {
-                if (id === "blue") {
+                if (!manual) {
+                    return true;
+                }
+
+                if (id === this.ids[0]) {
                     this.whichWave = getNextDrop();
                 }
-                
-                if (!manual || this.whichWave === "all" || id === this.whichWave) {
+
+                if (this.whichWave === "all" || id.includes(this.whichWave)) {
                     this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { manual, id } }));
                     return true;
                 }
@@ -57,12 +67,10 @@ export class QuantumFieldElement extends HTMLElement {
                 },
             ];
 
-            this.ids = ["blue", "green", "red"];
-
-            
+            this.ids = [`${this.id}-blue`, `${this.id}-green`, `${this.id}-red`];
         } else {
-            handleRipple = (manual: boolean) => {
-                this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { manual } }));
+            handleRipple = (manual: boolean, id: string) => {
+                this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { manual, id } }));
                 return true;
             }
 
@@ -74,7 +82,7 @@ export class QuantumFieldElement extends HTMLElement {
             }
 
             this.colors = [c, c, c];
-            this.ids = ["", "", ""];
+            this.ids = [this.id, "", ""];
         }
 
         this.colors.forEach((color, index) => {
@@ -93,7 +101,7 @@ export class QuantumFieldElement extends HTMLElement {
                 },
                 pointCount: 10,
                 offset: offset,
-                rippleCallback: index === 1 ? handleRipple : () => true,
+                rippleCallback: handleRipple,
                 id: this.ids[index],
             }));
         });

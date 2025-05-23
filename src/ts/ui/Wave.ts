@@ -18,7 +18,7 @@ export class Wave {
             if (this.checkHover(e.clientY)) {
                 this.hover = true;
                 this.canvas.classList.add("hovered");
-                this.ripple(e.clientX, false, 20, 10, 0.05, 1, 1000)
+                this.ripple(e.clientX, false, 20, 10, 0.05, 1)
             } else {
                 this.hover = false;
                 this.canvas.classList.remove("hovered");
@@ -90,6 +90,22 @@ export class Wave {
         return this.config.speed;
     }
 
+    private cleanupRipples() {
+        const now = performance.now();
+        const threshold = 0.01;
+
+        this.ripples = this.ripples.filter(r => {
+            const age = (now - r.startTime) / 1000;
+            const rampUpTime = 0.5;
+            const ramp = Math.min(1, age / rampUpTime);
+            const easedRamp = Math.sin((ramp * Math.PI) / 2);
+            const propagation = age * r.speed;
+            const falloff = Math.exp(-r.decay * Math.pow(0 - propagation, 2));
+            const potentialAmplitude = r.strength * easedRamp * falloff;
+            return potentialAmplitude > threshold;
+        });
+    }
+
     public start() {
         var start = performance.now();
         var self = this;
@@ -97,7 +113,7 @@ export class Wave {
         function animate(timestamp: number) {
             self.time = self.config.speed * ((timestamp - start) / 10);
             self.draw(self.time);
-            self.ripples = self.ripples.filter((r: Ripple) => (performance.now() - r.startTime) < r.ttl);
+            self.cleanupRipples();
             window.requestAnimationFrame(animate);
         }
         window.requestAnimationFrame(animate);
@@ -179,7 +195,7 @@ export class Wave {
         this.ctx.stroke();
     }
 
-    public ripple(x: number, manual: boolean = false, strength: number = 120, speed: number = 10, decay: number = 0.05, max: number = 1, ttl: number | undefined = undefined) {
+    public ripple(x: number, manual: boolean = false, strength: number = 120, speed: number = 10, decay: number = 0.05, max: number = 1) {
         if (this.ripples.filter((r: Ripple) => r.manual === manual).length >= max) {
             return false;
         }
@@ -199,7 +215,6 @@ export class Wave {
             speed,
             decay,
             manual,
-            ttl: ttl ? ttl : this.config.rippleDelay,
         });
 
         return true;
@@ -239,5 +254,4 @@ interface Ripple {
     speed: number;
     decay: number;
     manual: boolean;
-    ttl: number;
 }
