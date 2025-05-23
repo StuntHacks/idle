@@ -16,9 +16,12 @@ export class Wave {
 
         container.addEventListener('mousemove', (e: MouseEvent) => {
             if (this.checkHover(e.clientY)) {
+                if (!this.hover) {
+                    this.ripple(e.clientX, false, 20, 10, 0.05, 5)
+                }
+
                 this.hover = true;
                 this.canvas.classList.add("hovered");
-                this.ripple(e.clientX, false, 20, 10, 0.05, 1)
             } else {
                 this.hover = false;
                 this.canvas.classList.remove("hovered");
@@ -27,7 +30,7 @@ export class Wave {
 
         container.addEventListener('click', (e: MouseEvent) => {
             if (this.hover) {
-                this.ripple(e.clientX, true);
+                this.ripple(e.clientX, true, 160);
             }
         });
         
