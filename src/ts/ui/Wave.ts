@@ -199,8 +199,6 @@ export class Wave {
     }
 
     public ripple(x: number, manual: boolean = false, strength: number = 120, speed: number = 10, decay: number = 0.05, max: number = 1) {
-        console.log("ripple");
-        
         if (this.ripples.filter((r: Ripple) => r.manual === manual).length >= max) {
             return false;
         }
