@@ -1,0 +1,29 @@
+resource-gain {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    animation: fadeOut 2s ease forwards;
+    align-items: center;
+    white-space: nowrap;
+
+    .particle {
+        display: inline-block;
+    }
+
+    span {
+        font-weight: bold;
+        text-shadow: 1px 3px 4px rgba(0, 0, 0, 1);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+}

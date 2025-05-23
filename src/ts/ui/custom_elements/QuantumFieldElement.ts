@@ -26,7 +26,7 @@ export class QuantumFieldElement extends HTMLElement {
                     return "all";
                 }
 
-                return ["red", "green", "blue"][Math.floor(Math.random() * 4)];
+                return ["red", "green", "blue"][Math.floor(Math.random() * 3)];
             }
 
             handleRipple = (manual: boolean, id: string) => {
