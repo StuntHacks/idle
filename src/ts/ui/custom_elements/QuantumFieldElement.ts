@@ -20,6 +20,7 @@ export class QuantumFieldElement extends HTMLElement {
         let offset = (this.parentElement.clientHeight / (amount + 1)) * parseInt(this.getAttribute("index"));
         (this.getElementsByClassName("field-label")[0] as HTMLDivElement).style.top = (offset - 60) + "px";
         let handleRipple;
+        let width = 3;
 
         if (this.getAttribute("type") === "rainbow") {
             const getNextDrop = (): string => {
@@ -89,6 +90,10 @@ export class QuantumFieldElement extends HTMLElement {
                 this.colors = [c];
                 this.ids = [this.id];
             }
+
+            if (this.getAttribute("type") === "thick") {
+                width = 20;
+            }
         }
 
         this.colors.forEach((color, index) => {
@@ -98,7 +103,7 @@ export class QuantumFieldElement extends HTMLElement {
                 amplitude: 20,
                 frequency: 1,
                 speed: 0.02,
-                lineWidth: 3,
+                lineWidth: width,
                 color: {
                     start: color.start,
                     end: color.end,
