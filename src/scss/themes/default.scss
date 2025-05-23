@@ -8,6 +8,10 @@ body {
     --color-navigation-inactive: #{$color-gray3};
     --color-navigation-disabled: #{$color-gray-light2};
     --color-navigation-hover: #{$color-gray-light2};
+    --color-tooltip: #{$color-gray-dark4};
+    --color-tooltip-text: #{$color-gray-light};
+    --color-tooltip-description: #{$color-gray-light3};
+    --color-tooltip-separator: #{$color-gray-dark2};
 }
 
 body.dark-navigation {

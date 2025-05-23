@@ -106,11 +106,11 @@ export interface Translation {
                     name: string;
                     flavorText: string;
                 };
-                wPlus: {
+                w_plus: {
                     name: string;
                     flavorText: string;
                 };
-                wMinus: {
+                w_minus: {
                     name: string;
                     flavorText: string;
                 };

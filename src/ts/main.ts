@@ -6,6 +6,7 @@ import { SaveHandler } from "./SaveHandler/SaveHandler";
 import { Wave } from "./ui/Wave";
 import { Settings } from "./utils/Settings";
 import { Utils } from "./utils/utils";
+import { ToolTip } from "./ui/custom_elements/ToolTip";
 
 export const main = () => {
     if (!SaveHandler.loadData()) {
@@ -17,6 +18,7 @@ export const main = () => {
 
     customElements.define("translated-string", TranslatedElement);
     customElements.define("quantum-field", QuantumFieldElement);
+    customElements.define("tool-tip", ToolTip);
 
     let mainContainer = document.getElementById("main");
 

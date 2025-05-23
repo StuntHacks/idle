@@ -12,7 +12,7 @@ footer.main-footer {
             flex-grow: 1;
             position: relative;
 
-            translated-string {
+            .currency-section-title {
                 text-transform: uppercase;
                 position: absolute;
                 top: 5px;
@@ -28,7 +28,7 @@ footer.main-footer {
                 padding: 10px 5px;
                 position: relative;
 
-                translated-string {
+                .currency-section-title {
                     top: auto;
                     right: auto;
                     bottom: 5px;
@@ -38,7 +38,7 @@ footer.main-footer {
                 &.first {
                     background-color: $color-gray-light;
 
-                    translated-string {
+                    .currency-section-title {
                         color: $color-gray;
                     }
                 }
@@ -46,7 +46,7 @@ footer.main-footer {
                 &.second {
                     background-color: $color-gray-light2;
 
-                    translated-string {
+                    .currency-section-title {
                         color: $color-gray2;
                     }
                 }
@@ -54,7 +54,7 @@ footer.main-footer {
                 &.third {
                     background-color: $color-gray-light3;
 
-                    translated-string {
+                    .currency-section-title {
                         color: $color-gray3;
                     }
                 }
@@ -64,7 +64,7 @@ footer.main-footer {
         .bosons {
             position: relative;
 
-            translated-string {
+            .currency-section-title {
                 text-transform: uppercase;
                 position: absolute;
                 top: 5px;
