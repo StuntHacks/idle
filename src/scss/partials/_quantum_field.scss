@@ -1,0 +1,25 @@
+quantum-field {
+    .field-label {
+        position: absolute;
+        padding: 5px 15px;
+        display: inline-block;
+        border-radius: 0 5px 0 0;
+        box-shadow: 0 0 8px 0px #000;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 255);
+
+        &.rgb {
+            --start-color: rgb(255 28 28);
+            --mid-color: rgb(0, 153, 218);
+            --end-color: rgb(0, 255, 55);
+            background: linear-gradient(225deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
+        }
+
+        &.electron {
+            background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
+        }
+
+        &.gluon {
+            background: linear-gradient(80deg, #00aabb 0%, #00ff44 100%);
+        }
+    }
+}
