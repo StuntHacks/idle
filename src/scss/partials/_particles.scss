@@ -25,6 +25,37 @@
         }
     }
 
+    &.muon {
+        border-radius: 100%;
+        background: linear-gradient(80deg, #c4c700 0%, #6b6900 100%);
+
+        &::before {
+            content: "μ⁻";
+            transform: translate(-50%, -50%) translate(0.5px, -2px);
+        }
+    }
+
+    &.tau {
+        border-radius: 100%;
+        background: linear-gradient(80deg, #7d8000 0%, #424100 100%);
+
+        &::before {
+            content: "τ";
+            transform: translate(-50%, -50%) translate(-3px, -2px);
+        }
+
+        &::after {
+            content: "⁻";
+            font-weight: bold;
+            font-size: 18px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translate(5px, -2px);
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+        }
+    }
+
     &.quark {
         &::before {
             //font-family: "Cantata One", serif;
@@ -129,11 +160,11 @@
             }
 
             &.top {
-                background: linear-gradient(228deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
+                background: linear-gradient(225deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
             }
 
             &.bottom {
-                background: linear-gradient(48deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
+                background: linear-gradient(45deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
             }
 
             &.charm,

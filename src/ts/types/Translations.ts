@@ -41,4 +41,38 @@ export interface Translation {
             };
         };
     };
+    ui: {
+        header: {
+
+        };
+        footer: {
+            generations: {
+                first: string;
+                second: string;
+                third: string;
+            };
+            quarks: {
+                up: string;
+                down: string;
+                charm: string;
+                strange: string;
+                top: string;
+                bottom: string;
+            };
+            leptons: {
+                electron: string;
+                muon: string;
+                tau: string;
+            };
+            bosons: {
+                name: string;
+                higgs: string;
+                photon: string;
+                gluon: string;
+                wPlus: string;
+                wMinus: string;
+                z: string;
+            }
+        };
+    };
 }

@@ -21,7 +21,7 @@ export const main = () => {
     let mainContainer = document.getElementById("main");
 
     document.getElementById("quark-field").addEventListener("ripple", (e: CustomEventInit<RippleEvent>) => {
-        
+        console.log("ripple", e.detail.id)
     })
 
     // ready

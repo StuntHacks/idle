@@ -39,6 +39,40 @@ export const translations: TranslationMap = {
                     description: ""
                 },
             },
+        },
+        ui: {
+            header: {
+
+            },
+            footer: {
+                generations: {
+                    first: "Generation I",
+                    second: "Generation II",
+                    third: "Generation III",
+                },
+                quarks: {
+                    up: "Up",
+                    down: "Down",
+                    charm: "Charm",
+                    strange: "Strange",
+                    top: "Top",
+                    bottom: "Bottom",
+                },
+                leptons: {
+                    electron: "Electron",
+                    muon: "Muon",
+                    tau: "Tau",
+                },
+                bosons: {
+                    name: "Bosons",
+                    higgs: "Higgs Boson",
+                    gluon: "Gluon",
+                    photon: "Photon",
+                    wPlus: "W⁺",
+                    wMinus: "W⁻",
+                    z: "Z⁰",
+                }
+            }
         }
     }
 }

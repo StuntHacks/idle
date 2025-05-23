@@ -9,7 +9,7 @@ export class TranslatedElement extends HTMLElement {
 
     connectedCallback() {
         let lang = Settings.get().general.settings.language.value;
-        let translated = Utils.getNestedProperty(translations[lang], this.innerText);
+        let translated = Utils.getNestedProperty(translations[lang], this.innerText.toLowerCase());
 
         if (translated) {
             this.innerText = translated;

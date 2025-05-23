@@ -1,10 +1,10 @@
 @import "../settings/colors.scss";
 
 body {
-    --color-bg: #{$color-gray-dark};
+    --color-bg: #{$color-gray-dark5};
     --color-text: #{$color-white};
     --color-navigation: #{$color-gray-light};
-    --color-navigation-active: #{$color-gray-dark};
+    --color-navigation-active: #{$color-gray-dark5};
     --color-navigation-inactive: #{$color-gray3};
     --color-navigation-disabled: #{$color-gray-light2};
     --color-navigation-hover: #{$color-gray-light2};
