@@ -161,6 +161,14 @@ footer.main-footer {
         padding: 0 10px;
         align-items: center;
 
+        &.reverse {
+            flex-direction: row;
+
+            .run-timer {
+                text-align: right;
+            }
+        }
+
         #save-notif {
             pointer-events: none;
             padding: 0 10px;

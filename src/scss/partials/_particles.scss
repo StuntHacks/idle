@@ -1,8 +1,9 @@
 .particle {
     --size: 25px;
+    --glow: rgba(0, 0, 0, 0.75);
     width: var(--size);
     height: var(--size);
-    box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 10px 0px var(--glow);
     position: relative;
 
     &::before {
@@ -18,6 +19,7 @@
     &.electron {
         border-radius: 100%;
         background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
+        --glow: #fbff00b0;
 
         &::before {
             content: "e⁻";
@@ -28,6 +30,7 @@
     &.muon {
         border-radius: 100%;
         background: linear-gradient(80deg, #c4c700 0%, #6b6900 100%);
+        --glow: #c4c700b0;
 
         &::before {
             content: "μ⁻";
@@ -38,6 +41,7 @@
     &.tau {
         border-radius: 100%;
         background: linear-gradient(80deg, #7d8000 0%, #424100 100%);
+        --glow: #7d8000b0;
 
         &::before {
             content: "τ";
@@ -134,22 +138,26 @@
         &.blue {
             --start-color: rgb(35, 35, 185);
             --end-color: rgba(0, 212, 255, 1);
+            --glow: #0cfb;
         }
 
         &.red {
             --start-color: rgb(143, 0, 0);
             --end-color: rgb(255, 113, 194);
+            --glow: #f00b;
         }
 
         &.green {
             --start-color: rgba(0, 163, 41, 1);
             --end-color: rgba(0, 255, 217, 1);
+            --glow: #0f0b;
         }
 
         &.rgb {
             --start-color: rgb(255 28 28);
             --mid-color: rgb(0, 153, 218);
             --end-color: rgb(0, 255, 55);
+            --glow: #fff9;
 
             &.up {
                 background: linear-gradient(275deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
