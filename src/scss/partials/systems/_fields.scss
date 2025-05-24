@@ -2,7 +2,7 @@
 
 #tab-fields {
     position: relative;
-    min-height: $content-height;
+    min-height: var(--content-height);
     display: flex;
     justify-content: center;
 

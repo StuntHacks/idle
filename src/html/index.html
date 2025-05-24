@@ -50,7 +50,12 @@
         </span>
     </nav>
     <main id="main">
-        <div class="system-background"></div>
+        <div class="system-background">
+            <div id='stars'></div>
+            <div id='stars2'></div>
+            <div id='stars3'></div>
+            <div id='stars4'></div>
+        </div>
         <div class="system-tab" id="tab-fields" data-fields="2">
             <quantum-field id="electron-field" random="true" type="Lepton" delay="1000" index="1">
                 <div class="field-label electron">Electron Field</div>
@@ -60,8 +65,8 @@
             </quantum-field>
             <quantum-field id="quark-field" type="Quark" delay="1000" all="true" all-type="Quark" all-color="RGB" random="true" index="2">
                 <div class="field-label rgb">Quark Field</div>
-                <div class="field" data-color="Blue"data-color-start="#0000ff" data-color-end="#00ffff" data-color-glow="#00ffff"></div>
                 <div class="field" data-color="Green" data-color-start="#00ff00" data-color-end="#00ffff" data-color-glow="#00ff00"></div>
+                <div class="field" data-color="Blue"data-color-start="#0000ff" data-color-end="#00ffff" data-color-glow="#00ffff"></div>
                 <div class="field" data-color="Red" data-color-start="#ff0000" data-color-end="#ff00ff" data-color-glow="#ff00ff"></div>
             </quantum-field>
             <!--<quantum-field id="gluon-field" type="Boson" delay="2000" type="triple" index="3" color-start="#00aabb" color-end="#00ff44" color-glow="#00ffff">

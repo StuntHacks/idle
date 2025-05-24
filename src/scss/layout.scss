@@ -3,10 +3,15 @@
 body {
     margin: 0;
     min-height: 100vh;
+
+    --navigation-height: 130px;
+    --footer-height: 210px;
+    --content-height: calc(100vh - var(--navigation-height) - var(--footer-height));
 }
 
 main {
-    min-height: $content-height;
+    min-height: var(--content-height);
+    position: relative;
 }
 
 .system-tab {
@@ -14,6 +19,16 @@ main {
     flex-direction: column;
     width: 100%;
     height: 100%;
+}
+
+.system-background {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    filter: blur(1px);
+    opacity: 0.7;
 }
 
 section.resources {
