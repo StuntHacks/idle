@@ -7,13 +7,16 @@ export class QuantumFieldElement extends HTMLElement {
     private particles: WaveParticleInfo[] = [];
     private all: WaveParticleInfo;
     private random: boolean;
+    private type?: "thick" | "triple";
+    private delay: number = 1000;
+    private lastClick: number = 0;
 
     constructor() {
         super();
     }
 
-    ripple(x: number, manual: boolean = false, strength: number = 120, speed: number = 10, decay: number = 0.05, max: number = 1) {
-        this.waves.forEach(wave => { wave.ripple(x, manual, strength, speed, decay, max) });
+    ripple(x: number, manual: boolean = false, strength: number = 120, speed: number = 10, decay: number = 0.05) {
+        this.waves.forEach(wave => { wave.ripple(x, manual, strength, speed, decay) });
     }
 
     connectedCallback() {
@@ -22,6 +25,8 @@ export class QuantumFieldElement extends HTMLElement {
         (this.getElementsByClassName("field-label")[0] as HTMLDivElement).style.top = (offset - 60) + "px";
         let width = 3;
         this.random = this.getAttribute("random") === "true";
+        this.delay = parseInt(this.getAttribute("delay"));
+        this.type = this.getAttribute("type") as "thick" | "triple" | null;
 
         if (this.getAttribute("all") === "true") {
             this.all = {
@@ -42,13 +47,31 @@ export class QuantumFieldElement extends HTMLElement {
             return this.particles[Math.floor(Math.random() * this.particles.length)];
         }
 
-        const handleRipple = (x: number, manual: boolean, particle: WaveParticleInfo) => {
+        const handleRipple = (x: number, manual: boolean, particle: WaveParticleInfo, index: number) => {
             if (!manual) {
                 return true;
             }
+            
+            let now = performance.now();
+            if ((now - this.lastClick) < this.delay) {
+                return false;
+            }
+
+            if (this.type === "triple") {
+                if (index === (this.particles.length * 3) - 1) {
+                    this.lastClick = now;
+                    this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x, y: offset, manual, particle } }));
+                }
+
+                return true;
+            }
+
+            if (index === this.particles.length - 1) {
+                this.lastClick = now;
+            }
 
             if (this.random) {
-                if (JSON.stringify(particle) === JSON.stringify(this.particles[0])) {
+                if (index === 0) {
                     this.whichWave = getNextDrop();
                     this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x, y: offset, manual, particle: this.whichWave } }));
                 }
@@ -64,13 +87,18 @@ export class QuantumFieldElement extends HTMLElement {
             return true;
         };
 
-        if (this.getAttribute("type") === "thick") {
+        let copies = 1;
+
+        this.type = this.getAttribute("type") as "thick" | "triple" | null;
+        if (this.type === "thick") {
             width = 20;
+        } else if (this.type === "triple") {
+            copies = 3;
         }
 
         let fields = this.getElementsByClassName("field");
 
-        for (let i = 0; i < fields.length; i++) {
+        for (let i = 0; i < fields.length; i += copies) {
             let field = fields[i];
             let p = {
                 type: field.getAttribute("data-type"),
@@ -80,24 +108,27 @@ export class QuantumFieldElement extends HTMLElement {
 
             this.particles.push(p);
 
-            this.canvases.push(document.createElement("canvas"));
-            this.appendChild(this.canvases[i]);
-            this.waves.push(new Wave(this.canvases[i], this.parentElement, {
-                amplitude: 20,
-                frequency: 1,
-                speed: 0.02,
-                lineWidth: width,
-                color: {
-                    start: field.getAttribute("data-color-start") || this.getAttribute("color-start"),
-                    end: field.getAttribute("data-color-end") || this.getAttribute("color-end"),
-                    glow: field.getAttribute("data-color-glow") || this.getAttribute("color-glow"),
-                    hover: field.getAttribute("data-color-hover") || this.getAttribute("color-hover") || "#ffffff",
-                },
-                pointCount: 10,
-                offset: offset,
-                rippleCallback: handleRipple,
-                particle: p,
-            }));
+            for (let j = 0; j < copies; j++) {
+                this.canvases.push(document.createElement("canvas"));
+                this.appendChild(this.canvases[i + j]);
+                this.waves.push(new Wave(this.canvases[i + j], this.parentElement, {
+                    amplitude: 20,
+                    frequency: 1,
+                    speed: 0.02,
+                    lineWidth: width,
+                    color: {
+                        start: field.getAttribute("data-color-start") || this.getAttribute("color-start"),
+                        end: field.getAttribute("data-color-end") || this.getAttribute("color-end"),
+                        glow: field.getAttribute("data-color-glow") || this.getAttribute("color-glow"),
+                        hover: field.getAttribute("data-color-hover") || this.getAttribute("color-hover") || "#ffffff",
+                    },
+                    pointCount: 10,
+                    offset: offset,
+                    rippleCallback: handleRipple,
+                    particle: p,
+                    index: i + j,
+                }));
+            }
         }
     }
 }

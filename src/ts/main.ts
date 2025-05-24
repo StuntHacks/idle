@@ -30,7 +30,6 @@ export const main = () => {
     for (let i = 0; i < fields.length; i++) {
         fields[i].addEventListener("ripple", function (e: CustomEventInit<RippleEvent>) {
             if (e.detail.manual && JSON.stringify(e.detail.particle)) {
-                console.log("ripple", JSON.stringify(e.detail.particle), e.detail.manual, e.detail.x, e.detail.y);
                 ResourceGainHandler.gainResource(ResourceGainHandler.getResourceFromField(e.detail.particle), (e.detail.x - 10), (e.detail.y + 100))
             }
         });

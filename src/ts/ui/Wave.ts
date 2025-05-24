@@ -17,7 +17,7 @@ export class Wave {
         container.addEventListener('mousemove', (e: MouseEvent) => {
             if (this.checkHover(e.clientY)) {
                 if (!this.hover) {
-                    this.ripple(e.clientX, false, 20, 10, 0.05, 15);
+                    this.ripple(e.clientX, false, 20, 10, 0.05);
                 }
 
                 this.hover = true;
@@ -198,15 +198,11 @@ export class Wave {
         this.ctx.stroke();
     }
 
-    public ripple(x: number, manual: boolean = false, strength: number = 120, speed: number = 10, decay: number = 0.05, max: number = 1) {
-        if (this.ripples.filter((r: Ripple) => r.manual === manual).length >= max) {
-            return false;
-        }
-
+    public ripple(x: number, manual: boolean = false, strength: number = 120, speed: number = 10, decay: number = 0.05) {
         const index = Math.floor((x / this.canvas.width) * this.config.pointCount);
 
         if (this.config.rippleCallback) {
-            if (!this.config.rippleCallback(x, manual, this.config.particle)) {
+            if (!this.config.rippleCallback(x, manual, this.config.particle, this.config.index)) {
                 return false;
             }
         }
@@ -235,7 +231,8 @@ export interface WaveConfig {
     height?: number;
     offset?: number;
     rippleDelay?: number;
-    rippleCallback?: (x: number, manual: boolean, particle: WaveParticleInfo) => boolean;
+    rippleCallback?: (x: number, manual: boolean, particle: WaveParticleInfo, index: number) => boolean;
+    index: number;
 }
 
 export interface WaveParticleInfo {

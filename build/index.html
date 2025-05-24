@@ -52,23 +52,19 @@
     </nav>
     <main id="main">
         <div class="system-tab" id="tab-fields" data-fields="3">
-            <quantum-field id="electron-field" index="1" color-start="#ffffaa" color-end="#ffffDD" color-glow="#ffff00">
+            <quantum-field id="electron-field" delay="500" index="1" color-start="#ffffaa" color-end="#ffffDD" color-glow="#ffff00">
                 <div class="field-label electron">Electron Field</div>
                 <div class="field" data-flavor="Electron"></div>
             </quantum-field>
-            <quantum-field id="quark-field" all="true" all-type="Quark" all-color="RGB" random="true" index="2">
+            <quantum-field id="quark-field" delay="1000" all="true" all-type="Quark" all-color="RGB" random="true" index="2">
                 <div class="field-label rgb">Quark Field</div>
                 <div class="field" data-type="Quark" data-color="Blue"data-color-start="#0000ff" data-color-end="#00ffff" data-color-glow="#00ffff"></div>
                 <div class="field" data-type="Quark" data-color="Green" data-color-start="#00ff00" data-color-end="#00ffff" data-color-glow="#00ff00"></div>
                 <div class="field" data-type="Quark" data-color="Red" data-color-start="#ff0000" data-color-end="#ff00ff" data-color-glow="#ff00ff"></div>
             </quantum-field>
-            <quantum-field id="gluon-field" type="triple" index="3" color-start="#00aabb" color-end="#00ff44" color-glow="#00ffff">
+            <quantum-field id="gluon-field" delay="2000" type="triple" index="3" color-start="#00aabb" color-end="#00ff44" color-glow="#00ffff">
                 <div class="field-label gluon">Gluon Field</div>
-                <div class="field" data-flavor="Gluon">
-                </div>
-                <div class="field"></div>
-                <div class="field">
-                </div>
+                <div class="field" data-flavor="Gluon"></div>
             </quantum-field>
             <!--<quantum-field id="higgs-field" type="thick" color-start="#998800" color-end="#bb9900" color-glow="#DDAA00" index="4">
                 <div class="field-label higgs">Higgs Field</div>
