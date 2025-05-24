@@ -34,7 +34,8 @@ footer.main-footer {
                 box-sizing: border-box;
                 transition: height 550ms ease, padding 550ms ease;
 
-                .currency {
+                .currency,
+                .currency-section-title {
                     opacity: 1;
                     transition: opacity 250ms linear 550ms;
                 }
@@ -44,7 +45,8 @@ footer.main-footer {
                     padding: 0 5px;
                     transition: height 550ms ease 250ms, padding 550ms ease 250ms;
 
-                    .currency {
+                    .currency,
+                    .currency-section-title {
                         opacity: 0;
                         transition: opacity 250ms linear;
                     }
