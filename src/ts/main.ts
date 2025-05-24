@@ -40,10 +40,14 @@ export const main = () => {
         });
     }
 
-    // register currencies
+    // initialize
     Currencies.initialize();
+    UI.initialize();
+
+    document.getElementById("save-button").addEventListener("click", () => {
+        UI.flashSaveIndicator();
+    });
 
     // ready
-    window.requestAnimationFrame(UI.animate);
     document.getElementsByTagName("body")[0].classList.remove("loading");
 }

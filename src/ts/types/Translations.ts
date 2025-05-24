@@ -122,7 +122,14 @@ export interface Translation {
                     name: string;
                     flavorText: string;
                 };
-            }
+            };
+            bottomBar: {
+                save: string;
+                saved: string;
+                load: string;
+                settings: string;
+                runTime: string;
+            };
         };
     };
 };

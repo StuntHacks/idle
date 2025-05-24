@@ -128,6 +128,21 @@
         </div>
     </div>
     <div class="bottom-bar">
-        Settings
+        <span class="bottom-button" id="settings-button">
+            @include('../assets/icons/cog.svg')
+            <translated-string>ui.footer.bottomBar.settings</translated-string>
+        </span>
+        <span class="bottom-button" id="load-button">
+            @include('../assets/icons/save.svg')
+            <translated-string>ui.footer.bottomBar.load</translated-string>
+        </span>
+        <span class="bottom-button" id="save-button">
+            @include('../assets/icons/load.svg')
+            <translated-string>ui.footer.bottomBar.save</translated-string>
+        </span>
+        <translated-string id="save-notif">ui.footer.bottomBar.saved</translated-string>
+        <div class="run-timer">
+            <span id="run-timer-value">00:00:00</span>
+        </div>
     </div>
 </footer>

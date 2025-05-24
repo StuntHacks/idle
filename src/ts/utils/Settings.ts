@@ -42,6 +42,12 @@ export class Settings {
                         name: "settings.display.darkNavigation.name",
                         description: "settings.display.darkNavigation.name"
                     },
+                    reverseBottomBar: {
+                        value: false,
+                        default: false,
+                        name: "settings.display.reverseBottomBar.name",
+                        description: "settings.display.reverseBottomBar.name"
+                    },
                     stillFields: {
                         value: false,
                         default: false,

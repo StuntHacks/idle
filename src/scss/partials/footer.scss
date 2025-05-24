@@ -7,7 +7,7 @@ footer.main-footer {
     position: fixed;
     width: 100%;
     bottom: 0;
-    
+
     .currencies {
         display: flex;
 
@@ -155,5 +155,52 @@ footer.main-footer {
         height: 30px;
         background-color: #000;
         color: #ddd;
+        display: flex;
+        flex-direction: row-reverse;
+        z-index: 1;
+        padding: 0 10px;
+        align-items: center;
+
+        #save-notif {
+            pointer-events: none;
+            padding: 0 10px;
+            opacity: 0;
+            transition: opacity 5s linear;
+
+            &.shown {
+                opacity: 1;
+                transition: opacity 0s linear;
+            }
+        }
+
+        .run-timer {
+            flex-grow: 1;
+            color: #bbb;
+            font-size: 14px;
+
+            span {
+                font-family: var(--font-mono);
+            }
+        }
+
+        .bottom-button {
+            user-select: none;
+            display: flex;
+            height: 100%;
+            align-items: center;
+            margin: 0 5px;
+            cursor: pointer;
+            flex-grow: 0;
+            padding: 0 5px;
+
+            &:hover {
+                background-color: #222;
+            }
+
+            svg {
+                margin-right: 5px;
+                --size: 20px;
+            }
+        }
     }
 }

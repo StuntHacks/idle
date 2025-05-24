@@ -121,7 +121,14 @@ export const translations: TranslationMap = {
                         name: "Z⁰ Bosons",
                         flavorText: "",
                     },
-                }
+                },
+                bottomBar: {
+                    save: "Save",
+                    saved: "Saved",
+                    load: "Load",
+                    settings: "Settings",
+                    runTime: "Run time: ",
+                },
             }
         }
     }
