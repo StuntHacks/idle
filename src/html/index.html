@@ -50,12 +50,8 @@
         </span>
     </nav>
     <main id="main">
-        <div class="system-background">
-            <div id='stars'></div>
-            <div id='stars2'></div>
-            <div id='stars3'></div>
-            <div id='stars4'></div>
-        </div>
+        @include('./backgrounds/quantum.html')
+        @include('./backgrounds/stellar.html')
         <div class="system-tab" id="tab-fields" data-fields="2">
             <quantum-field id="electron-field" random="true" type="Lepton" delay="1000" index="1">
                 <div class="field-label electron">Electron Field</div>

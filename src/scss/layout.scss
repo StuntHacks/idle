@@ -27,8 +27,18 @@ main {
     height: 100%;
     position: absolute;
 
-    filter: blur(1px);
-    opacity: 0.7;
+    &.hidden {
+        display: none;
+    }
+
+    &.quantum {
+
+    }
+
+    &.stellar {
+        filter: blur(1px);
+        opacity: 0.7;
+    }
 }
 
 section.resources {

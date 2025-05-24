@@ -1,0 +1,131 @@
+html,
+body {
+    margin: 0;
+    height: 100%;
+}
+
+/* ............................................................... */
+/* ............................................................... */
+/* ............................................................... */
+.system-background.quantum {
+    animation: pulse 10s infinite linear;
+
+    @keyframes rainbow {
+        0% {
+            color: #300;
+        }
+
+        33% {
+            color: #024;
+        }
+
+        66% {
+            color: #030;
+        }
+
+        100% {
+            color: #300;
+        }
+    }
+
+    @keyframes pulse {
+        0% {
+            color: #202;
+        }
+
+        30% {
+            color: #303;
+        }
+
+        50% {
+            color: #630;
+        }
+
+        70% {
+            color: #303;
+        }
+
+        100% {
+            color: #202;
+        }
+    }
+
+    .background {
+        position: absolute;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        bottom: 0;
+        background-color: #000;
+        filter: blur(3px);
+
+        .wrapper {
+            height: 100%;
+            perspective: 500px;
+            perspective-origin: center top;
+
+            .lines {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                transform-origin: top center;
+                animation: 15s linear infinite lines-anim;
+
+                @keyframes lines-anim {
+                    from {
+                        transform: rotateX(70deg) translateY(100px);
+                    }
+
+                    to {
+                        transform: rotateX(70deg) translateY(0);
+                    }
+                }
+
+                .horizontal,
+                .vertical {
+                    position: absolute;
+                    left: calc((900% - 100%) / -2);
+                    width: 900%;
+                    height: 500%;
+
+                    .line {
+                        width: 100%;
+                        height: 100%;
+                        background-color: currentColor;
+                    }
+                }
+
+                .vertical {
+                    display: flex;
+                    justify-content: center;
+
+                    .line {
+                        width: 2px;
+
+                        + .line {
+                            margin-left: 48px;
+                        }
+                    }
+                }
+
+                .horizontal {
+                    .line {
+                        height: 2px;
+
+                        + .line {
+                            margin-top: 98px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .shadow {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 25%;
+        background-image: linear-gradient(#000 0%, transparent);
+    }
+}
