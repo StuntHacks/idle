@@ -32,7 +32,6 @@ footer.main-footer {
                 position: relative;
                 height: 60px;
                 box-sizing: border-box;
-                overflow: hidden;
                 transition: height 550ms ease, padding 550ms ease;
 
                 .currency {
@@ -87,7 +86,6 @@ footer.main-footer {
         .bosons {
             position: relative;
             width: 500px;
-            overflow: hidden;
             transition: width 550ms ease;
 
             .currency {

@@ -10,6 +10,8 @@ import { ToolTip } from "./ui/custom_elements/ToolTip";
 import { ResourceGainElement } from "./ui/custom_elements/ResourceGainElement";
 import { ResourceGainHandler } from "./ui/ResourceGainHandler";
 import { BigNumber } from "bignumber.js"
+import { UI } from "./ui/UI";
+import { Currencies } from "./game_logic/Currencies";
 
 export const main = () => {
     BigNumber.config({ EXPONENTIAL_AT: 6 })
@@ -38,6 +40,10 @@ export const main = () => {
         });
     }
 
+    // register currencies
+    Currencies.initialize();
+
     // ready
+    window.requestAnimationFrame(UI.animate);
     document.getElementsByTagName("body")[0].classList.remove("loading");
 }

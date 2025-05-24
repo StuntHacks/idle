@@ -101,9 +101,9 @@ export class QuantumFieldElement extends HTMLElement {
         for (let i = 0; i < fields.length; i += copies) {
             let field = fields[i];
             let p = {
-                type: field.getAttribute("data-type"),
-                flavor: field.getAttribute("data-flavor"),
-                color: field.getAttribute("data-color"),
+                type: field.getAttribute("data-type") || this.getAttribute("type"),
+                flavor: field.getAttribute("data-flavor") || this.getAttribute("flavor"),
+                color: field.getAttribute("data-color") || this.getAttribute("color"),
             };
 
             this.particles.push(p);

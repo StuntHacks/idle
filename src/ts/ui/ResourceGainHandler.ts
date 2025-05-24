@@ -1,3 +1,4 @@
+import { Currencies } from "../game_logic/Currencies";
 import { Numbers } from "../numbers/numbers";
 import { Utils } from "../utils/utils";
 import { WaveParticleInfo } from "./Wave";
@@ -30,6 +31,8 @@ export class ResourceGainHandler {
 
         element.setAttribute("amount", Numbers.getFormatted(resource.amount));
         this.container.appendChild(element);
+
+        Currencies.gainResource(resource);
     }
 
     public static getParticleResourceFromField(particle: WaveParticleInfo, amount: BigNumber): ParticleResource {
@@ -38,22 +41,22 @@ export class ResourceGainHandler {
         let type = ParticleType[particle.type as keyof typeof ParticleType];
 
         if (particle.type === "Quark") {
-            return {
-                amount,
-                type,
-                color,
-                flavor: [ParticleFlavor.Up, ParticleFlavor.Down][Math.floor(Math.random() * 2)],
-                reflection: "particle"
-            }
+            flavor = [ParticleFlavor.Up, ParticleFlavor.Down][Math.floor(Math.random() * 2)];
+        }
+
+        let hash = `${type}-${flavor}`;
+        if (color) {
+            hash += `-${color}`;
         }
         
-        return { amount, type, flavor, color, reflection: "particle" }
+        return { amount, type, flavor, color, reflection: "particle", hash }
     }
 }
 
 export interface Resource {
     amount: BigNumber;
     reflection: "particle";
+    hash: string;
 }
 
 export interface ParticleResource extends Resource{
@@ -62,13 +65,13 @@ export interface ParticleResource extends Resource{
     color?: ParticleColor;
 }
 
-enum ParticleType {
-    Quark = "quark",
-    Lepton = "lepton",
-    Boson = "boson",
+export enum ParticleType {
+    Quark = "quarks",
+    Lepton = "leptons",
+    Boson = "bosons",
 }
 
-enum ParticleFlavor {
+export enum ParticleFlavor {
     Electron = "electron",
     Muon = "muon",
     Tau = "tau",
@@ -86,7 +89,7 @@ enum ParticleFlavor {
     Higgs = "higgs",
 }
 
-enum ParticleColor {
+export enum ParticleColor {
     Red = "red",
     Green = "green",
     Blue = "blue",
