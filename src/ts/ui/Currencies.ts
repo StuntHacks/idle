@@ -21,7 +21,7 @@ export class Currencies {
                     for (let r of currency.consolidation) {
                         let found = CurrencyLogic.particles.find((p => p.hash === r));
                         if (found) {
-                            amount.plus(found.amount)
+                            amount = amount.plus(found.amount);
                         }
                     }
                     currency.element.innerText = Numbers.getFormatted(amount);
