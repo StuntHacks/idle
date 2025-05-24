@@ -27,6 +27,10 @@ export const translations: TranslationMap = {
                     name: "Dark header & footer",
                     description: "Changes the color of header & footer to be the same as the theme background color"
                 },
+                stillFields: {
+                    name: "Still Quantum Fields",
+                    description: "Prevents the quantum fields from fluctuating visually unless clicked manually. You will still gain the resources"
+                }
             },
             debug: {
                 title: "Debug settings",

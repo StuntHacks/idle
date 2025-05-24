@@ -9,8 +9,11 @@ import { Utils } from "./utils/utils";
 import { ToolTip } from "./ui/custom_elements/ToolTip";
 import { ResourceGainElement } from "./ui/custom_elements/ResourceGainElement";
 import { ResourceGainHandler } from "./ui/ResourceGainHandler";
+import { BigNumber } from "bignumber.js"
 
 export const main = () => {
+    BigNumber.config({ EXPONENTIAL_AT: 6 })
+
     if (!SaveHandler.loadData()) {
         SaveHandler.initialize();
     }
@@ -30,7 +33,7 @@ export const main = () => {
     for (let i = 0; i < fields.length; i++) {
         fields[i].addEventListener("ripple", function (e: CustomEventInit<RippleEvent>) {
             if (e.detail.manual && JSON.stringify(e.detail.particle)) {
-                ResourceGainHandler.gainResource(ResourceGainHandler.getResourceFromField(e.detail.particle), (e.detail.x - 10), (e.detail.y + 100))
+                ResourceGainHandler.gainResource(ResourceGainHandler.getParticleResourceFromField(e.detail.particle, new BigNumber("3.23e14")), (e.detail.x - 10), (e.detail.y + 100))
             }
         });
     }

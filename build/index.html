@@ -52,11 +52,11 @@
     </nav>
     <main id="main">
         <div class="system-tab" id="tab-fields" data-fields="2">
-            <quantum-field id="electron-field" delay="500" index="1" color-start="#ffffaa" color-end="#ffffDD" color-glow="#ffff00">
+            <quantum-field id="electron-field" delay="100" index="1" color-start="#ffffaa" color-end="#ffffDD" color-glow="#ffff00">
                 <div class="field-label electron">Electron Field</div>
                 <div class="field" data-flavor="Electron"></div>
             </quantum-field>
-            <quantum-field id="quark-field" delay="1000" all="true" all-type="Quark" all-color="RGB" random="true" index="2">
+            <quantum-field id="quark-field" delay="100" all="true" all-type="Quark" all-color="RGB" random="true" index="2">
                 <div class="field-label rgb">Quark Field</div>
                 <div class="field" data-type="Quark" data-color="Blue"data-color-start="#0000ff" data-color-end="#00ffff" data-color-glow="#00ffff"></div>
                 <div class="field" data-type="Quark" data-color="Green" data-color-start="#00ff00" data-color-end="#00ffff" data-color-glow="#00ff00"></div>
@@ -101,7 +101,7 @@
                     <span>2.21e348</span>
                 </div>
             </div>
-            <div class="generation second">
+            <div class="generation second hidden">
                 <translated-string class="currency-section-title">ui.footer.generations.second</translated-string>
                 <div class="currency rgb">
                     <tool-tip center>
@@ -125,7 +125,7 @@
                     <span>3.47e123</span>
                 </div>
             </div>
-            <div class="generation third">
+            <div class="generation third hidden">
                 <translated-string class="currency-section-title">ui.footer.generations.third</translated-string>
                 <div class="currency rgb">
                     <tool-tip center>
@@ -150,7 +150,7 @@
                 </div>
             </div>
         </div>
-        <div class="bosons">
+        <div class="bosons hidden">
             <translated-string class="currency-section-title">ui.footer.bosons.name</translated-string>
             <div class="row">
                 <div class="currency gluon">
@@ -168,7 +168,7 @@
                     <span>3.47e123</span>
                 </div>
             </div>
-            <div class="row">
+            <div class="row hidden">
                 <div class="currency w-plus-boson">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.w_plus.name</translated-string>
@@ -191,7 +191,7 @@
                     <span>3.47e123</span>
                 </div>
             </div>
-            <div class="row">
+            <div class="row hidden">
                 <div class="currency higgs">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.higgs.name</translated-string>

@@ -16,6 +16,7 @@ export interface Settings {
         title: string;
         settings: {
             darkNavigation: Setting<boolean>;
+            stillFields: Setting<boolean>;
         }
     };
     debug: {

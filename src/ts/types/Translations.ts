@@ -28,6 +28,10 @@ export interface Translation {
                 name: string;
                 description: string;
             };
+            stillFields: {
+                name: string;
+                description: string;
+            };
         };
         debug: {
             title: string;

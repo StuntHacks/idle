@@ -1,3 +1,5 @@
+import { Numbers } from "../numbers/numbers";
+import { Utils } from "../utils/utils";
 import { WaveParticleInfo } from "./Wave";
 
 export class ResourceGainHandler {
@@ -12,38 +14,49 @@ export class ResourceGainHandler {
         element.setAttribute("x", x + "");
         element.setAttribute("y", y + "");
 
-        if (resource.type) {
-            element.setAttribute("type", resource.type.toString());
-        }
-        if (resource.color) {
-            element.setAttribute("color", resource.color.toString());
-        }
-        if (resource.flavor) {
-            element.setAttribute("flavor", resource.flavor.toString());
+        if (resource.reflection === "particle") {
+            let r = resource as ParticleResource;
+
+            if (r.type) {
+                element.setAttribute("type", r.type.toString());
+            }
+            if (r.color) {
+                element.setAttribute("color", r.color.toString());
+            }
+            if (r.flavor) {
+                element.setAttribute("flavor", r.flavor.toString());
+            }
         }
 
-        element.setAttribute("amount", "1.34e17");
+        element.setAttribute("amount", Numbers.getFormatted(resource.amount));
         this.container.appendChild(element);
     }
 
-    public static getResourceFromField(particle: WaveParticleInfo): Resource {
+    public static getParticleResourceFromField(particle: WaveParticleInfo, amount: BigNumber): ParticleResource {
         let flavor = ParticleFlavor[particle.flavor as keyof typeof ParticleFlavor];
         let color = ParticleColor[particle.color as keyof typeof ParticleColor];
         let type = ParticleType[particle.type as keyof typeof ParticleType];
 
         if (particle.type === "Quark") {
             return {
+                amount,
                 type,
                 color,
-                flavor: [ParticleFlavor.Up, ParticleFlavor.Down][Math.floor(Math.random() * 2)]
+                flavor: [ParticleFlavor.Up, ParticleFlavor.Down][Math.floor(Math.random() * 2)],
+                reflection: "particle"
             }
         }
         
-        return { type, flavor, color }
+        return { amount, type, flavor, color, reflection: "particle" }
     }
 }
 
 export interface Resource {
+    amount: BigNumber;
+    reflection: "particle";
+}
+
+export interface ParticleResource extends Resource{
     type: ParticleType;
     flavor: ParticleFlavor;
     color?: ParticleColor;

@@ -39,7 +39,14 @@ export class Settings {
                     darkNavigation: {
                         value: false,
                         default: false,
-                        name: "settings.display.darkNavigation.name"
+                        name: "settings.display.darkNavigation.name",
+                        description: "settings.display.darkNavigation.name"
+                    },
+                    stillFields: {
+                        value: false,
+                        default: false,
+                        name: "settings.display.stillFields.name",
+                        description: "settings.display.stillFields.name"
                     },
                 }
             },
