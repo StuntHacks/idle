@@ -11,7 +11,7 @@ export class ResourceGainHandler {
         let element = document.createElement("resource-gain");
         element.setAttribute("x", x + "");
         element.setAttribute("y", y + "");
-        console.log(resource)
+
         if (resource.type) {
             element.setAttribute("type", resource.type.toString());
         }
@@ -21,6 +21,7 @@ export class ResourceGainHandler {
         if (resource.flavor) {
             element.setAttribute("flavor", resource.flavor.toString());
         }
+
         element.setAttribute("amount", "1.34e17");
         this.container.appendChild(element);
     }
@@ -30,7 +31,6 @@ export class ResourceGainHandler {
         let color = ParticleColor[particle.color as keyof typeof ParticleColor];
         let type = ParticleType[particle.type as keyof typeof ParticleType];
 
-            console.log("particle: ", particle)
         if (particle.type === "Quark") {
             return {
                 type,
