@@ -6,7 +6,7 @@ quantum-field {
         border-radius: 0 5px 0 0;
         box-shadow: 0 0 8px 0px #000;
         text-shadow: 1px 1px 4px rgba(0, 0, 0, 255);
-        z-index: 999;
+        z-index: 1001;
 
         &.rgb {
             --start-color: rgb(255 28 28);
@@ -26,5 +26,14 @@ quantum-field {
         &.higgs {
             background: linear-gradient(80deg, #998800 0%, #bb9900 100%);
         }
+    }
+
+    .field-surface {
+        position: absolute;
+        cursor: pointer;
+        width: 100%;
+        height: 85px;
+        left: 0;
+        z-index: 1000;
     }
 }

@@ -34,7 +34,7 @@ export const main = () => {
     let fields = document.getElementsByTagName("quantum-field");
     for (let i = 0; i < fields.length; i++) {
         fields[i].addEventListener("ripple", function (e: CustomEventInit<RippleEvent>) {
-            if (e.detail.manual && JSON.stringify(e.detail.particle)) {
+            if (JSON.stringify(e.detail.particle)) {
                 ResourceGainHandler.gainResource(ResourceGainHandler.getParticleResourceFromField(e.detail.particle, new BigNumber("3847")), (e.detail.x - 10), (e.detail.y + 100))
             }
         });

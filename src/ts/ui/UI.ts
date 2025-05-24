@@ -2,17 +2,27 @@ import { Currencies } from "./Currencies";
 
 export class UI {
     public static saveIndicator: HTMLElement;
-
+    public static mouseDown: boolean = false;
+    public static mouseX: number = 0;
+    public static mouseY: number = 0;
     public static initialize() {
-        console.log(this.saveIndicator)
         this.saveIndicator = document.getElementById("save-notif");
-        console.log(this.saveIndicator)
         window.requestAnimationFrame(UI.animate);
+
+        window.addEventListener("mousedown", UI.updateMouseState);
+        window.addEventListener("mousemove", UI.updateMouseState);
+        window.addEventListener("mouseup", UI.updateMouseState);
+    }
+
+    private static updateMouseState(e: MouseEvent) {
+        let flags = e.buttons !== undefined ? e.buttons : e.which;
+        UI.mouseDown = (flags & 1) === 1;
+        UI.mouseX = e.clientX;
+        UI.mouseY = e.clientY;
     }
 
     public static animate(timestamp: number) {
         Currencies.updateCurrencies();
-
         window.requestAnimationFrame(UI.animate);
     }
 

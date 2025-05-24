@@ -7,44 +7,15 @@ export class Wave {
     private ctx: CanvasRenderingContext2D;
     private time: number = 0;
     private hover: boolean = false;
-    private clicked: boolean = false;
-    private clickPos: number = 0;
     private ripples: Ripple[] = [];
 
     constructor(element: HTMLCanvasElement, container: HTMLElement, config: WaveConfig, autoStart: boolean = true) {
         this.canvas = element;
         this.config = config;
         this.ctx = this.canvas.getContext('2d');
-
-        container.addEventListener('mousemove', (e: MouseEvent) => {
-            if (this.checkHover(e.clientY)) {
-                if (!this.hover) {
-                    this.ripple(e.clientX, false, 20, 10, 0.05);
-                }
-
-                this.clickPos = e.clientX;
-                this.hover = true;
-                this.canvas.classList.add("hovered");
-            } else {
-                this.hover = false;
-                this.canvas.classList.remove("hovered");
-            }
-        });
-
-        container.addEventListener('mousedown', () => {
-            this.clicked = true;
-        });
-
-        container.addEventListener('mouseup', () => {
-            this.clicked = false;
-        });
         
         if (!this.config.height) {
             this.config.height = container.clientHeight;
-        }
-        
-        if (this.config.rippleDelay === undefined) {
-            this.config.rippleDelay = 1500;
         }
 
         if (this.config.offset === undefined) {
@@ -59,10 +30,6 @@ export class Wave {
         if (autoStart) {
             this.start();
         }
-    }
-
-    private checkHover(y: number): boolean {
-        return y > this.config.offset + 100 && y < this.config.offset + 150;
     }
 
     private handleResize() {
@@ -80,6 +47,14 @@ export class Wave {
 
     public getAmplitude(): number {
         return this.config.amplitude;
+    }
+
+    public setHovered(hovered: boolean) {
+        this.hover = hovered;
+    }
+
+    public isHovered(): boolean {
+        return this.hover;
     }
 
     public setFrequency(frequency: number) {
@@ -122,9 +97,6 @@ export class Wave {
             self.time = self.config.speed * ((timestamp - start) / 10);
             self.draw(self.time);
             self.cleanupRipples();
-            if (self.hover && self.clicked) {
-                self.ripple(self.clickPos, true, 160);
-            }
             window.requestAnimationFrame(animate);
         }
         window.requestAnimationFrame(animate);
@@ -206,14 +178,8 @@ export class Wave {
         this.ctx.stroke();
     }
 
-    public ripple(x: number, manual: boolean = false, strength: number = 120, speed: number = 10, decay: number = 0.05) {
+    public ripple(x: number, strength: number = 120, speed: number = 10, decay: number = 0.05) {
         const index = Math.floor((x / this.canvas.width) * this.config.pointCount);
-
-        if (this.config.rippleCallback) {
-            if (!this.config.rippleCallback(x, manual, this.config.particle, this.config.index)) {
-                return false;
-            }
-        }
 
         this.ripples.push({
             index,
@@ -221,10 +187,7 @@ export class Wave {
             strength,
             speed,
             decay,
-            manual,
         });
-
-        return true;
     }
 }
 
@@ -238,9 +201,6 @@ export interface WaveConfig {
     pointCount: number;
     height?: number;
     offset?: number;
-    rippleDelay?: number;
-    rippleCallback?: (x: number, manual: boolean, particle: WaveParticleInfo, index: number) => boolean;
-    index: number;
 }
 
 export interface WaveParticleInfo {
@@ -268,5 +228,4 @@ interface Ripple {
     strength: number;
     speed: number;
     decay: number;
-    manual: boolean;
 }

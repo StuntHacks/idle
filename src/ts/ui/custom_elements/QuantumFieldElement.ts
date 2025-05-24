@@ -1,3 +1,4 @@
+import { UI } from "../UI";
 import { Wave, WaveColor, WaveParticleInfo } from "../Wave";
 
 export class QuantumFieldElement extends HTMLElement {
@@ -6,25 +7,94 @@ export class QuantumFieldElement extends HTMLElement {
     private whichWave: WaveParticleInfo;
     private particles: WaveParticleInfo[] = [];
     private all: WaveParticleInfo;
-    private random: boolean;
     private type?: "thick" | "triple";
     private delay: number = 1000;
     private lastClick: number = 0;
+    private surface: HTMLDivElement;
 
     constructor() {
         super();
     }
 
-    ripple(x: number, manual: boolean = false, strength: number = 120, speed: number = 10, decay: number = 0.05) {
-        this.waves.forEach(wave => { wave.ripple(x, manual, strength, speed, decay) });
+    ripple(x: number, strength: number = 120, speed: number = 10, decay: number = 0.05) {
+        this.waves.forEach(wave => { wave.ripple(x, strength, speed, decay) });
     }
 
     connectedCallback() {
         const amount = parseInt(this.parentElement.getAttribute("data-fields"));
         const offset = (this.parentElement.clientHeight / (amount + 1)) * parseInt(this.getAttribute("index"));
-        (this.getElementsByClassName("field-label")[0] as HTMLDivElement).style.top = (offset - 60) + "px";
         let width = 3;
-        this.random = this.getAttribute("random") === "true";
+
+        const getNextDrop = (): number => {
+            if (this.all) {
+                if (Math.random() < 0.1) {
+                    return -1;
+                }
+            }
+
+            return Math.floor(Math.random() * this.particles.length);
+        }
+
+        const handleClick = (timestamp: number) => {
+            let rect = this.surface.getBoundingClientRect();
+            if (UI.mouseDown && UI.mouseY >= rect.y && UI.mouseY <= rect.bottom) {
+                let now = performance.now();
+                let data = {
+                    x: UI.mouseX,
+                    y: offset,
+                    particle: undefined as WaveParticleInfo
+                };
+                if ((now - this.lastClick) < this.delay) {
+                    window.requestAnimationFrame(handleClick);
+                    return;
+                }
+                this.lastClick = now;
+
+                if (this.type === "triple") {
+                    data.particle = this.particles[0];
+                    for (let wave of this.waves) {
+                        wave.ripple(data.x, 160);
+                    }
+                } else {
+                    let drop = getNextDrop();
+
+                    if (drop === -1) {
+                        data.particle = this.all;
+                        for (let wave of this.waves) {
+                            wave.ripple(data.x, 160);
+                        }
+                    } else {
+                        data.particle = this.particles[drop];
+                        this.waves[drop].ripple(data.x, 160);
+                    }
+                }
+
+                this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x: data.x, y: data.y, particle: data.particle } }));
+            }
+            window.requestAnimationFrame(handleClick);
+        }
+
+        this.surface = this.getElementsByClassName("field-surface")[0] as HTMLDivElement;
+        this.surface.style.top = (offset - 40) + "px";
+
+        this.surface.addEventListener("mouseenter", (e: MouseEvent) => {
+            for (let wave of this.waves) {
+                if (!wave.isHovered()) {
+                    wave.setHovered(true);
+                    wave.ripple(e.clientX, 20, 10, 0.05);
+                }
+            }
+        });
+        this.surface.addEventListener("mouseleave", (e: MouseEvent) => {
+            for (let wave of this.waves) {
+                wave.setHovered(false);
+            }
+        });
+
+        window.requestAnimationFrame(handleClick);
+
+        (this.getElementsByClassName("field-label")[0] as HTMLDivElement).style.top = (offset - 60) + "px";
+
         this.delay = parseInt(this.getAttribute("delay"));
         this.type = this.getAttribute("type") as "thick" | "triple" | null;
 
@@ -37,59 +107,10 @@ export class QuantumFieldElement extends HTMLElement {
             }
         }
 
-        const getNextDrop = (): WaveParticleInfo => {
-            if (this.all) {
-                if (Math.random() < 0.1) {
-                    return this.all;
-                }
-            }
-
-            return this.particles[Math.floor(Math.random() * this.particles.length)];
-        }
-
-        const handleRipple = (x: number, manual: boolean, particle: WaveParticleInfo, index: number) => {
-            if (!manual) {
-                return true;
-            }
-            
-            let now = performance.now();
-            if ((now - this.lastClick) < this.delay) {
-                return false;
-            }
-
-            if (this.type === "triple") {
-                if (index === (this.particles.length * 3) - 1) {
-                    this.lastClick = now;
-                    this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x, y: offset, manual, particle } }));
-                }
-
-                return true;
-            }
-
-            if (index === this.particles.length - 1) {
-                this.lastClick = now;
-            }
-
-            if (this.random) {
-                if (index === 0) {
-                    this.whichWave = getNextDrop();
-                    this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x, y: offset, manual, particle: this.whichWave } }));
-                }
-
-                if (JSON.stringify(particle) === JSON.stringify(this.whichWave) || this.whichWave.all) {
-                    return true;
-                }
-
-                return false;
-            }
-
-            this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x, y: offset, manual, particle } }));
-            return true;
-        };
-
         let copies = 1;
 
-        this.type = this.getAttribute("type") as "thick" | "triple" | null;
+        this.type = this.getAttribute("field-type") as "thick" | "triple" | null;
+
         if (this.type === "thick") {
             width = 20;
         } else if (this.type === "triple") {
@@ -124,9 +145,7 @@ export class QuantumFieldElement extends HTMLElement {
                     },
                     pointCount: 10,
                     offset: offset,
-                    rippleCallback: handleRipple,
                     particle: p,
-                    index: i + j,
                 }));
             }
         }
@@ -136,6 +155,5 @@ export class QuantumFieldElement extends HTMLElement {
 export interface RippleEvent {
     x: number;
     y: number;
-    manual: boolean;
     particle: WaveParticleInfo;
 }
