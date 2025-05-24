@@ -14,7 +14,7 @@ import { UI } from "./ui/UI";
 import { Currencies } from "./game_logic/Currencies";
 
 export const main = () => {
-    BigNumber.config({ EXPONENTIAL_AT: 6, DECIMAL_PLACES: 2 })
+    BigNumber.config({ EXPONENTIAL_AT: 6, DECIMAL_PLACES: 1, ROUNDING_MODE: BigNumber.ROUND_FLOOR });
 
     if (!SaveHandler.loadData()) {
         SaveHandler.initialize();
@@ -35,7 +35,7 @@ export const main = () => {
     for (let i = 0; i < fields.length; i++) {
         fields[i].addEventListener("ripple", function (e: CustomEventInit<RippleEvent>) {
             if (e.detail.manual && JSON.stringify(e.detail.particle)) {
-                ResourceGainHandler.gainResource(ResourceGainHandler.getParticleResourceFromField(e.detail.particle, new BigNumber("3.23e14")), (e.detail.x - 10), (e.detail.y + 100))
+                ResourceGainHandler.gainResource(ResourceGainHandler.getParticleResourceFromField(e.detail.particle, new BigNumber("3847")), (e.detail.x - 10), (e.detail.y + 100))
             }
         });
     }
