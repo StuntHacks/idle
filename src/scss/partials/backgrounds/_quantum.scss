@@ -8,7 +8,7 @@ body {
 /* ............................................................... */
 /* ............................................................... */
 .system-background.quantum {
-    animation: pulse 10s infinite linear;
+    animation: pulse-simple 10s infinite linear;
 
     @keyframes rainbow {
         0% {
@@ -47,6 +47,28 @@ body {
 
         100% {
             color: #202;
+        }
+    }
+
+    @keyframes pulse-simple {
+        0% {
+            color: #111;
+        }
+
+        30% {
+            color: #333;
+        }
+
+        50% {
+            color: #630;
+        }
+
+        70% {
+            color: #333;
+        }
+
+        100% {
+            color: #111;
         }
     }
 
