@@ -7,6 +7,8 @@ export class Wave {
     private ctx: CanvasRenderingContext2D;
     private time: number = 0;
     private hover: boolean = false;
+    private clicked: boolean = false;
+    private clickPos: number = 0;
     private ripples: Ripple[] = [];
 
     constructor(element: HTMLCanvasElement, container: HTMLElement, config: WaveConfig, autoStart: boolean = true) {
@@ -20,6 +22,7 @@ export class Wave {
                     this.ripple(e.clientX, false, 20, 10, 0.05);
                 }
 
+                this.clickPos = e.clientX;
                 this.hover = true;
                 this.canvas.classList.add("hovered");
             } else {
@@ -28,10 +31,12 @@ export class Wave {
             }
         });
 
-        container.addEventListener('click', (e: MouseEvent) => {
-            if (this.hover) {
-                this.ripple(e.clientX, true, 160);
-            }
+        container.addEventListener('mousedown', () => {
+            this.clicked = true;
+        });
+
+        container.addEventListener('mouseup', () => {
+            this.clicked = false;
         });
         
         if (!this.config.height) {
@@ -117,6 +122,9 @@ export class Wave {
             self.time = self.config.speed * ((timestamp - start) / 10);
             self.draw(self.time);
             self.cleanupRipples();
+            if (self.hover && self.clicked) {
+                self.ripple(self.clickPos, true, 160);
+            }
             window.requestAnimationFrame(animate);
         }
         window.requestAnimationFrame(animate);
