@@ -14,7 +14,7 @@ import { UI } from "./ui/UI";
 import { Currencies } from "./game_logic/Currencies";
 
 export const main = () => {
-    BigNumber.config({ EXPONENTIAL_AT: 6 })
+    BigNumber.config({ EXPONENTIAL_AT: 6, DECIMAL_PLACES: 2 })
 
     if (!SaveHandler.loadData()) {
         SaveHandler.initialize();
