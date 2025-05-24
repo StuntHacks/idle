@@ -8,18 +8,17 @@ export class ResourceGainElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.style.top = this.getAttribute("x") + "px";
-        this.style.left = this.getAttribute("y") + "px";
+        this.style.left = this.getAttribute("x") + "px";
+        this.style.top = this.getAttribute("y") + "px";
 
         let type = this.getAttribute("type");
+        let flavor = this.getAttribute("flavor");
+        let color = this.getAttribute("color");
         let particle = document.createElement("div");
         particle.classList.add("particle");
         particle.classList.add(type);
-        particle.classList.add(this.getAttribute("color"));
-
-        if (["up", "down", "strange", "charm", "top", "bottom"].includes(type)) {
-            particle.classList.add("quark");
-        }
+        particle.classList.add(flavor);
+        particle.classList.add(color);
 
         let amount = document.createElement("span");
         amount.innerText = ` + ${this.getAttribute("amount")}`;

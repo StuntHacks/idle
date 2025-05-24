@@ -8,6 +8,7 @@ import { Settings } from "./utils/Settings";
 import { Utils } from "./utils/utils";
 import { ToolTip } from "./ui/custom_elements/ToolTip";
 import { ResourceGainElement } from "./ui/custom_elements/ResourceGainElement";
+import { ResourceGainHandler } from "./ui/ResourceGainHandler";
 
 export const main = () => {
     if (!SaveHandler.loadData()) {
@@ -24,22 +25,16 @@ export const main = () => {
 
     let mainContainer = document.getElementById("main");
 
-    document.getElementById("quark-field").addEventListener("ripple", (e: CustomEventInit<RippleEvent>) => {
-        console.log("ripple", e.detail.id)
-    })
-
-    let resourceContainer = document.getElementById("resource-gain-container");
-
-    document.addEventListener("click", function () {
-        console.log("click");
-        let resource = document.createElement("resource-gain");
-        resource.setAttribute("x", "400");
-        resource.setAttribute("y", Math.floor(Math.random() * resourceContainer.clientWidth) + "");
-        resource.setAttribute("type", ["up", "down", "strange", "charm", "top", "bottom", "electron", "muon", "tau"][Math.floor(Math.random() * 9)]);
-        resource.setAttribute("color", ["red", "green", "blue"][Math.floor(Math.random() * 3)]);
-        resource.setAttribute("amount", "1.34e17");
-        resourceContainer.appendChild(resource);
-    })
+    ResourceGainHandler.initialize("resource-gain-container");
+    let fields = document.getElementsByTagName("quantum-field");
+    for (let i = 0; i < fields.length; i++) {
+        fields[i].addEventListener("ripple", function (e: CustomEventInit<RippleEvent>) {
+            if (e.detail.manual && JSON.stringify(e.detail.particle)) {
+                console.log("ripple", JSON.stringify(e.detail.particle), e.detail.manual, e.detail.x, e.detail.y);
+                ResourceGainHandler.gainResource(ResourceGainHandler.getResourceFromField(e.detail.particle), (e.detail.x - 10), (e.detail.y + 100))
+            }
+        });
+    }
 
     // ready
     document.getElementsByTagName("body")[0].classList.remove("loading");

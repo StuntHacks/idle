@@ -1,11 +1,12 @@
-import { Wave, WaveColor } from "../Wave";
+import { Wave, WaveColor, WaveParticleInfo } from "../Wave";
 
 export class QuantumFieldElement extends HTMLElement {
     private waves: Wave[] = [];
     private canvases: HTMLCanvasElement[] = [];
-    private colors: WaveColor[] = [];
-    private whichWave: string;
-    private ids: string[];
+    private whichWave: WaveParticleInfo;
+    private particles: WaveParticleInfo[] = [];
+    private all: WaveParticleInfo;
+    private random: boolean;
 
     constructor() {
         super();
@@ -16,110 +17,94 @@ export class QuantumFieldElement extends HTMLElement {
     }
 
     connectedCallback() {
-        let amount = parseInt(this.parentElement.getAttribute("data-fields"));
-        let offset = (this.parentElement.clientHeight / (amount + 1)) * parseInt(this.getAttribute("index"));
+        const amount = parseInt(this.parentElement.getAttribute("data-fields"));
+        const offset = (this.parentElement.clientHeight / (amount + 1)) * parseInt(this.getAttribute("index"));
         (this.getElementsByClassName("field-label")[0] as HTMLDivElement).style.top = (offset - 60) + "px";
-        let handleRipple;
         let width = 3;
+        this.random = this.getAttribute("random") === "true";
 
-        if (this.getAttribute("type") === "rainbow") {
-            const getNextDrop = (): string => {
+        if (this.getAttribute("all") === "true") {
+            this.all = {
+                type: this.getAttribute("all-type"),
+                flavor: this.getAttribute("all-flavor"),
+                color: this.getAttribute("all-color"),
+                all: true,
+            }
+        }
+
+        const getNextDrop = (): WaveParticleInfo => {
+            if (this.all) {
                 if (Math.random() < 0.1) {
-                    return "all";
+                    return this.all;
                 }
-
-                return ["red", "green", "blue"][Math.floor(Math.random() * 3)];
             }
 
-            handleRipple = (manual: boolean, id: string) => {
-                if (!manual) {
-                    return true;
-                }
+            return this.particles[Math.floor(Math.random() * this.particles.length)];
+        }
 
-                if (id === this.ids[0]) {
+        const handleRipple = (x: number, manual: boolean, particle: WaveParticleInfo) => {
+            if (!manual) {
+                return true;
+            }
+
+            if (this.random) {
+                if (JSON.stringify(particle) === JSON.stringify(this.particles[0])) {
                     this.whichWave = getNextDrop();
+                    this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x, y: offset, manual, particle: this.whichWave } }));
                 }
 
-                if (this.whichWave === "all" || id.includes(this.whichWave)) {
-                    this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { manual, id } }));
+                if (JSON.stringify(particle) === JSON.stringify(this.whichWave) || this.whichWave.all) {
                     return true;
                 }
 
                 return false;
             }
 
-            this.colors = [
-                {
-                    start: "#0000ff",
-                    end: "#00ffff",
-                    glow: "#00ffff",
-                    hover: "#ffffff",
-                },
-                {
-                    start: "#00ff00",
-                    end: "#00ffff",
-                    glow: "#00ff00",
-                    hover: "#ffffff",
-                },
-                {
-                    start: "#ff0000",
-                    end: "#ff00ff",
-                    glow: "#ff00ff",
-                    hover: "#ffffff",
-                },
-            ];
+            this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x, y: offset, manual, particle } }));
+            return true;
+        };
 
-            this.ids = [`${this.id}-blue`, `${this.id}-green`, `${this.id}-red`];
-        } else {
-            handleRipple = (manual: boolean, id: string) => {
-                this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { manual, id } }));
-                return true;
-            }
-
-            let c = {
-                start: this.getAttribute("color-start"),
-                end: this.getAttribute("color-end"),
-                glow: this.getAttribute("color-glow"),
-                hover: this.getAttribute("color-hover") || "#ffffff",
-            }
-
-            if (this.getAttribute("type") === "triple") {
-                this.colors = [c, c, c];
-                this.ids = [this.id, "", ""];
-            } else {
-                this.colors = [c];
-                this.ids = [this.id];
-            }
-
-            if (this.getAttribute("type") === "thick") {
-                width = 20;
-            }
+        if (this.getAttribute("type") === "thick") {
+            width = 20;
         }
 
-        this.colors.forEach((color, index) => {
+        let fields = this.getElementsByClassName("field");
+
+        for (let i = 0; i < fields.length; i++) {
+            let field = fields[i];
+            let p = {
+                type: field.getAttribute("data-type"),
+                flavor: field.getAttribute("data-flavor"),
+                color: field.getAttribute("data-color"),
+            };
+
+            this.particles.push(p);
+
             this.canvases.push(document.createElement("canvas"));
-            this.appendChild(this.canvases[index]);
-            this.waves.push(new Wave(this.canvases[index], this.parentElement, {
+            this.appendChild(this.canvases[i]);
+            this.waves.push(new Wave(this.canvases[i], this.parentElement, {
                 amplitude: 20,
                 frequency: 1,
                 speed: 0.02,
                 lineWidth: width,
                 color: {
-                    start: color.start,
-                    end: color.end,
-                    glow: color.glow,
-                    hover: color.hover,
+                    start: field.getAttribute("data-color-start") || this.getAttribute("color-start"),
+                    end: field.getAttribute("data-color-end") || this.getAttribute("color-end"),
+                    glow: field.getAttribute("data-color-glow") || this.getAttribute("color-glow"),
+                    hover: field.getAttribute("data-color-hover") || this.getAttribute("color-hover") || "#ffffff",
                 },
                 pointCount: 10,
                 offset: offset,
                 rippleCallback: handleRipple,
-                id: this.ids[index],
+                particle: p,
             }));
-        });
+        }
     }
 }
 
 export interface RippleEvent {
+    x: number;
+    y: number;
     manual: boolean;
-    id?: string;
+    particle: WaveParticleInfo;
 }

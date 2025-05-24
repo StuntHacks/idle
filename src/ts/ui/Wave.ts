@@ -95,7 +95,7 @@ export class Wave {
 
     private cleanupRipples() {
         const now = performance.now();
-        const threshold = 0.01;
+        const threshold = 0.0001;
 
         this.ripples = this.ripples.filter(r => {
             const age = (now - r.startTime) / 1000;
@@ -206,7 +206,7 @@ export class Wave {
         const index = Math.floor((x / this.canvas.width) * this.config.pointCount);
 
         if (this.config.rippleCallback) {
-            if (!this.config.rippleCallback(manual, this.config.id)) {
+            if (!this.config.rippleCallback(x, manual, this.config.particle)) {
                 return false;
             }
         }
@@ -225,7 +225,7 @@ export class Wave {
 }
 
 export interface WaveConfig {
-    id?: string;
+    particle: WaveParticleInfo;
     amplitude: number;
     frequency: number;
     speed: number;
@@ -235,7 +235,14 @@ export interface WaveConfig {
     height?: number;
     offset?: number;
     rippleDelay?: number;
-    rippleCallback?: (manual: boolean, id?: string) => boolean;
+    rippleCallback?: (x: number, manual: boolean, particle: WaveParticleInfo) => boolean;
+}
+
+export interface WaveParticleInfo {
+    type?: string;
+    flavor?: string;
+    color?: string;
+    all?: boolean;
 }
 
 export interface WaveColor {
