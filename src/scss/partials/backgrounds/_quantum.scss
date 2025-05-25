@@ -8,7 +8,7 @@ body {
 /* ............................................................... */
 /* ............................................................... */
 .system-background.quantum {
-    animation: pulse-simple 10s infinite linear;
+    animation: pulse-rgb 80s infinite linear;
 
     @keyframes rainbow {
         0% {
@@ -65,6 +65,76 @@ body {
 
         70% {
             color: #333;
+        }
+
+        100% {
+            color: #111;
+        }
+    }
+
+    @keyframes pulse-rgb {
+        0% {
+            color: #111;
+        }
+
+        9% {
+            color: #640;
+        }
+
+        15% {
+            color: #111;
+        }
+
+        21% {
+            color: #600;
+        }
+
+        27% {
+            color: #111;
+        }
+
+        33% {
+            color: #060;
+        }
+
+        39% {
+            color: #111;
+        }
+
+        45% {
+            color: #028;
+        }
+
+        51% {
+            color: #111;
+        }
+
+        57% {
+            color: #066;
+        }
+
+        63% {
+            color: #111;
+        }
+
+        69% {
+            color: #888;
+        }
+
+        75% {
+            color: #111;
+        }
+
+        81% {
+            color: #606;
+        }
+
+        87% {
+            color: #111;
+        }
+
+        93% {
+            color: #880;
         }
 
         100% {
