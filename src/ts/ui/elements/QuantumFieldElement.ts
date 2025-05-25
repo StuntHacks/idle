@@ -1,16 +1,16 @@
 import { UI } from "../UI";
-import { Wave, WaveColor, WaveParticleInfo } from "../Wave";
+import { Wave, WaveParticleInfo } from "../Wave";
 
 export class QuantumFieldElement extends HTMLElement {
     private waves: Wave[] = [];
     private canvases: HTMLCanvasElement[] = [];
-    private whichWave: WaveParticleInfo;
     private particles: WaveParticleInfo[] = [];
     private all: WaveParticleInfo;
     private type?: "thick" | "triple";
     private delay: number = 1000;
     private lastClick: number = 0;
     private surface: HTMLDivElement;
+    private tabContainer: HTMLElement;
 
     constructor() {
         super();
@@ -21,6 +21,8 @@ export class QuantumFieldElement extends HTMLElement {
     }
 
     connectedCallback() {
+        this.tabContainer = this.closest("system-tab") as HTMLElement;
+
         const amount = parseInt(this.parentElement.getAttribute("data-fields"));
         const offset = (this.parentElement.clientHeight / (amount + 1)) * parseInt(this.getAttribute("index"));
         let width = 3;
@@ -38,38 +40,40 @@ export class QuantumFieldElement extends HTMLElement {
         const handleClick = (timestamp: number) => {
             let rect = this.surface.getBoundingClientRect();
             if (UI.mouseDown && UI.mouseY >= rect.y && UI.mouseY <= rect.bottom) {
-                let now = performance.now();
-                let data = {
-                    x: UI.mouseX,
-                    y: offset,
-                    particle: undefined as WaveParticleInfo
-                };
-                if ((now - this.lastClick) < this.delay) {
-                    window.requestAnimationFrame(handleClick);
-                    return;
-                }
-                this.lastClick = now;
-
-                if (this.type === "triple") {
-                    data.particle = this.particles[0];
-                    for (let wave of this.waves) {
-                        wave.ripple(data.x, 160);
+                if (this.tabContainer.querySelector(".tab.active") === null) {
+                    let now = performance.now();
+                    let data = {
+                        x: UI.mouseX,
+                        y: offset,
+                        particle: undefined as WaveParticleInfo
+                    };
+                    if ((now - this.lastClick) < this.delay) {
+                        window.requestAnimationFrame(handleClick);
+                        return;
                     }
-                } else {
-                    let drop = getNextDrop();
+                    this.lastClick = now;
 
-                    if (drop === -1) {
-                        data.particle = this.all;
+                    if (this.type === "triple") {
+                        data.particle = this.particles[0];
                         for (let wave of this.waves) {
                             wave.ripple(data.x, 160);
                         }
                     } else {
-                        data.particle = this.particles[drop];
-                        this.waves[drop].ripple(data.x, 160);
-                    }
-                }
+                        let drop = getNextDrop();
 
-                this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x: data.x, y: data.y, particle: data.particle } }));
+                        if (drop === -1) {
+                            data.particle = this.all;
+                            for (let wave of this.waves) {
+                                wave.ripple(data.x, 160);
+                            }
+                        } else {
+                            data.particle = this.particles[drop];
+                            this.waves[drop].ripple(data.x, 160);
+                        }
+                    }
+
+                    this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x: data.x, y: data.y, particle: data.particle } }));
+                }
             }
             window.requestAnimationFrame(handleClick);
         }

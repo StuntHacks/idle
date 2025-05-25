@@ -1,7 +1,3 @@
-import { translations } from "../../i18n/i18n";
-import { Settings } from "../../utils/Settings";
-import { Utils } from "../../utils/utils";
-
 export class ResourceGainElement extends HTMLElement {
     constructor() {
         super();

@@ -17,6 +17,17 @@ tool-tip {
     transition: opacity 150ms;
     user-select: none;
 
+    &[align="right"] {
+        left: 0;
+        transform: none;
+    }
+
+    &[align="left"] {
+        right: 0;
+        left: auto;
+        transform: none;
+    }
+
     &[center] {
         text-align: center;
     }

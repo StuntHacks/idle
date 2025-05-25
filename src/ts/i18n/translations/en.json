@@ -137,6 +137,16 @@
                 "fields": "Fields",
                 "forces": "Forces",
                 "mass": "Mass"
+            },
+            "fields": {
+                "electron": {
+                    "name": "Electron Field",
+                    "description": "The electron field produces electrons, which are converted into energy and thus can be used to energize the other fields"
+                },
+                "quark": {
+                    "name": "Quark Field",
+                    "description": "The quark field produces quarks of a random flavor, and one of three colors depending on which of the three fields got excited"
+                }
             }
         }
     }

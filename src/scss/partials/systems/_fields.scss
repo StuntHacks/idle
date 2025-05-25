@@ -1,11 +1,12 @@
 @import "../../helpers.scss";
 
 #tab-fields {
-    position: relative;
-    min-height: var(--content-height);
-    display: flex;
-    justify-content: center;
-    user-select: none;
+    .fields {
+        position: relative;
+        min-height: var(--content-height);
+        justify-content: center;
+        user-select: none;
+    }
 
     canvas {
         position: absolute;

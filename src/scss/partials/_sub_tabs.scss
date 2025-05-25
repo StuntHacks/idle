@@ -6,7 +6,7 @@
     padding: 15px 0;
     display: flex;
     justify-content: center;
-    z-index: 1000;
+    z-index: 10001;
 
     span {
         margin: 0 30px;
@@ -14,6 +14,10 @@
 
         &:not(.disabled):hover > translated-string {
             opacity: 0.8;
+        }
+
+        &.active > translated-string {
+            opacity: 1;
         }
 
         &.disabled {

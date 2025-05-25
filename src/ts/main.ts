@@ -13,6 +13,7 @@ import { BigNumber } from "bignumber.js"
 import { UI } from "./ui/UI";
 import { Currencies } from "./game_logic/Currencies";
 import { Translator } from "./i18n/i18n";
+import { SystemTabElement } from "./ui/elements/SystemTabElement";
 
 export const main = () => {
     BigNumber.config({ EXPONENTIAL_AT: 6, DECIMAL_PLACES: 1, ROUNDING_MODE: BigNumber.ROUND_FLOOR });
@@ -46,6 +47,7 @@ export const main = () => {
     customElements.define("resource-gain", ResourceGainElement);
     customElements.define("tool-tip", ToolTip);
     customElements.define("currency-display", CurrencyElement);
+    customElements.define("system-tab", SystemTabElement);
 
     document.getElementById("save-button").addEventListener("click", () => {
         UI.flashSaveIndicator();

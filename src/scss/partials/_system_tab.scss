@@ -1,0 +1,27 @@
+system-tab {
+    position: relative;
+    min-height: var(--content-height);
+    display: flex;
+    justify-content: center;
+    user-select: none;
+
+    .tab {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.5);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding-top: 56px;
+        z-index: 10000;
+        backdrop-filter: blur(20px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 150ms;
+
+        &.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    }
+}

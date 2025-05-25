@@ -45,6 +45,7 @@ footer.main-footer {
                     height: 0;
                     padding: 0 5px;
                     transition: height 550ms ease 250ms, padding 550ms ease 250ms;
+                    pointer-events: none;
 
                     currency-display,
                     .currency-section-title {
@@ -99,6 +100,7 @@ footer.main-footer {
             &.hidden {
                 width: 0;
                 transition: width 550ms ease 250ms;
+                pointer-events: none;
 
                 .row currency-display,
                 .row.hidden currency-display {
@@ -129,6 +131,7 @@ footer.main-footer {
                     height: 0;
                     padding: 0 5px;
                     transition: height 550ms ease 250ms, padding 550ms ease 250ms;
+                    pointer-events: none;
 
                     currency-display {
                         opacity: 0;
