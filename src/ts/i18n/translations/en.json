@@ -135,7 +135,8 @@
             "tabs": {
                 "energy": "Energy",
                 "fields": "Fields",
-                "forces": "Forces"
+                "forces": "Forces",
+                "mass": "Mass"
             }
         }
     }

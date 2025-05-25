@@ -18,6 +18,10 @@
 
         &.disabled {
             cursor: default;
+
+            > translated-string {
+                opacity: 0.15;
+            }
         }
 
         > translated-string {
