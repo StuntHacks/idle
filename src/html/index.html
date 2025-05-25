@@ -13,72 +13,11 @@
         rel="stylesheet">
 </head>
 <body class="loading">
-    <nav class="main-nav">
-        <span class="nav-entry active" data-system="fields">
-            @include('../assets/icons/molecule.svg')
-            <tool-tip center orientation="bottom">
-                <span class="title">Quantum Fields</span>
-            </tool-tip>
-        </span>
-        <span class="nav-entry" data-system="stellar">
-            @include('../assets/icons/orbital-rays.svg')
-            <tool-tip center orientation="bottom">
-                <span class="title">Stellar Evolution</span>
-                <span class="flavor-text">Not yet unlocked</span>
-            </tool-tip>
-        </span>
-        <span class="nav-entry disabled" data-system="biogenesis">
-            @include('../assets/icons/dna2.svg')
-            <tool-tip center orientation="bottom">
-                <span class="title">???</span>
-                <span class="flavor-text">Not yet implemented</span>
-            </tool-tip>
-        </span>
-        <span class="nav-entry disabled" data-system="alien">
-            @include('../assets/icons/tentacle-strike.svg')
-            <tool-tip center orientation="bottom">
-                <span class="title">???</span>
-                <span class="flavor-text">Not yet implemented</span>
-            </tool-tip>
-        </span>
-        <span class="nav-entry disabled" data-system="uncertainty">
-            @include('../assets/icons/astrolabe.svg')
-            <tool-tip center orientation="bottom">
-                <span class="title">???</span>
-                <span class="flavor-text">Not yet implemented</span>
-            </tool-tip>
-        </span>
-    </nav>
+    @include('./navigation.html')
     <main id="main">
         @include('./backgrounds/quantum.html')
         @include('./backgrounds/stellar.html')
-        <div class="system-tab" id="tab-fields" data-fields="2">
-            <quantum-field id="electron-field" type="Lepton" delay="1000" index="1">
-                <div class="field-label electron">Electron Field</div>
-                <div class="field-surface"></div>
-                <!--<div class="field" data-flavor="Tau" data-color-start="#999944" data-color-end="#999977" data-color-glow="#999900"></div>
-                <div class="field" data-flavor="Muon" data-color-start="#cccc77" data-color-end="#ccccaa" data-color-glow="#cccc00"></div>-->
-                <div class="field" data-flavor="Electron" data-color-start="#ffffaa" data-color-end="#ffffDD" data-color-glow="#ffff00"></div>
-            </quantum-field>
-            <quantum-field id="quark-field" type="Quark" delay="1000" all="true" all-type="Quark" all-color="RGB" index="2">
-                <div class="field-label rgb">Quark Field</div>
-                <div class="field-surface"></div>
-                <div class="field" data-color="Green" data-color-start="#00ff00" data-color-end="#00ffff" data-color-glow="#00ff00"></div>
-                <div class="field" data-color="Blue"data-color-start="#0000ff" data-color-end="#00ffff" data-color-glow="#00ffff"></div>
-                <div class="field" data-color="Red" data-color-start="#ff0000" data-color-end="#ff00ff" data-color-glow="#ff00ff"></div>
-            </quantum-field>
-            <!--<quantum-field id="gluon-field" type="Boson" flavor="Gluon" delay="2000" field-type="triple" index="3" color-start="#00aabb" color-end="#00ff44" color-glow="#00ffff">
-                <div class="field-label gluon">Gluon Field</div>
-                <div class="field-surface"></div>
-                <div class="field"></div>
-            </quantum-field>
-            <quantum-field id="higgs-field" type="Boson" delay="2000" flavor="Higgs" field-type="thick" color-start="#998800" color-end="#bb9900" color-glow="#DDAA00" index="4">
-                <div class="field-label higgs">Higgs Field</div>
-                <div class="field-surface"></div>
-                <div class="field"></div>
-            </quantum-field>
-            <quantum-field id="electroweak-field" color-start="#aaaaaa" color-end="#dddddd" color-glow="#dddddd" index="3"></quantum-field>-->
-        </div>
+        @include('./systems/quantum.html')
     </main>
     <section class="resources" id="resource-gain-container"></section>
     @include('./footer.html')

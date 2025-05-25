@@ -1,0 +1,32 @@
+.sub-tabs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+
+    span {
+        margin: 0 30px;
+        cursor: pointer;
+
+        &:not(.disabled):hover > translated-string {
+            opacity: 0.8;
+        }
+
+        &.disabled {
+            cursor: default;
+        }
+
+        > translated-string {
+            opacity: 0.4;
+            text-transform: uppercase;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            transition: opacity 150ms;
+        }
+    }
+}

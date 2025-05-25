@@ -1,4 +1,8 @@
 {
+    "misc": {
+        "locked": "Not yet unlocked",
+        "unimplemented": "Not yet implemented"
+    },
     "settings": {
         "general": {
             "title": "General settings",
@@ -123,6 +127,15 @@
                 "load": "Load",
                 "settings": "Settings",
                 "runTime": "Run time: "
+            }
+        }
+    },
+    "systems": {
+        "quantum": {
+            "tabs": {
+                "energy": "Energy",
+                "fields": "Fields",
+                "forces": "Forces"
             }
         }
     }
