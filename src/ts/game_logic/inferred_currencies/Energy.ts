@@ -2,6 +2,7 @@
 import { BigNumber } from "bignumber.js"
 import { Currencies } from "../Currencies";
 import { InferredCurrencies } from "../../ui/InferredCurrencies";
+import { Numbers } from "../../numbers/numbers";
 
 export class Energy {
     private static amount = BigNumber(0);
@@ -30,9 +31,15 @@ export class Energy {
         } else if (this.amount.e < 24) {
             suffix = "ZeV";
             divisor = 1e15;
+        } else {
+            return Numbers.getFormatted(this.amount) + "eV";
         }
 
         return this.amount.dividedBy(1000000).dividedBy(divisor).toFixed(1) + suffix;
+    }
+
+    public static get(): BigNumber {
+        return this.amount;
     }
 
     public static update() {

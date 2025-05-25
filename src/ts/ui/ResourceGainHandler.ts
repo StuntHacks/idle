@@ -10,7 +10,7 @@ export class ResourceGainHandler {
         this.container = document.getElementById(id);
     }
 
-    public static gainResource(resource: Resource, x: number, y: number) {
+    public static gainResource(resource: Resource, x: number, y: number, flash: boolean = false) {
         let element = document.createElement("resource-gain");
         element.setAttribute("x", x + "");
         element.setAttribute("y", y + "");
@@ -27,6 +27,10 @@ export class ResourceGainHandler {
             if (r.flavor) {
                 element.setAttribute("flavor", r.flavor.toString());
             }
+        }
+
+        if (flash) {
+            element.classList.add("flash");
         }
 
         element.setAttribute("amount", Numbers.getFormatted(resource.amount));
