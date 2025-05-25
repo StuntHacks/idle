@@ -54,6 +54,10 @@ export const main = () => {
         SaveHandler.saveData();
     });
 
+    document.getElementById("magic-button").addEventListener("click", () => {
+        
+    });
+
     window.addEventListener("beforeunload", () => {
         // handle closing
         SaveHandler.saveData();

@@ -1,8 +1,8 @@
 <footer class="main-footer">
     <div class="currencies">
-        <div class="fermions">
+        <div class="main fermions">
             <translated-string class="currency-section-title">ui.footer.fermions</translated-string>
-            <div class="generation first">
+            <div class="currency-section generation first">
                 <translated-string class="currency-section-title">ui.footer.generations.first</translated-string>
                 <currency-display design="rgb" name="quarks-up-red,quarks-up-green,quarks-up-blue" field-id="quark-field">
                     <tool-tip center>
@@ -54,7 +54,7 @@
                     <span></span>
                 </currency-display>
             </div>
-            <div class="generation second hidden">
+            <div class="currency-section generation second">
                 <translated-string class="currency-section-title">ui.footer.generations.second</translated-string>
                 <currency-display design="rgb" name="quarks-strange-red,quarks-strange-green,quarks-strange-blue" field-id="quark-field">
                     <tool-tip center>
@@ -106,7 +106,7 @@
                     <span></span>
                 </currency-display>
             </div>
-            <div class="generation third hidden">
+            <div class="currency-section generation third">
                 <translated-string class="currency-section-title">ui.footer.generations.third</translated-string>
                 <currency-display design="rgb" name="quarks-top-red,quarks-top-green,quarks-top-blue" field-id="quark-field">
                     <tool-tip center>
@@ -132,22 +132,22 @@
                 <currency-display design="rgb" name="quarks-bottom-red,quarks-bottom-green,quarks-bottom-blue" field-id="quark-field">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.quarks.bottom.name</translated-string>
+                        <div class="currency-list">
+                            <currency-display design="green" name="quarks-bottom-green">
+                                <div class="particle quarks bottom green"></div>
+                                <span></span>
+                            </currency-display>
+                            <currency-display design="blue" name="quarks-bottom-blue">
+                                <div class="particle quarks bottom blue"></div>
+                                <span></span>
+                            </currency-display>
+                            <currency-display design="red" name="quarks-bottom-red">
+                                <div class="particle quarks bottom red"></div>
+                                <span></span>
+                            </currency-display>
+                        </div>
                     </tool-tip>
                     <div class="particle quarks bottom rgb"></div>
-                    <div class="currency-list">
-                        <currency-display design="green" name="quarks-bottom-green">
-                            <div class="particle quarks bottom green"></div>
-                            <span></span>
-                        </currency-display>
-                        <currency-display design="blue" name="quarks-bottom-blue">
-                            <div class="particle quarks bottom blue"></div>
-                            <span></span>
-                        </currency-display>
-                        <currency-display design="red" name="quarks-bottom-red">
-                            <div class="particle quarks bottom red"></div>
-                            <span></span>
-                        </currency-display>
-                    </div>
                     <span></span>
                 </currency-display>
                 <currency-display design="tau" name="leptons-tau" field-id="electron-field">
@@ -159,9 +159,9 @@
                 </currency-display>
             </div>
         </div>
-        <div class="bosons hidden">
+        <div class="secondary bosons">
             <translated-string class="currency-section-title">ui.footer.bosons.name</translated-string>
-            <div class="row">
+            <div class="currency-section">
                 <currency-display design="gluon">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.gluon.name</translated-string>
@@ -177,7 +177,7 @@
                     <span></span>
                 </currency-display>
             </div>
-            <div class="row hidden">
+            <div class="currency-section">
                 <currency-display design="w-plus-boson">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.w_plus.name</translated-string>
@@ -200,7 +200,7 @@
                     <span></span>
                 </currency-display>
             </div>
-            <div class="row hidden">
+            <div class="currency-section">
                 <currency-display design="higgs">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.higgs.name</translated-string>
@@ -215,6 +215,9 @@
         <span class="bottom-button" id="settings-button">
             @include('../assets/icons/cog.svg')
             <translated-string>ui.footer.bottomBar.settings</translated-string>
+        </span>
+        <span class="bottom-button" id="magic-button">
+            <translated-string>Magic</translated-string>
         </span>
         <span class="bottom-button" id="load-button">
             @include('../assets/icons/save.svg')

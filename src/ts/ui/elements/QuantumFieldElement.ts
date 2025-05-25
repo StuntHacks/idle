@@ -11,6 +11,7 @@ export class QuantumFieldElement extends HTMLElement {
     private lastClick: number = 0;
     private surface: HTMLDivElement;
     private tabContainer: HTMLElement;
+    private allCounter = 0;
 
     constructor() {
         super();
@@ -28,8 +29,9 @@ export class QuantumFieldElement extends HTMLElement {
         let width = 3;
 
         const getNextDrop = (): number => {
-            if (this.all) {
+            if (this.all && this.allCounter > 5) {
                 if (Math.random() < 0.1) {
+                    this.allCounter = 0;
                     return -1;
                 }
             }
@@ -52,6 +54,7 @@ export class QuantumFieldElement extends HTMLElement {
                         return;
                     }
                     this.lastClick = now;
+                    this.allCounter++;
 
                     if (this.type === "triple") {
                         data.particle = this.particles[0];
