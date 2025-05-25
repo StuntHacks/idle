@@ -1,5 +1,3 @@
-import { Currencies } from "./Currencies";
-
 export class UI {
     public static saveIndicator: HTMLElement;
     public static mouseDown: boolean = false;
@@ -22,7 +20,6 @@ export class UI {
     }
 
     public static animate(timestamp: number) {
-        Currencies.updateCurrencies();
         window.requestAnimationFrame(UI.animate);
     }
 

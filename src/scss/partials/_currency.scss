@@ -1,4 +1,4 @@
-.currency {
+currency-display {
     font-family: var(--font-mono);
     display: flex;
     background-color: $color-black;
@@ -14,6 +14,7 @@
     cursor: pointer;
     opacity: 1;
     transition: opacity 250ms linear;
+    user-select: none;
 
     &.hidden {
         opacity: 0;
@@ -57,51 +58,39 @@
         z-index: -1;
     }
 
-    &.rgb::before {
+    &[design="rgb"]::before {
         --start-color: rgb(255 28 28);
         --mid-color: rgb(0, 153, 218);
         --end-color: rgb(0, 255, 55);
         background: linear-gradient(225deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
     }
 
-    &.electron::before {
-        --start-color: rgb(255 28 28);
-        --mid-color: rgb(0, 153, 218);
-        --end-color: rgb(0, 255, 55);
+    &[design="electron"]::before {
         background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
     }
 
-    &.muon::before {
-        --start-color: rgb(255 28 28);
-        --mid-color: rgb(0, 153, 218);
-        --end-color: rgb(0, 255, 55);
+    &[design="muon"]::before {
         background: linear-gradient(80deg, #c4c700 0%, #6b6900 100%);
     }
 
-    &.tau::before {
-        --start-color: rgb(255 28 28);
-        --mid-color: rgb(0, 153, 218);
-        --end-color: rgb(0, 255, 55);
+    &[design="tau"]::before {
         background: linear-gradient(80deg, #7d8000 0%, #424100 100%);
     }
 
-    &.gluon::before {
-        --start-color: rgb(255 28 28);
-        --mid-color: rgb(0, 153, 218);
-        --end-color: rgb(0, 255, 55);
+    &[design="gluon"]::before {
         background: linear-gradient(80deg, #00aabb 0%, #00ff44 100%);
     }
 
-    &.z-boson,
-    &.w-plus-boson,
-    &.w-minus-boson,
-    &.photon {
+    &[design="z-boson"],
+    &[design="w-plus-boson"],
+    &[design="w-minus-boson"],
+    &[design="photon"] {
         &::before {
             background: linear-gradient(80deg, #aaaaaa 0%, #dddddd 100%);
         }
     }
 
-    &.higgs::before {
+    &[design="higgs"]::before {
         background: linear-gradient(80deg, #998800 0%, #bb9900 100%);
     }
 }

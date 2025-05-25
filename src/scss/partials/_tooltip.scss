@@ -15,6 +15,7 @@ tool-tip {
     pointer-events: none;
     opacity: 0;
     transition: opacity 150ms;
+    user-select: none;
 
     &[center] {
         text-align: center;

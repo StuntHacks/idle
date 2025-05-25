@@ -7,6 +7,7 @@ footer.main-footer {
     position: fixed;
     width: 100%;
     bottom: 0;
+    z-index: 1;
 
     .currencies {
         display: flex;
@@ -34,7 +35,7 @@ footer.main-footer {
                 box-sizing: border-box;
                 transition: height 550ms ease, padding 550ms ease;
 
-                .currency,
+                currency-display,
                 .currency-section-title {
                     opacity: 1;
                     transition: opacity 250ms linear 550ms;
@@ -45,7 +46,7 @@ footer.main-footer {
                     padding: 0 5px;
                     transition: height 550ms ease 250ms, padding 550ms ease 250ms;
 
-                    .currency,
+                    currency-display,
                     .currency-section-title {
                         opacity: 0;
                         transition: opacity 250ms linear;
@@ -90,7 +91,7 @@ footer.main-footer {
             width: 500px;
             transition: width 550ms ease;
 
-            .currency {
+            currency-display {
                 opacity: 1;
                 transition: opacity 250ms linear 550ms;
             }
@@ -99,8 +100,8 @@ footer.main-footer {
                 width: 0;
                 transition: width 550ms ease 250ms;
 
-                .row .currency,
-                .row.hidden .currency {
+                .row currency-display,
+                .row.hidden currency-display {
                     opacity: 0;
                     transition: opacity 250ms linear;
                 }
@@ -129,13 +130,13 @@ footer.main-footer {
                     padding: 0 5px;
                     transition: height 550ms ease 250ms, padding 550ms ease 250ms;
 
-                    .currency {
+                    currency-display {
                         opacity: 0;
                         transition: opacity 250ms linear;
                     }
                 }
 
-                .currency {
+                currency-display {
                     opacity: 1;
                     transition: opacity 250ms linear 550ms;
                 }

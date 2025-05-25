@@ -5,6 +5,7 @@
     min-height: var(--content-height);
     display: flex;
     justify-content: center;
+    user-select: none;
 
     canvas {
         position: absolute;

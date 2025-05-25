@@ -1,13 +1,14 @@
 
-import { QuantumFieldElement, RippleEvent } from "./ui/custom_elements/QuantumFieldElement";
-import { TranslatedElement } from "./ui/custom_elements/TranslatedElement";
+import { QuantumFieldElement, RippleEvent } from "./ui/elements/QuantumFieldElement";
+import { TranslatedElement } from "./ui/elements/TranslatedElement";
+import { CurrencyElement } from "./ui/elements/CurrencyElement";
 import { translations } from "./i18n/i18n";
 import { SaveHandler } from "./SaveHandler/SaveHandler";
 import { Wave } from "./ui/Wave";
 import { Settings } from "./utils/Settings";
 import { Utils } from "./utils/utils";
-import { ToolTip } from "./ui/custom_elements/ToolTip";
-import { ResourceGainElement } from "./ui/custom_elements/ResourceGainElement";
+import { ToolTip } from "./ui/elements/ToolTip";
+import { ResourceGainElement } from "./ui/elements/ResourceGainElement";
 import { ResourceGainHandler } from "./ui/ResourceGainHandler";
 import { BigNumber } from "bignumber.js"
 import { UI } from "./ui/UI";
@@ -27,6 +28,7 @@ export const main = () => {
     customElements.define("quantum-field", QuantumFieldElement);
     customElements.define("resource-gain", ResourceGainElement);
     customElements.define("tool-tip", ToolTip);
+    customElements.define("currency-display", CurrencyElement);
 
     let mainContainer = document.getElementById("main");
 
