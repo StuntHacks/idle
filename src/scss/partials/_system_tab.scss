@@ -16,11 +16,13 @@ system-tab {
         z-index: 10000;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 150ms;
+        transition: opacity var(--timing-tab-transition), filter var(--timing-tab-transition);
+        filter: blur(3px);
 
         &.active {
             opacity: 1;
             pointer-events: auto;
+            filter: blur(0px);
         }
     }
 

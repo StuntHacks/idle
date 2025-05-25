@@ -11,6 +11,10 @@ body.loading {
     pointer-events: none;
 }
 
+:root {
+    --timing-tab-transition: 300ms;
+}
+
 .field-wave {
     display: block;
     width: 100%;
