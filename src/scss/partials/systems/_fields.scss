@@ -18,4 +18,37 @@
             z-index: 10;
         }
     }
+
+    .tab[data-tab="energy"] {
+        display: flex;
+        padding: 76px 30px;
+
+        .counter {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 20px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 40px;
+
+            .amount {
+                font-size: 80px;
+                font-weight: 600;
+                background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
+                text-shadow: 0px 0px 10px #fbff00b0;
+                color: transparent;
+                background-clip: text;
+            }
+
+            .description {
+                display: flex;
+                align-items: center;
+                font-weight: bold;
+
+                .particle {
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
 }

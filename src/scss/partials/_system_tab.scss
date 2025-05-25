@@ -31,5 +31,6 @@ system-tab {
 
     .tab {
         z-index: 10001;
+        box-sizing: border-box;
     }
 }

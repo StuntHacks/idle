@@ -147,6 +147,9 @@
                     "name": "Quark Field",
                     "description": "The quark field produces quarks of a random flavor, and one of three colors depending on which of the three fields got excited"
                 }
+            },
+            "energy": {
+                "description": "Energy is based on electrons"
             }
         }
     }
