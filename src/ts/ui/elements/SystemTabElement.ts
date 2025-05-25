@@ -12,7 +12,6 @@ export class SystemTabElement extends HTMLElement {
     connectedCallback() {
         let subTabs = this.querySelector("nav.sub-tabs");
         let background = this.querySelector(".tab-background");
-        console.log(this)
 
         let tabs = subTabs.getElementsByTagName("span");
         for (let i = 0; i < tabs.length; i++) {

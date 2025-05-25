@@ -110,6 +110,9 @@
         <system-tab id="tab-fields">
     <nav class="sub-tabs">
         <span data-tab="energy">
+            <tool-tip center orientation="bottom">
+                <span class="amount" id="electronvolt-amount-tooltip"></span>
+            </tool-tip>
             <translated-string>systems.quantum.tabs.energy</translated-string>
         </span>
         <span data-tab="fields">
@@ -131,7 +134,7 @@
     <section class="tab-background"></section>
     <section class="tab" data-tab="energy">
         <div class="counter">
-            <span class="amount" id="electronvolt-amount">3.47TeV</span>
+            <span class="amount" id="electronvolt-amount"></span>
             <span class="description">
                 <div class="particle electron"></div>
                 <translated-string>systems.quantum.energy.description</translated-string>
@@ -152,7 +155,7 @@
             <div class="field" data-flavor="Electron" data-color-start="#ffffaa" data-color-end="#ffffDD"
                 data-color-glow="#ffff00"></div>
         </quantum-field>
-        <quantum-field id="quark-field" type="Quark" delay="1000" all="true" all-type="Quark" all-color="RGB" index="2">
+        <quantum-field id="quark-field" type="Quark" delay="100" all="true" all-type="Quark" all-color="RGB" index="2">
             <div class="field-label rgb">
                 <translated-string>systems.quantum.fields.quark.name</translated-string>
             </div>

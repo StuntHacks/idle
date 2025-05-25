@@ -19,6 +19,23 @@
         }
     }
 
+    .sub-tabs {
+        [data-tab="energy"] {
+            tool-tip {
+                padding: 10px 5px;
+
+                span {
+                    background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
+                    text-shadow: 0px 0px 10px #fbff00b0;
+                    color: transparent;
+                    background-clip: text;
+                    font-weight: 600;
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+
     .tab[data-tab="energy"] {
         display: flex;
         padding: 76px 30px;

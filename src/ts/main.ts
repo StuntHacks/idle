@@ -14,6 +14,7 @@ import { UI } from "./ui/UI";
 import { Currencies } from "./game_logic/Currencies";
 import { Translator } from "./i18n/i18n";
 import { SystemTabElement } from "./ui/elements/SystemTabElement";
+import { Game } from "./game_logic/Game";
 
 export const main = () => {
     BigNumber.config({ EXPONENTIAL_AT: 6, DECIMAL_PLACES: 1, ROUNDING_MODE: BigNumber.ROUND_FLOOR });
@@ -32,7 +33,7 @@ export const main = () => {
     for (let i = 0; i < fields.length; i++) {
         fields[i].addEventListener("ripple", function (e: CustomEventInit<RippleEvent>) {
             if (JSON.stringify(e.detail.particle)) {
-                ResourceGainHandler.gainResource(ResourceGainHandler.getParticleResourceFromField(e.detail.particle, new BigNumber("3847")), (e.detail.x - 10), (e.detail.y + 100))
+                ResourceGainHandler.gainResource(ResourceGainHandler.getParticleResourceFromField(e.detail.particle, new BigNumber("1")), (e.detail.x - 10), (e.detail.y + 100))
             }
         });
     }
@@ -55,4 +56,5 @@ export const main = () => {
 
     // ready
     document.getElementsByTagName("body")[0].classList.remove("loading");
+    Game.update();
 }
