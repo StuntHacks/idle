@@ -31,6 +31,16 @@ tool-tip {
         font-size: 14px;
         font-style: italic;
     }
+
+    .currency-list {
+        display: flex;
+        margin: 15px 0 5px;
+        gap: 15px;
+
+        currency-display {
+            margin: 0;
+        }
+    }
 }
 
 :has(tool-tip):hover > tool-tip {

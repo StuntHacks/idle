@@ -12,7 +12,7 @@ export class CurrencyElement extends HTMLElement {
 
     connectedCallback() {
         let name = this.getAttribute('name');
-        this.element = this.querySelector('span');
+        this.element = this.querySelector(':scope > span');
 
         if (name) {
             this.currencies = name.split(',');
