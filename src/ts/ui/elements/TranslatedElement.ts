@@ -1,4 +1,4 @@
-import { translations } from "../../i18n/i18n";
+import { Translator } from "../../i18n/i18n";
 import { Settings } from "../../utils/Settings";
 import { Utils } from "../../utils/utils";
 
@@ -9,7 +9,7 @@ export class TranslatedElement extends HTMLElement {
 
     connectedCallback() {
         let lang = Settings.get().general.settings.language.value;
-        let translated = Utils.getNestedProperty(translations[lang], this.textContent);
+        let translated = Utils.getNestedProperty(Translator.translations[lang], this.textContent);
 
         if (translated) {
             this.textContent = translated;

@@ -2,7 +2,6 @@
 import { QuantumFieldElement, RippleEvent } from "./ui/elements/QuantumFieldElement";
 import { TranslatedElement } from "./ui/elements/TranslatedElement";
 import { CurrencyElement } from "./ui/elements/CurrencyElement";
-import { translations } from "./i18n/i18n";
 import { SaveHandler } from "./SaveHandler/SaveHandler";
 import { Wave } from "./ui/Wave";
 import { Settings } from "./utils/Settings";
@@ -13,6 +12,7 @@ import { ResourceGainHandler } from "./ui/ResourceGainHandler";
 import { BigNumber } from "bignumber.js"
 import { UI } from "./ui/UI";
 import { Currencies } from "./game_logic/Currencies";
+import { Translator } from "./i18n/i18n";
 
 export const main = () => {
     BigNumber.config({ EXPONENTIAL_AT: 6, DECIMAL_PLACES: 1, ROUNDING_MODE: BigNumber.ROUND_FLOOR });
@@ -23,12 +23,6 @@ export const main = () => {
 
     let data = SaveHandler.getData();
     Settings.set(data.settings);
-
-    customElements.define("translated-string", TranslatedElement);
-    customElements.define("quantum-field", QuantumFieldElement);
-    customElements.define("resource-gain", ResourceGainElement);
-    customElements.define("tool-tip", ToolTip);
-    customElements.define("currency-display", CurrencyElement);
 
     let mainContainer = document.getElementById("main");
 
@@ -43,8 +37,15 @@ export const main = () => {
     }
 
     // initialize
+    Translator.initialize();
     Currencies.initialize();
     UI.initialize();
+
+    customElements.define("translated-string", TranslatedElement);
+    customElements.define("quantum-field", QuantumFieldElement);
+    customElements.define("resource-gain", ResourceGainElement);
+    customElements.define("tool-tip", ToolTip);
+    customElements.define("currency-display", CurrencyElement);
 
     document.getElementById("save-button").addEventListener("click", () => {
         UI.flashSaveIndicator();
