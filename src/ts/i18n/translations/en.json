@@ -146,6 +146,10 @@
                 "quark": {
                     "name": "Quark Field",
                     "description": "The quark field produces quarks of a random flavor, and one of three colors depending on which of the three fields got excited"
+                },
+                "gluon": {
+                    "name": "Gluon Field",
+                    "description": "The gluon field produces gluons, which are needed in order to confine quarks into hadrons"
                 }
             },
             "energy": {
