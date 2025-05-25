@@ -31,6 +31,10 @@ currency-display {
         }
     }
 
+    tool-tip {
+        --offset: calc(100% + 15px);
+    }
+
     &::before,
     &::after {
         content: "";
