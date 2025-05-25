@@ -51,7 +51,12 @@ export const main = () => {
     customElements.define("system-tab", SystemTabElement);
 
     document.getElementById("save-button").addEventListener("click", () => {
-        UI.flashSaveIndicator();
+        SaveHandler.saveData();
+    });
+
+    window.addEventListener("beforeunload", () => {
+        // handle closing
+        SaveHandler.saveData();
     });
 
     // ready

@@ -1,4 +1,5 @@
 import { SaveFile } from "../types/SaveFile";
+import { UI } from "../ui/UI";
 import { Logger } from "../utils/Logger";
 import { Settings } from "../utils/Settings";
 
@@ -19,6 +20,7 @@ export class SaveHandler {
     public static saveData(): void {
         let data = this.encode(JSON.stringify(this.save));
         localStorage.setItem("saveFile", data);
+        UI.flashSaveIndicator();
     }
 
     public static getData(): SaveFile {
