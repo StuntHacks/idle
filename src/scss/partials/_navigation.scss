@@ -22,7 +22,18 @@ nav.main-nav {
         --start-color: rgb(255 28 28);
         --mid-color: rgb(0, 153, 218);
         --end-color: rgb(0, 255, 55);
-        background: linear-gradient(225deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
+        background: linear-gradient(225deg, var(--start-color) 0%, var(--mid-color) 33%, var(--end-color) 66%, var(--start-color) 100%);
+        animation: move-bg 10s linear infinite;
+
+        @keyframes move-bg {
+            from {
+                background-position-x: 0vw;
+            }
+
+            to {
+                background-position-x: 100vw;
+            }
+        }
     }
 
     .nav-entry {
