@@ -33,7 +33,7 @@ export const main = () => {
     for (let i = 0; i < fields.length; i++) {
         fields[i].addEventListener("ripple", function (e: CustomEventInit<RippleEvent>) {
             if (JSON.stringify(e.detail.particle)) {
-                ResourceGainHandler.gainResource(ResourceGainHandler.getParticleResourceFromField(e.detail.particle, new BigNumber("1")), (e.detail.x - 10), (e.detail.y + 100))
+                ResourceGainHandler.gainResource(ResourceGainHandler.getParticleResourceFromField(e.detail.particle, new BigNumber("1")), (e.detail.x - 10) + (Math.floor(Math.random() * 20) - 10), (e.detail.y + 100))
             }
         });
     }

@@ -1,6 +1,7 @@
 import { Currencies } from "../../game_logic/Currencies"
 import { Numbers } from "../../numbers/numbers";
 import { BigNumber } from "bignumber.js"
+import { QuantumFieldElement } from "./QuantumFieldElement";
 
 export class CurrencyElement extends HTMLElement {
     private currencies: string[] = [];
@@ -11,8 +12,17 @@ export class CurrencyElement extends HTMLElement {
     }
 
     connectedCallback() {
-        let name = this.getAttribute('name');
-        this.element = this.querySelector(':scope > span');
+        let name = this.getAttribute("name");
+        this.element = this.querySelector(":scope > span");
+        let field = this.getAttribute("field-id");
+
+        if (field) {
+            this.addEventListener("mouseenter", () => {
+                let element = (document.getElementById(field) as QuantumFieldElement);
+                let x = Math.floor(Math.random() * window.innerWidth);
+                element.ripple(x, 20, 10, 0.05);
+            });
+        }
 
         if (name) {
             this.currencies = name.split(',');
