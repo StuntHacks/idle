@@ -11,9 +11,28 @@
     span {
         margin: 0 30px;
         cursor: pointer;
+        position: relative;
 
         &:not(.disabled):hover > translated-string {
             opacity: 0.8;
+        }
+
+        &::before {
+            content: "";
+            position: relative;
+            width: 8px;
+            height: 8px;
+            bottom: 14px;
+            left: 100%;
+            border-radius: 100%;
+            display: inline-block;
+            background-color: rgb(255, 54, 54);
+            opacity: 0;
+            transition: opacity 150ms;
+        }
+
+        &.new::before {
+            opacity: 1;
         }
 
         &.active {

@@ -37,6 +37,19 @@ tool-tip {
         top: var(--offset);
     }
 
+    &[orientation="right"] {
+        bottom: auto;
+        top: auto;
+        left: var(--offset);
+    }
+
+    &[orientation="right"] {
+        bottom: auto;
+        top: 50%;
+        right: var(--offset);
+        transform: translateY(-50%);
+    }
+
     .flavor-text {
         color: var(--color-tooltip-description);
         font-size: 14px;

@@ -32,6 +32,7 @@ export class SystemTabElement extends HTMLElement {
                     target.classList.add("active");
                     tab.classList.add("active");
                     background.classList.add("active");
+                    target.classList.remove("new");
                 }
             });
         }

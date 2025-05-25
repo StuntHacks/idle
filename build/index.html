@@ -8,6 +8,7 @@
     <title>Random Idler about the universe or something</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link
         href="https://fonts.googleapis.com/css2?family=Cantata+One&family=Funnel+Display:wght@300..800&family=Inconsolata:wght@200..900&family=Lexend+Deca:wght@100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap"
         rel="stylesheet">
@@ -107,15 +108,15 @@
     <div class="background-stars4"></div>
 </div>
 
-        <system-tab id="tab-fields">
+        <system-tab id="tab-quantum">
     <nav class="sub-tabs">
-        <span data-tab="energy">
+        <span data-tab="energy" class="active">
             <tool-tip center orientation="bottom">
                 <span class="amount" id="electronvolt-amount-tooltip"></span>
             </tool-tip>
             <translated-string>systems.quantum.tabs.energy</translated-string>
         </span>
-        <span data-tab="fields">
+        <span data-tab="fields" id="quantum-tab-fields">
             <translated-string>systems.quantum.tabs.fields</translated-string>
         </span>
         <span data-tab="forces" class="disabled">
@@ -131,14 +132,75 @@
             <translated-string>systems.quantum.tabs.mass</translated-string>
         </span>
     </nav>
-    <section class="tab-background"></section>
-    <section class="tab" data-tab="energy">
+    <section class="tab-background active"></section>
+    <section class="tab active" data-tab="energy">
         <div class="counter">
-            <span class="amount" id="electronvolt-amount"></span>
-            <span class="description">
-                <div class="particle electron"></div>
-                <translated-string>systems.quantum.energy.description</translated-string>
-            </span>
+            <div class="energy-amount">
+                <span class="amount" id="electronvolt-amount"></span>
+                <span class="description">
+                    <div class="particle electron"></div>
+                    <translated-string>systems.quantum.energy.description</translated-string>
+                </span>
+            </div>
+            <div class="fluctuators">
+                <div class="title block">
+                    <translated-string>systems.quantum.energy.fluctuators.title</translated-string>
+                    <span class="info">
+                        <tool-tip orientation="right">
+                            <translated-string>systems.quantum.energy.fluctuators.information</translated-string>
+                        </tool-tip>
+                        <i class="material-symbols-outlined">help</i>
+                    </span>
+                </div>
+                <div class="fluctuator block quark">
+                    <div class="field">
+                        <translated-string>systems.quantum.fields.quark.name</translated-string>
+                    </div>
+                    <div class="stats">
+                        <div class="stat">
+                            1000ms
+                            <span class="upgrade-button">
+                                <i class="material-symbols-outlined">keyboard_double_arrow_up</i>
+                            </span>
+                        </div>
+                        <div class="stat">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="fluctuator block electron">
+                    <div class="field">
+                        <translated-string>systems.quantum.fields.quark.name</translated-string>
+                    </div>
+                    <div class="stats">
+                        <div class="stat">
+                            1000ms
+                            <span class="upgrade-button">
+                                <i class="material-symbols-outlined">keyboard_double_arrow_up</i>
+                            </span>
+                        </div>
+                        <div class="stat">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="fluctuator block gluon">
+                    <div class="field">
+                        <translated-string>systems.quantum.fields.quark.name</translated-string>
+                    </div>
+                    <div class="stats">
+                        <div class="stat">
+                            1000ms
+                            <span class="upgrade-button">
+                                <i class="material-symbols-outlined">keyboard_double_arrow_up</i>
+                            </span>
+                        </div>
+                        <div class="stat">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <section class="tab" data-tab="fields">

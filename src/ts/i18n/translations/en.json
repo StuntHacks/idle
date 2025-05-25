@@ -149,7 +149,12 @@
                 }
             },
             "energy": {
-                "description": "Energy is based on electrons"
+                "description": "Energy is based on electrons",
+                "fluctuators": {
+                    "title": "Fluctuators",
+                    "information": "You can continuously spend a portion of your total energy in order to trigger periodic excitations in your quantum fields",
+                    "speed": "Interval: "
+                }
             }
         }
     }

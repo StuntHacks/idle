@@ -1,0 +1,174 @@
+@import "../../helpers.scss";
+
+#tab-quantum {
+    .fields {
+        position: relative;
+        min-height: var(--content-height);
+        justify-content: center;
+        user-select: none;
+    }
+
+    canvas {
+        position: absolute;
+        top: 0;
+        z-index: 9;
+
+        &.hovered {
+            cursor: pointer;
+            z-index: 10;
+        }
+    }
+
+    .sub-tabs {
+        [data-tab="energy"] {
+            tool-tip {
+                padding: 10px 5px;
+
+                span {
+                    background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
+                    text-shadow: 0px 0px 10px #fbff00b0;
+                    color: transparent;
+                    background-clip: text;
+                    font-weight: 600;
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+
+    .tab[data-tab="energy"] {
+        display: flex;
+        padding: 76px 30px;
+
+        .counter {
+            background-color: rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 20px;
+            overflow: hidden;
+
+            .energy-amount {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                flex-grow: 1;
+                justify-content: center;
+
+                .amount {
+                    font-size: 80px;
+                    font-weight: 600;
+                    background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
+                    text-shadow: 0px 0px 10px #fbff00b0;
+                    color: transparent;
+                    background-clip: text;
+                    padding: 0 30px;
+                }
+            }
+
+            .fluctuators {
+                width: 100%;
+                margin-top: 15px;
+
+                .block {
+                    background-color: #0007;
+                    width: 100%;
+                    margin-top: 2px;
+                }
+
+                .title {
+                    display: flex;
+                    align-items: center;
+                    padding: 10px 0;
+                    justify-content: center;
+                    color: #eee;
+                    z-index: 10;
+                    position: relative;
+
+                    > translated-string {
+                        font-weight: 100;
+                        font-size: 20px;
+                        text-transform: uppercase;
+                    }
+
+                    .info {
+                        margin-left: 10px;
+                        cursor: pointer;
+                        color: #999;
+                        transition: color 150ms;
+                        transform: translateY(3px);
+
+                        tool-tip {
+                            width: 250px;
+                            white-space: normal;
+                            --offset: calc(100% + 10px);
+                        }
+
+                        &:hover {
+                            color: #eee;
+                        }
+                    }
+                }
+
+                .fluctuator {
+                    display: flex;
+                    position: relative;
+
+                    &.quark {
+                        --start-color: rgb(255 28 28);
+                        --mid-color: rgb(0, 153, 218);
+                        --end-color: rgb(0, 255, 55);
+                        background: linear-gradient(225deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
+                    }
+
+                    &.electron {
+                        background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
+                    }
+
+                    &.gluon {
+                        background: linear-gradient(80deg, #00aabb 0%, #00ff44 100%);
+                    }
+
+                    &.higgs {
+                        background: linear-gradient(80deg, #998800 0%, #bb9900 100%);
+                    }
+
+                    .field {
+                        flex-grow: 1;
+                        font-weight: bold;
+                        font-size: 20px;
+                        display: flex;
+                        padding: 20px 0;
+                        justify-content: center;
+                        cursor: pointer;
+                        z-index: 1;
+                        transition: background-color 150ms;
+                        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+
+                        &:hover {
+                            background-color: #0009;
+                        }
+                    }
+
+                    .stats {
+                        display: flex;
+                        flex-direction: column;
+                        background-color: #0006;
+                        padding: 5px 10px;
+                        z-index: 1;
+                    }
+                }
+            }
+
+            .description {
+                display: flex;
+                align-items: center;
+                font-weight: bold;
+
+                .particle {
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+}

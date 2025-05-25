@@ -178,6 +178,7 @@ footer.main-footer {
             padding: 0 10px;
             opacity: 0;
             transition: opacity 5s linear;
+            user-select: none;
 
             &.shown {
                 opacity: 1;
@@ -189,6 +190,7 @@ footer.main-footer {
             flex-grow: 1;
             color: #bbb;
             font-size: 14px;
+            user-select: none;
 
             span {
                 font-family: var(--font-mono);
@@ -209,9 +211,11 @@ footer.main-footer {
                 background-color: #222;
             }
 
-            svg {
+            svg,
+            i {
                 margin-right: 5px;
                 --size: 20px;
+                font-size: var(--size);
             }
         }
     }
