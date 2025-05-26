@@ -24,10 +24,12 @@ export class UI {
     }
 
     public static flashSaveIndicator() {
-        this.saveIndicator.classList.add("shown");
+        if (this.saveIndicator) {
+            this.saveIndicator.classList.add("shown");
 
-        window.requestAnimationFrame(() => {
-            this.saveIndicator.classList.remove("shown");
-        });
+            window.requestAnimationFrame(() => {
+                this.saveIndicator.classList.remove("shown");
+            });
+        }
     }
 }
