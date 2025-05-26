@@ -15,4 +15,13 @@ export namespace Utils {
             return "rgb(" + r + ", " + g + ", " + b + ")";
         }
     }
+
+    export const callFunctionByName = (name: string, context: any, ...args: any[]) => {
+        const namespaces = name.split(".");
+        const func = namespaces.pop();
+        for (let i = 0; i < namespaces.length; i++) {
+            context = context[namespaces[i]];
+        }
+        return context[func].apply(context, args);
+    }
 }

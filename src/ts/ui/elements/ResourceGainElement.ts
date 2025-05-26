@@ -7,23 +7,19 @@ export class ResourceGainElement extends HTMLElement {
         this.style.left = this.getAttribute("x") + "px";
         this.style.top = this.getAttribute("y") + "px";
 
-        let type = this.getAttribute("type");
-        let flavor = this.getAttribute("flavor");
-        let color = this.getAttribute("color");
+        let className = this.getAttribute("data-class");
         let particle = document.createElement("div");
-        particle.classList.add("particle");
-        particle.classList.add(type);
-        particle.classList.add(flavor);
-        particle.classList.add(color);
+        particle.classList.add("resource");
+        particle.classList.add(...className.split(" "));
+
+        particle.addEventListener("animationend", () => {
+            //this.remove();
+        });
 
         let amount = document.createElement("span");
         amount.innerText = ` + ${this.getAttribute("amount")}`;
 
-        this.appendChild(particle)
-        this.appendChild(amount)
-
-        setTimeout(() => {
-            this.remove();
-        }, 2000);
+        this.appendChild(particle);
+        this.appendChild(amount);
     }
 }

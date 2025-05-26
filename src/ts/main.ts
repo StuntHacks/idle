@@ -8,7 +8,6 @@ import { Settings } from "./utils/Settings";
 import { Utils } from "./utils/utils";
 import { ToolTip } from "./ui/elements/ToolTip";
 import { ResourceGainElement } from "./ui/elements/ResourceGainElement";
-import { ResourceGainHandler } from "./ui/ResourceGainHandler";
 import { BigNumber } from "bignumber.js"
 import { UI } from "./ui/UI";
 import { Currencies } from "./game_logic/Currencies";
@@ -28,17 +27,21 @@ export const main = () => {
 
     let mainContainer = document.getElementById("main");
 
-    ResourceGainHandler.initialize("resource-gain-container");
     let fields = document.getElementsByTagName("quantum-field");
     for (let i = 0; i < fields.length; i++) {
         fields[i].addEventListener("ripple", function (e: CustomEventInit<RippleEvent>) {
             if (JSON.stringify(e.detail.particle)) {
-                ResourceGainHandler.gainResource(ResourceGainHandler.getParticleResourceFromField(e.detail.particle, new BigNumber("1")), (e.detail.x - 10) + (Math.floor(Math.random() * 20) - 10), (e.detail.y + 100), true)
+                let hash = Currencies.getFromQuantumField(e.detail.particle);
+                console.log(hash);
+                let amount = new BigNumber(1);
+                Currencies.gain(hash, amount);
+                Currencies.spawnGainElement(hash, amount, e.detail.x - (Math.floor(Math.random() * 20) - 10), e.detail.y);
             }
         });
     }
 
     // initialize
+    Currencies.initialize("resource-gain-container");
     Translator.initialize();
     Currencies.initialize();
     UI.initialize();

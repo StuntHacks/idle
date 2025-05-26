@@ -14,8 +14,8 @@ export class CurrencyElement extends HTMLElement {
     connectedCallback() {
         let name = this.getAttribute("name");
         this.element = this.querySelector(":scope > span");
-        let field = this.getAttribute("field-id");
 
+        let field = this.getAttribute("field-id");
         if (field) {
             this.addEventListener("mouseenter", () => {
                 let element = (document.getElementById(field) as QuantumFieldElement);
@@ -31,7 +31,7 @@ export class CurrencyElement extends HTMLElement {
             function update() {
                 let amount = new BigNumber(0);
                 for (let c of self.currencies) {
-                    let found = Currencies.particles.find((p => p.hash === c));
+                    let found = Currencies.get(c);
                     if (found) {
                         amount = amount.plus(found.amount);
                     }

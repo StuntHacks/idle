@@ -15,6 +15,12 @@
             </tool-tip>
             <translated-string>systems.quantum.tabs.forces</translated-string>
         </span>
+        <span data-tab="hadrons" class="disabled">
+            <tool-tip center orientation="bottom">
+                <translated-string class="title">misc.locked</translated-string>
+            </tool-tip>
+            <translated-string>systems.quantum.tabs.hadrons</translated-string>
+        </span>
         <span data-tab="mass" class="disabled">
             <tool-tip center orientation="bottom">
                 <translated-string class="title">misc.locked</translated-string>
@@ -28,7 +34,7 @@
             <div class="energy-amount">
                 <span class="amount" id="electronvolt-amount"></span>
                 <span class="description">
-                    <div class="particle electron"></div>
+                    <div class="resource particle electron"></div>
                     <translated-string>systems.quantum.energy.description</translated-string>
                 </span>
             </div>
@@ -65,45 +71,45 @@
 
     </section>
     <div class="fields" data-fields="3">
-        <quantum-field id="electron-field" type="Lepton" delay="1000" index="1">
+        <quantum-field id="electron-field" type="lepton" delay="1000" index="1">
             <div class="field-label electron">
                 <translated-string>systems.quantum.fields.electron.name</translated-string>
             </div>
             <div class="field-surface"></div>
-            <!--<div class="field" data-flavor="Tau" data-color-start="#999944" data-color-end="#999977" data-color-glow="#999900"></div>
-            <div class="field" data-flavor="Muon" data-color-start="#cccc77" data-color-end="#ccccaa" data-color-glow="#cccc00"></div>-->
-            <div class="field" data-flavor="Electron" data-color-start="#ffffaa" data-color-end="#ffffDD"
+            <!--<div class="field" data-flavor="tau" data-color-start="#999944" data-color-end="#999977" data-color-glow="#999900"></div>
+            <div class="field" data-flavor="muon" data-color-start="#cccc77" data-color-end="#ccccaa" data-color-glow="#cccc00"></div>-->
+            <div class="field" data-flavor="electron" data-color-start="#ffffaa" data-color-end="#ffffDD"
                 data-color-glow="#ffff00"></div>
         </quantum-field>
-        <quantum-field id="quark-field" type="Quark" delay="700" all="true" all-type="Quark" all-color="RGB" index="2">
+        <quantum-field id="quark-field" type="quark" delay="700" all="true" all-type="quark" all-color="rgb" index="2">
             <div class="field-label rgb">
                 <translated-string>systems.quantum.fields.quark.name</translated-string>
             </div>
             <div class="field-surface"></div>
-            <div class="field" data-color="Green" data-color-start="#00ff00" data-color-end="#00ffff"
+            <div class="field" data-color="green" data-color-start="#00ff00" data-color-end="#00ffff"
                 data-color-glow="#00ff00"></div>
-            <div class="field" data-color="Blue" data-color-start="#0000ff" data-color-end="#00ffff"
+            <div class="field" data-color="blue" data-color-start="#0000ff" data-color-end="#00ffff"
                 data-color-glow="#00ffff"></div>
-            <div class="field" data-color="Red" data-color-start="#ff0000" data-color-end="#ff00ff"
+            <div class="field" data-color="red" data-color-start="#ff0000" data-color-end="#ff00ff"
                 data-color-glow="#ff00ff"></div>
         </quantum-field>
         <!--
-        <quantum-field id="neutrino-field" type="Lepton" flavor="Neutrino" delay="2000" index="3">
+        <quantum-field id="neutrino-field" type="lepton" flavor="neutrino" delay="2000" index="3">
             <div class="field-label neutrino">
                 <translated-string>systems.quantum.fields.neutrino.name</translated-string>
             </div>
             <div class="field-surface"></div>
-            <div class="field" data-flavor="Tau" data-color-start="#999944" data-color-end="#999977" data-color-glow="#999900"></div>
-            <div class="field" data-flavor="Muon" data-color-start="#cccc77" data-color-end="#ccccaa" data-color-glow="#cccc00"></div>
-            <div class="field" data-flavor="Electron" data-color-start="#ffff00" data-color-end="#ffffff" data-color-glow="#ffff00">
+            <div class="field" data-flavor="tau" data-color-start="#999944" data-color-end="#999977" data-color-glow="#999900"></div>
+            <div class="field" data-flavor="muon" data-color-start="#cccc77" data-color-end="#ccccaa" data-color-glow="#cccc00"></div>
+            <div class="field" data-flavor="electron" data-color-start="#ffff00" data-color-end="#ffffff" data-color-glow="#ffff00">
             </div>
         </quantum-field>
-        <quantum-field id="gluon-field" type="Boson" flavor="Gluon" delay="2000" field-type="triple" index="3" color-start="#00aabb" color-end="#00ff44" color-glow="#00ffff">
+        <quantum-field id="gluon-field" type="boson" flavor="gluon" delay="2000" field-type="triple" index="3" color-start="#00aabb" color-end="#00ff44" color-glow="#00ffff">
             <div class="field-label gluon">Gluon Field</div>
             <div class="field-surface"></div>
             <div class="field"></div>
         </quantum-field>
-        <quantum-field id="higgs-field" type="Boson" delay="2000" flavor="Higgs" field-type="thick" color-start="#998800" color-end="#bb9900" color-glow="#DDAA00" index="4">
+        <quantum-field id="higgs-field" type="boson" delay="2000" flavor="higgs" field-type="thick" color-start="#998800" color-end="#bb9900" color-glow="#DDAA00" index="4">
             <div class="field-label higgs">Higgs Field</div>
             <div class="field-surface"></div>
             <div class="field"></div>

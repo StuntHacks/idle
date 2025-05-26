@@ -14,6 +14,10 @@ currency-display {
     opacity: 1;
     transition: opacity 250ms linear;
     user-select: none;
+    box-sizing: border-box;
+
+    --width: 130px;
+    width: var(--width);
 
     > span {
         font-family: var(--font-mono);
@@ -23,7 +27,7 @@ currency-display {
         opacity: 0;
     }
 
-    .particle {
+    .resource.particle {
         --size: 20px;
         margin-right: 10px;
         margin-left: 5px;
@@ -102,8 +106,7 @@ currency-display {
 
     &[design="z-boson"],
     &[design="w-plus-boson"],
-    &[design="w-minus-boson"],
-    &[design="photon"] {
+    &[design="w-minus-boson"] {
         &::before {
             background: linear-gradient(80deg, #aaaaaa 0%, #dddddd 100%);
         }
@@ -111,5 +114,35 @@ currency-display {
 
     &[design="higgs"]::before {
         background: linear-gradient(80deg, #998800 0%, #bb9900 100%);
+    }
+
+    &[design="photon"] {
+        animation: animate-currency-shadow 4s linear infinite;
+        &::before {
+            background: linear-gradient(80deg, #bbbb77 0%, #ffffff 50%, #bbbb77 100%);
+            animation: animate-currency 2s linear infinite;
+
+            @keyframes animate-currency {
+                from {
+                    background-position-x: 0px;
+                }
+
+                to {
+                    background-position-x: var(--width);
+                }
+            }
+        }
+
+        @keyframes animate-currency-shadow {
+            0% {
+                box-shadow: 0 0 15px 0px #bbbb7700;
+            }
+
+            50% {box-shadow: 0 0 20px 0px #ffffbb
+            }
+
+            100% {box-shadow: 0 0 15px 0px #bbbb7700;
+            }
+        }
     }
 }

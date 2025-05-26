@@ -1,4 +1,4 @@
-.particle {
+.resource.particle {
     --size: 25px;
     --glow: rgba(0, 0, 0, 0.75);
     width: var(--size);
@@ -60,7 +60,7 @@
         }
     }
 
-    &.quarks {
+    &.quark {
         &::before {
             //font-family: "Cantata One", serif;
         }

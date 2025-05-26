@@ -1,0 +1,38 @@
+resource-gain {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    animation: fadeOut 2s ease forwards;
+    align-items: center;
+    white-space: nowrap;
+
+    @keyframes fadeOut {
+        0% {
+            transform: translateY(0px);
+            opacity: 0;
+            animation-timing-function: ease-in;
+        }
+    
+        20% {
+            transform: translateY(-40px);
+            opacity: 1;
+            animation-timing-function: ease-out;
+        }
+    
+        100% {
+            transform: translateY(-120px);
+            opacity: 0;
+        }
+    }
+
+    .particle {
+        display: inline-block;
+    }
+
+    span {
+        font-weight: bold;
+        text-shadow: 1px 3px 4px rgba(0, 0, 0, 1);
+        transform: translate(6px, -7px);
+        display: inline-block;
+    }
+}

@@ -43,7 +43,7 @@ export class Energy {
     }
 
     public static update() {
-        this.amount = BigNumber(Currencies.particles.find((p => p.hash === "leptons-electron")).amount.multipliedBy(511000));
+        this.amount = BigNumber(Currencies.get("leptons-electron").amount.multipliedBy(511000));
         InferredCurrencies.update("energy", this.getFormatted());
     }
 }

@@ -49,7 +49,7 @@ export class QuantumFieldElement extends HTMLElement {
                     let now = performance.now();
                     let data = {
                         x: UI.mouseX,
-                        y: offset,
+                        y: offset + 100,
                         particle: undefined as WaveParticleInfo
                     };
                     if ((now - this.lastClick) < this.delay) {

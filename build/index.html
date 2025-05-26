@@ -130,6 +130,12 @@
             </tool-tip>
             <translated-string>systems.quantum.tabs.forces</translated-string>
         </span>
+        <span data-tab="hadrons" class="disabled">
+            <tool-tip center orientation="bottom">
+                <translated-string class="title">misc.locked</translated-string>
+            </tool-tip>
+            <translated-string>systems.quantum.tabs.hadrons</translated-string>
+        </span>
         <span data-tab="mass" class="disabled">
             <tool-tip center orientation="bottom">
                 <translated-string class="title">misc.locked</translated-string>
@@ -143,7 +149,7 @@
             <div class="energy-amount">
                 <span class="amount" id="electronvolt-amount"></span>
                 <span class="description">
-                    <div class="particle electron"></div>
+                    <div class="resource particle electron"></div>
                     <translated-string>systems.quantum.energy.description</translated-string>
                 </span>
             </div>
@@ -180,45 +186,45 @@
 
     </section>
     <div class="fields" data-fields="3">
-        <quantum-field id="electron-field" type="Lepton" delay="1000" index="1">
+        <quantum-field id="electron-field" type="lepton" delay="1000" index="1">
             <div class="field-label electron">
                 <translated-string>systems.quantum.fields.electron.name</translated-string>
             </div>
             <div class="field-surface"></div>
-            <!--<div class="field" data-flavor="Tau" data-color-start="#999944" data-color-end="#999977" data-color-glow="#999900"></div>
-            <div class="field" data-flavor="Muon" data-color-start="#cccc77" data-color-end="#ccccaa" data-color-glow="#cccc00"></div>-->
-            <div class="field" data-flavor="Electron" data-color-start="#ffffaa" data-color-end="#ffffDD"
+            <!--<div class="field" data-flavor="tau" data-color-start="#999944" data-color-end="#999977" data-color-glow="#999900"></div>
+            <div class="field" data-flavor="muon" data-color-start="#cccc77" data-color-end="#ccccaa" data-color-glow="#cccc00"></div>-->
+            <div class="field" data-flavor="electron" data-color-start="#ffffaa" data-color-end="#ffffDD"
                 data-color-glow="#ffff00"></div>
         </quantum-field>
-        <quantum-field id="quark-field" type="Quark" delay="700" all="true" all-type="Quark" all-color="RGB" index="2">
+        <quantum-field id="quark-field" type="quark" delay="700" all="true" all-type="quark" all-color="rgb" index="2">
             <div class="field-label rgb">
                 <translated-string>systems.quantum.fields.quark.name</translated-string>
             </div>
             <div class="field-surface"></div>
-            <div class="field" data-color="Green" data-color-start="#00ff00" data-color-end="#00ffff"
+            <div class="field" data-color="green" data-color-start="#00ff00" data-color-end="#00ffff"
                 data-color-glow="#00ff00"></div>
-            <div class="field" data-color="Blue" data-color-start="#0000ff" data-color-end="#00ffff"
+            <div class="field" data-color="blue" data-color-start="#0000ff" data-color-end="#00ffff"
                 data-color-glow="#00ffff"></div>
-            <div class="field" data-color="Red" data-color-start="#ff0000" data-color-end="#ff00ff"
+            <div class="field" data-color="red" data-color-start="#ff0000" data-color-end="#ff00ff"
                 data-color-glow="#ff00ff"></div>
         </quantum-field>
         <!--
-        <quantum-field id="neutrino-field" type="Lepton" flavor="Neutrino" delay="2000" index="3">
+        <quantum-field id="neutrino-field" type="lepton" flavor="neutrino" delay="2000" index="3">
             <div class="field-label neutrino">
                 <translated-string>systems.quantum.fields.neutrino.name</translated-string>
             </div>
             <div class="field-surface"></div>
-            <div class="field" data-flavor="Tau" data-color-start="#999944" data-color-end="#999977" data-color-glow="#999900"></div>
-            <div class="field" data-flavor="Muon" data-color-start="#cccc77" data-color-end="#ccccaa" data-color-glow="#cccc00"></div>
-            <div class="field" data-flavor="Electron" data-color-start="#ffff00" data-color-end="#ffffff" data-color-glow="#ffff00">
+            <div class="field" data-flavor="tau" data-color-start="#999944" data-color-end="#999977" data-color-glow="#999900"></div>
+            <div class="field" data-flavor="muon" data-color-start="#cccc77" data-color-end="#ccccaa" data-color-glow="#cccc00"></div>
+            <div class="field" data-flavor="electron" data-color-start="#ffff00" data-color-end="#ffffff" data-color-glow="#ffff00">
             </div>
         </quantum-field>
-        <quantum-field id="gluon-field" type="Boson" flavor="Gluon" delay="2000" field-type="triple" index="3" color-start="#00aabb" color-end="#00ff44" color-glow="#00ffff">
+        <quantum-field id="gluon-field" type="boson" flavor="gluon" delay="2000" field-type="triple" index="3" color-start="#00aabb" color-end="#00ff44" color-glow="#00ffff">
             <div class="field-label gluon">Gluon Field</div>
             <div class="field-surface"></div>
             <div class="field"></div>
         </quantum-field>
-        <quantum-field id="higgs-field" type="Boson" delay="2000" flavor="Higgs" field-type="thick" color-start="#998800" color-end="#bb9900" color-glow="#DDAA00" index="4">
+        <quantum-field id="higgs-field" type="boson" delay="2000" flavor="higgs" field-type="thick" color-start="#998800" color-end="#bb9900" color-glow="#DDAA00" index="4">
             <div class="field-label higgs">Higgs Field</div>
             <div class="field-surface"></div>
             <div class="field"></div>
@@ -240,20 +246,20 @@
                         <translated-string class="title">ui.footer.quarks.up.name</translated-string>
                         <div class="currency-list">
                             <currency-display design="green" name="quarks-up-green">
-                                <div class="particle quarks up green"></div>
+                                <div class="resource particle quark up green"></div>
                                 <span></span>
                             </currency-display>
                             <currency-display design="blue" name="quarks-up-blue">
-                                <div class="particle quarks up blue"></div>
+                                <div class="resource particle quark up blue"></div>
                                 <span></span>
                             </currency-display>
                             <currency-display design="red" name="quarks-up-red">
-                                <div class="particle quarks up red"></div>
+                                <div class="resource particle quark up red"></div>
                                 <span></span>
                             </currency-display>
                         </div>
                     </tool-tip>
-                    <div class="particle quarks up rgb"></div>
+                    <div class="resource particle quark up rgb"></div>
                     <span></span>
                 </currency-display>
                 <currency-display design="rgb" name="quarks-down-red,quarks-down-green,quarks-down-blue" field-id="quark-field">
@@ -261,27 +267,27 @@
                         <translated-string class="title">ui.footer.quarks.down.name</translated-string>
                         <div class="currency-list">
                             <currency-display design="green" name="quarks-down-green">
-                                <div class="particle quarks down green"></div>
+                                <div class="resource particle quark down green"></div>
                                 <span></span>
                             </currency-display>
                             <currency-display design="blue" name="quarks-down-blue">
-                                <div class="particle quarks down blue"></div>
+                                <div class="resource particle quark down blue"></div>
                                 <span></span>
                             </currency-display>
                             <currency-display design="red" name="quarks-down-red">
-                                <div class="particle quarks down red"></div>
+                                <div class="resource particle quark down red"></div>
                                 <span></span>
                             </currency-display>
                         </div>
                     </tool-tip>
-                    <div class="particle quarks down rgb"></div>
+                    <div class="resource particle quark down rgb"></div>
                     <span></span>
                 </currency-display>
                 <currency-display design="electron" name="leptons-electron" field-id="electron-field">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.leptons.electron.name</translated-string>
                     </tool-tip>
-                    <div class="particle electron"></div>
+                    <div class="resource particle electron"></div>
                     <span></span>
                 </currency-display>
             </div>
@@ -292,20 +298,20 @@
                         <translated-string class="title">ui.footer.quarks.strange.name</translated-string>
                         <div class="currency-list">
                             <currency-display design="green" name="quarks-strange-green">
-                                <div class="particle quarks strange green"></div>
+                                <div class="resource particle quark strange green"></div>
                                 <span></span>
                             </currency-display>
                             <currency-display design="blue" name="quarks-strange-blue">
-                                <div class="particle quarks strange blue"></div>
+                                <div class="resource particle quark strange blue"></div>
                                 <span></span>
                             </currency-display>
                             <currency-display design="red" name="quarks-strange-red">
-                                <div class="particle quarks strange red"></div>
+                                <div class="resource particle quark strange red"></div>
                                 <span></span>
                             </currency-display>
                         </div>
                     </tool-tip>
-                    <div class="particle quarks strange rgb"></div>
+                    <div class="resource particle quark strange rgb"></div>
                     <span></span>
                 </currency-display>
                 <currency-display design="rgb" name="quarks-charm-red,quarks-charm-green,quarks-charm-blue" field-id="quark-field">
@@ -313,27 +319,27 @@
                         <translated-string class="title">ui.footer.quarks.charm.name</translated-string>
                         <div class="currency-list">
                             <currency-display design="green" name="quarks-charm-green">
-                                <div class="particle quarks charm green"></div>
+                                <div class="resource particle quark charm green"></div>
                                 <span></span>
                             </currency-display>
                             <currency-display design="blue" name="quarks-charm-blue">
-                                <div class="particle quarks charm blue"></div>
+                                <div class="resource particle quark charm blue"></div>
                                 <span></span>
                             </currency-display>
                             <currency-display design="red" name="quarks-charm-red">
-                                <div class="particle quarks charm red"></div>
+                                <div class="resource particle quark charm red"></div>
                                 <span></span>
                             </currency-display>
                         </div>
                     </tool-tip>
-                    <div class="particle quarks charm rgb"></div>
+                    <div class="resource particle quark charm rgb"></div>
                     <span></span>
                 </currency-display>
                 <currency-display design="muon" name="leptons-muon" field-id="electron-field">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.leptons.muon.name</translated-string>
                     </tool-tip>
-                    <div class="particle muon"></div>
+                    <div class="resource particle muon"></div>
                     <span></span>
                 </currency-display>
             </div>
@@ -344,20 +350,20 @@
                         <translated-string class="title">ui.footer.quarks.top.name</translated-string>
                         <div class="currency-list">
                             <currency-display design="green" name="quarks-top-green">
-                                <div class="particle quarks top green"></div>
+                                <div class="resource particle quark top green"></div>
                                 <span></span>
                             </currency-display>
                             <currency-display design="blue" name="quarks-top-blue">
-                                <div class="particle quarks top blue"></div>
+                                <div class="resource particle quark top blue"></div>
                                 <span></span>
                             </currency-display>
                             <currency-display design="red" name="quarks-top-red">
-                                <div class="particle quarks top red"></div>
+                                <div class="resource particle quark top red"></div>
                                 <span></span>
                             </currency-display>
                         </div>
                     </tool-tip>
-                    <div class="particle quarks top rgb"></div>
+                    <div class="resource particle quark top rgb"></div>
                     <span></span>
                 </currency-display>
                 <currency-display design="rgb" name="quarks-bottom-red,quarks-bottom-green,quarks-bottom-blue" field-id="quark-field">
@@ -365,27 +371,27 @@
                         <translated-string class="title">ui.footer.quarks.bottom.name</translated-string>
                         <div class="currency-list">
                             <currency-display design="green" name="quarks-bottom-green">
-                                <div class="particle quarks bottom green"></div>
+                                <div class="resource particle quark bottom green"></div>
                                 <span></span>
                             </currency-display>
                             <currency-display design="blue" name="quarks-bottom-blue">
-                                <div class="particle quarks bottom blue"></div>
+                                <div class="resource particle quark bottom blue"></div>
                                 <span></span>
                             </currency-display>
                             <currency-display design="red" name="quarks-bottom-red">
-                                <div class="particle quarks bottom red"></div>
+                                <div class="resource particle quark bottom red"></div>
                                 <span></span>
                             </currency-display>
                         </div>
                     </tool-tip>
-                    <div class="particle quarks bottom rgb"></div>
+                    <div class="resource particle quark bottom rgb"></div>
                     <span></span>
                 </currency-display>
                 <currency-display design="tau" name="leptons-tau" field-id="electron-field">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.leptons.tau.name</translated-string>
                     </tool-tip>
-                    <div class="particle tau"></div>
+                    <div class="resource particle tau"></div>
                     <span></span>
                 </currency-display>
             </div>
@@ -393,50 +399,50 @@
         <div class="secondary bosons">
             <translated-string class="currency-section-title">ui.footer.bosons.name</translated-string>
             <div class="currency-section">
-                <currency-display design="gluon">
+                <currency-display design="gluon" name="gluons">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.gluon.name</translated-string>
                     </tool-tip>
-                    <div class="particle quarks top rgb"></div>
+                    <div class="resource particle quark top rgb"></div>
                     <span></span>
                 </currency-display>
-                <currency-display design="photon">
+                <currency-display design="photon" name="photons">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.photon.name</translated-string>
                     </tool-tip>
-                    <div class="particle quarks top rgb"></div>
+                    <div class="resource particle quark top rgb"></div>
                     <span></span>
                 </currency-display>
             </div>
             <div class="currency-section">
-                <currency-display design="w-plus-boson">
+                <currency-display design="w-plus-boson" name="w-plus-bosons">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.w_plus.name</translated-string>
                     </tool-tip>
-                    <div class="particle quarks top rgb"></div>
+                    <div class="resource particle quark top rgb"></div>
                     <span></span>
                 </currency-display>
-                <currency-display design="w-minus-boson">
+                <currency-display design="w-minus-boson" name="w-minus-bosons">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.w_minus.name</translated-string>
                     </tool-tip>
-                    <div class="particle quarks top rgb"></div>
+                    <div class="resource particle quark top rgb"></div>
                     <span></span>
                 </currency-display>
-                <currency-display design="z-boson">
+                <currency-display design="z-boson" name="z-bosons">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.z.name</translated-string>
                     </tool-tip>
-                    <div class="particle quarks top rgb"></div>
+                    <div class="resource particle quark top rgb"></div>
                     <span></span>
                 </currency-display>
             </div>
             <div class="currency-section">
-                <currency-display design="higgs">
+                <currency-display design="higgs" name="higgs-bosons">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.higgs.name</translated-string>
                     </tool-tip>
-                    <div class="particle quarks top rgb"></div>
+                    <div class="resource particle quark top rgb"></div>
                     <span></span>
                 </currency-display>
             </div>

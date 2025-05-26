@@ -136,6 +136,7 @@
                 "energy": "Energy",
                 "fields": "Fields",
                 "forces": "Forces",
+                "hadrons": "Hadrons",
                 "mass": "Mass"
             },
             "fields": {
