@@ -1,16 +1,13 @@
 
 import { BigNumber } from "bignumber.js"
+import { Numbers } from "../../../numbers/numbers";
 import { Currencies } from "../Currencies";
-import { InferredCurrencies } from "../../ui/InferredCurrencies";
-import { Numbers } from "../../numbers/numbers";
 
 export class Energy {
     private static amount = BigNumber(0);
 
-    public static initialize() {
-    }
-
     public static getFormatted(): string {
+        this.amount = BigNumber(Currencies.get("leptons-electron").amount.multipliedBy(511000));
         let suffix = "";
         let divisor = 1;
 
@@ -38,12 +35,7 @@ export class Energy {
         return this.amount.dividedBy(1000000).dividedBy(divisor).toFixed(1) + suffix;
     }
 
-    public static get(): BigNumber {
+    public static getAmount(): BigNumber {
         return this.amount;
-    }
-
-    public static update() {
-        this.amount = BigNumber(Currencies.get("leptons-electron").amount.multipliedBy(511000));
-        InferredCurrencies.update("energy", this.getFormatted());
     }
 }

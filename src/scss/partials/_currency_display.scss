@@ -23,6 +23,23 @@ currency-display {
         font-family: var(--font-mono);
     }
 
+    &[design="plain"] {
+        background-color: transparent;
+        box-shadow: none;
+        cursor: default;
+        margin: 0;
+        padding: 0;
+
+        > span {
+            font-family: var(--font-primary);
+        }
+
+        &::before,
+        &::after {
+            display: none;
+        }
+    }
+
     &.hidden {
         opacity: 0;
     }

@@ -1,4 +1,4 @@
-import { Currencies } from "../../game_logic/Currencies"
+import { Currencies } from "../../game_logic/currencies/Currencies"
 import { Numbers } from "../../numbers/numbers";
 import { BigNumber } from "bignumber.js"
 import { QuantumFieldElement } from "./QuantumFieldElement";
@@ -6,6 +6,7 @@ import { QuantumFieldElement } from "./QuantumFieldElement";
 export class CurrencyElement extends HTMLElement {
     private currencies: string[] = [];
     private element: HTMLSpanElement;
+    private inferred: boolean;
 
     constructor() {
         super();
@@ -14,6 +15,7 @@ export class CurrencyElement extends HTMLElement {
     connectedCallback() {
         let name = this.getAttribute("name");
         this.element = this.querySelector(":scope > span");
+        this.inferred = this.hasAttribute("inferred");
 
         let field = this.getAttribute("field-id");
         if (field) {
@@ -30,13 +32,17 @@ export class CurrencyElement extends HTMLElement {
 
             function update() {
                 let amount = new BigNumber(0);
-                for (let c of self.currencies) {
-                    let found = Currencies.get(c);
-                    if (found) {
-                        amount = amount.plus(found.amount);
+                if (self.inferred) {
+                    self.element.innerText = Currencies.getInferred(self.currencies[0]).handler.getFormatted();
+                } else {
+                    for (let c of self.currencies) {
+                        let found = Currencies.get(c);
+                        if (found) {
+                            amount = amount.plus(found.amount);
+                        }
                     }
+                    self.element.innerText = Numbers.getFormatted(amount);
                 }
-                self.element.innerText = Numbers.getFormatted(amount);
                 window.requestAnimationFrame(update);
             }
 

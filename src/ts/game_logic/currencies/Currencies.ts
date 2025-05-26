@@ -1,13 +1,19 @@
 import { BigNumber } from "bignumber.js"
-import { WaveParticleInfo } from "../ui/Wave";
-import { Numbers } from "../numbers/numbers";
+import { WaveParticleInfo } from "../../ui/Wave";
+import { Numbers } from "../../numbers/numbers";
+import { InferredCurrency as InferredCurrencyClass } from "./InferredCurrency";
 
 export class Currencies {
     private static currencies: Currency[] = [];
+    private static inferredCurrencies: InferredCurrency[] = [];
     public static container: HTMLElement;
 
     public static register(className: string, hash: string) {
         this.currencies.push({ className, amount: new BigNumber(0), hash });
+    }
+
+    public static registerInferred(hash: string, handler: InferredCurrencyClass) {
+        this.inferredCurrencies.push({ hash, handler });
     }
 
     public static initialize(id: string = "resource-gain-container") {
@@ -49,7 +55,7 @@ export class Currencies {
 
         this.register("particle gluon", "gluons");
         this.register("particle photon", "photons");
-        this.register("particle z-boson", "z-bosons");
+        this.register("particle z-boson", "bosons-z");
         this.register("particle w-plus-boson", "bosons-w-plus");
         this.register("particle w-minus-boson", "bosons-w-minus");
         this.register("particle higgs-boson", "bosons-higgs");
@@ -79,7 +85,11 @@ export class Currencies {
     }
 
     public static get(hash: string) {
-        return this.currencies.find(r => r.hash === hash);
+        return this.currencies.find(c => c.hash === hash);
+    }
+
+    public static getInferred(hash: string) {
+        return this.inferredCurrencies.find(c => c.hash === hash);
     }
 
     public static getFromQuantumField(particle: WaveParticleInfo): string {
@@ -115,4 +125,9 @@ export interface Currency {
     amount: BigNumber;
     className: string;
     hash: string;
+}
+
+export interface InferredCurrency {
+    hash: string;
+    handler: InferredCurrencyClass;
 }

@@ -117,7 +117,7 @@
     <nav class="sub-tabs">
         <span data-tab="energy" class="active">
             <tool-tip center orientation="bottom">
-                <span class="amount" id="electronvolt-amount-tooltip"></span>
+                <currency-display design="plain" name="energy" inferred><span></span></currency-display>
             </tool-tip>
             <translated-string>systems.quantum.tabs.energy</translated-string>
         </span>
@@ -147,7 +147,9 @@
     <section class="tab active" data-tab="energy">
         <div class="counter">
             <div class="energy-amount">
-                <span class="amount" id="electronvolt-amount"></span>
+                <div class="amount">
+                    <currency-display design="plain" name="energy" inferred><span></span></currency-display>
+                </div>
                 <span class="description">
                     <div class="resource particle electron"></div>
                     <translated-string>systems.quantum.energy.description</translated-string>
@@ -193,8 +195,7 @@
             <div class="field-surface"></div>
             <!--<div class="field" data-flavor="tau" data-color-start="#999944" data-color-end="#999977" data-color-glow="#999900"></div>
             <div class="field" data-flavor="muon" data-color-start="#cccc77" data-color-end="#ccccaa" data-color-glow="#cccc00"></div>-->
-            <div class="field" data-flavor="electron" data-color-start="#ffffaa" data-color-end="#ffffDD"
-                data-color-glow="#ffff00"></div>
+            <div class="field" data-flavor="electron" data-color-start="#ffffaa" data-color-end="#ffffDD" data-color-glow="#ffff00"></div>
         </quantum-field>
         <quantum-field id="quark-field" type="quark" delay="700" all="true" all-type="quark" all-color="rgb" index="2">
             <div class="field-label rgb">

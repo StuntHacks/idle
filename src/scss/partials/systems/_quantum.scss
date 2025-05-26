@@ -37,14 +37,17 @@
         [data-tab="energy"] {
             tool-tip {
                 padding: 10px 5px;
+                flex-direction: column;
+                align-items: center;
 
-                span {
+                currency-display[name="energy"] {
                     background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
                     text-shadow: 0px 0px 10px #fbff00b0;
                     color: transparent;
                     background-clip: text;
                     font-weight: 600;
                     font-size: 20px;
+                    justify-content: center;
                 }
             }
         }
@@ -69,13 +72,19 @@
                 justify-content: center;
 
                 .amount {
-                    font-size: 80px;
-                    font-weight: 600;
-                    background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
-                    text-shadow: 0px 0px 10px #fbff00b0;
-                    color: transparent;
-                    background-clip: text;
-                    padding: 0 30px;
+                    display: inline-block;
+                    width: 100%;
+
+                    currency-display {
+                        width: 100%;
+                        font-size: 80px;
+                        font-weight: 600;
+                        background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
+                        text-shadow: 0px 0px 10px #fbff00b0;
+                        color: transparent;
+                        background-clip: text;
+                        padding: 0 30px;
+                    }
                 }
             }
 

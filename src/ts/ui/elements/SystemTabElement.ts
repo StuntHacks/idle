@@ -1,4 +1,4 @@
-import { Currencies } from "../../game_logic/Currencies"
+import { Currencies } from "../../game_logic/currencies/Currencies"
 import { Numbers } from "../../numbers/numbers";
 import { BigNumber } from "bignumber.js"
 

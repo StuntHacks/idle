@@ -1,5 +1,3 @@
-import { InferredCurrencies } from "./InferredCurrencies";
-
 export class UI {
     public static saveIndicator: HTMLElement;
     public static mouseDown: boolean = false;
@@ -12,9 +10,6 @@ export class UI {
         window.addEventListener("mousedown", UI.updateMouseState);
         window.addEventListener("mousemove", UI.updateMouseState);
         window.addEventListener("mouseup", UI.updateMouseState);
-
-        InferredCurrencies.register("energy", document.getElementById("electronvolt-amount"));
-        InferredCurrencies.register("energy", document.getElementById("electronvolt-amount-tooltip"));
     }
 
     private static updateMouseState(e: MouseEvent) {

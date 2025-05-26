@@ -1,11 +1,15 @@
-import { Energy } from "./inferred_currencies/Energy";
+import { Currencies } from "./currencies/Currencies";
+import { Energy } from "./currencies/inferred/Energy";
 
 export class Game {
+    public static initialize() {
+        Currencies.registerInferred("energy", Energy);
+    }
+
     public static update() {
         let self = this;
 
         const loop = () => {
-            Energy.update();
             window.requestAnimationFrame(loop);
         }
 

@@ -10,7 +10,7 @@ import { ToolTip } from "./ui/elements/ToolTip";
 import { ResourceGainElement } from "./ui/elements/ResourceGainElement";
 import { BigNumber } from "bignumber.js"
 import { UI } from "./ui/UI";
-import { Currencies } from "./game_logic/Currencies";
+import { Currencies } from "./game_logic/currencies/Currencies";
 import { Translator } from "./i18n/i18n";
 import { SystemTabElement } from "./ui/elements/SystemTabElement";
 import { Game } from "./game_logic/Game";
@@ -32,7 +32,6 @@ export const main = () => {
         fields[i].addEventListener("ripple", function (e: CustomEventInit<RippleEvent>) {
             if (JSON.stringify(e.detail.particle)) {
                 let hash = Currencies.getFromQuantumField(e.detail.particle);
-                console.log(hash);
                 let amount = new BigNumber(1);
                 Currencies.gain(hash, amount);
                 Currencies.spawnGainElement(hash, amount, e.detail.x - (Math.floor(Math.random() * 20) - 10), e.detail.y);
@@ -45,6 +44,7 @@ export const main = () => {
     Translator.initialize();
     Currencies.initialize();
     UI.initialize();
+    Game.initialize();
 
     customElements.define("translated-string", TranslatedElement);
     customElements.define("quantum-field", QuantumFieldElement);

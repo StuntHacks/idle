@@ -43,7 +43,7 @@ nav.main-nav {
         justify-content: center;
         transition: background-color 150ms;
 
-        &:not(.disabled):not(.locked) {
+        &:not(.disabled) {
             cursor: pointer;
 
             &:hover {
