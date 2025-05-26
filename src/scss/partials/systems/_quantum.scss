@@ -6,6 +6,20 @@
         height: 100%;;
         justify-content: center;
         user-select: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        quantum-field {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            .field-surface {
+                position: relative;
+            }
+        }
     }
 
     canvas {
@@ -171,6 +185,22 @@
                 .particle {
                     margin-right: 10px;
                 }
+            }
+        }
+    }
+
+    #neutrino-field canvas {
+        mask-image: linear-gradient(to right, #000a, transparent, transparent, #000a);
+        mask-size: 200px;
+        animation: animate 1s linear infinite;
+
+        @keyframes animate {
+            from {
+                mask-position: 0px 0;
+            }
+
+            to {
+                mask-position: 200px 0;
             }
         }
     }

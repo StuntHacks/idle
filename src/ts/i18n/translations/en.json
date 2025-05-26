@@ -150,6 +150,10 @@
                 "gluon": {
                     "name": "Gluon Field",
                     "description": "The gluon field produces gluons, which are needed in order to confine quarks into hadrons"
+                },
+                "neutrino": {
+                    "name": "Neutrino Field",
+                    "description": ""
                 }
             },
             "energy": {

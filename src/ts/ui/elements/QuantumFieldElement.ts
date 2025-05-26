@@ -25,11 +25,13 @@ export class QuantumFieldElement extends HTMLElement {
         this.tabContainer = this.closest("system-tab") as HTMLElement;
 
         const amount = parseInt(this.parentElement.getAttribute("data-fields"));
-        const offset = (this.parentElement.clientHeight / (amount + 1)) * parseInt(this.getAttribute("index"));
+        this.surface = this.getElementsByClassName("field-surface")[0] as HTMLDivElement;
+        let rect = this.surface.getBoundingClientRect();
+        const offset = rect.y + (rect.height / 2) - 130;
         let width = 3;
 
         const getNextDrop = (): number => {
-            if (this.all && this.allCounter > 5) {
+            if (this.all && this.allCounter > 3) {
                 if (Math.random() < 0.1) {
                     this.allCounter = 0;
                     return -1;
@@ -41,6 +43,7 @@ export class QuantumFieldElement extends HTMLElement {
 
         const handleClick = (timestamp: number) => {
             let rect = this.surface.getBoundingClientRect();
+
             if (UI.mouseDown && UI.mouseY >= rect.y && UI.mouseY <= rect.bottom) {
                 if (this.tabContainer.querySelector(".tab.active") === null) {
                     let now = performance.now();
@@ -81,9 +84,6 @@ export class QuantumFieldElement extends HTMLElement {
             window.requestAnimationFrame(handleClick);
         }
 
-        this.surface = this.getElementsByClassName("field-surface")[0] as HTMLDivElement;
-        this.surface.style.top = (offset - 40) + "px";
-
         this.surface.addEventListener("mouseenter", (e: MouseEvent) => {
             for (let wave of this.waves) {
                 if (!wave.isHovered()) {
@@ -99,8 +99,6 @@ export class QuantumFieldElement extends HTMLElement {
         });
 
         window.requestAnimationFrame(handleClick);
-
-        (this.getElementsByClassName("field-label")[0] as HTMLDivElement).style.top = (offset - 60) + "px";
 
         this.delay = parseInt(this.getAttribute("delay"));
         this.type = this.getAttribute("type") as "thick" | "triple" | null;

@@ -33,8 +33,11 @@ export class Wave {
     }
 
     private handleResize() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = this.config.height;
+        let parent = this.canvas.parentElement;
+        this.canvas.width = parent.clientWidth;
+        this.canvas.height = parent.parentElement.clientHeight;
+        let rect = parent.querySelector(".field-surface").getBoundingClientRect();
+        this.config.offset = rect.y + (rect.height / 2) - 130;
     }
 
     public setConfig(config: WaveConfig) {

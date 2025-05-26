@@ -6,6 +6,7 @@ quantum-field {
         border-radius: 0 5px 0 0;
         box-shadow: 0 0 8px 0px #000;
         text-shadow: 1px 1px 4px rgba(0, 0, 0, 255);
+        margin-top: -90px;
         z-index: 1001;
 
         &.rgb {
@@ -25,6 +26,10 @@ quantum-field {
 
         &.higgs {
             background: linear-gradient(80deg, #998800 0%, #bb9900 100%);
+        }
+
+        &.neutrino {
+            background: linear-gradient(80deg, #b9b744 0%, #adad8b 50%, #b9b744 100%);
         }
     }
 
