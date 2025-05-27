@@ -22,11 +22,11 @@ export class QuantumFieldElement extends HTMLElement {
         this.waves.forEach(wave => { wave.ripple(x, strength, speed, decay) });
     }
 
-    ripple(x: number) {
-        this.handleClick(0, true, x);
+    ripple(x: number, delay: number = undefined) {
+        this.handleClick(0, true, x, delay);
     }
 
-    private handleClick = (timestamp: number, force: boolean = false, x: number = 0) => {
+    private handleClick = (timestamp: number, force: boolean = false, x: number = 0, delay: number = undefined) => {
         let rect = this.surface.getBoundingClientRect();
 
         const getNextDrop = (): number => {
@@ -43,15 +43,17 @@ export class QuantumFieldElement extends HTMLElement {
         if ((UI.mouseDown && UI.mouseY >= rect.y && UI.mouseY <= rect.bottom) || force) {
             if (this.tabContainer.querySelector(".tab.active") === null) {
                 let now = performance.now();
+                let d = delay ? delay : this.delay;
+                if ((now - this.lastClick) < d) {
+                    window.requestAnimationFrame(this.handleClick);
+                    return;
+                }
+
                 let data = {
                     x: force ? x : UI.mouseX,
                     y: 130 + this.surface.offsetTop,
                     particle: undefined as WaveParticleInfo
                 };
-                if ((now - this.lastClick) < this.delay) {
-                    window.requestAnimationFrame(this.handleClick);
-                    return;
-                }
                 this.lastClick = now;
                 this.allCounter++;
 
@@ -74,7 +76,6 @@ export class QuantumFieldElement extends HTMLElement {
                     }
                 }
 
-                console.log("rippling")
                 this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x: data.x, y: data.y, particle: data.particle } }));
             }
         }
