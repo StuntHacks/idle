@@ -53,12 +53,12 @@ export class Currencies {
         this.register("particle quark bottom blue", "quarks-bottom-blue");
         this.register("particle quark bottom rgb", "quarks-bottom-rgb");
 
-        this.register("particle gluon", "gluons");
-        this.register("particle photon", "photons");
-        this.register("particle z-boson", "bosons-z");
-        this.register("particle w-plus-boson", "bosons-w-plus");
-        this.register("particle w-minus-boson", "bosons-w-minus");
-        this.register("particle higgs-boson", "bosons-higgs");
+        this.register("particle boson gluon", "gluons");
+        this.register("particle boson photon", "photons");
+        this.register("particle boson z", "bosons-z");
+        this.register("particle boson w-plus", "bosons-w-plus");
+        this.register("particle boson w-minus", "bosons-w-minus");
+        this.register("particle boson higgs", "bosons-higgs");
     }
 
     public static spawnGainElement(hash: string, amount: BigNumber, x: number, y: number) {

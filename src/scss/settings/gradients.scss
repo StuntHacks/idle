@@ -1,0 +1,65 @@
+:root {
+    --gradient-direction: 45deg;
+    --gradient-direction-reverse: 225deg;
+}
+
+$color-electron-gradient-start: #fbff00;
+$color-electron-gradient-mid: #b1ae08;
+$color-electron-gradient-end: #8d8b00;
+$gradient-electron: linear-gradient(var(--gradient-direction), $color-electron-gradient-start 0%, $color-electron-gradient-mid 50%, $color-electron-gradient-end 100%);
+
+$color-muon-gradient-start: #c4c700;
+$color-muon-gradient-mid: #a19f00;
+$color-muon-gradient-end: #6b6900;
+$gradient-muon: linear-gradient(var(--gradient-direction), $color-muon-gradient-start 0%, $color-muon-gradient-mid 50%, $color-muon-gradient-end 100%);
+
+$color-tau-gradient-start: #7d8000;
+$color-tau-gradient-mid: #6d6b01;
+$color-tau-gradient-end: #424100;
+$gradient-tau: linear-gradient(var(--gradient-direction), $color-tau-gradient-start 0%, $color-tau-gradient-mid 50%, $color-tau-gradient-end 100%);
+
+$color-neutrino-gradient-start: #b9b744;
+$color-neutrino-gradient-mid: #adad8b;
+$color-neutrino-gradient-end: #b9b744;
+$gradient-neutrino: linear-gradient(var(--gradient-direction), $color-neutrino-gradient-start 0%, $color-neutrino-gradient-mid 50%, $color-neutrino-gradient-end 100%);
+
+$color-quark-rgb-gradient-start: #ff1c1c;
+$color-quark-rgb-gradient-mid: #0099da;
+$color-quark-rgb-gradient-end: #00ff37;
+$gradient-quark-rgb: linear-gradient(var(--gradient-direction-reverse), $color-quark-rgb-gradient-start 0%, $color-quark-rgb-gradient-mid 50%, $color-quark-rgb-gradient-end 100%);$gradient-quark-rgb-repeating: linear-gradient(var(--gradient-direction-reverse), $color-quark-rgb-gradient-start 0%, $color-quark-rgb-gradient-mid 33%, $color-quark-rgb-gradient-end 66%, $color-quark-rgb-gradient-start 100%);
+
+$color-quark-red-gradient-start: #8f0000;
+$color-quark-red-gradient-mid: #ac3333;
+$color-quark-red-gradient-end: #ff71c2;
+$gradient-quark-red: linear-gradient(var(--gradient-direction-reverse), $color-quark-red-gradient-start 0%, $color-quark-red-gradient-mid 50%, $color-quark-red-gradient-end 100%);
+
+$color-quark-green-gradient-start: #00a329;
+$color-quark-green-gradient-mid: #13b677;
+$color-quark-green-gradient-end: #00ffd9;
+$gradient-quark-green: linear-gradient(var(--gradient-direction-reverse), $color-quark-green-gradient-start 0%, $color-quark-green-gradient-mid 50%, $color-quark-green-gradient-end 100%);
+
+$color-quark-blue-gradient-start: #2323b9;
+$color-quark-blue-gradient-mid: #0099da;
+$color-quark-blue-gradient-end: #00d4ff;
+$gradient-quark-blue: linear-gradient(var(--gradient-direction-reverse), $color-quark-blue-gradient-start 0%, $color-quark-blue-gradient-mid 50%, $color-quark-blue-gradient-end 100%);
+
+$color-gluon-gradient-start: #00aabb;
+$color-gluon-gradient-mid: #00daab;
+$color-gluon-gradient-end: #00ff44;
+$gradient-gluon: linear-gradient(var(--gradient-direction), $color-gluon-gradient-start 0%, $color-gluon-gradient-mid 50%, $color-gluon-gradient-end 100%);
+
+$color-photon-gradient-start: #bbbb77;
+$color-photon-gradient-mid: #ffffff;
+$color-photon-gradient-end: #bbbb77;
+$gradient-photon: linear-gradient(90deg, $color-photon-gradient-start 0%, $color-photon-gradient-mid 50%, $color-photon-gradient-end 100%);
+
+$color-weak-gradient-start: #aaaaaa;
+$color-weak-gradient-mid: #b9b9b9;
+$color-weak-gradient-end: #dddddd;
+$gradient-weak: linear-gradient(var(--gradient-direction), $color-weak-gradient-start 0%, $color-weak-gradient-mid 50%, $color-weak-gradient-end 100%);
+
+$color-higgs-gradient-start: #7c6500;
+$color-higgs-gradient-mid: #998800;
+$color-higgs-gradient-end: #bb9900;
+$gradient-higgs: linear-gradient(var(--gradient-direction), $color-higgs-gradient-start 0%, $color-higgs-gradient-mid 50%, $color-higgs-gradient-end 100%);
+

@@ -1,3 +1,5 @@
+@import "../settings/gradients.scss";
+
 currency-display {
     display: flex;
     background-color: $color-black;
@@ -87,56 +89,53 @@ currency-display {
     }
 
     &[design="rgb"]::before {
-        --start-color: rgb(255 28 28);
-        --mid-color: rgb(0, 153, 218);
-        --end-color: rgb(0, 255, 55);
-        background: linear-gradient(225deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
+        background: $gradient-quark-rgb;
     }
 
     &[design="red"]::before {
-        background: linear-gradient(225deg, rgb(143, 0, 0) 0%, rgb(255, 113, 194) 100%);
+        background: $gradient-quark-red;
     }
 
     &[design="green"]::before {
-        background: linear-gradient(225deg, rgba(0, 163, 41, 1) 0%, rgba(0, 255, 217, 1) 100%);
+        background: $gradient-quark-green;
     }
 
     &[design="blue"]::before {
-        background: linear-gradient(225deg, rgb(35, 35, 185) 0%, rgba(0, 212, 255, 1) 100%);
+        background: $gradient-quark-blue;
     }
 
     &[design="electron"]::before {
-        background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
+        background: $gradient-electron;
     }
 
     &[design="muon"]::before {
-        background: linear-gradient(80deg, #c4c700 0%, #6b6900 100%);
+        background: $gradient-muon;
     }
 
     &[design="tau"]::before {
-        background: linear-gradient(80deg, #7d8000 0%, #424100 100%);
+        background: $gradient-tau;
     }
 
     &[design="gluon"]::before {
-        background: linear-gradient(80deg, #00aabb 0%, #00ff44 100%);
+        background: $gradient-gluon;
     }
 
     &[design="z-boson"],
     &[design="w-plus-boson"],
     &[design="w-minus-boson"] {
         &::before {
-            background: linear-gradient(80deg, #aaaaaa 0%, #dddddd 100%);
+        background: $gradient-weak;
         }
     }
 
     &[design="higgs"]::before {
-        background: linear-gradient(80deg, #998800 0%, #bb9900 100%);
+        background: $gradient-higgs;
     }
 
     &[design="photon"] {
         animation: animate-currency-shadow 4s linear infinite;
         &::before {
-            background: linear-gradient(80deg, #bbbb77 0%, #ffffff 50%, #bbbb77 100%);
+            background: $gradient-photon;
             animation: animate-currency 2s linear infinite;
 
             @keyframes animate-currency {

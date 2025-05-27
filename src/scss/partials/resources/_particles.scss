@@ -1,3 +1,5 @@
+@import "../../settings/gradients.scss";
+
 .resource.particle {
     --size: 25px;
     --glow: rgba(0, 0, 0, 0.75);
@@ -18,7 +20,7 @@
 
     &.electron {
         border-radius: 100%;
-        background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
+        background: $gradient-electron;
         --glow: #fbff00b0;
 
         &::before {
@@ -29,7 +31,7 @@
 
     &.muon {
         border-radius: 100%;
-        background: linear-gradient(80deg, #c4c700 0%, #6b6900 100%);
+        background: $gradient-muon;
         --glow: #c4c700b0;
 
         &::before {
@@ -40,7 +42,7 @@
 
     &.tau {
         border-radius: 100%;
-        background: linear-gradient(80deg, #7d8000 0%, #424100 100%);
+        background: $gradient-tau;
         --glow: #7d8000b0;
 
         &::before {
@@ -60,6 +62,32 @@
         }
     }
 
+    &.boson {
+        &.gluon {
+
+        }
+
+        &.photon {
+            
+        }
+
+        &.gluzon {
+            
+        }
+
+        &.w-plus {
+            
+        }
+
+        &.w-minus {
+            
+        }
+
+        &.higgs {
+            
+        }
+    }
+
     &.quark {
         &::before {
             //font-family: "Cantata One", serif;
@@ -70,7 +98,9 @@
             border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
             border: 0;
             transform: rotate(-45deg);
-            background: linear-gradient(304deg, var(--start-color) 0%, var(--end-color) 100%);
+            background: $gradient-quark-rgb;
+            --gradient-direction: 90deg;
+            --gradient-direction-reverse: 270deg;
         }
 
         &.up {
@@ -82,7 +112,8 @@
 
         &.down {
             transform: translateY(-2.5px) rotate(-225deg);
-            background: linear-gradient(124deg, var(--start-color) 0%, var(--end-color) 100%);
+            --gradient-direction: 270deg;
+            --gradient-direction-reverse: 90deg;
 
             &::before {
                 content: "d";
@@ -92,7 +123,9 @@
 
         &.top,
         &.bottom {
-            background: linear-gradient(270deg, var(--start-color) 0%, var(--end-color) 100%);
+            background: $gradient-quark-rgb;
+            --gradient-direction: 45deg;
+            --gradient-direction-reverse: 225deg;
             border-radius: 35% 35% 100% 100%;
         }
 
@@ -105,7 +138,8 @@
 
         &.bottom {
             transform: rotate(180deg);
-            background: linear-gradient(90deg, var(--start-color) 0%, var(--end-color) 100%);
+            --gradient-direction: 225deg;
+            --gradient-direction-reverse: 45deg;
 
             &::before {
                 content: "b";
@@ -115,7 +149,9 @@
 
         &.charm,
         &.strange {
-            background: linear-gradient(270deg, var(--start-color) 0%, var(--end-color) 100%);
+            background: $gradient-quark-rgb;
+            --gradient-direction: 60deg;
+            --gradient-direction-reverse: 240deg;
             border-radius: 10% 50% 10% 50%;
         }
 
@@ -136,49 +172,18 @@
         }
 
         &.blue {
-            --start-color: rgb(35, 35, 185);
-            --end-color: rgba(0, 212, 255, 1);
+            background: $gradient-quark-blue;
             --glow: #0cfb;
         }
 
         &.red {
-            --start-color: rgb(143, 0, 0);
-            --end-color: rgb(255, 113, 194);
+            background: $gradient-quark-red;
             --glow: #f00b;
         }
 
         &.green {
-            --start-color: rgba(0, 163, 41, 1);
-            --end-color: rgba(0, 255, 217, 1);
+            background: $gradient-quark-green;
             --glow: #0f0b;
-        }
-
-        &.rgb {
-            --start-color: rgb(255 28 28);
-            --mid-color: rgb(0, 153, 218);
-            --end-color: rgb(0, 255, 55);
-            --glow: #fff9;
-
-            &.up {
-                background: linear-gradient(275deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
-            }
-
-            &.down {
-                background: linear-gradient(95deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
-            }
-
-            &.top {
-                background: linear-gradient(225deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
-            }
-
-            &.bottom {
-                background: linear-gradient(45deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
-            }
-
-            &.charm,
-            &.strange {
-                background: linear-gradient(225deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
-            }
         }
     }
 }

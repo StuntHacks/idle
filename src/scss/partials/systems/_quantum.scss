@@ -1,4 +1,5 @@
 @import "../../helpers.scss";
+@import "../../settings/gradients.scss";
 
 #tab-quantum {
     .fields {
@@ -41,7 +42,7 @@
                 align-items: center;
 
                 currency-display[name="energy"] {
-                    background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
+                    background: $gradient-electron;
                     text-shadow: 0px 0px 10px #fbff00b0;
                     color: transparent;
                     background-clip: text;
@@ -79,7 +80,7 @@
                         width: 100%;
                         font-size: 80px;
                         font-weight: 600;
-                        background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
+                        background: $gradient-electron;
                         text-shadow: 0px 0px 10px #fbff00b0;
                         color: transparent;
                         background-clip: text;
@@ -141,22 +142,19 @@
                     }
 
                     &.quark {
-                        --start-color: rgb(255 28 28);
-                        --mid-color: rgb(0, 153, 218);
-                        --end-color: rgb(0, 255, 55);
-                        background: linear-gradient(225deg, var(--start-color) 0%, var(--mid-color) 52%, var(--end-color) 100%);
+                        background: $gradient-quark-rgb;
                     }
 
                     &.electron {
-                        background: linear-gradient(80deg, #fbff00 0%, #8d8b00 100%);
+                        background: $gradient-electron;
                     }
 
                     &.gluon {
-                        background: linear-gradient(80deg, #00aabb 0%, #00ff44 100%);
+                        background: $gradient-gluon;
                     }
 
                     &.higgs {
-                        background: linear-gradient(80deg, #998800 0%, #bb9900 100%);
+                        background: $gradient-higgs;
                     }
 
                     .field {
