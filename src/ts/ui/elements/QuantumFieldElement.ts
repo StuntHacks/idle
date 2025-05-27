@@ -130,6 +130,7 @@ export class QuantumFieldElement extends HTMLElement {
                 type: field.getAttribute("data-type") || this.getAttribute("type"),
                 flavor: field.getAttribute("data-flavor") || this.getAttribute("flavor"),
                 color: field.getAttribute("data-color") || this.getAttribute("color"),
+                all: false,
             };
 
             this.particles.push(p);

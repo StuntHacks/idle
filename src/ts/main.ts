@@ -31,10 +31,22 @@ export const main = () => {
     for (let i = 0; i < fields.length; i++) {
         fields[i].addEventListener("ripple", function (e: CustomEventInit<RippleEvent>) {
             if (JSON.stringify(e.detail.particle)) {
-                let hash = Currencies.getFromQuantumField(e.detail.particle);
                 let amount = new BigNumber(1);
-                Currencies.gain(hash, amount);
-                Currencies.spawnGainElement(hash, amount, e.detail.x - (Math.floor(Math.random() * 20) - 10), e.detail.y);
+
+                if (e.detail.particle.all && e.detail.particle.type === "quark") {
+                    let hash = Currencies.getFromQuantumField({ ...e.detail.particle });
+                    let hashRed = hash.replace("rgb", "red");
+                    Currencies.gain(hashRed, amount);
+                    let hashGreen = hashRed.replace("red", "green");
+                    Currencies.gain(hashGreen, amount);
+                    let hashBlue = hashRed.replace("red", "blue");
+                    Currencies.gain(hashBlue, amount);
+                    Currencies.spawnGainElement(hash, amount, e.detail.x - (Math.floor(Math.random() * 20) - 10), e.detail.y);
+                } else {
+                    let hash = Currencies.getFromQuantumField(e.detail.particle);
+                    Currencies.gain(hash, amount);
+                    Currencies.spawnGainElement(hash, amount, e.detail.x - (Math.floor(Math.random() * 20) - 10), e.detail.y);
+                }
             }
         });
     }
