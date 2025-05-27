@@ -9,6 +9,7 @@ export class QuantumFieldElement extends HTMLElement {
     private type?: "thick" | "triple";
     private delay: number = 1000;
     private lastClick: number = 0;
+    private offset: number = 0;
     private surface: HTMLDivElement;
     private tabContainer: HTMLElement;
     private allCounter = 0;
@@ -17,18 +18,16 @@ export class QuantumFieldElement extends HTMLElement {
         super();
     }
 
-    ripple(x: number, strength: number = 120, speed: number = 10, decay: number = 0.05) {
+    ripplePassive(x: number, strength: number = 120, speed: number = 10, decay: number = 0.05) {
         this.waves.forEach(wave => { wave.ripple(x, strength, speed, decay) });
     }
 
-    connectedCallback() {
-        this.tabContainer = this.closest("system-tab") as HTMLElement;
+    ripple(x: number) {
+        this.handleClick(0, true, x);
+    }
 
-        const amount = parseInt(this.parentElement.getAttribute("data-fields"));
-        this.surface = this.getElementsByClassName("field-surface")[0] as HTMLDivElement;
+    private handleClick = (timestamp: number, force: boolean = false, x: number = 0) => {
         let rect = this.surface.getBoundingClientRect();
-        const offset = rect.y + (rect.height / 2) - 130;
-        let width = 3;
 
         const getNextDrop = (): number => {
             if (this.all && this.allCounter > 3) {
@@ -41,48 +40,56 @@ export class QuantumFieldElement extends HTMLElement {
             return Math.floor(Math.random() * this.particles.length);
         }
 
-        const handleClick = (timestamp: number) => {
-            let rect = this.surface.getBoundingClientRect();
+        if ((UI.mouseDown && UI.mouseY >= rect.y && UI.mouseY <= rect.bottom) || force) {
+            if (this.tabContainer.querySelector(".tab.active") === null) {
+                let now = performance.now();
+                let data = {
+                    x: force ? x : UI.mouseX,
+                    y: 130 + this.surface.offsetTop,
+                    particle: undefined as WaveParticleInfo
+                };
+                if ((now - this.lastClick) < this.delay) {
+                    window.requestAnimationFrame(this.handleClick);
+                    return;
+                }
+                this.lastClick = now;
+                this.allCounter++;
 
-            if (UI.mouseDown && UI.mouseY >= rect.y && UI.mouseY <= rect.bottom) {
-                if (this.tabContainer.querySelector(".tab.active") === null) {
-                    let now = performance.now();
-                    let data = {
-                        x: UI.mouseX,
-                        y: offset + 100,
-                        particle: undefined as WaveParticleInfo
-                    };
-                    if ((now - this.lastClick) < this.delay) {
-                        window.requestAnimationFrame(handleClick);
-                        return;
+                if (this.type === "triple") {
+                    data.particle = this.particles[0];
+                    for (let wave of this.waves) {
+                        wave.ripple(data.x, 160);
                     }
-                    this.lastClick = now;
-                    this.allCounter++;
+                } else {
+                    let drop = getNextDrop();
 
-                    if (this.type === "triple") {
-                        data.particle = this.particles[0];
+                    if (drop === -1) {
+                        data.particle = this.all;
                         for (let wave of this.waves) {
                             wave.ripple(data.x, 160);
                         }
                     } else {
-                        let drop = getNextDrop();
-
-                        if (drop === -1) {
-                            data.particle = this.all;
-                            for (let wave of this.waves) {
-                                wave.ripple(data.x, 160);
-                            }
-                        } else {
-                            data.particle = this.particles[drop];
-                            this.waves[drop].ripple(data.x, 160);
-                        }
+                        data.particle = this.particles[drop];
+                        this.waves[drop].ripple(data.x, 160);
                     }
-
-                    this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x: data.x, y: data.y, particle: data.particle } }));
                 }
+
+                console.log("rippling")
+                this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x: data.x, y: data.y, particle: data.particle } }));
             }
-            window.requestAnimationFrame(handleClick);
         }
+        window.requestAnimationFrame(this.handleClick);
+    }
+
+    connectedCallback() {
+        this.handleClick = this.handleClick.bind(this);
+        this.tabContainer = this.closest("system-tab") as HTMLElement;
+
+        const amount = parseInt(this.parentElement.getAttribute("data-fields"));
+        this.surface = this.getElementsByClassName("field-surface")[0] as HTMLDivElement;
+        let rect = this.surface.getBoundingClientRect();
+        this.offset = rect.y + (rect.height / 2) - 130;
+        let width = 3;
 
         this.surface.addEventListener("mouseenter", (e: MouseEvent) => {
             for (let wave of this.waves) {
@@ -98,7 +105,7 @@ export class QuantumFieldElement extends HTMLElement {
             }
         });
 
-        window.requestAnimationFrame(handleClick);
+        window.requestAnimationFrame(this.handleClick);
 
         this.delay = parseInt(this.getAttribute("delay"));
         this.type = this.getAttribute("type") as "thick" | "triple" | null;
@@ -150,7 +157,7 @@ export class QuantumFieldElement extends HTMLElement {
                         hover: field.getAttribute("data-color-hover") || this.getAttribute("color-hover") || "#ffffff",
                     },
                     pointCount: 10,
-                    offset: offset,
+                    offset: this.offset,
                     particle: p,
                 }));
             }

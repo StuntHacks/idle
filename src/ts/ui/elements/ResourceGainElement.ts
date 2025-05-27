@@ -12,8 +12,8 @@ export class ResourceGainElement extends HTMLElement {
         particle.classList.add("resource");
         particle.classList.add(...className.split(" "));
 
-        particle.addEventListener("animationend", () => {
-            //this.remove();
+        this.addEventListener("animationend", () => {
+            this.remove();
         });
 
         let amount = document.createElement("span");
