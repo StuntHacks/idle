@@ -70,13 +70,16 @@ export class Currencies {
         }
     }
 
-    public static spawnGainElement(hash: string, amount: BigNumber, x: number, y: number) {
+    public static spawnGainElement(hash: string, amount: BigNumber, x: number, y: number, showRipple: boolean = false) {
         if (this.spawning) {
             let element = document.createElement("resource-gain");
             element.setAttribute("x", x + "");
             element.setAttribute("y", y + "");
             element.setAttribute("data-class", this.currencies.find(r => r.hash === hash).className);
             element.setAttribute("amount", Numbers.getFormatted(amount));
+            if (showRipple) {
+                element.setAttribute("ripple", "true");
+            }
             this.container.appendChild(element);
         }
     }

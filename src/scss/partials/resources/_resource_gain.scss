@@ -2,12 +2,12 @@ resource-gain {
     position: absolute;
     width: 10px;
     height: 10px;
-    animation: fadeOut 2s ease forwards;
+    animation: resourceFadeOut 2s ease forwards;
     align-items: center;
     white-space: nowrap;
     z-index: -1;
 
-    @keyframes fadeOut {
+    @keyframes resourceFadeOut {
         0% {
             transform: translateY(0px);
             opacity: 0;
@@ -28,6 +28,39 @@ resource-gain {
 
     .particle {
         display: inline-block;
+    }
+
+    .ripple {
+        position: absolute;
+        left: 50%;
+        animation: resourceRippleAnim 2s ease forwards;
+        border-radius: 100%;
+        --ripple-color: #fff;
+        border: 20px solid var(--ripple-color);
+        opacity: 0.05;
+        filter: blur(10px);
+
+        @keyframes resourceRippleAnim {
+            0% {
+                transform: translate(-50%, -50%) translateY(0px);
+                animation-timing-function: ease-in;
+                width: 0px;
+                height: 0px;
+            }
+        
+            20% {
+                transform: translate(-50%, -50%)translateY(40px);
+                animation-timing-function: ease-out;
+                width: 80px;
+                height: 80px;
+            }
+        
+            100% {
+                transform: translate(-50%, -50%) translateY(120px);
+                width: 400px;
+                height: 400px;
+            }
+        }
     }
 
     span {

@@ -14,6 +14,7 @@ import { Currencies } from "./game_logic/currencies/Currencies";
 import { Translator } from "./i18n/i18n";
 import { SystemTabElement } from "./ui/elements/SystemTabElement";
 import { Game } from "./game_logic/Game";
+import { FluctuatorElement } from "./ui/elements/quantum/FluctuatorElement";
 
 export const main = () => {
     BigNumber.config({ EXPONENTIAL_AT: 6, DECIMAL_PLACES: 1, ROUNDING_MODE: BigNumber.ROUND_FLOOR });
@@ -41,22 +42,21 @@ export const main = () => {
                     Currencies.gain(hashGreen, amount);
                     let hashBlue = hashRed.replace("red", "blue");
                     Currencies.gain(hashBlue, amount);
-                    Currencies.spawnGainElement(hash, amount, e.detail.x - (Math.floor(Math.random() * 20) - 10), e.detail.y);
+                    Currencies.spawnGainElement(hash, amount, e.detail.x - (Math.floor(Math.random() * 20) - 10), e.detail.y, e.detail.showRipple);
                 } else {
                     let hash = Currencies.getFromQuantumField(e.detail.particle);
                     Currencies.gain(hash, amount);
-                    Currencies.spawnGainElement(hash, amount, e.detail.x - (Math.floor(Math.random() * 20) - 10), e.detail.y);
+                    Currencies.spawnGainElement(hash, amount, e.detail.x - (Math.floor(Math.random() * 20) - 10), e.detail.y, e.detail.showRipple);
                 }
             }
         });
     }
 
     // initialize
-    Currencies.initialize("resource-gain-container");
     Translator.initialize();
-    Currencies.initialize();
-    UI.initialize();
+    Currencies.initialize("resource-gain-container");
     Game.initialize();
+    UI.initialize();
 
     customElements.define("translated-string", TranslatedElement);
     customElements.define("quantum-field", QuantumFieldElement);
@@ -64,6 +64,7 @@ export const main = () => {
     customElements.define("tool-tip", ToolTip);
     customElements.define("currency-display", CurrencyElement);
     customElements.define("system-tab", SystemTabElement);
+    customElements.define("fluctuator-block", FluctuatorElement);
 
     document.getElementById("save-button").addEventListener("click", () => {
         SaveHandler.saveData();

@@ -19,6 +19,13 @@ export class ResourceGainElement extends HTMLElement {
         let amount = document.createElement("span");
         amount.innerText = ` + ${this.getAttribute("amount")}`;
 
+        if (this.hasAttribute("ripple")) {
+            let ripple = document.createElement("div");
+            ripple.classList.add("ripple");
+            ripple.style.setProperty("--ripple-color", this.getAttribute("data-ripple-color") || "#fff");
+            this.appendChild(ripple);
+        }
+
         this.appendChild(particle);
         this.appendChild(amount);
     }

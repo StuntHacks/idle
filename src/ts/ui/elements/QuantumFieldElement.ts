@@ -53,7 +53,8 @@ export class QuantumFieldElement extends HTMLElement {
                 let data = {
                     x: force ? x : UI.mouseX,
                     y: 130 + this.surface.offsetTop,
-                    particle: undefined as WaveParticleInfo
+                    particle: undefined as WaveParticleInfo,
+                    showRipple: !force,
                 };
                 this.lastClick = now;
                 this.allCounter++;
@@ -77,7 +78,7 @@ export class QuantumFieldElement extends HTMLElement {
                     }
                 }
 
-                this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x: data.x, y: data.y, particle: data.particle } }));
+                this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x: data.x, y: data.y, particle: data.particle, showRipple: data.showRipple } }));
             }
         }
         window.requestAnimationFrame(this.handleClick);
@@ -175,4 +176,5 @@ export interface RippleEvent {
     x: number;
     y: number;
     particle: WaveParticleInfo;
+    showRipple?: boolean;
 }

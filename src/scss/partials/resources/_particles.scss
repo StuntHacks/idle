@@ -19,10 +19,17 @@
         text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
     }
 
-    &.electron {
+    &.electron,
+    &.muon,
+    &.tau {
         border-radius: 100%;
-        background: $gradient-electron;
+        width: calc(var(--size) * 1.1);
+        height: calc(var(--size) * 1.1);
         --glow: #fbff00b0;
+    }
+
+    &.electron {
+        background: $gradient-electron;
 
         &::before {
             content: "e⁻";
@@ -31,9 +38,7 @@
     }
 
     &.muon {
-        border-radius: 100%;
         background: $gradient-muon;
-        --glow: #c4c700b0;
 
         &::before {
             content: "μ⁻";
@@ -42,9 +47,7 @@
     }
 
     &.tau {
-        border-radius: 100%;
         background: $gradient-tau;
-        --glow: #7d8000b0;
 
         &::before {
             content: "τ";
@@ -72,8 +75,8 @@
             &::before {
                 content: "";
                 background: $gradient-gluon;
-                width: var(--size);
-                height: var(--size);
+                width: calc(var(--size) * 1.1);
+                height: calc(var(--size) * 1.1);
                 clip-path: polygon(
                     30% 0%, 70% 0%,
                     100% 30%, 100% 70%,
@@ -118,6 +121,8 @@
             --glow: #fff9;
             background: $gradient-weak;
             border-radius: 3px;
+            width: calc(var(--size) * 1.1);
+            height: calc(var(--size) * 1.1);
         }
 
         &.w-plus {
