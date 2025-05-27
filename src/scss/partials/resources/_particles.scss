@@ -71,16 +71,37 @@
             
         }
 
-        &.gluzon {
+        &.gluon {
             
+        }
+
+        &.w-plus,
+        &.w-minus,
+        &.z {
+            --glow: #fff9;
+            background: $gradient-weak;
+            border-radius: 3px;
         }
 
         &.w-plus {
-            
+            &::before {
+                content: "W⁺";
+            }
         }
 
         &.w-minus {
-            
+            transform: rotate(45deg);
+            &::before {
+                content: "W⁻";
+                transform: translate(-50%, -50%) rotate(-45deg);
+            }
+        }
+
+        &.z {
+            &::before {
+                content: "Z⁰";
+                transform: translate(-50%, -50%);
+            }
         }
 
         &.higgs {
@@ -89,6 +110,7 @@
     }
 
     &.quark {
+        --glow: #fff9;
         &::before {
             //font-family: "Cantata One", serif;
         }

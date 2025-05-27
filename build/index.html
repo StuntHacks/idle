@@ -181,6 +181,54 @@
                         </div>
                     </div>
                 </div>
+                <div class="fluctuator block quark">
+                    <div class="field">
+                        <translated-string>systems.quantum.fields.quark.name</translated-string>
+                    </div>
+                    <div class="stats">
+                        <div class="stat">
+                            1000ms
+                            <span class="upgrade-button">
+                                <i class="material-symbols-outlined">keyboard_double_arrow_up</i>
+                            </span>
+                        </div>
+                        <div class="stat">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="fluctuator block electron">
+                    <div class="field">
+                        <translated-string>systems.quantum.fields.electron.name</translated-string>
+                    </div>
+                    <div class="stats">
+                        <div class="stat">
+                            1000ms
+                            <span class="upgrade-button">
+                                <i class="material-symbols-outlined">keyboard_double_arrow_up</i>
+                            </span>
+                        </div>
+                        <div class="stat">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="fluctuator block gluon">
+                    <div class="field">
+                        <translated-string>systems.quantum.fields.gluon.name</translated-string>
+                    </div>
+                    <div class="stats">
+                        <div class="stat">
+                            1000ms
+                            <span class="upgrade-button">
+                                <i class="material-symbols-outlined">keyboard_double_arrow_up</i>
+                            </span>
+                        </div>
+                        <div class="stat">
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -209,7 +257,7 @@
             <div class="field" data-color="red" data-color-start="#ff0000" data-color-end="#ff00ff"
                 data-color-glow="#ff00ff"></div>
         </quantum-field>
-        <!--<quantum-field id="neutrino-field" type="lepton" flavor="neutrino" delay="2000">
+        <quantum-field id="neutrino-field" type="lepton" flavor="neutrino" delay="2000">
             <div class="field-label neutrino">
                 <translated-string>systems.quantum.fields.neutrino.name</translated-string>
             </div>
@@ -226,13 +274,13 @@
             <div class="field-surface"></div>
             <div class="field"></div>
         </quantum-field>
-        <quantum-field id="higgs-field" type="boson" delay="2000" flavor="higgs" field-type="thick" color-start="#998800" color-end="#bb9900" color-glow="#DDAA00" index="4">
+        <!--<quantum-field id="higgs-field" type="boson" delay="2000" flavor="higgs" field-type="thick" color-start="#998800" color-end="#bb9900" color-glow="#DDAA00" index="4">
             <div class="field-label higgs">
                 <translated-string>systems.quantum.fields.higgs.name</translated-string>
             </div>
             <div class="field-surface"></div>
             <div class="field"></div>
-        </quantum-field>
+        </quantum-field>-->
         <quantum-field
             id="electroweak-field"
             type="boson"
@@ -253,7 +301,7 @@
             </div>
             <div class="field" data-flavor="z">
             </div>
-        </quantum-field>-->
+        </quantum-field>
     </div>
 </system-tab>
 
@@ -427,14 +475,14 @@
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.gluon.name</translated-string>
                     </tool-tip>
-                    <div class="resource particle quark top rgb"></div>
+                    <div class="resource particle boson gluon"></div>
                     <span></span>
                 </currency-display>
                 <currency-display design="photon" name="photons">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.photon.name</translated-string>
                     </tool-tip>
-                    <div class="resource particle quark top rgb"></div>
+                    <div class="resource particle boson photon"></div>
                     <span></span>
                 </currency-display>
             </div>
@@ -443,21 +491,21 @@
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.w_plus.name</translated-string>
                     </tool-tip>
-                    <div class="resource particle quark top rgb"></div>
+                    <div class="resource particle boson w-plus"></div>
                     <span></span>
                 </currency-display>
                 <currency-display design="w-minus-boson" name="w-minus-bosons">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.w_minus.name</translated-string>
                     </tool-tip>
-                    <div class="resource particle quark top rgb"></div>
+                    <div class="resource particle boson w-minus"></div>
                     <span></span>
                 </currency-display>
                 <currency-display design="z-boson" name="z-bosons">
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.z.name</translated-string>
                     </tool-tip>
-                    <div class="resource particle quark top rgb"></div>
+                    <div class="resource particle boson z"></div>
                     <span></span>
                 </currency-display>
             </div>
@@ -466,7 +514,7 @@
                     <tool-tip center>
                         <translated-string class="title">ui.footer.bosons.higgs.name</translated-string>
                     </tool-tip>
-                    <div class="resource particle quark top rgb"></div>
+                    <div class="resource particle boson higgs"></div>
                     <span></span>
                 </currency-display>
             </div>
