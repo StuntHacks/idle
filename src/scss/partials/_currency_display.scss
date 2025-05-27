@@ -133,12 +133,12 @@ currency-display {
     }
 
     &[design="photon"] {
-        animation: animate-currency-shadow 4s linear infinite;
+        animation: animate-photon-shadow 4s linear infinite;
         &::before {
             background: $gradient-photon;
-            animation: animate-currency 2s linear infinite;
+            animation: animate-photon 2s linear infinite;
 
-            @keyframes animate-currency {
+            @keyframes animate-photon {
                 from {
                     background-position-x: 0px;
                 }
@@ -149,7 +149,7 @@ currency-display {
             }
         }
 
-        @keyframes animate-currency-shadow {
+        @keyframes animate-photon-shadow {
             0% {
                 box-shadow: 0 0 15px 0px #bbbb7700;
             }

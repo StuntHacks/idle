@@ -6,13 +6,14 @@ export class QuantumFieldElement extends HTMLElement {
     private canvases: HTMLCanvasElement[] = [];
     private particles: WaveParticleInfo[] = [];
     private all: WaveParticleInfo;
-    private type?: "thick" | "triple";
+    private type?: string | null;
     private delay: number = 1000;
     private lastClick: number = 0;
     private offset: number = 0;
     private surface: HTMLDivElement;
     private tabContainer: HTMLElement;
-    private allCounter = 0;
+    private allCounter: number = 0;
+    private allChance: number = 0.1;
 
     constructor() {
         super();
@@ -31,7 +32,7 @@ export class QuantumFieldElement extends HTMLElement {
 
         const getNextDrop = (): number => {
             if (this.all && this.allCounter > 3) {
-                if (Math.random() < 0.1) {
+                if (Math.random() < this.allChance) {
                     this.allCounter = 0;
                     return -1;
                 }
@@ -87,10 +88,10 @@ export class QuantumFieldElement extends HTMLElement {
         this.tabContainer = this.closest("system-tab") as HTMLElement;
 
         const amount = parseInt(this.parentElement.getAttribute("data-fields"));
+        let width = 3;
         this.surface = this.getElementsByClassName("field-surface")[0] as HTMLDivElement;
         let rect = this.surface.getBoundingClientRect();
         this.offset = rect.y + (rect.height / 2) - 130;
-        let width = 3;
 
         this.surface.addEventListener("mouseenter", (e: MouseEvent) => {
             for (let wave of this.waves) {
@@ -122,12 +123,16 @@ export class QuantumFieldElement extends HTMLElement {
 
         let copies = 1;
 
-        this.type = this.getAttribute("field-type") as "thick" | "triple" | null;
+        this.type = this.getAttribute("field-type") as string | null;
 
-        if (this.type === "thick") {
-            width = 20;
-        } else if (this.type === "triple") {
-            copies = 3;
+        if (this.type) {
+            if (this.type.includes("thick")) {
+                width = 12;
+            }
+
+            if (this.type.includes("triple")) {
+                copies = 3;
+            }
         }
 
         let fields = this.getElementsByClassName("field");

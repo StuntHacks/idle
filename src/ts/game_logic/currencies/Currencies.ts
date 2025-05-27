@@ -54,8 +54,8 @@ export class Currencies {
         this.register("particle quark bottom blue", "quarks-bottom-blue");
         this.register("particle quark bottom rgb", "quarks-bottom-rgb");
 
-        this.register("particle boson gluon", "gluons");
-        this.register("particle boson photon", "photons");
+        this.register("particle boson gluon", "bosons-gluon");
+        this.register("particle boson photon", "bosons-photon");
         this.register("particle boson z", "bosons-z");
         this.register("particle boson w-plus", "bosons-w-plus");
         this.register("particle boson w-minus", "bosons-w-minus");

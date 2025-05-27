@@ -1,6 +1,7 @@
 :root {
     --gradient-direction: 45deg;
     --gradient-direction-reverse: 225deg;
+    --gradient-direction-straight: 90deg;
 }
 
 $color-electron-gradient-start: #fbff00;
@@ -51,7 +52,7 @@ $gradient-gluon: linear-gradient(var(--gradient-direction), $color-gluon-gradien
 $color-photon-gradient-start: #bbbb77;
 $color-photon-gradient-mid: #ffffff;
 $color-photon-gradient-end: #bbbb77;
-$gradient-photon: linear-gradient(90deg, $color-photon-gradient-start 0%, $color-photon-gradient-mid 50%, $color-photon-gradient-end 100%);
+$gradient-photon: linear-gradient(var(--gradient-direction-straight), $color-photon-gradient-start 0%, $color-photon-gradient-mid 50%, $color-photon-gradient-end 100%);
 
 $color-weak-gradient-start: #aaaaaa;
 $color-weak-gradient-mid: #b9b9b9;
