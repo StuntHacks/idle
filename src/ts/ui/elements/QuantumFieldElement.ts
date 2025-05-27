@@ -41,7 +41,7 @@ export class QuantumFieldElement extends HTMLElement {
         }
 
         if ((UI.mouseDown && UI.mouseY >= rect.y && UI.mouseY <= rect.bottom) || force) {
-            if (this.tabContainer.querySelector(".tab.active") === null) {
+            if (this.tabContainer.querySelector(".tab.active") === null || force) {
                 let now = performance.now();
                 let d = delay ? delay : this.delay;
                 if ((now - this.lastClick) < d) {

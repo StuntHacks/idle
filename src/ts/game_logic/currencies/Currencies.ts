@@ -6,7 +6,8 @@ import { InferredCurrency as InferredCurrencyClass } from "./InferredCurrency";
 export class Currencies {
     private static currencies: Currency[] = [];
     private static inferredCurrencies: InferredCurrency[] = [];
-    public static container: HTMLElement;
+    private static container: HTMLElement;
+    private static spawning: boolean = true;
 
     public static register(className: string, hash: string) {
         this.currencies.push({ className, amount: new BigNumber(0), hash });
@@ -61,13 +62,23 @@ export class Currencies {
         this.register("particle boson higgs", "bosons-higgs");
     }
 
+    public static toggleSpawning(spawning: boolean = undefined) {
+        if (spawning === undefined) {
+            this.spawning = !this.spawning;
+        } else {
+            this.spawning = spawning;
+        }
+    }
+
     public static spawnGainElement(hash: string, amount: BigNumber, x: number, y: number) {
-        let element = document.createElement("resource-gain");
-        element.setAttribute("x", x + "");
-        element.setAttribute("y", y + "");
-        element.setAttribute("data-class", this.currencies.find(r => r.hash === hash).className);
-        element.setAttribute("amount", Numbers.getFormatted(amount));
-        this.container.appendChild(element);
+        if (this.spawning) {
+            let element = document.createElement("resource-gain");
+            element.setAttribute("x", x + "");
+            element.setAttribute("y", y + "");
+            element.setAttribute("data-class", this.currencies.find(r => r.hash === hash).className);
+            element.setAttribute("amount", Numbers.getFormatted(amount));
+            this.container.appendChild(element);
+        }
     }
 
     public static gain(hash: string, amount: BigNumber) {

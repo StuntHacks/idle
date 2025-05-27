@@ -5,6 +5,7 @@ resource-gain {
     animation: fadeOut 2s ease forwards;
     align-items: center;
     white-space: nowrap;
+    z-index: -1;
 
     @keyframes fadeOut {
         0% {
