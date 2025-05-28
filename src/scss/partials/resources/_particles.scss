@@ -187,7 +187,8 @@
         }
 
         &.up,
-        &.down {
+        &.down,
+        &.main {
             border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
             border: 0;
             transform: rotate(-45deg);
@@ -195,6 +196,13 @@
             background: var(--gradient);
             --gradient-direction: 90deg;
             --gradient-direction-reverse: 270deg;
+        }
+
+        &.main {
+            &::before {
+                content: "Q";
+                transform: translate(-50%, -50%) rotate(45deg) translateY(-1px);
+            }
         }
 
         &.up {

@@ -7,6 +7,8 @@ export class CurrencyElement extends HTMLElement {
     private currencies: string[] = [];
     private element: HTMLSpanElement;
     private inferred: boolean;
+    private max: string;
+    private counter: boolean;
 
     constructor() {
         super();
@@ -16,6 +18,11 @@ export class CurrencyElement extends HTMLElement {
         let name = this.getAttribute("name");
         this.element = this.querySelector(":scope > span");
         this.inferred = this.hasAttribute("inferred");
+
+        if (this.hasAttribute("counter")) {
+            this.counter = true;
+            this.max = this.getAttribute("max");
+        }
 
         let field = this.getAttribute("field-id");
         if (field) {
@@ -42,6 +49,10 @@ export class CurrencyElement extends HTMLElement {
                         }
                     }
                     self.element.innerText = Numbers.getFormatted(amount);
+
+                    if (self.counter) {
+                        self.element.innerText += `/${self.max}`;
+                    }
                 }
                 window.requestAnimationFrame(update);
             }

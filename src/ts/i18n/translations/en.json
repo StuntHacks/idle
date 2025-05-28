@@ -1,7 +1,13 @@
 {
     "misc": {
         "locked": "Not yet unlocked",
-        "unimplemented": "Not yet implemented"
+        "unimplemented": "Not yet implemented",
+        "unlockedAt": "Unlocked at",
+        "unlocks": {
+            "quantum": {
+                "forces": "10,000 total Quarks"
+            }
+        }
     },
     "settings": {
         "general": {

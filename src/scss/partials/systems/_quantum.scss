@@ -54,6 +54,27 @@
                 }
             }
         }
+
+        [data-tab="forces"] {
+            tool-tip {
+                align-items: center;
+
+                .flavor-text {
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 15px;
+                }
+
+                currency-display {
+                    font-size: 14px;
+                    justify-content: center;
+
+                    span {
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }
     }
 
     .tab[data-tab="energy"] {
