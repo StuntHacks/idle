@@ -1,0 +1,134 @@
+fluctuator-block {
+    display: flex;
+    position: relative;
+    transition: filter 250ms;
+
+    &[disabled] {
+        .stats .stat .disable-button {
+            background-color: transparent;
+
+            &::before {
+                background-color: #fff;
+            }
+        }
+
+        filter: grayscale(0.75) brightness(0.7);
+    }
+
+    &:last-of-type {
+        border-radius: 0 0 20px 20px;
+    }
+
+    &.quark {
+        @include gradient-quark-rgb;
+        background: var(--gradient);
+    }
+
+    &.electron {
+        @include gradient-electron;
+        background: var(--gradient);
+    }
+
+    &.gluon {
+        @include gradient-gluon;
+        background: var(--gradient);
+    }
+
+    &.higgs {
+        @include gradient-higgs;
+        background: var(--gradient);
+    }
+
+    .field {
+        flex-grow: 1;
+        font-weight: bold;
+        font-size: 20px;
+        display: flex;
+        padding: 20px 0;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1;
+        transition: background-color 150ms;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+
+        &:hover {
+            background-color: #0009;
+        }
+
+        &:active {
+            background-color: #000a;
+        }
+    }
+
+    .stats {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        z-index: 1;
+
+        .stat,
+        .settings {
+            flex-grow: 1;
+            display: flex;
+            align-items: stretch;
+        }
+
+        .stat {
+            .interval {
+                padding: 0 10px;
+                min-width: 78px;
+                box-sizing: border-box;
+                background-color: #000a;
+            }
+
+            .disable-button {
+                width: 33px;
+                position: relative;
+
+                &::before {
+                    content: "";
+                    top: 50%;
+                    left: 50%;
+                    width: 85%;
+                    height: 3px;
+                    border-radius: 8px;
+                    transition: background-color 150ms;
+                    background-color: transparent;
+                    position: absolute;
+                    transform: translate(-50%, -50%) rotate(45deg);
+                }
+            }
+
+            span {
+                background-color: #0006;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        .settings {
+            i {
+                background-color: #0006;
+                flex-grow: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        .settings i,
+        .stat .disable-button {
+            cursor: pointer;
+            transition: background-color 150ms;
+
+            &:hover {
+                background-color: #0009;
+            }
+
+            &:active {
+                background-color: #000a;
+            }
+        }
+    }
+}
