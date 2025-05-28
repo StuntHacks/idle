@@ -1,47 +1,4 @@
-@import "../settings/gradients.scss";
-
 quantum-field {
-    .field-label {
-        position: absolute;
-        padding: 5px 15px;
-        display: inline-block;
-        border-radius: 0 5px 0 0;
-        box-shadow: 0 0 8px 0px #000;
-        text-shadow: 1px 1px 4px rgba(0, 0, 0, 255);
-        margin-top: -90px;
-        z-index: 1001;
-
-        &.rgb {
-            @include gradient-quark-rgb;
-            background: var(--gradient);
-        }
-
-        &.electron {
-            @include gradient-electron;
-            background: var(--gradient);
-        }
-
-        &.gluon {
-            @include gradient-gluon;
-            background: var(--gradient);
-        }
-
-        &.higgs {
-            @include gradient-higgs;
-            background: var(--gradient);
-        }
-
-        &.neutrino {
-            @include gradient-neutrino;
-            background: var(--gradient);
-        }
-
-        &.electroweak {
-            @include gradient-weak;
-            background: var(--gradient);
-        }
-    }
-
     .field-surface {
         position: absolute;
         cursor: pointer;

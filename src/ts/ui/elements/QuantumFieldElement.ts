@@ -90,25 +90,29 @@ export class QuantumFieldElement extends HTMLElement {
 
         const amount = parseInt(this.parentElement.getAttribute("data-fields"));
         let width = 3;
+
         this.surface = this.getElementsByClassName("field-surface")[0] as HTMLDivElement;
-        let rect = this.surface.getBoundingClientRect();
-        this.offset = rect.y + (rect.height / 2) - 130;
 
-        this.surface.addEventListener("mouseenter", (e: MouseEvent) => {
-            for (let wave of this.waves) {
-                if (!wave.isHovered()) {
-                    wave.setHovered(true);
-                    wave.ripple(e.clientX, 20, 10, 0.05);
+        if (this.surface) {
+            let rect = this.surface.getBoundingClientRect();
+            this.offset = rect.y + (rect.height / 2) - 130;
+
+            this.surface.addEventListener("mouseenter", (e: MouseEvent) => {
+                for (let wave of this.waves) {
+                    if (!wave.isHovered()) {
+                        wave.setHovered(true);
+                        wave.ripple(e.clientX, 20, 10, 0.05);
+                    }
                 }
-            }
-        });
-        this.surface.addEventListener("mouseleave", (e: MouseEvent) => {
-            for (let wave of this.waves) {
-                wave.setHovered(false);
-            }
-        });
+            });
+            this.surface.addEventListener("mouseleave", (e: MouseEvent) => {
+                for (let wave of this.waves) {
+                    wave.setHovered(false);
+                }
+            });
 
-        window.requestAnimationFrame(this.handleClick);
+            window.requestAnimationFrame(this.handleClick);
+        }
 
         this.delay = parseInt(this.getAttribute("delay"));
         this.type = this.getAttribute("type") as "thick" | "triple" | null;

@@ -1,0 +1,56 @@
+<div class="counter">
+    <div class="energy-amount">
+        <div class="amount">
+            <currency-display design="plain" name="energy" inferred><span></span></currency-display>
+        </div>
+        <span class="description">
+            <div class="resource particle electron"></div>
+            <translated-string>systems.quantum.energy.description</translated-string>
+        </span>
+    </div>
+    <div class="fluctuators">
+        <div class="title block">
+            <translated-string>systems.quantum.energy.fluctuators.title</translated-string>
+            <span class="info">
+                <tool-tip orientation="right">
+                    <translated-string>systems.quantum.energy.fluctuators.information</translated-string>
+                </tool-tip>
+                <i class="material-symbols-outlined">help</i>
+            </span>
+        </div>
+        <fluctuator-block class="block electron" field="electron" disabled>
+            <div class="field">
+                <translated-string>systems.quantum.fields.electron.name</translated-string>
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <span class="interval">1000ms</span>
+                    <span class="disable-button">
+                        <i class="material-symbols-outlined">mode_off_on</i>
+                    </span>
+                </div>
+                <div class="settings">
+                    <i class="material-symbols-outlined decrease">remove</i>
+                    <i class="material-symbols-outlined increase">add</i>
+                </div>
+            </div>
+        </fluctuator-block>
+        <fluctuator-block class="block quark" field="quark" disabled>
+            <div class="field">
+                <translated-string>systems.quantum.fields.quark.name</translated-string>
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <span class="interval">1000ms</span>
+                    <span class="disable-button">
+                        <i class="material-symbols-outlined">mode_off_on</i>
+                    </span>
+                </div>
+                <div class="settings">
+                    <i class="material-symbols-outlined decrease">remove</i>
+                    <i class="material-symbols-outlined increase">add</i>
+                </div>
+            </div>
+        </fluctuator-block>
+    </div>
+</div>

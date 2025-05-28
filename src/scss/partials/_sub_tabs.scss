@@ -1,12 +1,13 @@
 .sub-tabs {
-    position: absolute;
-    top: 0;
+    position: fixed;
+    top: 130px;
     left: 0;
     width: 100%;
     padding: 15px 0;
     display: flex;
     justify-content: center;
     z-index: 10002;
+    background: linear-gradient(0deg, transparent 0%, #000 80%);
 
     > span {
         margin: 0 30px;

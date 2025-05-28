@@ -36,7 +36,7 @@ export class Wave {
         let parent = this.canvas.parentElement;
         this.canvas.width = parent.clientWidth;
         this.canvas.height = parent.parentElement.clientHeight;
-        let rect = parent.querySelector(".field-surface").getBoundingClientRect();
+        let rect = parent.getBoundingClientRect();
         this.config.offset = rect.y + (rect.height / 2) - 130;
     }
 
