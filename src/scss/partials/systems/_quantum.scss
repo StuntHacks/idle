@@ -78,8 +78,6 @@
                     width: 100%;
 
                     currency-display {
-                        width: 100%;
-                        font-size: 80px;
                         font-weight: 600;
                         @include gradient-electron;
                         background: var(--gradient);
@@ -87,6 +85,11 @@
                         color: transparent;
                         background-clip: text;
                         padding: 0 30px;
+                        font-size: 70px;
+                        justify-content: center;
+                        box-sizing: border-box;
+                        width: 370px;
+                        text-align: center;
                     }
                 }
             }
@@ -138,6 +141,19 @@
                 fluctuator-block {
                     display: flex;
                     position: relative;
+                    transition: filter 250ms;
+
+                    &[disabled] {
+                        .stats .stat .disable-button {
+                            background-color: transparent;
+
+                            &::before {
+                                background-color: #fff;
+                            }
+                        }
+
+                        filter: grayscale(0.9) brightness(0.7);
+                    }
 
                     &:last-of-type {
                         border-radius: 0 0 20px 20px;
@@ -187,9 +203,73 @@
                     .stats {
                         display: flex;
                         flex-direction: column;
-                        background-color: #0006;
-                        padding: 5px 10px;
+                        padding: 0;
                         z-index: 1;
+
+                        .stat,
+                        .settings {
+                            flex-grow: 1;
+                            display: flex;
+                            align-items: stretch;
+                        }
+
+                        .stat {
+                            .interval {
+                                padding: 0 10px;
+                                min-width: 78px;
+                                box-sizing: border-box;
+                                background-color: #000a;
+                            }
+
+                            .disable-button {
+                                width: 33px;
+                                position: relative;
+
+                                &::before {
+                                    content: "";
+                                    top: 50%;
+                                    left: 50%;
+                                    width: 85%;
+                                    height: 3px;
+                                    border-radius: 8px;
+                                    transition: background-color 150ms;
+                                    background-color: transparent;
+                                    position: absolute;
+                                    transform: translate(-50%, -50%) translate(0.5px, 0.5px) rotate(45deg);
+                                }
+                            }
+
+                            span {
+                                background-color: #0006;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
+                        }
+
+                        .settings {
+                            i {
+                                background-color: #0006;
+                                flex-grow: 1;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
+                        }
+
+                        .settings i,
+                        .stat .disable-button {
+                            cursor: pointer;
+                            transition: background-color 150ms;
+
+                            &:hover {
+                                background-color: #0009;
+                            }
+
+                            &:active {
+                                background-color: #000a;
+                            }
+                        }
                     }
                 }
             }

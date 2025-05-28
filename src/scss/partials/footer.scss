@@ -11,6 +11,10 @@ footer.main-footer {
     .currencies {
         display: flex;
 
+        .currency-section-title {
+            user-select: none;
+        }
+
         .fermions {
             .currency-section-title {
                 color: $color-gray;

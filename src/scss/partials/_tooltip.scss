@@ -2,6 +2,7 @@ tool-tip {
     position: absolute;
     background-color: var(--color-tooltip);
     color: var(--color-tooltip-text);
+    backdrop-filter: blur(5px);
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 8px 0px #000;

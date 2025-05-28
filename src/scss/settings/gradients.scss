@@ -90,7 +90,7 @@
     --color-gradient-start: var(--color-quark-rgb-gradient-start);
     --color-gradient-mid: var(--color-quark-rgb-gradient-mid);
     --color-gradient-end: var(--color-quark-rgb-gradient-end);
-    --gradient: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-mid) 100%);
+    --gradient: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-start) 100%);
 }
 
 @mixin gradient-quark-red {
