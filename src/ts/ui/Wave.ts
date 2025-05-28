@@ -99,9 +99,11 @@ export class Wave {
         var self = this;
 
         function animate(timestamp: number) {
-            self.time = self.config.speed * ((timestamp - start) / 10);
-            self.draw(self.time);
-            self.cleanupRipples();
+            if (self.canvas.checkVisibility({ opacityProperty: true })) {
+                self.time = self.config.speed * ((timestamp - start) / 10);
+                self.draw(self.time);
+                self.cleanupRipples();
+            }
             window.requestAnimationFrame(animate);
         }
         window.requestAnimationFrame(animate);

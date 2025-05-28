@@ -33,7 +33,7 @@ export class FluctuatorElement extends HTMLElement {
     }
 
     selectFieldElement(id: string) {
-        this.fieldElement = this.closest("system-tab").querySelector(`#${id}`);
+        this.fieldElement = document.getElementById(id) as QuantumFieldElement;
     }
 
     private tick(timestamp: number) {
