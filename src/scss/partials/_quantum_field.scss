@@ -12,27 +12,33 @@ quantum-field {
         z-index: 1001;
 
         &.rgb {
-            background: $gradient-quark-rgb;
+            @include gradient-quark-rgb;
+            background: var(--gradient);
         }
 
         &.electron {
-            background: $gradient-electron;
+            @include gradient-electron;
+            background: var(--gradient);
         }
 
         &.gluon {
-            background: $gradient-gluon;
+            @include gradient-gluon;
+            background: var(--gradient);
         }
 
         &.higgs {
-            background: $gradient-higgs;
+            @include gradient-higgs;
+            background: var(--gradient);
         }
 
         &.neutrino {
-            background: $gradient-neutrino;
+            @include gradient-neutrino;
+            background: var(--gradient);
         }
 
         &.electroweak {
-            background: $gradient-weak;
+            @include gradient-weak;
+            background: var(--gradient);
         }
     }
 

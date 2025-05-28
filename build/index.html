@@ -115,7 +115,7 @@
 
         <system-tab id="tab-quantum">
     <nav class="sub-tabs">
-        <span data-tab="energy" class="">
+        <span data-tab="energy" class="active">
             <tool-tip center orientation="bottom">
                 <currency-display design="plain" name="energy" inferred><span></span></currency-display>
             </tool-tip>
@@ -143,8 +143,8 @@
             <translated-string>systems.quantum.tabs.mass</translated-string>
         </span>
     </nav>
-    <section class="tab-background"></section>
-    <section class="tab" data-tab="energy">
+    <section class="tab-background active"></section>
+    <section class="tab active" data-tab="energy">
         <div class="counter">
             <div class="energy-amount">
                 <div class="amount">
@@ -165,7 +165,7 @@
                         <i class="material-symbols-outlined">help</i>
                     </span>
                 </div>
-                <div class="fluctuator block electron">
+                <fluctuator-block class="block electron">
                     <div class="field">
                         <translated-string>systems.quantum.fields.electron.name</translated-string>
                     </div>
@@ -180,55 +180,7 @@
 
                         </div>
                     </div>
-                </div>
-                <div class="fluctuator block quark">
-                    <div class="field">
-                        <translated-string>systems.quantum.fields.quark.name</translated-string>
-                    </div>
-                    <div class="stats">
-                        <div class="stat">
-                            1000ms
-                            <span class="upgrade-button">
-                                <i class="material-symbols-outlined">keyboard_double_arrow_up</i>
-                            </span>
-                        </div>
-                        <div class="stat">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="fluctuator block electron">
-                    <div class="field">
-                        <translated-string>systems.quantum.fields.electron.name</translated-string>
-                    </div>
-                    <div class="stats">
-                        <div class="stat">
-                            1000ms
-                            <span class="upgrade-button">
-                                <i class="material-symbols-outlined">keyboard_double_arrow_up</i>
-                            </span>
-                        </div>
-                        <div class="stat">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="fluctuator block gluon">
-                    <div class="field">
-                        <translated-string>systems.quantum.fields.gluon.name</translated-string>
-                    </div>
-                    <div class="stats">
-                        <div class="stat">
-                            1000ms
-                            <span class="upgrade-button">
-                                <i class="material-symbols-outlined">keyboard_double_arrow_up</i>
-                            </span>
-                        </div>
-                        <div class="stat">
-
-                        </div>
-                    </div>
-                </div>
+                </fluctuator-block>
             </div>
         </div>
     </section>
@@ -241,9 +193,9 @@
                 <translated-string>systems.quantum.fields.electron.name</translated-string>
             </div>
             <div class="field-surface"></div>
-            <div class="field" data-flavor="tau" data-color-start="#999944" data-color-end="#999977" data-color-glow="#999900"></div>
-            <!--<div class="field" data-flavor="muon" data-color-start="#cccc77" data-color-end="#ccccaa" data-color-glow="#cccc00"></div>
-            <div class="field" data-flavor="electron" data-color-start="#ffffaa" data-color-end="#ffffDD" data-color-glow="#ffff00"></div>-->
+            <!--<div class="field" data-flavor="tau" data-color-start="#999944" data-color-end="#999977" data-color-glow="#999900"></div>
+            <div class="field" data-flavor="muon" data-color-start="#cccc77" data-color-end="#ccccaa" data-color-glow="#cccc00"></div>-->
+            <div class="field" data-flavor="electron" data-color-start="#ffffaa" data-color-end="#ffffDD" data-color-glow="#ffff00"></div>
         </quantum-field>
         <quantum-field id="quark-field" type="quark" delay="700" all="true" all-type="quark" all-color="rgb">
             <div class="field-label rgb">
@@ -274,14 +226,14 @@
             <div class="field-surface"></div>
             <div class="field"></div>
         </quantum-field>-->
-        <quantum-field id="higgs-field" type="boson" delay="2000" flavor="higgs" field-type="thick" color-start="#998800" color-end="#bb9900" color-glow="#DDAA00" index="4">
+        <!--<quantum-field id="higgs-field" type="boson" delay="2000" flavor="higgs" field-type="thick" color-start="#998800" color-end="#bb9900" color-glow="#DDAA00" index="4">
             <div class="field-label higgs">
                 <translated-string>systems.quantum.fields.higgs.name</translated-string>
             </div>
             <div class="field-surface"></div>
             <div class="field"></div>
-        </quantum-field>
-        <quantum-field
+        </quantum-field>-->
+        <!--<quantum-field
             id="electroweak-field"
             type="boson"
             delay="2000"
@@ -301,7 +253,7 @@
             </div>
             <div class="field" data-flavor="z">
             </div>
-        </quantum-field>
+        </quantum-field>-->
     </div>
 </system-tab>
 

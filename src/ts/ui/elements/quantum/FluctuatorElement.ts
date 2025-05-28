@@ -4,6 +4,6 @@ export class FluctuatorElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.parentElement.style.position = "relative";
+        
     }
 }

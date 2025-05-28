@@ -42,7 +42,8 @@
                 align-items: center;
 
                 currency-display[name="energy"] {
-                    background: $gradient-electron;
+                    @include gradient-electron;
+                    background: var(--gradient);
                     text-shadow: 0px 0px 10px #fbff00b0;
                     color: transparent;
                     background-clip: text;
@@ -80,7 +81,8 @@
                         width: 100%;
                         font-size: 80px;
                         font-weight: 600;
-                        background: $gradient-electron;
+                        @include gradient-electron;
+                        background: var(--gradient);
                         text-shadow: 0px 0px 10px #fbff00b0;
                         color: transparent;
                         background-clip: text;
@@ -133,7 +135,7 @@
                     }
                 }
 
-                .fluctuator {
+                fluctuator-block {
                     display: flex;
                     position: relative;
 
@@ -142,19 +144,23 @@
                     }
 
                     &.quark {
-                        background: $gradient-quark-rgb;
+                        @include gradient-quark-rgb;
+                        background: var(--gradient);
                     }
 
                     &.electron {
-                        background: $gradient-electron;
+                        @include gradient-electron;
+                        background: var(--gradient);
                     }
 
                     &.gluon {
-                        background: $gradient-gluon;
+                        @include gradient-gluon;
+                        background: var(--gradient);
                     }
 
                     &.higgs {
-                        background: $gradient-higgs;
+                        @include gradient-higgs;
+                        background: var(--gradient);
                     }
 
                     .field {

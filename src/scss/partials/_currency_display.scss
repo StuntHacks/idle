@@ -89,53 +89,64 @@ currency-display {
     }
 
     &[design="rgb"]::before {
-        background: $gradient-quark-rgb;
+        @include gradient-quark-rgb;
+        background: var(--gradient);
     }
 
     &[design="red"]::before {
-        background: $gradient-quark-red;
+        @include gradient-quark-red;
+        background: var(--gradient);
     }
 
     &[design="green"]::before {
-        background: $gradient-quark-green;
+        @include gradient-quark-green;
+        background: var(--gradient);
     }
 
     &[design="blue"]::before {
-        background: $gradient-quark-blue;
+        @include gradient-quark-blue;
+        background: var(--gradient);
     }
 
     &[design="electron"]::before {
-        background: $gradient-electron;
+        @include gradient-electron;
+        background: var(--gradient);
     }
 
     &[design="muon"]::before {
-        background: $gradient-muon;
+        @include gradient-muon;
+        background: var(--gradient);
     }
 
     &[design="tau"]::before {
-        background: $gradient-tau;
+        @include gradient-tau;
+        background: var(--gradient);
     }
 
     &[design="gluon"]::before {
-        background: $gradient-gluon;
+        @include gradient-gluon;
+        background: var(--gradient);
     }
 
     &[design="z-boson"],
     &[design="w-plus-boson"],
     &[design="w-minus-boson"] {
         &::before {
-        background: $gradient-weak;
+        @include gradient-weak;
+        background: var(--gradient);
         }
     }
 
     &[design="higgs"]::before {
-        background: $gradient-higgs;
+        @include gradient-higgs;
+        background: var(--gradient);
     }
 
     &[design="photon"] {
         animation: animate-photon-shadow 4s linear infinite;
         &::before {
-            background: $gradient-photon;
+            @include gradient-photon;
+            background: var(--gradient);
             animation: animate-photon 2s linear infinite;
 
             @keyframes animate-photon {
@@ -154,10 +165,12 @@ currency-display {
                 box-shadow: 0 0 15px 0px #bbbb7700;
             }
 
-            50% {box-shadow: 0 0 20px 0px #ffffbb
+            50% {
+                box-shadow: 0 0 20px 0px #ffffbb
             }
 
-            100% {box-shadow: 0 0 15px 0px #bbbb7700;
+            100% {
+                box-shadow: 0 0 15px 0px #bbbb7700;
             }
         }
     }
