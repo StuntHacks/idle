@@ -96,13 +96,11 @@ export class Wave {
 
     public start() {
         var start = performance.now();
-        var self = this;
-
-        function animate(timestamp: number) {
-            if (self.canvas.checkVisibility({ opacityProperty: true })) {
-                self.time = self.config.speed * ((timestamp - start) / 10);
-                self.draw(self.time);
-                self.cleanupRipples();
+        const animate = (timestamp: number) => {
+            if (this.canvas.checkVisibility({ opacityProperty: true })) {
+                this.time = this.config.speed * ((timestamp - start) / 10);
+                this.draw(this.time);
+                this.cleanupRipples();
             }
             window.requestAnimationFrame(animate);
         }
@@ -111,20 +109,16 @@ export class Wave {
     
     private initialize() {
         this.points = [];
-
-        for (let i = 0; i <= this.config.pointCount; i++) {
-            this.points.push({
-                x: i,
-                offset: Math.random() * 1000,
-            });
-        }
+        this.points = Array.from({ length: this.config.pointCount + 1 }, (_, i) => ({
+            x: i,
+            offset: Math.random() * 1000,
+        }));
     }
 
-    private getY(i: number, time: number) {
+    private getY(i: number, time: number, frequency: number, amplitude: number, offset: number) {
         const point = this.points[i];
-        const baseNoise =
-            Math.sin((point.offset + time) * this.config.frequency) * 0.6 +
-            Math.sin((point.offset * 0.5 + time * 0.8) * this.config.frequency) * 0.4;
+        const noise = Math.sin((point.offset + time) * frequency) * 0.6 +
+                      Math.sin((point.offset * 0.5 + time * 0.8) * frequency) * 0.4;
 
         let rippleOffset = 0;
         const now = performance.now();
@@ -133,56 +127,57 @@ export class Wave {
             const age = (now - r.startTime) / 1000;
             const distance = Math.abs(i - r.index);
             const propagation = age * r.speed;
-
             const falloff = Math.exp(-r.decay * Math.pow(distance - propagation, 2));
-
-            const rampUpTime = 0.5;
-            const ramp = Math.min(1, age / rampUpTime); 
-            const easedRamp = Math.sin((ramp * Math.PI) / 2);
-
-            const wave = Math.sin(distance - propagation);
-            rippleOffset += r.strength * easedRamp * falloff * wave;
+            const ramp = Math.min(1, age / 0.5); 
+            const ease = Math.sin((ramp * Math.PI) / 2);
+            rippleOffset += r.strength * ease * falloff * Math.sin(distance - propagation);
         }
 
-        return this.config.offset + (baseNoise * this.config.amplitude + rippleOffset);
+        return offset + (noise * amplitude + rippleOffset);
     }
 
     private draw(time: number) {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        const frequency = this.config.frequency;
+        const amplitude = this.config.amplitude;
+        const offset = this.config.offset;
+        const pointCount = this.config.pointCount;
+
+        const ctx = this.ctx;
+        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
         gradient.addColorStop(0, this.config.color.start);
         gradient.addColorStop(1, this.config.color.end);
         
-        this.ctx.shadowColor = Utils.hexToRGB(this.hover ? this.config.color.hover : this.config.color.glow);
-        this.ctx.shadowBlur = 10;
-        this.ctx.shadowOffsetX = 0;
-        this.ctx.shadowOffsetY = 0;
+        ctx.shadowColor = Utils.hexToRGB(this.hover ? this.config.color.hover : this.config.color.glow);
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
 
-        this.ctx.strokeStyle = gradient;
-        this.ctx.lineWidth = this.config.lineWidth;
-        this.ctx.beginPath();
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = this.config.lineWidth;
+        ctx.beginPath();
 
-        const stepX = this.canvas.width / (this.config.pointCount - 1);
+        const stepX = this.canvas.width / (pointCount - 1);
 
         let prevX = 0;
-        let prevY = this.getY(0, time);
-        this.ctx.moveTo(prevX, prevY);
+        let prevY = this.getY(0, time, frequency, amplitude, offset);
+        ctx.moveTo(prevX, prevY);
 
-        for (let i = 1; i < this.config.pointCount; i++) {
+        for (let i = 1; i < pointCount; i++) {
             const currX = i * stepX;
-            const currY = this.getY(i, time);
+            const currY = this.getY(i, time, frequency, amplitude, offset);
 
             const midX = (prevX + currX) / 2;
             const midY = (prevY + currY) / 2;
 
-            this.ctx.quadraticCurveTo(prevX, prevY, midX, midY);
+            ctx.quadraticCurveTo(prevX, prevY, midX, midY);
 
             prevX = currX;
             prevY = currY;
         }
 
-        this.ctx.lineTo(prevX, prevY);
-        this.ctx.stroke();
+        ctx.lineTo(prevX, prevY);
+        ctx.stroke();
     }
 
     public ripple(x: number, strength: number = 120, speed: number = 10, decay: number = 0.05) {
