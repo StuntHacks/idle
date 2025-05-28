@@ -141,6 +141,7 @@ export class QuantumFieldElement extends HTMLElement {
         }
 
         let fields = this.getElementsByClassName("field");
+        let contained = this.hasAttribute("contained");
 
         for (let i = 0; i < fields.length; i += copies) {
             let field = fields[i];
@@ -152,7 +153,6 @@ export class QuantumFieldElement extends HTMLElement {
             };
 
             this.particles.push(p);
-
             for (let j = 0; j < copies; j++) {
                 this.canvases.push(document.createElement("canvas"));
                 this.appendChild(this.canvases[i + j]);
@@ -170,7 +170,7 @@ export class QuantumFieldElement extends HTMLElement {
                     pointCount: 10,
                     offset: this.offset,
                     particle: p,
-                }));
+                }, contained));
             }
         }
     }

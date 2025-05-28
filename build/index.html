@@ -121,7 +121,7 @@
             </tool-tip>
             <translated-string>systems.quantum.tabs.energy</translated-string>
         </span>
-        <span data-tab="fields" class="active" id="quantum-tab-fields">
+        <span data-tab="fields" class="" id="quantum-tab-fields">
             <translated-string>systems.quantum.tabs.fields</translated-string>
         </span>
         <span data-tab="forces" class="disabled">
@@ -143,7 +143,7 @@
             <translated-string>systems.quantum.tabs.mass</translated-string>
         </span>
     </nav>
-    <section class="tab-background active"></section>
+    <section class="tab-background"></section>
     <section class="tab" data-tab="energy">
         <div class="counter">
     <div class="energy-amount">
@@ -203,7 +203,7 @@
 </div>
 
     </section>
-    <section class="tab active" data-tab="fields">
+    <section class="tab" data-tab="fields">
         <div class="selection">
     <div class="field-selection">
         <div class="field-label electron">
@@ -220,40 +220,47 @@
     <div class="field">
         <translated-string class="name">systems.quantum.fields.electron.name</translated-string>
         <div class="container">
-            <quantum-field id="electron-field-settings" type="lepton">
-                <div class="field-surface"></div>
-                <div class="field" data-flavor="electron" data-color-start="#ffffaa" data-color-end="#ffffDD" data-color-glow="#ffff00"></div>
-            </quantum-field>
+            <quantum-field contained id="electron-field-settings">
+                <div class="field-surface disabled"></div>
+                <div class="field" data-color-start="#ffffaa" data-color-end="#ffffDD" data-color-glow="#ffff00"></div>
+            </quantum-field contained>
         </div>
         <div class="settings"></div>
     </div>
     <div class="field">
         <translated-string class="name">systems.quantum.fields.quark.name</translated-string>
         <div class="container">
-            <quantum-field id="quark-field-settings" type="lepton">
-                <div class="field-surface"></div>
-                <div class="field" data-flavor="electron" data-color-start="#ffffaa" data-color-end="#ffffDD" data-color-glow="#ffff00"></div>
-            </quantum-field>
-        </div>
-        <div class="settings"></div>
-    </div>
-    <div class="field">
-        <translated-string class="name">systems.quantum.fields.quark.name</translated-string>
-        <div class="container">
-            <quantum-field id="quark-field-settings" type="lepton">
-                <div class="field-surface"></div>
-                <div class="field" data-flavor="electron" data-color-start="#ffffaa" data-color-end="#ffffDD" data-color-glow="#ffff00"></div>
-            </quantum-field>
+            <quantum-field contained id="quark-field-settings">
+                <div class="field-surface disabled"></div>
+                <div class="field" data-color-ripple="#00ff00" data-color-start="#00ff00"
+                    data-color-end="#00ffff" data-color-glow="#00ff00"></div>
+                <div class="field" data-color-ripple="#0000ff" data-color-start="#0000ff"
+                    data-color-end="#00ffff" data-color-glow="#00ffff"></div>
+                <div class="field" data-color-ripple="#ff0000" data-color-start="#ff0000"
+                    data-color-end="#ff00ff" data-color-glow="#ff00ff"></div>
+            </quantum-field contained>
         </div>
         <div class="settings"></div>
     </div>
     <div class="field">
         <translated-string class="name">systems.quantum.fields.gluon.name</translated-string>
         <div class="container">
-            <quantum-field id="gluon-field-settings" type="lepton">
-                <div class="field-surface"></div>
-                <div class="field" data-flavor="electron" data-color-start="#ffffaa" data-color-end="#ffffDD" data-color-glow="#ffff00"></div>
-            </quantum-field>
+            <quantum-field contained id="quark-field-settings" field-type="triple" color-start="#00aabb" color-end="#00ff44" color-glow="#00ffff">
+                <div class="field-surface disabled"></div>
+                <div class="field"></div>
+            </quantum-field contained>
+        </div>
+        <div class="settings"></div>
+    </div>
+    <div class="field">
+        <translated-string class="name">systems.quantum.fields.electroweak.name</translated-string>
+        <div class="container">
+            <quantum-field contained id="electroweak-field-settings" color-start="#aaaaaa" color-end="#dddddd" color-glow="#dddddd">
+                <div class="field-surface disabled"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+            </quantum-field contained>
         </div>
         <div class="settings"></div>
     </div>

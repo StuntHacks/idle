@@ -7,11 +7,13 @@ export class Wave {
     private ctx: CanvasRenderingContext2D;
     private time: number = 0;
     private hover: boolean = false;
+    private contained: boolean = false;
     private ripples: Ripple[] = [];
 
-    constructor(element: HTMLCanvasElement, container: HTMLElement, config: WaveConfig, autoStart: boolean = true) {
+    constructor(element: HTMLCanvasElement, container: HTMLElement, config: WaveConfig, contained: boolean = false, autoStart: boolean = true) {
         this.canvas = element;
         this.config = config;
+        this.contained = contained;
         this.ctx = this.canvas.getContext('2d');
         
         if (!this.config.height) {
@@ -37,7 +39,7 @@ export class Wave {
         this.canvas.width = parent.clientWidth;
         this.canvas.height = parent.parentElement.clientHeight;
         let rect = parent.getBoundingClientRect();
-        this.config.offset = rect.y + (rect.height / 2) - 130;
+        this.config.offset = this.contained ? (rect.height / 2) : rect.y + (rect.height / 2) - 130;
     }
 
     public setConfig(config: WaveConfig) {

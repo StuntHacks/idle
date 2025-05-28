@@ -6,5 +6,9 @@ quantum-field {
         height: 85px;
         left: 0;
         z-index: 1000;
+
+        &.disabled {
+            pointer-events: none;
+        }
     }
 }

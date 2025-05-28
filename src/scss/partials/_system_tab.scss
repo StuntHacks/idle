@@ -16,6 +16,11 @@ system-tab {
         pointer-events: none;
         transition: opacity var(--timing-tab-transition), filter var(--timing-tab-transition);
         filter: blur(3px);
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #fff6 transparent;
+        -webkit-scrollbar-width: thin;
+        -webkit-scrollbar-color: #fff6 transparent;
 
         &.active {
             opacity: 1;

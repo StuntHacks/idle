@@ -295,8 +295,8 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            margin-top: -56px;
-            padding-top: 56px;
+            position: sticky;
+            top: 0;
 
             .field-selection {
                 flex-grow: 1;
@@ -315,11 +315,6 @@
             justify-content: flex-start;
             padding-top: 50px;
             padding-right: 50px;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: #fff6 transparent;
-            -webkit-scrollbar-width: thin;
-            -webkit-scrollbar-color: #fff6 transparent;
             padding-top: 86px;
 
             .field {
