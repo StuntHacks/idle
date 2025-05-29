@@ -23,7 +23,6 @@ export class SystemTabElement extends HTMLElement {
                         target.classList.remove("active");
                         tab.classList.remove("active");
                         background.classList.remove("active");
-                        Currencies.toggleSpawning(true);
                     } else {
                         let tabs = this.querySelectorAll("section.tab");
                         let tabHeaders = target.closest(".sub-tabs").querySelectorAll("span");
@@ -35,7 +34,6 @@ export class SystemTabElement extends HTMLElement {
                         tab.classList.add("active");
                         background.classList.add("active");
                         target.classList.remove("new");
-                        Currencies.toggleSpawning(false);
                     }
                 }
             });

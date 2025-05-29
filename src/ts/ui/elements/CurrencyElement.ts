@@ -29,7 +29,7 @@ export class CurrencyElement extends HTMLElement {
             this.addEventListener("mouseenter", () => {
                 let element = (document.getElementById(field) as QuantumFieldElement);
                 let x = Math.floor(Math.random() * window.innerWidth);
-                element.ripplePassive(x, 20, 10, 0.05);
+                element.ripplePassive(x);
             });
         }
 

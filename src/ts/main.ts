@@ -1,5 +1,5 @@
 
-import { QuantumFieldElement, RippleEvent } from "./ui/elements/QuantumFieldElement";
+import { QuantumFieldElement } from "./ui/elements/QuantumFieldElement";
 import { TranslatedElement } from "./ui/elements/TranslatedElement";
 import { CurrencyElement } from "./ui/elements/CurrencyElement";
 import { SaveHandler } from "./SaveHandler/SaveHandler";
@@ -27,30 +27,6 @@ export const main = () => {
     Settings.set(data.settings);
 
     let mainContainer = document.getElementById("main");
-
-    let fields = document.getElementsByTagName("quantum-field");
-    for (let i = 0; i < fields.length; i++) {
-        fields[i].addEventListener("ripple", function (e: CustomEventInit<RippleEvent>) {
-            if (JSON.stringify(e.detail.particle)) {
-                let amount = new BigNumber(1);
-
-                if (e.detail.particle.all && e.detail.particle.type === "quark") {
-                    let hash = Currencies.getFromQuantumField({ ...e.detail.particle });
-                    let hashRed = hash.replace("rgb", "red");
-                    Currencies.gain(hashRed, amount);
-                    let hashGreen = hashRed.replace("red", "green");
-                    Currencies.gain(hashGreen, amount);
-                    let hashBlue = hashRed.replace("red", "blue");
-                    Currencies.gain(hashBlue, amount);
-                    Currencies.spawnGainElement(hash, amount, e.detail.x - (Math.floor(Math.random() * 20) - 10), e.detail.y, e.detail.showRipple);
-                } else {
-                    let hash = Currencies.getFromQuantumField(e.detail.particle);
-                    Currencies.gain(hash, amount);
-                    Currencies.spawnGainElement(hash, amount, e.detail.x - (Math.floor(Math.random() * 20) - 10), e.detail.y, e.detail.showRipple);
-                }
-            }
-        });
-    }
 
     // initialize
     Translator.initialize();

@@ -1,3 +1,5 @@
+import { Currencies } from "../../game_logic/currencies/Currencies";
+import { QuantumPhase } from "../../game_logic/quantum/Quantum";
 import { UI } from "../UI";
 import { Wave, WaveParticleInfo } from "../Wave";
 
@@ -19,66 +21,66 @@ export class QuantumFieldElement extends HTMLElement {
         super();
     }
 
-    ripplePassive(x: number, strength: number = 120, speed: number = 10, decay: number = 0.05) {
-        this.waves.forEach(wave => { wave.ripple(x, strength, speed, decay) });
+    ripplePassive(x: number) {
+        this.waves.forEach(wave => { wave.ripple(x, 20, 10, 0.05) });
     }
 
-    ripple(x: number, delay: number = undefined) {
-        this.handleClick(0, true, x, delay);
-    }
-
-    private handleClick = (timestamp: number, force: boolean = false, x: number = 0, delay: number = undefined) => {
-        let rect = this.surface.getBoundingClientRect();
-
-        const getNextDrop = (): number => {
-            if (this.all && this.allCounter > 3) {
-                if (Math.random() < this.allChance) {
-                    this.allCounter = 0;
-                    return -1;
-                }
+    ripple(x: number, index: number) {
+        if (this.type === "triple" || index === -1) {
+            for (let wave of this.waves) {
+                wave.ripple(x, 160);
             }
+        } else {
+            this.waves[index].ripple(x, 160);
+        }
+    }
 
-            return Math.floor(Math.random() * this.particles.length);
+    getParticle(): [WaveParticleInfo, number] {
+        if (this.all && this.allCounter > 3) {
+            if (Math.random() < this.allChance) {
+                this.allCounter = 0;
+                return [this.all, -1];
+            }
         }
 
-        if ((UI.mouseDown && UI.mouseY >= rect.y && UI.mouseY <= rect.bottom) || force) {
-            if (this.tabContainer.querySelector(".tab.active") === null || force) {
+        this.allCounter++;
+        const index = Math.floor(Math.random() * this.particles.length);
+
+        return [this.particles[index], index];
+    }
+
+    private handleClick = (timestamp: number, delay: number = undefined) => {
+        let rect = this.surface.getBoundingClientRect();
+
+        if ((UI.mouseDown && UI.mouseY >= rect.y && UI.mouseY <= rect.bottom)) {
+            if (this.tabContainer.querySelector(".tab.active") === null) {
                 let now = performance.now();
                 let d = delay ? delay : this.delay;
                 if ((now - this.lastClick) < d) {
                     window.requestAnimationFrame(this.handleClick);
                     return;
                 }
-
-                let data = {
-                    x: force ? x : UI.mouseX,
-                    y: 130 + this.surface.offsetTop,
-                    particle: undefined as WaveParticleInfo,
-                    showRipple: !force,
-                };
                 this.lastClick = now;
-                this.allCounter++;
 
-                if (this.type === "triple") {
-                    data.particle = this.particles[0];
-                    for (let wave of this.waves) {
-                        wave.ripple(data.x, 160);
-                    }
+                const [particle, index] = this.getParticle();
+                // todo: consolidate this
+                const hash = Currencies.getFromQuantumField(particle);
+                const amount = QuantumPhase.getParticleAmount(hash);
+
+                if (particle.all && particle.type === "quark") {
+                    const hashRed = hash.replace("rgb", "red");
+                    Currencies.gain(hashRed, amount);
+                    const hashGreen = hashRed.replace("red", "green");
+                    Currencies.gain(hashGreen, amount);
+                    const hashBlue = hashRed.replace("red", "blue");
+                    Currencies.gain(hashBlue, amount);
+                    Currencies.spawnGainElement(hash, amount, UI.mouseX - (Math.floor(Math.random() * 20) - 10), UI.mouseY, true);
                 } else {
-                    let drop = getNextDrop();
-
-                    if (drop === -1) {
-                        data.particle = this.all;
-                        for (let wave of this.waves) {
-                            wave.ripple(data.x, 160);
-                        }
-                    } else {
-                        data.particle = this.particles[drop];
-                        this.waves[drop].ripple(data.x, 160);
-                    }
+                    Currencies.gain(hash, amount);
+                    Currencies.spawnGainElement(hash, amount, UI.mouseX - (Math.floor(Math.random() * 20) - 10), UI.mouseY, true);
                 }
 
-                this.dispatchEvent(new CustomEvent<RippleEvent>("ripple", { detail: { x: data.x, y: data.y, particle: data.particle, showRipple: data.showRipple } }));
+                this.ripple(UI.mouseX, index);
             }
         }
         window.requestAnimationFrame(this.handleClick);
@@ -87,8 +89,6 @@ export class QuantumFieldElement extends HTMLElement {
     connectedCallback() {
         this.handleClick = this.handleClick.bind(this);
         this.tabContainer = this.closest("system-tab") as HTMLElement;
-
-        const amount = parseInt(this.parentElement.getAttribute("data-fields"));
         let width = 3;
 
         this.surface = this.getElementsByClassName("field-surface")[0] as HTMLDivElement;
@@ -174,11 +174,4 @@ export class QuantumFieldElement extends HTMLElement {
             }
         }
     }
-}
-
-export interface RippleEvent {
-    x: number;
-    y: number;
-    particle: WaveParticleInfo;
-    showRipple?: boolean;
 }

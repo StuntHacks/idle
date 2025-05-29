@@ -1,3 +1,6 @@
+import { Currencies } from "../../../game_logic/currencies/Currencies";
+import { QuantumPhase } from "../../../game_logic/quantum/Quantum";
+import { UI } from "../../UI";
 import { QuantumFieldElement } from "../QuantumFieldElement";
 
 export class FluctuatorElement extends HTMLElement {
@@ -10,6 +13,8 @@ export class FluctuatorElement extends HTMLElement {
     private interval: number = 1000;
     private intervalElement: HTMLSpanElement;
     private width: number = 0;
+    private height: number = 0;
+    private offset: number = 0;
     private fieldElement: QuantumFieldElement;
 
     public enable(enable: boolean = true) {
@@ -34,6 +39,7 @@ export class FluctuatorElement extends HTMLElement {
 
     selectFieldElement(id: string) {
         this.fieldElement = document.getElementById(id) as QuantumFieldElement;
+        this.updatePosition();
     }
 
     private tick(timestamp: number) {
@@ -44,7 +50,27 @@ export class FluctuatorElement extends HTMLElement {
                 return;
             }
             this.lastTrigger = now;
-            this.fieldElement.ripple(Math.floor(Math.random() * this.width), 1)
+
+            const [particle, index] = this.fieldElement.getParticle();
+            // todo: consolidate this
+            const hash = Currencies.getFromQuantumField(particle);
+            const amount = QuantumPhase.getParticleAmount(hash);
+            const position = Math.floor(Math.random() * this.width);
+
+            if (particle.all && particle.type === "quark") {
+                const hashRed = hash.replace("rgb", "red");
+                Currencies.gain(hashRed, amount);
+                const hashGreen = hashRed.replace("red", "green");
+                Currencies.gain(hashGreen, amount);
+                const hashBlue = hashRed.replace("red", "blue");
+                Currencies.gain(hashBlue, amount);
+                Currencies.spawnGainElement(hash, amount, position, this.offset + (this.height / 2) - 20);
+            } else {
+                Currencies.gain(hash, amount);
+                Currencies.spawnGainElement(hash, amount, position, this.offset + (this.height / 2) - 20);
+            }
+
+            this.fieldElement.ripple(position, index);
         }
         window.requestAnimationFrame(this.tick);
     }
@@ -54,8 +80,11 @@ export class FluctuatorElement extends HTMLElement {
         this.intervalElement.innerText = `${interval}ms`;
     }
 
-    private updateWidth() {
-        this.width = this.fieldElement.clientWidth;
+    private updatePosition() {
+        const rect = this.fieldElement.getBoundingClientRect();
+        this.width = rect.width;
+        this.height = rect.height;
+        this.offset = rect.y;
     }
 
     constructor() {
@@ -85,8 +114,7 @@ export class FluctuatorElement extends HTMLElement {
             this.setInterval(this.interval +  100);
         });
 
-        this.updateWidth();
-        addEventListener('resize', this.updateWidth.bind(this));
+        addEventListener('resize', this.updatePosition.bind(this));
 
         window.requestAnimationFrame(this.tick);
     }
