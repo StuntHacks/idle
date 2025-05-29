@@ -9,9 +9,30 @@ export class CurrencyElement extends HTMLElement {
     private inferred: boolean;
     private max: string;
     private counter: boolean;
+    private last: string;
 
     constructor() {
         super();
+    }
+
+    private getValue() {
+        if (this.inferred) {
+            return Currencies.getInferred(this.currencies[0]).handler.getFormatted();
+        } else {
+            let amount = new BigNumber(0);
+            for (let c of this.currencies) {
+                let found = Currencies.get(c);
+                if (found) {
+                    amount = amount.plus(found.amount);
+                }
+            }
+
+            let text = Numbers.getFormatted(amount);
+            if (this.counter) {
+                text += `/${this.max}`;
+            }
+            return text;
+        }
     }
 
     connectedCallback() {
@@ -38,21 +59,10 @@ export class CurrencyElement extends HTMLElement {
             let self = this;
 
             function update() {
-                let amount = new BigNumber(0);
-                if (self.inferred) {
-                    self.element.innerText = Currencies.getInferred(self.currencies[0]).handler.getFormatted();
-                } else {
-                    for (let c of self.currencies) {
-                        let found = Currencies.get(c);
-                        if (found) {
-                            amount = amount.plus(found.amount);
-                        }
-                    }
-                    self.element.innerText = Numbers.getFormatted(amount);
-
-                    if (self.counter) {
-                        self.element.innerText += `/${self.max}`;
-                    }
+                let value = self.getValue();
+                if (value !== self.last) {
+                    self.last = value;
+                    self.element.innerText = value;
                 }
                 window.requestAnimationFrame(update);
             }
