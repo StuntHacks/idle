@@ -9,6 +9,7 @@ fluctuator-block {
 
             &::before {
                 background-color: #fff;
+                width: 85%;
             }
         }
 
@@ -89,10 +90,10 @@ fluctuator-block {
                     content: "";
                     top: 50%;
                     left: 50%;
-                    width: 85%;
+                    width: 0%;
                     height: 3px;
                     border-radius: 8px;
-                    transition: background-color 150ms;
+                    transition: background-color 150ms, width 150ms;
                     background-color: transparent;
                     position: absolute;
                     transform: translate(-50%, -50%) rotate(45deg);

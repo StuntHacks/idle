@@ -1,0 +1,193 @@
+@import "../../../settings/gradients.scss";
+
+#tab-quantum {
+    .tab[data-tab="energy"] {
+        display: flex;
+        padding: 76px 30px;
+        gap: 50px;
+
+        .counter {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .energy-amount {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                flex-grow: 1;
+                justify-content: center;
+
+                .amount {
+                    display: inline-block;
+                    width: 100%;
+
+                    currency-display {
+                        font-weight: 600;
+                        @include gradient-electron;
+                        background: var(--gradient);
+                        text-shadow: 0px 0px 10px #fbff00b0;
+                        color: transparent;
+                        background-clip: text;
+                        padding: 0 30px;
+                        font-size: 70px;
+                        justify-content: center;
+                        box-sizing: border-box;
+                        width: 370px;
+                        text-align: center;
+                    }
+                }
+            }
+
+            .fluctuators {
+                width: 100%;
+                margin-top: 15px;
+
+                .block {
+                    background-color: #0005;
+                    width: 100%;
+                    margin-top: 2px;
+                }
+
+                .title {
+                    display: flex;
+                    align-items: center;
+                    padding: 10px 0;
+                    justify-content: center;
+                    color: #eee;
+                    z-index: 10;
+                    position: relative;
+
+                    > translated-string {
+                        font-weight: 100;
+                        font-size: 20px;
+                        text-transform: uppercase;
+                    }
+
+                    .info {
+                        margin-left: 10px;
+                        cursor: pointer;
+                        color: #999;
+                        transition: color 150ms;
+                        transform: translateY(3px);
+
+                        tool-tip {
+                            width: 250px;
+                            white-space: normal;
+                            --offset: calc(100% + 10px);
+                        }
+
+                        &:hover {
+                            color: #eee;
+                        }
+                    }
+                }
+            }
+
+            .description {
+                display: flex;
+                align-items: center;
+                font-weight: bold;
+
+                .particle {
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        .purchases {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex-grow: 1;
+
+            .energy-upgrades {
+                > .title {
+                    margin-bottom: 10px;
+                }
+
+                .section {
+                    display: flex;
+                    overflow-x: auto;
+                    padding: 0 5px;
+
+                    .upgrade {
+                        height: 120px;
+                        width: 160px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-direction: column;
+                        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+                        cursor: pointer;
+                        background-color: #0005;
+                        margin: 10px 5px;
+                        border-radius: 20px;
+                        padding: 10px;
+
+                        &.disabled {
+                            pointer-events: none;
+                        }
+
+                        .details {
+                            display: flex;
+                            flex-direction: column;
+                            flex-grow: 1;
+
+                            .title {
+                                font-size: 18px;
+                                font-weight: 500;
+                            }
+
+                            .effect {
+                                display: flex;
+                                align-items: center;
+                                flex-grow: 1;
+                                opacity: 0.7;
+                            }
+                        }
+
+                        .cost {
+                            font-size: 18px;
+                            position: relative;
+                            align-self: stretch;
+                            margin: 10px;
+                            padding: 5px;
+                            text-align: center;
+
+                            &:hover {
+                                &::before {
+                                    filter: brightness(0.55);
+                                }
+                            }
+
+                            &:active {
+                                &::before {
+                                    filter: brightness(0.4);
+                                }
+                            }
+
+                            &::before {
+                                content: "";
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                                height: 100%;
+                                @include gradient-electron;
+                                background: var(--gradient);
+                                z-index: -1;
+                                border-radius: 20px;
+                                transition: filter 150ms, opacity 150ms;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .quark-upgrades {
+                flex-grow: 1;
+            }
+        }
+    }
+}

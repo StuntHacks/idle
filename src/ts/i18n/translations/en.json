@@ -1,5 +1,6 @@
 {
     "misc": {
+        "hideCompleted": "Hide completed",
         "locked": "Not yet unlocked",
         "unimplemented": "Not yet implemented",
         "unlockedAt": "Unlocked at",
@@ -177,6 +178,18 @@
                     "title": "Fluctuators",
                     "information": "You can continuously spend a portion of your total energy in order to trigger periodic excitations in your quantum fields",
                     "speed": "Interval: "
+                },
+                "energyUpgrades": {
+                    "title": "Energy Upgrades",
+                    "upgrades": {
+
+                    }
+                },
+                "quarkUpgrades": {
+                    "title": "Quark Upgrades",
+                    "upgrades": {
+                        
+                    }
                 }
             }
         }

@@ -1,5 +1,5 @@
 import { Currencies } from "../../../game_logic/currencies/Currencies";
-import { QuantumPhase } from "../../../game_logic/quantum/Quantum";
+import { Quantum } from "../../../game_logic/systems/quantum/Quantum";
 import { UI } from "../../UI";
 import { QuantumFieldElement } from "../QuantumFieldElement";
 
@@ -45,32 +45,34 @@ export class FluctuatorElement extends HTMLElement {
     private tick(timestamp: number) {
         if (this.enabled) {
             let now = performance.now();
-            if ((now - this.lastTrigger) < this.interval) {
-                window.requestAnimationFrame(this.tick);
-                return;
+            const elapsed = now - this.lastTrigger;
+
+            if (elapsed >= this.interval) {
+                const [particle, index] = this.fieldElement.getParticle();
+                const num = Math.floor(elapsed / this.interval);
+                this.lastTrigger += num * this.interval;
+
+                // todo: consolidate this
+                const hash = Currencies.getFromQuantumField(particle);
+                const amount = Quantum.getParticleAmount(hash);
+                const position = Math.floor(Math.random() * this.width);
+
+                if (particle.all && particle.type === "quark") {
+                    const hashRed = hash.replace("rgb", "red");
+                    Currencies.gain(hashRed, amount.multipliedBy(num));
+                    const hashGreen = hashRed.replace("red", "green");
+                    Currencies.gain(hashGreen, amount.multipliedBy(num));
+                    const hashBlue = hashRed.replace("red", "blue");
+                    Currencies.gain(hashBlue, amount.multipliedBy(num));
+                    Currencies.spawnGainElement(hash, amount, position, this.offset + (this.height / 2) - 20);
+                } else {
+                    Currencies.gain(hash, amount.multipliedBy(num));
+                    Currencies.spawnGainElement(hash, amount, position, this.offset + (this.height / 2) - 20);
+                }
+    
+                this.fieldElement.ripple(position, index);
             }
-            this.lastTrigger = now;
 
-            const [particle, index] = this.fieldElement.getParticle();
-            // todo: consolidate this
-            const hash = Currencies.getFromQuantumField(particle);
-            const amount = QuantumPhase.getParticleAmount(hash);
-            const position = Math.floor(Math.random() * this.width);
-
-            if (particle.all && particle.type === "quark") {
-                const hashRed = hash.replace("rgb", "red");
-                Currencies.gain(hashRed, amount);
-                const hashGreen = hashRed.replace("red", "green");
-                Currencies.gain(hashGreen, amount);
-                const hashBlue = hashRed.replace("red", "blue");
-                Currencies.gain(hashBlue, amount);
-                Currencies.spawnGainElement(hash, amount, position, this.offset + (this.height / 2) - 20);
-            } else {
-                Currencies.gain(hash, amount);
-                Currencies.spawnGainElement(hash, amount, position, this.offset + (this.height / 2) - 20);
-            }
-
-            this.fieldElement.ripple(position, index);
         }
         window.requestAnimationFrame(this.tick);
     }

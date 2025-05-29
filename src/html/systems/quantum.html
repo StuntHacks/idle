@@ -1,10 +1,10 @@
 <system-tab id="tab-quantum">
     <section class="resources" id="resource-gain-container"></section>
     <nav class="sub-tabs">
-        <span data-tab="fields" class="" id="quantum-tab-fields">
+        <span data-tab="fields" class="ac" id="quantum-tab-fields">
             <translated-string>systems.quantum.tabs.fields</translated-string>
         </span>
-        <span data-tab="energy" id="quantum-tab-energy">
+        <span data-tab="energy" class="active" id="quantum-tab-energy">
             <tool-tip center orientation="bottom">
                 <currency-display design="plain" name="energy" inferred><span></span></currency-display>
             </tool-tip>
@@ -36,8 +36,8 @@
             <translated-string>systems.quantum.tabs.mass</translated-string>
         </span>
     </nav>
-    <section class="tab-background"></section>
-    <section class="tab" data-tab="energy">
+    <section class="tab-background active"></section>
+    <section class="tab active" data-tab="energy">
         @include('./quantum/energy_tab.html')
     </section>
     <section class="tab" data-tab="fields">

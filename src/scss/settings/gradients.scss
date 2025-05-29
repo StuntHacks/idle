@@ -56,6 +56,7 @@
     --color-gradient-mid: var(--color-electron-gradient-mid);
     --color-gradient-end: var(--color-electron-gradient-end);
     --gradient: linear-gradient(var(--gradient-direction), var(--color-gradient-start) 0%, var(--color-gradient-mid) 50%, var(--color-gradient-end) 100%);
+    --gradient-repeating: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-start) 100%);
 }
 
 @mixin gradient-muon {
@@ -63,6 +64,7 @@
     --color-gradient-mid: var(--color-muon-gradient-mid);
     --color-gradient-end: var(--color-muon-gradient-end);
     --gradient: linear-gradient(var(--gradient-direction), var(--color-gradient-start) 0%, var(--color-gradient-mid) 50%, var(--color-gradient-end) 100%);
+    --gradient-repeating: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-start) 100%);
 }
 
 @mixin gradient-tau {
@@ -70,6 +72,7 @@
     --color-gradient-mid: var(--color-tau-gradient-mid);
     --color-gradient-end: var(--color-tau-gradient-end);
     --gradient: linear-gradient(var(--gradient-direction), var(--color-gradient-start) 0%, var(--color-gradient-mid) 50%, var(--color-gradient-end) 100%);
+    --gradient-repeating: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-start) 100%);
 }
 
 @mixin gradient-neutrino {
@@ -77,6 +80,7 @@
     --color-gradient-mid: var(--color-neutrino-gradient-mid);
     --color-gradient-end: var(--color-neutrino-gradient-end);
     --gradient: linear-gradient(var(--gradient-direction), var(--color-gradient-start) 0%, var(--color-gradient-mid) 50%, var(--color-gradient-end) 100%);
+    --gradient-repeating: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-start) 100%);
 }
 
 @mixin gradient-quark-rgb {
@@ -84,13 +88,7 @@
     --color-gradient-mid: var(--color-quark-rgb-gradient-mid);
     --color-gradient-end: var(--color-quark-rgb-gradient-end);
     --gradient: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 50%, var(--color-gradient-end) 100%);
-}
-
-@mixin gradient-quark-rgb-repeating {
-    --color-gradient-start: var(--color-quark-rgb-gradient-start);
-    --color-gradient-mid: var(--color-quark-rgb-gradient-mid);
-    --color-gradient-end: var(--color-quark-rgb-gradient-end);
-    --gradient: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-start) 100%);
+    --gradient-repeating: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-start) 100%);
 }
 
 @mixin gradient-quark-red {
@@ -98,6 +96,7 @@
     --color-gradient-mid: var(--color-quark-red-gradient-mid);
     --color-gradient-end: var(--color-quark-red-gradient-end);
     --gradient: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 50%, var(--color-gradient-end) 100%);
+    --gradient-repeating: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-start) 100%);
 }
 
 @mixin gradient-quark-green {
@@ -105,6 +104,7 @@
     --color-gradient-mid: var(--color-quark-green-gradient-mid);
     --color-gradient-end: var(--color-quark-green-gradient-end);
     --gradient: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 50%, var(--color-gradient-end) 100%);
+    --gradient-repeating: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-start) 100%);
 }
 
 @mixin gradient-quark-blue {
@@ -112,6 +112,7 @@
     --color-gradient-mid: var(--color-quark-blue-gradient-mid);
     --color-gradient-end: var(--color-quark-blue-gradient-end);
     --gradient: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 50%, var(--color-gradient-end) 100%);
+    --gradient-repeating: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-start) 100%);
 }
 
 @mixin gradient-gluon {
@@ -119,6 +120,7 @@
     --color-gradient-mid: var(--color-gluon-gradient-mid);
     --color-gradient-end: var(--color-gluon-gradient-end);
     --gradient: linear-gradient(var(--gradient-direction), var(--color-gradient-start) 0%, var(--color-gradient-mid) 50%, var(--color-gradient-end) 100%);
+    --gradient-repeating: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-start) 100%);
 }
 
 @mixin gradient-photon {
@@ -126,6 +128,7 @@
     --color-gradient-mid: var(--color-photon-gradient-mid);
     --color-gradient-end: var(--color-photon-gradient-end);
     --gradient: linear-gradient(var(--gradient-direction-straight), var(--color-gradient-start) 0%, var(--color-gradient-mid) 50%, var(--color-gradient-end) 100%);
+    --gradient-repeating: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-start) 100%);
 }
 
 @mixin gradient-weak {
@@ -133,6 +136,7 @@
     --color-gradient-mid: var(--color-weak-gradient-mid);
     --color-gradient-end: var(--color-weak-gradient-end);
     --gradient: linear-gradient(var(--gradient-direction), var(--color-gradient-start) 0%, var(--color-gradient-mid) 50%, var(--color-gradient-end) 100%);
+    --gradient-repeating: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-start) 100%);
 }
 
 @mixin gradient-higgs {
@@ -140,4 +144,5 @@
     --color-gradient-mid: var(--color-higgs-gradient-mid);
     --color-gradient-end: var(--color-higgs-gradient-end);
     --gradient: linear-gradient(var(--gradient-direction), var(--color-gradient-start) 0%, var(--color-gradient-mid) 50%, var(--color-gradient-end) 100%);
+    --gradient-repeating: linear-gradient(var(--gradient-direction-reverse), var(--color-gradient-start) 0%, var(--color-gradient-mid) 33%, var(--color-gradient-end) 66%, var(--color-gradient-start) 100%);
 }

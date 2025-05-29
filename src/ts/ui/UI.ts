@@ -1,3 +1,5 @@
+import { QuantumUI } from "./systems/Quantum";
+
 export class UI {
     public static saveIndicator: HTMLElement;
     public static mouseDown: boolean = false;
@@ -10,6 +12,8 @@ export class UI {
         window.addEventListener("mousedown", UI.updateMouseState);
         window.addEventListener("mousemove", UI.updateMouseState);
         window.addEventListener("mouseup", UI.updateMouseState);
+
+        QuantumUI.initialize();
     }
 
     private static updateMouseState(e: MouseEvent) {

@@ -31,6 +31,15 @@ export class SaveHandler {
         Logger.log("SaveHandler", "Initializing new save file...");
         this.save = {
             settings: Settings.default(),
+            upgrades: {
+                quantum: {}
+            },
+            flags: {
+                tutorial: {},
+                quantum: {
+                    
+                }
+            }
         };
         this.saveData();
         return this.save;

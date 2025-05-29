@@ -116,10 +116,10 @@
         <system-tab id="tab-quantum">
     <section class="resources" id="resource-gain-container"></section>
     <nav class="sub-tabs">
-        <span data-tab="fields" class="" id="quantum-tab-fields">
+        <span data-tab="fields" class="ac" id="quantum-tab-fields">
             <translated-string>systems.quantum.tabs.fields</translated-string>
         </span>
-        <span data-tab="energy" id="quantum-tab-energy">
+        <span data-tab="energy" class="active" id="quantum-tab-energy">
             <tool-tip center orientation="bottom">
                 <currency-display design="plain" name="energy" inferred><span></span></currency-display>
             </tool-tip>
@@ -151,9 +151,9 @@
             <translated-string>systems.quantum.tabs.mass</translated-string>
         </span>
     </nav>
-    <section class="tab-background"></section>
-    <section class="tab" data-tab="energy">
-        <div class="counter">
+    <section class="tab-background active"></section>
+    <section class="tab active" data-tab="energy">
+        <div class="counter section">
     <div class="energy-amount">
         <div class="amount">
             <currency-display design="plain" name="energy" inferred><span></span></currency-display>
@@ -209,6 +209,89 @@
         </fluctuator-block>
     </div>
 </div>
+<div class="purchases">
+    <div class="energy-upgrades">
+        <div class="title">
+            <translated-string class="section-title">systems.quantum.energy.energyUpgrades.title</translated-string>
+            <label>
+                <input type="checkbox" id="quantum-energy-hide-complete" />
+                <translated-string>misc.hideCompleted</translated-string>
+            </label>
+        </div>
+        <div class="section">
+            <div class="upgrade">
+                <div class="details">
+                    <span class="title">Higher Charge</span>
+                    <span class="effect">Electron gain x2</span>
+                </div>
+                <span class="cost">10 MeV</span>
+            </div>
+            <div class="upgrade">
+                <div class="details">
+                    <span class="title">Higher Charge</span>
+                    <span class="effect">Electron gain x2</span>
+                </div>
+                <span class="cost">10 MeV</span>
+            </div>
+            <div class="upgrade">
+                <div class="details">
+                    <span class="title">Higher Charge</span>
+                    <span class="effect">Electron gain x2</span>
+                </div>
+                <span class="cost">10 MeV</span>
+            </div>
+            <div class="upgrade">
+                <div class="details">
+                    <span class="title">Higher Charge</span>
+                    <span class="effect">Electron gain x2</span>
+                </div>
+                <span class="cost">10 MeV</span>
+            </div>
+            <div class="upgrade">
+                <div class="details">
+                    <span class="title">Higher Charge</span>
+                    <span class="effect">Electron gain x2</span>
+                </div>
+                <span class="cost">10 MeV</span>
+            </div>
+            <div class="upgrade">
+                <div class="details">
+                    <span class="title">Higher Charge</span>
+                    <span class="effect">Electron gain x2</span>
+                </div>
+                <span class="cost">10 MeV</span>
+            </div>
+            <div class="upgrade">
+                <div class="details">
+                    <span class="title">Higher Charge</span>
+                    <span class="effect">Electron gain x2</span>
+                </div>
+                <span class="cost">10 MeV</span>
+            </div>
+            <div class="upgrade">
+                <div class="details">
+                    <span class="title">Higher Charge</span>
+                    <span class="effect">Electron gain x2</span>
+                </div>
+                <span class="cost">10 MeV</span>
+            </div>
+            <div class="upgrade">
+                <div class="details">
+                    <span class="title">Higher Charge</span>
+                    <span class="effect">Electron gain x2</span>
+                </div>
+                <span class="cost">10 MeV</span>
+            </div>
+        </div>
+    </div>
+    <div class="quark-upgrades">
+        <translated-string class="section-title">systems.quantum.energy.quarkUpgrades.title</translated-string>
+        <label>
+            <input type="checkbox" id="quantum-energy-hide-complete" />
+            <translated-string>misc.hideCompleted</translated-string>
+        </label>
+    </div>
+</div>
 
     </section>
     <section class="tab" data-tab="fields">
@@ -226,7 +309,7 @@
 </div>
 <div class="fields">
     <div class="field">
-        <translated-string class="name">systems.quantum.fields.electron.name</translated-string>
+        <translated-string class="section-title">systems.quantum.fields.electron.name</translated-string>
         <div class="container">
             <quantum-field contained id="electron-field-settings">
                 <div class="field" data-color-start="#ffffaa" data-color-end="#ffffDD" data-color-glow="#ffff00"></div>
@@ -235,7 +318,7 @@
         <div class="settings"></div>
     </div>
     <div class="field">
-        <translated-string class="name">systems.quantum.fields.quark.name</translated-string>
+        <translated-string class="section-title">systems.quantum.fields.quark.name</translated-string>
         <div class="container">
             <quantum-field contained id="quark-field-settings">
                 <div class="field" data-color-ripple="#00ff00" data-color-start="#00ff00"
@@ -249,7 +332,7 @@
         <div class="settings"></div>
     </div>
     <div class="field">
-        <translated-string class="name">systems.quantum.fields.gluon.name</translated-string>
+        <translated-string class="section-title">systems.quantum.fields.gluon.name</translated-string>
         <div class="container">
             <quantum-field contained id="gluon-field-settings" field-type="triple" color-start="#00aabb" color-end="#00ff44" color-glow="#00ffff">
                 <div class="field"></div>
@@ -258,7 +341,7 @@
         <div class="settings"></div>
     </div>
     <div class="field">
-        <translated-string class="name">systems.quantum.fields.electroweak.name</translated-string>
+        <translated-string class="section-title">systems.quantum.fields.electroweak.name</translated-string>
         <div class="container">
             <quantum-field contained id="electroweak-field-settings" color-start="#aaaaaa" color-end="#dddddd" color-glow="#dddddd">
                 <div class="field"></div>
