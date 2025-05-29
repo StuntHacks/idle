@@ -100,6 +100,7 @@
             flex-direction: column;
             gap: 20px;
             flex-grow: 1;
+            overflow-y: hidden;
 
             .energy-upgrades {
                 > .title {
@@ -107,13 +108,24 @@
                 }
 
                 .section {
-                    display: flex;
                     overflow-x: auto;
                     padding: 0 5px;
 
+                    .wrapper {
+                        display: flex;
+                        overflow-x: scroll;
+                        scrollbar-width: none;
+                        -webkit-scrollbar-width: none;
+                        mask-image: linear-gradient(to right, transparent 0%, #000 3%, #000 97%, transparent 100%);
+                        padding-left: 15px;
+                    }
+
                     .upgrade {
-                        height: 120px;
-                        width: 160px;
+                        max-height: 140px;
+                        max-width: 180px;
+                        min-height: 140px;
+                        min-width: 180px;
+                        box-sizing: border-box;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -127,6 +139,25 @@
 
                         &.disabled {
                             pointer-events: none;
+                            filter: grayscale(1);
+                            background-color: #0002;
+
+                            .details {
+                                .title {
+                                    opacity: 0.5;
+                                }
+
+                                .effect {
+                                    opacity: 0.4;
+                                }
+                            }
+
+                            .cost {
+                                opacity: 0.4;
+                                &::before {
+                                    opacity: 0.15;
+                                }
+                            }
                         }
 
                         .details {

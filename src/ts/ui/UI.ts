@@ -13,6 +13,17 @@ export class UI {
         window.addEventListener("mousemove", UI.updateMouseState);
         window.addEventListener("mouseup", UI.updateMouseState);
 
+        const sidescrollers = document.getElementsByClassName("js-sidescroll");
+        for (let i = 0; i < sidescrollers.length; i++) {
+            const element = sidescrollers[i];
+            element.addEventListener('wheel', (event: WheelEvent) => {
+                if (event.deltaY !== 0) {
+                    event.preventDefault();
+                    element.scrollLeft += event.deltaY / 2;
+                }
+            }, { passive: false });
+        }
+
         QuantumUI.initialize();
     }
 

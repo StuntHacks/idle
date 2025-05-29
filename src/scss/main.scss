@@ -23,3 +23,10 @@ body.loading {
 .flex {
     display: flex;
 }
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #fff6 transparent;
+    -webkit-scrollbar-width: thin;
+    -webkit-scrollbar-color: #fff6 transparent;
+}
