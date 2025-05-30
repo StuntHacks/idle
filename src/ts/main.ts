@@ -58,6 +58,8 @@ export const main = () => {
         SaveHandler.saveData();
     });
 
+    window.setInterval(SaveHandler.saveData, 30000);
+
     // ready
     document.getElementsByTagName("body")[0].classList.remove("loading");
 }

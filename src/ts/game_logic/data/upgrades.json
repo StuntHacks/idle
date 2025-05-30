@@ -5,9 +5,9 @@
                 {
                     "id": "stronger_fields_1",
                     "title": "upgrades.quantum.energy.strongerFields.title",
-                    "target": "electron_gain_base",
+                    "target": "electron_gain",
                     "type": "additive",
-                    "amount": 2,
+                    "amount": 1,
                     "cost": 10,
                     "costScaling": 1.5,
                     "levels": 10,
@@ -16,9 +16,9 @@
                 {
                     "id": "higher_charge_1",
                     "title": "upgrades.quantum.energy.higherCharge.title",
-                    "target": "energy_gain_base",
+                    "target": "energy_gain",
                     "type": "additive",
-                    "amount": 2,
+                    "amount": 1,
                     "cost": 10,
                     "costScaling": 1.5,
                     "levels": 10,
@@ -30,6 +30,28 @@
                     "effect": "upgrades.quantum.energy.quantumFluctuations.effect",
                     "type": "flag",
                     "cost": 1000,
+                    "currency": "energy"
+                },
+                {
+                    "id": "stronger_fields_2",
+                    "title": "upgrades.quantum.energy.strongerFields.title",
+                    "target": "electron_gain",
+                    "type": "multiplicative",
+                    "amount": 1.1,
+                    "cost": 10,
+                    "costScaling": 1.5,
+                    "levels": 10,
+                    "currency": "energy"
+                },
+                {
+                    "id": "higher_charge_2",
+                    "title": "upgrades.quantum.energy.higherCharge.title",
+                    "target": "energy_gain",
+                    "type": "multiplicative",
+                    "amount": 1.1,
+                    "cost": 10,
+                    "costScaling": 1.5,
+                    "levels": 10,
                     "currency": "energy"
                 }
             ]

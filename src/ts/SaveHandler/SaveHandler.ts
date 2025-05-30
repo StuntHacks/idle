@@ -19,7 +19,8 @@ export class SaveHandler {
     }
 
     public static saveData(): void {
-        let data = this.encode(JSON.stringify(this.save));
+        let data = SaveHandler.encode(JSON.stringify(SaveHandler.save));
+        localStorage.setItem("saveFileBak", localStorage.getItem("saveFile"));
         localStorage.setItem("saveFile", data);
         UI.flashSaveIndicator();
     }
