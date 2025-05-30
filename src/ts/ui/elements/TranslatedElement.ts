@@ -1,15 +1,18 @@
 import { Translator } from "../../i18n/i18n";
 import { Settings } from "../../utils/Settings";
-import { Utils } from "../../utils/utils";
+import _ from "lodash";
 
 export class TranslatedElement extends HTMLElement {
+    private textId: string;
+
     constructor() {
         super();
     }
 
     connectedCallback() {
-        let lang = Settings.get().general.settings.language.value;
-        let translated = Utils.getNestedProperty(Translator.translations[lang], this.textContent);
+        this.textId = this.textContent;
+        const lang = Settings.get().general.settings.language.value;
+        let translated = Translator.getTranslation(this.textId, lang);
 
         if (translated) {
             this.textContent = translated;

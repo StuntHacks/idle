@@ -39,7 +39,7 @@ export class Wave {
         this.canvas.width = parent.clientWidth;
         this.canvas.height = parent.parentElement.clientHeight;
         let rect = parent.getBoundingClientRect();
-        this.config.offset = this.contained ? (rect.height / 2) : rect.y + (rect.height / 2) - 130;
+        this.config.offset = this.contained ? (rect.height / 2) : rect.y + (rect.height / 2) - 90;
     }
 
     public setConfig(config: WaveConfig) {

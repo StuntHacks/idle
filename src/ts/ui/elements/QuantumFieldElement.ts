@@ -95,7 +95,7 @@ export class QuantumFieldElement extends HTMLElement {
 
         if (this.surface) {
             let rect = this.surface.getBoundingClientRect();
-            this.offset = rect.y + (rect.height / 2) - 130;
+            this.offset = rect.y + (rect.height / 2) - 90;
 
             this.surface.addEventListener("mouseenter", (e: MouseEvent) => {
                 for (let wave of this.waves) {

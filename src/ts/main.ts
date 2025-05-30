@@ -15,6 +15,7 @@ import { Translator } from "./i18n/i18n";
 import { SystemTabElement } from "./ui/elements/SystemTabElement";
 import { Game } from "./game_logic/Game";
 import { FluctuatorElement } from "./ui/elements/quantum/FluctuatorElement";
+import { UpgradeElement } from "./ui/elements/UpgradeElement";
 
 export const main = () => {
     BigNumber.config({ EXPONENTIAL_AT: 6, DECIMAL_PLACES: 1, ROUNDING_MODE: BigNumber.ROUND_FLOOR });
@@ -41,13 +42,15 @@ export const main = () => {
     customElements.define("currency-display", CurrencyElement);
     customElements.define("system-tab", SystemTabElement);
     customElements.define("fluctuator-block", FluctuatorElement);
+    customElements.define("stat-upgrade", UpgradeElement);
 
     document.getElementById("save-button").addEventListener("click", () => {
         SaveHandler.saveData();
     });
 
     document.getElementById("magic-button").addEventListener("click", () => {
-        
+        SaveHandler.initialize();
+        location.reload();
     });
 
     window.addEventListener("beforeunload", () => {
@@ -57,5 +60,4 @@ export const main = () => {
 
     // ready
     document.getElementsByTagName("body")[0].classList.remove("loading");
-    Game.update();
 }

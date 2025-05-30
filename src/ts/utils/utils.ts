@@ -1,8 +1,4 @@
 export namespace Utils {
-    export const getNestedProperty = (obj: any, path: string) => {
-        return path.split('.').reduce((acc, key) => acc?.[key], obj);
-    }
-
     export const hexToRGB = (hex: string, alpha?: number) => {
         let noHash = hex.replace("#", "");
         let r = parseInt(noHash.slice(0, 2), 16),

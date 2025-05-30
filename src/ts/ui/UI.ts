@@ -35,6 +35,8 @@ export class UI {
     }
 
     public static animate(timestamp: number) {
+        QuantumUI.update(timestamp);
+
         window.requestAnimationFrame(UI.animate);
     }
 

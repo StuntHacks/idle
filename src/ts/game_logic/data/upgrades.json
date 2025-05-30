@@ -1,0 +1,38 @@
+{
+    "quantum": {
+        "energy": {
+            "upgrades": [
+                {
+                    "id": "stronger_fields_1",
+                    "title": "upgrades.quantum.energy.strongerFields.title",
+                    "target": "electron_gain_base",
+                    "type": "additive",
+                    "amount": 2,
+                    "cost": 10,
+                    "costScaling": 1.5,
+                    "levels": 10,
+                    "currency": "energy"
+                },
+                {
+                    "id": "higher_charge_1",
+                    "title": "upgrades.quantum.energy.higherCharge.title",
+                    "target": "energy_gain_base",
+                    "type": "additive",
+                    "amount": 2,
+                    "cost": 10,
+                    "costScaling": 1.5,
+                    "levels": 10,
+                    "currency": "energy"
+                },
+                {
+                    "id": "quantum_fluctuations",
+                    "title": "upgrades.quantum.energy.quantumFluctuations.title",
+                    "effect": "upgrades.quantum.energy.quantumFluctuations.effect",
+                    "type": "flag",
+                    "cost": 1000,
+                    "currency": "energy"
+                }
+            ]
+        }
+    }
+}

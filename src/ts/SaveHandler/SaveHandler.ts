@@ -2,6 +2,7 @@ import { SaveFile } from "../types/SaveFile";
 import { UI } from "../ui/UI";
 import { Logger } from "../utils/Logger";
 import { Settings } from "../utils/Settings";
+import _ from "lodash";
 
 export class SaveHandler {
     private static save: SaveFile;
@@ -27,6 +28,14 @@ export class SaveHandler {
         return this.save;
     }
 
+    public static getFlag(flag: "string") {
+        return _.get(this.save.flags, flag);
+    }
+
+    public static setFlag(flag: "string", value: any) {
+        _.set(this.save.flags, flag, value);
+    }
+
     public static initialize(): SaveFile {
         Logger.log("SaveHandler", "Initializing new save file...");
         this.save = {
@@ -36,9 +45,7 @@ export class SaveHandler {
             },
             flags: {
                 tutorial: {},
-                quantum: {
-                    
-                }
+                quantum: {}
             }
         };
         this.saveData();

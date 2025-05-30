@@ -4,6 +4,7 @@
         "locked": "Not yet unlocked",
         "unimplemented": "Not yet implemented",
         "unlockedAt": "Unlocked at",
+        "currentEffect": "Current effect:",
         "unlocks": {
             "quantum": {
                 "forces": "10,000 total Quarks"
@@ -186,10 +187,26 @@
                     }
                 },
                 "quarkUpgrades": {
-                    "title": "Quark Upgrades",
+                    "title": "Quark Conversion",
                     "upgrades": {
                         
                     }
+                }
+            }
+        }
+    },
+    "upgrades": {
+        "quantum": {
+            "energy": {
+                "quantumFluctuations": {
+                    "title": "Quantum Fluctuations",
+                    "effect": "Unlocks the first fluctuator"
+                },
+                "strongerFields": {
+                    "title": "Stronger Fields"
+                },
+                "higherCharge": {
+                    "title": "Higher Charge"
                 }
             }
         }
