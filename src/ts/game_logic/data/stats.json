@@ -1,3 +1,10 @@
 {
-    
+    "electron_gain": {
+        "base": 1,
+        "title": "stats.quantum.electronGain"
+    },
+    "energy_gain": {
+        "base": 1,
+        "title": "stats.quantum.energyGain"
+    }
 }

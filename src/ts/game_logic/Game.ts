@@ -1,8 +1,11 @@
 import { Currencies } from "./currencies/Currencies";
 import { Energy } from "./currencies/inferred/Energy";
+import { StatHandler } from "./StatHandler";
 
 export class Game {
     public static initialize() {
+        StatHandler.initialize();
+
         Currencies.registerInferred("energy", Energy);
     }
 

@@ -3,7 +3,7 @@ import { StatHandler } from "../../StatHandler";
 
 export class Quantum {
     public static getParticleAmount(hash: string): BigNumber {
-        return StatHandler.getComputedValue(`electron_gain`, BigNumber(1));
+        return BigNumber(StatHandler.get("electron_gain").base);
     }
 
     public static update(): void {

@@ -145,3 +145,10 @@ export interface InferredCurrency {
     hash: string;
     handler: InferredCurrencyClass;
 }
+
+export interface CurrencyEvent {
+    hash: string;
+    amount: BigNumber;
+    before: BigNumber;
+    total: BigNumber;
+}

@@ -36,10 +36,9 @@ export class UpgradeElement extends HTMLElement {
 
         const cost = document.createElement("span");
         cost.classList.add("cost");
-        console.log(upgrade.currency, upgrade.cost, BigNumber(upgrade.cost).toString(), Energy.getFormatted(BigNumber(upgrade.cost)))
         switch (upgrade.currency) {
             case "energy":
-                cost.innerText = Energy.getFormatted(BigNumber(upgrade.cost));
+                cost.innerText = Energy.getFormatted(BigNumber(upgrade.cost * 1000000));
                 break;
             default:
                 cost.innerText = upgrade.cost;
