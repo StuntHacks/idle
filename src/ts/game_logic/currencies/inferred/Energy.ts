@@ -6,11 +6,18 @@ import { Currencies } from "../Currencies";
 export class Energy {
     private static amount = BigNumber(0);
 
+    public static initialize() {
+        const self = this;
+        Currencies.registerCallback((hash: string, amount: BigNumber) => {
+            this.amount = this.amount.plus(amount.multipliedBy(511000));
+        }, "leptons-electron");
+    }
+
     public static getFormatted(amount: BigNumber = undefined): string {
         if (!amount) {
-            this.amount = BigNumber(Currencies.get("leptons-electron").amount.multipliedBy(511000));
             amount = this.amount;
         }
+
         let suffix = "";
         let divisor = 1;
 

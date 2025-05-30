@@ -2,6 +2,7 @@ import { BigNumber } from "bignumber.js"
 import { WaveParticleInfo } from "../../ui/Wave";
 import { Numbers } from "../../numbers/numbers";
 import { InferredCurrency as InferredCurrencyClass } from "./InferredCurrency";
+import { Energy } from "./inferred/Energy";
 
 export class Currencies {
     private static currencies: Currency[] = [];
@@ -10,7 +11,11 @@ export class Currencies {
     private static spawning: boolean = true;
 
     public static register(className: string, hash: string) {
-        this.currencies.push({ className, amount: new BigNumber(0), hash });
+        this.currencies.push({ className, amount: new BigNumber(0), hash, callbacks: [] });
+    }
+
+    public static registerCallback(callback: CurrencyCallback, hash: string) {
+        this.currencies.find((c) => c.hash === hash).callbacks.push(callback);
     }
 
     public static registerInferred(hash: string, handler: InferredCurrencyClass) {
@@ -60,6 +65,8 @@ export class Currencies {
         this.register("particle boson w-plus", "bosons-w-plus");
         this.register("particle boson w-minus", "bosons-w-minus");
         this.register("particle boson higgs", "bosons-higgs");
+
+        Energy.initialize();
     }
 
     public static toggleSpawning(spawning: boolean = undefined) {
@@ -87,14 +94,25 @@ export class Currencies {
     public static gain(hash: string, amount: BigNumber) {
         let i = this.currencies.findIndex(r => r.hash === hash);
         if (i > -1) {
-            this.currencies[i].amount = amount.plus(this.currencies[i].amount);
+            const before = this.currencies[i].amount;
+            const total = amount.plus(before);
+            this.currencies[i].amount = total;
+
+            for (let callback of this.currencies[i].callbacks) {
+                callback(hash, amount, before, total);
+            }
         }
     }
 
     public static set(hash: string, amount: BigNumber) {
         let i = this.currencies.findIndex(r => r.hash === hash);
         if (i > -1) {
+            const before = this.currencies[i].amount;
             this.currencies[i].amount = amount;
+
+            for (let callback of this.currencies[i].callbacks) {
+                callback(hash, amount, before, amount);
+            }
         }
     }
 
@@ -139,6 +157,7 @@ export interface Currency {
     amount: BigNumber;
     className: string;
     hash: string;
+    callbacks: CurrencyCallback[];
 }
 
 export interface InferredCurrency {
@@ -146,9 +165,4 @@ export interface InferredCurrency {
     handler: InferredCurrencyClass;
 }
 
-export interface CurrencyEvent {
-    hash: string;
-    amount: BigNumber;
-    before: BigNumber;
-    total: BigNumber;
-}
+type CurrencyCallback = (hash: string, amount: BigNumber, before: BigNumber, total: BigNumber) => void;
