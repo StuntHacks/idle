@@ -32,16 +32,15 @@ export class StatHandler {
 
         if (grouped.multiplicative) {
             for (const upgrade of grouped.multiplicative) {
-                let acc = BigNumber(0);
                 if (upgrade.additive) {
-                    acc = acc.plus(upgrade.amount * upgrade.levels);
+                    multiplicative = multiplicative.multipliedBy(upgrade.amount * upgrade.levels);
                 } else {
-                    acc = acc.multipliedBy(upgrade.amount * upgrade.levels);
+                    multiplicative = multiplicative.multipliedBy(upgrade.amount ** upgrade.levels);
                 }
-    
-                multiplicative = multiplicative.multipliedBy(acc);
             }
         }
+
+        console.log(stat, this.stats[stat].base, "+", additive.toString(), ", *", multiplicative.toString(), "=", BigNumber(this.stats[stat].base).plus(additive).multipliedBy(multiplicative).toString())
 
         this.stats[stat] = {
             ...this.stats[stat],
@@ -82,6 +81,7 @@ export class StatHandler {
                 multiplicative: BigNumber(1),
                 total: BigNumber(data.base),
             };
+            this.update(stat);
         }
     }
 

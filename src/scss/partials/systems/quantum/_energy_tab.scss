@@ -100,7 +100,8 @@
             flex-direction: column;
             gap: 20px;
             flex-grow: 1;
-            overflow-y: hidden;
+            overflow-x: hidden;
+            overflow-y: visible;
 
             > div {
                 > .title {

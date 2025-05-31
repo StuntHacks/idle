@@ -4,6 +4,7 @@ import { Translator } from "../../i18n/i18n";
 import { Energy } from "../../game_logic/currencies/inferred/Energy";
 import { BigNumber } from "bignumber.js"
 import { StatHandler } from "../../game_logic/StatHandler";
+import { Upgrade } from "../../types/SaveFile";
 
 export class UpgradeElement extends HTMLElement {
     constructor() {
@@ -13,7 +14,7 @@ export class UpgradeElement extends HTMLElement {
     connectedCallback() {
         const id = this.getAttribute("upgrade");
         const namespace = this.getAttribute("namespace");
-        const upgrade = _.get(upgrades, namespace).find((u: any) => u.id === id);
+        const upgrade = _.get(upgrades, namespace).find((u: any) => u.id === id) as Upgrade;
         const details = document.createElement("div");
         details.classList.add("details");
 
@@ -36,6 +37,18 @@ export class UpgradeElement extends HTMLElement {
             details.appendChild(amount);
         }
 
+        if (upgrade.type !== "flag") {
+            const tooltip = document.createElement("tool-tip");
+            tooltip.setAttribute("orientation", "bottom");
+            const label = document.createElement("translated-string");
+            const amount = document.createElement("span");
+            amount.classList.add("current-amount");
+            label.innerText = "misc.currentEffect";
+            tooltip.appendChild(label);
+            tooltip.appendChild(amount);
+            this.appendChild(tooltip);
+        }
+
         const cost = document.createElement("span");
         cost.classList.add("cost");
         switch (upgrade.currency) {
@@ -43,7 +56,7 @@ export class UpgradeElement extends HTMLElement {
                 cost.innerText = Energy.getFormatted(BigNumber(upgrade.cost * 1000000));
                 break;
             default:
-                cost.innerText = upgrade.cost;
+                cost.innerText = upgrade.cost + "";
         }
 
         this.appendChild(details);
