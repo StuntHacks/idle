@@ -15,9 +15,20 @@ export class SaveHandler {
             Logger.log("SaveHandler", "No save data found!");
             return false;
         }
-        this.save = JSON.parse(this.decode(data))
+
+        let parsed = JSON.parse(this.decode(data));
+        if (parsed.version === undefined || parsed.version < this.getVersion()) {
+            Logger.log("SaveHandler", "Outdated save file, resetting...");
+            this.initialize();
+        } else {
+            this.save = parsed;
+        }
 
         return true;
+    }
+
+    public static getVersion(): number {
+        return 2;
     }
 
     public static saveData(): void {
@@ -67,6 +78,7 @@ export class SaveHandler {
     public static initialize(): SaveFile {
         Logger.log("SaveHandler", "Initializing new save file...");
         this.save = {
+            version: this.getVersion(),
             currencies: {
                 normal: [],
                 inferred: [],

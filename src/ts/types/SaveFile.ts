@@ -1,6 +1,7 @@
 import { Settings } from "./Settings";
 
 export interface SaveFile {
+    version?: number;
     currencies: {
         normal: SaveCurrency[];
         inferred: SaveCurrency[];
