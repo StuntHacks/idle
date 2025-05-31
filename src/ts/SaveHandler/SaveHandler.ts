@@ -1,8 +1,8 @@
-import { Currencies } from "../game_logic/currencies/Currencies";
-import { SaveFile, Upgrade } from "../types/SaveFile";
-import { UI } from "../ui/UI";
-import { Logger } from "../utils/Logger";
-import { Settings } from "../utils/Settings";
+import { Currencies } from "game_logic/currencies/Currencies";
+import { SaveFile, Upgrade } from "types/SaveFile";
+import { UI } from "ui/UI";
+import { Logger } from "utils/Logger";
+import { Settings } from "utils/Settings";
 import _ from "lodash";
 
 export class SaveHandler {

@@ -1,5 +1,5 @@
-import { SaveHandler } from '../SaveHandler/SaveHandler';
-import type { Settings as SettingsType } from '../types/Settings';
+import { SaveHandler } from 'SaveHandler/SaveHandler';
+import type { Settings as SettingsType } from 'types/Settings';
 
 export class Settings {
     private static settings: SettingsType;

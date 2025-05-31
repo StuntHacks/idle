@@ -1,7 +1,3 @@
-import { Currencies } from "../../game_logic/currencies/Currencies"
-import { Numbers } from "../../numbers/numbers";
-import { BigNumber } from "bignumber.js"
-
 export class SystemTabElement extends HTMLElement {
     private active: string;
 

@@ -1,12 +1,21 @@
-import upgrades from "../../game_logic/data/upgrades.json";
+import upgrades from "game_logic/data/upgrades.json";
 import _ from "lodash";
-import { Translator } from "../../i18n/i18n";
-import { Energy } from "../../game_logic/currencies/inferred/Energy";
+import { Translator } from "i18n/i18n";
+import { Energy } from "game_logic/currencies/inferred/Energy";
+import { StatHandler } from "game_logic/StatHandler";
+import { Upgrade } from "types/SaveFile";
 import { BigNumber } from "bignumber.js"
-import { StatHandler } from "../../game_logic/StatHandler";
-import { Upgrade } from "../../types/SaveFile";
 
 export class UpgradeElement extends HTMLElement {
+    private cost: number = 0;
+    private scaling: number = 0;
+    private levels: number = 0;
+
+    private detailsElement: HTMLDivElement;
+    private costElement: HTMLSpanElement;
+    private levelsElement: HTMLSpanElement;
+    private currentEffectElement: HTMLSpanElement;
+
     constructor() {
         super();
     }
@@ -15,12 +24,16 @@ export class UpgradeElement extends HTMLElement {
         const id = this.getAttribute("upgrade");
         const namespace = this.getAttribute("namespace");
         const upgrade = _.get(upgrades, namespace).find((u: any) => u.id === id) as Upgrade;
-        const details = document.createElement("div");
-        details.classList.add("details");
+        this.detailsElement = document.createElement("div");
+        this.detailsElement.classList.add("details");
+
+        this.cost = upgrade.cost;
+        this.scaling = upgrade.costScaling;
+        this.levels = this.hasAttribute("levels") ? parseInt(this.getAttribute("levels")) : 0;
 
         const title = document.createElement("span");
         title.innerText = Translator.getTranslation(upgrade.title, "en");
-        details.appendChild(title);
+        this.detailsElement.appendChild(title);
 
         // todo: handle effects of non-descriptive upgrades (x2 etc)
         const effect = document.createElement("span");
@@ -49,42 +62,45 @@ export class UpgradeElement extends HTMLElement {
             }
         }
 
-        details.appendChild(effect);
+        this.detailsElement.appendChild(effect);
 
         if (upgrade.levels) {
-            const amount = document.createElement("span");
-            amount.classList.add("amount");
-            amount.innerText = `0/${upgrade.levels}`;
-            details.appendChild(amount);
+            this.levelsElement = document.createElement("span");
+            this.levelsElement.classList.add("amount");
+            this.levelsElement.innerText = `${this.levels}/${upgrade.levels}`;
+            this.detailsElement.appendChild(this.levelsElement);
         }
 
         if (upgrade.type !== "flag") {
             const tooltip = document.createElement("tool-tip");
             tooltip.setAttribute("orientation", "bottom");
             const label = document.createElement("translated-string");
-            const amount = document.createElement("span");
-            amount.classList.add("current-amount");
+            this.currentEffectElement = document.createElement("span");
+            this.currentEffectElement.classList.add("current-amount");
             label.innerText = "misc.currentEffect";
             tooltip.appendChild(label);
-            tooltip.appendChild(amount);
+            tooltip.appendChild(this.currentEffectElement);
             this.appendChild(tooltip);
         }
 
-        const cost = document.createElement("span");
-        cost.classList.add("cost");
+        this.costElement = document.createElement("span");
+        this.costElement.classList.add("cost");
         switch (upgrade.currency) {
             case "energy":
-                cost.innerText = Energy.getFormatted(BigNumber(upgrade.cost * 1000000));
+                this.costElement.innerText = Energy.getFormatted(BigNumber(upgrade.cost * 1000000));
                 break;
             default:
-                cost.innerText = upgrade.cost + "";
+                this.costElement.innerText = upgrade.cost + "";
         }
 
-        this.appendChild(details);
-        this.appendChild(cost);
+        this.appendChild(this.detailsElement);
+        this.appendChild(this.costElement);
 
-        cost.addEventListener("click", (e) => {
-            StatHandler.gainUpgrade(namespace, id);
+        this.costElement.addEventListener("click", (e) => {
+            if (StatHandler.gainUpgrade(namespace, id) && this.levelsElement) {
+                this.levels += 1;
+                this.levelsElement.innerText = `${this.levels}/${upgrade.levels}`;
+            }
         });
     }
 }

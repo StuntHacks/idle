@@ -1,6 +1,5 @@
-import { Currencies } from "../../../game_logic/currencies/Currencies";
-import { Quantum } from "../../../game_logic/systems/quantum/Quantum";
-import { UI } from "../../UI";
+import { Currencies } from "game_logic/currencies/Currencies";
+import { Quantum } from "game_logic/systems/quantum/Quantum";
 import { QuantumFieldElement } from "../QuantumFieldElement";
 
 export class FluctuatorElement extends HTMLElement {

@@ -1,7 +1,7 @@
-import { Currencies } from "../../game_logic/currencies/Currencies"
-import { Numbers } from "../../numbers/numbers";
-import { BigNumber } from "bignumber.js"
+import { Currencies } from "game_logic/currencies/Currencies"
+import { Numbers } from "numbers/numbers";
 import { QuantumFieldElement } from "./QuantumFieldElement";
+import { BigNumber } from "bignumber.js"
 
 export class CurrencyElement extends HTMLElement {
     private currencies: string[] = [];

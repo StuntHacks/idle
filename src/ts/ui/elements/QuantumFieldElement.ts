@@ -1,5 +1,5 @@
-import { Currencies } from "../../game_logic/currencies/Currencies";
-import { Quantum } from "../../game_logic/systems/quantum/Quantum";
+import { Currencies } from "game_logic/currencies/Currencies";
+import { Quantum } from "game_logic/systems/quantum/Quantum";
 import { UI } from "../UI";
 import { Wave, WaveParticleInfo } from "../Wave";
 

@@ -1,5 +1,5 @@
 import { BigNumber } from "bignumber.js"
-import { StatHandler } from "../../StatHandler";
+import { StatHandler } from "game_logic/StatHandler";
 
 export class Quantum {
     public static getParticleAmount(hash: string): BigNumber {

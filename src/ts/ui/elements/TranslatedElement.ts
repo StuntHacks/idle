@@ -1,5 +1,5 @@
-import { Translator } from "../../i18n/i18n";
-import { Settings } from "../../utils/Settings";
+import { Translator } from "i18n/i18n";
+import { Settings } from "utils/Settings";
 import _ from "lodash";
 
 export class TranslatedElement extends HTMLElement {

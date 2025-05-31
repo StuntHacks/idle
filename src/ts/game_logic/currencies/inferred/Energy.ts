@@ -1,8 +1,8 @@
 
-import { BigNumber } from "bignumber.js"
-import { Numbers } from "../../../numbers/numbers";
+import { Numbers } from "numbers/numbers";
+import { StatHandler } from "game_logic/StatHandler";
 import { Currencies } from "../Currencies";
-import { StatHandler } from "../../StatHandler";
+import { BigNumber } from "bignumber.js"
 
 export class Energy {
     private static amount = BigNumber(0);

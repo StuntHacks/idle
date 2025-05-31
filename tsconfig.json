@@ -10,6 +10,7 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "baseUrl": "./src/ts",
   },
   "include": ["src/ts/**/*"],
   "exclude": ["**/*.spec.ts"]

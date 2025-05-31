@@ -1,9 +1,9 @@
 import { BigNumber } from "bignumber.js"
-import { WaveParticleInfo } from "../../ui/Wave";
-import { Numbers } from "../../numbers/numbers";
+import { WaveParticleInfo } from "ui/Wave";
+import { Numbers } from "numbers/numbers";
 import { InferredCurrency as InferredCurrencyClass } from "./InferredCurrency";
 import { Energy } from "./inferred/Energy";
-import { SaveHandler } from "../../SaveHandler/SaveHandler";
+import { SaveHandler } from "SaveHandler/SaveHandler";
 
 export class Currencies {
     private static currencies: Currency[] = [];

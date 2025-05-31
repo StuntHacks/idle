@@ -1,10 +1,9 @@
-import { BigNumber } from "bignumber.js";
 import statsData from "./data/stats.json";
-import { SaveHandler } from "../SaveHandler/SaveHandler";
-import upgrades from "../game_logic/data/upgrades.json";
-import statData from "../game_logic/data/stats.json";
-import _, { union } from "lodash";
-import { Upgrade } from "../types/SaveFile";
+import upgrades from "game_logic/data/upgrades.json";
+import { SaveHandler } from "SaveHandler/SaveHandler";
+import { Upgrade } from "types/SaveFile";
+import { BigNumber } from "bignumber.js";
+import _ from "lodash";
 
 const stats = statsData as StatData;
 
@@ -53,7 +52,7 @@ export class StatHandler {
         };
     }
 
-    public static gainUpgrade(namespace: string, id: string, amount: number = 1) {
+    public static gainUpgrade(namespace: string, id: string, amount: number = 1): boolean {
         const upgrade = _.get(upgrades, namespace).find((u: Upgrade) => u.id === id) as Upgrade;
         if (upgrade.type === "flag") {
             SaveHandler.setFlag(upgrade.target, true);
@@ -61,9 +60,10 @@ export class StatHandler {
             const save = SaveHandler.getUpgrades();
             const index = save.findIndex((u: Upgrade) => u.id === id);
             if (index > -1 && upgrade.levels) {
-                if (save[index].levels < upgrade.levels) {
-                    save[index].levels += amount;
+                if (save[index].levels >= upgrade.levels) {
+                    return false;
                 }
+                save[index].levels += amount;
             } else {
                 save.push({
                     ...upgrade,
@@ -72,6 +72,8 @@ export class StatHandler {
             }
             this.update(upgrade.target);
         }
+
+        return true;
     }
 
     public static initialize() {
