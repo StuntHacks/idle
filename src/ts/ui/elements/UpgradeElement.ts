@@ -23,12 +23,33 @@ export class UpgradeElement extends HTMLElement {
         details.appendChild(title);
 
         // todo: handle effects of non-descriptive upgrades (x2 etc)
+        const effect = document.createElement("span");
+        effect.classList.add("effect");
         if (upgrade.effect) {
-            const effect = document.createElement("span");
-            effect.classList.add("effect");
             effect.innerText = Translator.getTranslation(upgrade.effect, "en");
-            details.appendChild(effect);
         }
+
+        if (upgrade.effect && upgrade.type !== "flag") {
+            effect.insertAdjacentHTML("beforeend", "<br />");
+        }
+
+        if (upgrade.type !== "flag") {
+            effect.innerText = Translator.getTranslation(StatHandler.get(upgrade.target).title, "en");
+
+            if (upgrade.type === "additive") {
+                effect.innerText += " +";
+            } else {
+                effect.innerText += " x";
+            }
+
+            effect.innerText += upgrade.amount;
+
+            if (upgrade.additive) {
+                effect.innerText += ` (${Translator.getTranslation("misc.additive", "en")})`;
+            }
+        }
+
+        details.appendChild(effect);
 
         if (upgrade.levels) {
             const amount = document.createElement("span");

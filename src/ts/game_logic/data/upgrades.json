@@ -49,6 +49,7 @@
                     "title": "upgrades.quantum.energy.higherCharge.title",
                     "target": "energy_gain",
                     "type": "multiplicative",
+                    "additive": true,
                     "amount": 1.1,
                     "cost": 10,
                     "costScaling": 1.5,

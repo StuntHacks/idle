@@ -5,6 +5,7 @@
         "unimplemented": "Not yet implemented",
         "unlockedAt": "Unlocked at",
         "currentEffect": "Current effect:",
+        "additive": "additive",
         "unlocks": {
             "quantum": {
                 "forces": "10,000 total Quarks"

@@ -32,7 +32,6 @@ export class SaveHandler {
     }
 
     public static saveData(): void {
-
         const [currencies, inferred] = Currencies.getAll();
 
         SaveHandler.save.currencies.normal = [];
