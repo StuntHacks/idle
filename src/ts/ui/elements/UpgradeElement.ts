@@ -3,6 +3,7 @@ import _ from "lodash";
 import { Translator } from "../../i18n/i18n";
 import { Energy } from "../../game_logic/currencies/inferred/Energy";
 import { BigNumber } from "bignumber.js"
+import { StatHandler } from "../../game_logic/StatHandler";
 
 export class UpgradeElement extends HTMLElement {
     constructor() {
@@ -11,7 +12,8 @@ export class UpgradeElement extends HTMLElement {
 
     connectedCallback() {
         const id = this.getAttribute("upgrade");
-        const upgrade = _.get(upgrades, this.getAttribute("namespace")).find((u: any) => u.id === id);
+        const namespace = this.getAttribute("namespace");
+        const upgrade = _.get(upgrades, namespace).find((u: any) => u.id === id);
         const details = document.createElement("div");
         details.classList.add("details");
 
@@ -46,5 +48,9 @@ export class UpgradeElement extends HTMLElement {
 
         this.appendChild(details);
         this.appendChild(cost);
+
+        cost.addEventListener("click", (e) => {
+            StatHandler.gainUpgrade(namespace, id);
+        });
     }
 }

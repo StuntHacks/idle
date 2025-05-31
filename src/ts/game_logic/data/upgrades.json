@@ -28,6 +28,7 @@
                     "id": "quantum_fluctuations",
                     "title": "upgrades.quantum.energy.quantumFluctuations.title",
                     "effect": "upgrades.quantum.energy.quantumFluctuations.effect",
+                    "target": "quantum.fluctuations",
                     "type": "flag",
                     "cost": 1000,
                     "currency": "energy"
