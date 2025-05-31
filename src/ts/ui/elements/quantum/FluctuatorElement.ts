@@ -32,7 +32,11 @@ export class FluctuatorElement extends HTMLElement {
         switch (name) {
             case "disabled":
                 this.enabled = newValue !== "";
-                this.lastTrigger = performance.now() - this.interval;
+                const now = performance.now();
+                const elapsed = now - this.lastTrigger;
+                if (elapsed >= this.interval) {
+                    this.lastTrigger = now - this.interval;
+                }
                 break;
         }
     }

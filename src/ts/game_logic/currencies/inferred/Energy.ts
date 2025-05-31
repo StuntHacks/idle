@@ -10,7 +10,7 @@ export class Energy {
     public static initialize() {
         Currencies.registerInferred("energy", this);
         Currencies.registerCallback((hash: string, amount: BigNumber) => {
-            this.amount = this.amount.plus(amount.multipliedBy(StatHandler.get("energy_gain").total.multipliedBy(511000)));
+            this.amount = this.amount.plus(amount.multipliedBy(StatHandler.get("energy_gain").total));
         }, "leptons-electron");
     }
 

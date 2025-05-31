@@ -4,7 +4,7 @@
         "title": "stats.quantum.electronGain"
     },
     "energy_gain": {
-        "base": 1,
+        "base": 511000,
         "title": "stats.quantum.energyGain"
     }
 }

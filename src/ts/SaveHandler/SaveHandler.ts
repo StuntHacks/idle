@@ -31,7 +31,7 @@ export class SaveHandler {
         return 2;
     }
 
-    public static saveData(): void {
+    public static saveCurrencies() {
         const [currencies, inferred] = Currencies.getAll();
 
         SaveHandler.save.currencies.normal = [];
@@ -50,8 +50,14 @@ export class SaveHandler {
                 amount: c.handler.getAmount(),
             });
         }
+    }
 
+    public static saveData(fresh: boolean = false): void {
         let data = SaveHandler.encode(JSON.stringify(SaveHandler.save));
+
+        if (!fresh) {
+            SaveHandler.saveCurrencies();
+        }
 
         localStorage.setItem("saveFileBak", localStorage.getItem("saveFile"));
         localStorage.setItem("saveFile", data);
@@ -89,7 +95,7 @@ export class SaveHandler {
                 quantum: {}
             }
         };
-        this.saveData();
+        this.saveData(true);
         return this.save;
     }
 
