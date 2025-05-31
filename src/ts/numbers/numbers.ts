@@ -1,8 +1,8 @@
 import { BigNumber } from "bignumber.js"
 
 export namespace Numbers {
-    export const getFormatted = (num: BigNumber): string => {
-        const fixed = num.toFixed(2);
+    export const getFormatted = (num: BigNumber, precision: number = 0): string => {
+        const fixed = num.toFixed(precision);
         if (fixed.includes("e")) {
             let ret;
 
