@@ -5,10 +5,10 @@ import { Energy } from "game_logic/currencies/inferred/Energy";
 import { StatHandler } from "game_logic/StatHandler";
 import { Upgrade } from "types/SaveFile";
 import { BigNumber } from "bignumber.js"
+import { Currencies } from "game_logic/currencies/Currencies";
 
 export class UpgradeElement extends HTMLElement {
-    private cost: number = 0;
-    private scaling: number = 0;
+    private cost: BigNumber;
     private levels: number = 0;
 
     private detailsElement: HTMLDivElement;
@@ -27,8 +27,7 @@ export class UpgradeElement extends HTMLElement {
         this.detailsElement = document.createElement("div");
         this.detailsElement.classList.add("details");
 
-        this.cost = upgrade.cost;
-        this.scaling = upgrade.costScaling;
+        this.cost = BigNumber(upgrade.cost);
         this.levels = this.hasAttribute("levels") ? parseInt(this.getAttribute("levels")) : 0;
 
         const title = document.createElement("span");
@@ -97,7 +96,10 @@ export class UpgradeElement extends HTMLElement {
         this.appendChild(this.costElement);
 
         this.costElement.addEventListener("click", (e) => {
-            if (StatHandler.gainUpgrade(namespace, id) && this.levelsElement) {
+            const result = StatHandler.gainUpgrade(namespace, id, true);
+            console.log(result)
+            if (result && this.levelsElement) {
+                this.cost = this.cost.multipliedBy(upgrade.costScaling);
                 this.levels += 1;
                 this.levelsElement.innerText = `${this.levels}/${upgrade.levels}`;
             }

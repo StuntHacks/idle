@@ -10,9 +10,11 @@ export class Currencies {
     private static inferredCurrencies: InferredCurrency[] = [];
     private static container: HTMLElement;
     private static spawning: boolean = true;
+    private static inferredMap: { [key: string]: boolean } = {};
 
     public static register(className: string, hash: string) {
         this.currencies.push({ className, amount: new BigNumber(0), hash, callbacks: [] });
+        this.inferredMap[hash] = false;
     }
 
     public static registerCallback(callback: CurrencyCallback, hash: string) {
@@ -21,6 +23,7 @@ export class Currencies {
 
     public static registerInferred(hash: string, handler: InferredCurrencyClass) {
         this.inferredCurrencies.push({ hash, handler });
+        this.inferredMap[hash] = true;
     }
 
     public static initialize(id: string = "resource-gain-container") {
@@ -107,26 +110,49 @@ export class Currencies {
     }
 
     public static gain(hash: string, amount: BigNumber) {
-        let i = this.currencies.findIndex(r => r.hash === hash);
-        if (i > -1) {
-            const before = this.currencies[i].amount;
+        const currency = this.currencies.find(r => r.hash === hash);
+        if (currency) {
+            const before = currency.amount;
             const total = amount.plus(before);
-            this.currencies[i].amount = total;
+            currency.amount = total;
 
-            for (let callback of this.currencies[i].callbacks) {
-                callback(hash, amount, before, total);
+            for (let callback of currency.callbacks) {
+                callback(hash, "gain", amount, before, total);
             }
         }
     }
 
-    public static set(hash: string, amount: BigNumber) {
-        let i = this.currencies.findIndex(r => r.hash === hash);
-        if (i > -1) {
-            const before = this.currencies[i].amount;
-            this.currencies[i].amount = amount;
+    public static spend(hash: string, amount: BigNumber): boolean {
+        if (this.inferredMap[hash]) {
+            return this.inferredCurrencies.find(c => c.hash === hash).handler.spend(amount);
+        } else {
+            const currency = this.currencies.find(c => c.hash === hash);
+            if (currency) {
+                if (currency.amount.isGreaterThanOrEqualTo(amount)) {
+                    const before = currency.amount;
+                    const total = amount.minus(before);
+                    currency.amount = total;
 
-            for (let callback of this.currencies[i].callbacks) {
-                callback(hash, amount, before, amount);
+                    for (let callback of currency.callbacks) {
+                        callback(hash, "spend", amount, before, total);
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    public static set(hash: string, amount: BigNumber) {
+        const currency = this.currencies.find(r => r.hash === hash);
+        if (currency) {
+            const before = currency.amount;
+            currency.amount = amount;
+
+            for (let callback of currency.callbacks) {
+                callback(hash, "set", amount, before, amount);
             }
         }
     }
@@ -191,4 +217,4 @@ export interface InferredCurrency {
     handler: InferredCurrencyClass;
 }
 
-type CurrencyCallback = (hash: string, amount: BigNumber, before: BigNumber, total: BigNumber) => void;
+type CurrencyCallback = (hash: string, type: "gain" | "spend" | "set", amount: BigNumber, before: BigNumber, total: BigNumber) => void;

@@ -4,6 +4,7 @@ import { SaveHandler } from "SaveHandler/SaveHandler";
 import { Upgrade } from "types/SaveFile";
 import { BigNumber } from "bignumber.js";
 import _ from "lodash";
+import { Currencies } from "./currencies/Currencies";
 
 const stats = statsData as StatData;
 
@@ -52,27 +53,42 @@ export class StatHandler {
         };
     }
 
-    public static gainUpgrade(namespace: string, id: string, amount: number = 1): boolean {
+    public static gainUpgrade(namespace: string, id: string, purchase: boolean = false, amount: number = 1): boolean {
         const upgrade = _.get(upgrades, namespace).find((u: Upgrade) => u.id === id) as Upgrade;
         if (upgrade.type === "flag") {
             SaveHandler.setFlag(upgrade.target, true);
         } else {
             const save = SaveHandler.getUpgrades();
             const index = save.findIndex((u: Upgrade) => u.id === id);
-            if (index > -1 && upgrade.levels) {
-                if (save[index].levels >= upgrade.levels) {
+            if (index > -1 && !upgrade.levels) {
+                return false;
+            }
+
+            // todo: implement correct calculations for buying multiple levels at once
+            const levels = save[index] ? save[index].levels : amount;
+
+            if (index > -1 && save[index].levels >= upgrade.levels) {
+                return false;
+            }
+
+            const cost = BigNumber(upgrade.levels ? upgrade.cost * (levels ** upgrade.costScaling) : upgrade.cost);
+
+            if (purchase) {
+                if (!Currencies.spend(upgrade.currency, cost)) {
                     return false;
                 }
-                save[index].levels += amount;
-            } else {
+            }
+
+            if (index <= -1) {
                 save.push({
                     ...upgrade,
                     levels: 1,
                 });
+            } else {
+                save[index].levels += amount;
             }
             this.update(upgrade.target);
         }
-
         return true;
     }
 

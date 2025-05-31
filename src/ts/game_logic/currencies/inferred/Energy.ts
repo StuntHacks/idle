@@ -9,8 +9,10 @@ export class Energy {
 
     public static initialize() {
         Currencies.registerInferred("energy", this);
-        Currencies.registerCallback((hash: string, amount: BigNumber) => {
-            this.amount = this.amount.plus(amount.multipliedBy(StatHandler.get("energy_gain").total));
+        Currencies.registerCallback((hash, type, amount) => {
+            if (type === "gain") {
+                this.amount = this.amount.plus(amount.multipliedBy(StatHandler.get("energy_gain").total));
+            }
         }, "leptons-electron");
     }
 
@@ -52,5 +54,16 @@ export class Energy {
 
     public static setAmount(amount: BigNumber) {
         this.amount = amount;
+    }
+
+    public static spend(amount: BigNumber) {
+        const actual = amount.multipliedBy(1000000);
+        if (this.amount.isGreaterThanOrEqualTo(actual)) {
+            // todo: add callbacks
+            this.amount = this.amount.minus(actual);
+            return true;
+        }
+
+        return false;
     }
 }
