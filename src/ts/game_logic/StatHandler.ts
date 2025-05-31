@@ -12,7 +12,12 @@ export class StatHandler {
     private static stats: Stats = {};
 
     public static update(stat: string) {
-        const upgrades = SaveHandler.getUpgrades().filter((u: Upgrade) => u.target === stat);
+        let upgrades = SaveHandler.getUpgrades();
+        if (!upgrades) {
+            SaveHandler.initialize();
+            upgrades = SaveHandler.getUpgrades();
+        }
+        const filtered = upgrades.filter((u: Upgrade) => u.target === stat);
         const grouped = upgrades.reduce<Record<string, Upgrade[]>>((acc: any, upgrade: Upgrade) => {
             if (!acc[upgrade.type]) {
               acc[upgrade.type] = [];
