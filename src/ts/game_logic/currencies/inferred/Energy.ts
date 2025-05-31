@@ -2,6 +2,7 @@
 import { BigNumber } from "bignumber.js"
 import { Numbers } from "../../../numbers/numbers";
 import { Currencies } from "../Currencies";
+import { StatHandler } from "../../StatHandler";
 
 export class Energy {
     private static amount = BigNumber(0);
@@ -9,7 +10,7 @@ export class Energy {
     public static initialize() {
         const self = this;
         Currencies.registerCallback((hash: string, amount: BigNumber) => {
-            this.amount = this.amount.plus(amount.multipliedBy(511000));
+            this.amount = this.amount.plus(amount.multipliedBy(StatHandler.get("energy_gain").total.multipliedBy(511000)));
         }, "leptons-electron");
     }
 
