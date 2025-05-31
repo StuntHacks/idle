@@ -1,3 +1,4 @@
+import { Currencies } from "../game_logic/currencies/Currencies";
 import { SaveFile, Upgrade } from "../types/SaveFile";
 import { UI } from "../ui/UI";
 import { Logger } from "../utils/Logger";
@@ -15,11 +16,33 @@ export class SaveHandler {
             return false;
         }
         this.save = JSON.parse(this.decode(data))
+
         return true;
     }
 
     public static saveData(): void {
+
+        const [currencies, inferred] = Currencies.getAll();
+
+        SaveHandler.save.currencies.normal = [];
+        for (const c of currencies) {
+            SaveHandler.save.currencies.normal.push({
+                hash: c.hash,
+                amount: c.amount,
+                className: c.className
+            });
+        }
+
+        SaveHandler.save.currencies.inferred = [];
+        for (const c of inferred) {
+            SaveHandler.save.currencies.inferred.push({
+                hash: c.hash,
+                amount: c.handler.getAmount(),
+            });
+        }
+
         let data = SaveHandler.encode(JSON.stringify(SaveHandler.save));
+
         localStorage.setItem("saveFileBak", localStorage.getItem("saveFile"));
         localStorage.setItem("saveFile", data);
         UI.flashSaveIndicator();

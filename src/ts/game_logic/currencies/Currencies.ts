@@ -3,6 +3,7 @@ import { WaveParticleInfo } from "../../ui/Wave";
 import { Numbers } from "../../numbers/numbers";
 import { InferredCurrency as InferredCurrencyClass } from "./InferredCurrency";
 import { Energy } from "./inferred/Energy";
+import { SaveHandler } from "../../SaveHandler/SaveHandler";
 
 export class Currencies {
     private static currencies: Currency[] = [];
@@ -67,6 +68,20 @@ export class Currencies {
         this.register("particle boson higgs", "bosons-higgs");
 
         Energy.initialize();
+
+        this.loadFromSave();
+    }
+
+    private static loadFromSave() {
+        const currencies = SaveHandler.getData().currencies;
+
+        for (const c of currencies.normal) {
+            this.set(c.hash, BigNumber(c.amount));
+        }
+
+        for (const c of currencies.inferred) {
+            this.setInferred(c.hash, BigNumber(c.amount));
+        }
     }
 
     public static toggleSpawning(spawning: boolean = undefined) {
@@ -116,11 +131,18 @@ export class Currencies {
         }
     }
 
+    public static setInferred(hash: string, amount: BigNumber) {
+        const currency = this.inferredCurrencies.find(c => c.hash === hash);
+        if (currency) {
+            currency.handler.setAmount(amount);
+        }
+    }
+
     public static get(hash: string) {
         return this.currencies.find(c => c.hash === hash);
     }
 
-    public static getAll() {
+    public static getAll(): [Currency[], InferredCurrency[]] {
         return [this.currencies, this.inferredCurrencies];
     }
 

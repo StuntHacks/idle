@@ -49,4 +49,8 @@ export class Energy {
     public static getAmount(): BigNumber {
         return this.amount;
     }
+
+    public static setAmount(amount: BigNumber) {
+        this.amount = amount;
+    }
 }

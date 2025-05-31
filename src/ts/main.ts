@@ -31,8 +31,8 @@ export const main = () => {
 
     // initialize
     Translator.initialize();
-    Currencies.initialize("resource-gain-container");
     Game.initialize();
+    Currencies.initialize("resource-gain-container");
     UI.initialize();
 
     customElements.define("translated-string", TranslatedElement);

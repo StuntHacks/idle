@@ -33,6 +33,6 @@ export interface Upgrade {
 
 interface SaveCurrency {
     amount: BigNumber;
-    className: string;
+    className?: string;
     hash: string;
 }
