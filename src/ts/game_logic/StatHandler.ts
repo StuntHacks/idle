@@ -40,8 +40,6 @@ export class StatHandler {
             }
         }
 
-        console.log(stat, this.stats[stat].base, "+", additive.toString(), ", *", multiplicative.toString(), "=", BigNumber(this.stats[stat].base).plus(additive).multipliedBy(multiplicative).toString())
-
         this.stats[stat] = {
             ...this.stats[stat],
             additive: additive,

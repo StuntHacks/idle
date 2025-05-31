@@ -120,6 +120,10 @@ export class Currencies {
         return this.currencies.find(c => c.hash === hash);
     }
 
+    public static getAll() {
+        return [this.currencies, this.inferredCurrencies];
+    }
+
     public static getInferred(hash: string) {
         return this.inferredCurrencies.find(c => c.hash === hash);
     }

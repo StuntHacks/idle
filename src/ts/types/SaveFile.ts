@@ -1,6 +1,10 @@
 import { Settings } from "./Settings";
 
 export interface SaveFile {
+    currencies: {
+        normal: SaveCurrency[];
+        inferred: SaveCurrency[];
+    };
     settings: Settings;
     upgrades: Upgrade[];
     flags: {
@@ -25,4 +29,10 @@ export interface Upgrade {
     costScaling?: number;
     levels?: number;
     currency: string;
+}
+
+interface SaveCurrency {
+    amount: BigNumber;
+    className: string;
+    hash: string;
 }

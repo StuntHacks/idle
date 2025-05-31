@@ -44,6 +44,10 @@ export class SaveHandler {
     public static initialize(): SaveFile {
         Logger.log("SaveHandler", "Initializing new save file...");
         this.save = {
+            currencies: {
+                normal: [],
+                inferred: [],
+            },
             settings: Settings.default(),
             upgrades: [],
             flags: {

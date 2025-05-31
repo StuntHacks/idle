@@ -8,7 +8,7 @@ export class Energy {
     private static amount = BigNumber(0);
 
     public static initialize() {
-        const self = this;
+        Currencies.registerInferred("energy", this);
         Currencies.registerCallback((hash: string, amount: BigNumber) => {
             this.amount = this.amount.plus(amount.multipliedBy(StatHandler.get("energy_gain").total.multipliedBy(511000)));
         }, "leptons-electron");
