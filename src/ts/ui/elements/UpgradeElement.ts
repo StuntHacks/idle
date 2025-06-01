@@ -7,6 +7,7 @@ import { Upgrade } from "types/SaveFile";
 import { BigNumber } from "bignumber.js"
 import { Currencies, Currency, InferredCurrencyCallback } from "game_logic/currencies/Currencies";
 import { Numbers } from "numbers/numbers";
+import { SaveHandler } from "SaveHandler/SaveHandler";
 
 export class UpgradeElement extends HTMLElement {
     private cost: BigNumber;
@@ -73,7 +74,7 @@ export class UpgradeElement extends HTMLElement {
                 }
             }
 
-            this.disabled = !total.isGreaterThanOrEqualTo(this.getCost());
+            this.disabled = this.levels >= upgrade.levels || SaveHandler.getFlag(upgrade.target) || !total.isGreaterThanOrEqualTo(this.getCost());
             this.classList.toggle("disabled", this.disabled);
         }
 
@@ -136,11 +137,22 @@ export class UpgradeElement extends HTMLElement {
 
         this.costElement.addEventListener("click", (e) => {
             const result = StatHandler.gainUpgrade(namespace, id, true);
-            if (result && this.levelsElement) {
-                this.levels += 1;
-                this.levelsElement.innerText = `${this.levels}/${upgrade.levels}`;
-                this.updateCost();
-                checkCost();
+            console.log(result)
+            if (result) {
+                if (this.levelsElement) {
+                    this.levels += 1;
+                    this.levelsElement.innerText = `${this.levels}/${upgrade.levels}`;
+                    if (this.levels >= upgrade.levels) {
+                        this.disabled = true;
+                        this.classList.add("disabled");
+                        return;
+                    }
+                    this.updateCost();
+                    checkCost();
+                } else {
+                    this.disabled = true;
+                    this.classList.add("disabled");
+                }
             }
         });
     }

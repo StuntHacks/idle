@@ -7,7 +7,7 @@
                     "title": "upgrades.quantum.energy.strongerFields.title",
                     "target": "electron_gain",
                     "type": "additive",
-                    "amount": 1,
+                    "amount": 2,
                     "cost": 2e6,
                     "costScaling": 1.5,
                     "levels": 10,
@@ -17,8 +17,8 @@
                     "id": "higher_charge_1",
                     "title": "upgrades.quantum.energy.higherCharge.title",
                     "target": "energy_gain",
-                    "type": "additive",
-                    "amount": 1,
+                    "type": "multiplicative",
+                    "amount": 1.1,
                     "cost": 2e6,
                     "costScaling": 1.5,
                     "levels": 10,
@@ -31,29 +31,6 @@
                     "target": "quantum.fluctuators.first",
                     "type": "flag",
                     "cost": 1e9,
-                    "currency": "energy"
-                },
-                {
-                    "id": "stronger_fields_2",
-                    "title": "upgrades.quantum.energy.strongerFields.title",
-                    "target": "electron_gain",
-                    "type": "multiplicative",
-                    "amount": 1.1,
-                    "cost": 10,
-                    "costScaling": 1.5,
-                    "levels": 10,
-                    "currency": "energy"
-                },
-                {
-                    "id": "higher_charge_2",
-                    "title": "upgrades.quantum.energy.higherCharge.title",
-                    "target": "energy_gain",
-                    "type": "multiplicative",
-                    "additive": true,
-                    "amount": 1.1,
-                    "cost": 10,
-                    "costScaling": 1.5,
-                    "levels": 10,
                     "currency": "energy"
                 }
             ]

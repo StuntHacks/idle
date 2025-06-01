@@ -56,6 +56,11 @@ export class StatHandler {
     public static gainUpgrade(namespace: string, id: string, purchase: boolean = false, amount: number = 1): boolean {
         const upgrade = _.get(upgrades, namespace).find((u: Upgrade) => u.id === id) as Upgrade;
         if (upgrade.type === "flag") {
+            if (purchase) {
+                if (!Currencies.spend(upgrade.currency, BigNumber(upgrade.cost))) {
+                    return false;
+                }
+            }
             SaveHandler.setFlag(upgrade.target, true);
         } else {
             const save = SaveHandler.getUpgrades();
@@ -71,7 +76,7 @@ export class StatHandler {
                 return false;
             }
 
-            const cost = BigNumber(upgrade.levels ? upgrade.cost * (upgrade.costScaling ** levels) : upgrade.cost);
+            const cost = BigNumber(upgrade.levels && index > -1 ? upgrade.cost * (upgrade.costScaling ** levels) : upgrade.cost);
 
             if (purchase) {
                 if (!Currencies.spend(upgrade.currency, cost)) {

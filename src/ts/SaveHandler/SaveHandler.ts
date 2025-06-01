@@ -8,6 +8,7 @@ import _ from "lodash";
 export class SaveHandler {
     private static save: SaveFile;
     private static lastSave: number = 0;
+    private static flagCallbacks: { [key: string]: FlagCallback[] } = {};
 
     public static loadData(): boolean {
         Logger.log("SaveHandler", "Loading save file...");
@@ -83,11 +84,25 @@ export class SaveHandler {
         return this.save.upgrades;
     }
 
-    public static getFlag(flag: "string") {
+    public static registerFlagCallback(flag: string, callback: FlagCallback) {
+        if (this.flagCallbacks[flag]) {
+            this.flagCallbacks[flag].push(callback);
+        } else {
+            this.flagCallbacks[flag] = [callback];
+        }
+    }
+
+    public static getFlag(flag: string) {
         return _.get(this.save.flags, flag);
     }
 
     public static setFlag(flag: string, value: any) {
+        const callbacks = this.flagCallbacks[flag];
+        if (callbacks) {
+            for (const callback of callbacks) {
+                callback(flag, value);
+            }
+        }
         _.set(this.save.flags, flag, value);
     }
 
@@ -122,3 +137,5 @@ export class SaveHandler {
         return data;
     }
 }
+
+export type FlagCallback = (flag: string, value: any) => void;
