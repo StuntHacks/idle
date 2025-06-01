@@ -10,6 +10,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow: hidden;
+            position: sticky;
+            top: 0;
+            min-width: 370px;
 
             .energy-amount {
                 display: flex;
@@ -42,11 +46,27 @@
             .fluctuators {
                 width: 100%;
                 margin-top: 15px;
+                transition: margin-bottom 250ms;
+
+                &[data-hidden="1"] {
+                    margin-bottom: -70px;
+                }
+
+                &[data-hidden="2"] {
+                    margin-bottom: -140px;
+                }
+
+                &[data-hidden="3"] {
+                    margin-bottom: -210px;
+                }
+
+                &[data-hidden="4"] {
+                    margin-bottom: -280px;
+                }
 
                 .block {
                     background-color: #0005;
                     width: 100%;
-                    margin-top: 2px;
                 }
 
                 .title {

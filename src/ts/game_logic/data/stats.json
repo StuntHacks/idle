@@ -17,6 +17,6 @@
     },
     "field_gain": {
         "base": 1,
-        "title": "stats.quantum.energyGain"
+        "title": "stats.quantum.fieldGain"
     }
 }

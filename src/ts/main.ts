@@ -16,6 +16,7 @@ import { SystemTabElement } from "./ui/elements/SystemTabElement";
 import { Game } from "./game_logic/Game";
 import { FluctuatorElement } from "./ui/elements/quantum/FluctuatorElement";
 import { UpgradeElement } from "./ui/elements/UpgradeElement";
+import { Numbers } from "numbers/numbers";
 
 export const main = () => {
     BigNumber.config({ EXPONENTIAL_AT: 6, DECIMAL_PLACES: 1, ROUNDING_MODE: BigNumber.ROUND_FLOOR });

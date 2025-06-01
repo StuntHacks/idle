@@ -2,6 +2,7 @@ fluctuator-block {
     display: flex;
     position: relative;
     transition: filter 250ms;
+    height: 70px;
 
     &[disabled] {
         .stats .stat .disable-button {
@@ -102,6 +103,7 @@ fluctuator-block {
         z-index: 1;
         transition: background-color 150ms;
         text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+        align-items: center;
 
         &:hover {
             background-color: #0009;

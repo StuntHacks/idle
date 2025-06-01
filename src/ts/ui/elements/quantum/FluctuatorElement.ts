@@ -116,16 +116,22 @@ export class FluctuatorElement extends HTMLElement {
             this.setInterval(this.interval - 100);
         });
 
-        if (SaveHandler.getFlag(`quantum.fluctuators.${this.getAttribute("index")}`)) {
+        const updateState = () => {
             this.locked = false;
             this.removeAttribute("locked");
+            if (this.getAttribute("index") !== "first") {
+                this.parentElement.dataset.hidden = (parseInt(this.parentElement.dataset.hidden) - 1) + "";
+            }
+            this.lastTrigger = performance.now();
+        }
+
+        if (SaveHandler.getFlag(`quantum.fluctuators.${this.getAttribute("index")}`)) {
+            updateState();
         }
 
         SaveHandler.registerFlagCallback(`quantum.fluctuators.${this.getAttribute("index")}`, (flag: string, value: any) => {
             if (value) {
-                this.locked = false;
-                this.removeAttribute("locked");
-                this.lastTrigger = performance.now();
+                updateState();
             }
         });
 
