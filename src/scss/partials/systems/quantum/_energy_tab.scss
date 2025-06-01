@@ -140,11 +140,29 @@
                 }
             }
 
-            .energy-upgrades,
-            .quark-upgrades {
+            .energy-upgrades {
                 .section {
                     overflow-x: auto;
                     padding: 0 5px;
+                    height: 160px;
+                    position: relative;
+
+                    .completed-label {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        z-index: 10;
+                        transition: opacity 250ms;
+                        pointer-events: none;
+                        display: none;
+                    }
+
+                    &:has(stat-upgrade:not(.completed)) {
+                        .completed-label {
+                            opacity: 0;
+                        }
+                    }
 
                     .wrapper {
                         display: flex;
@@ -169,6 +187,10 @@
                 .title:has(#quantum-energy-hide-complete:checked) + .section {
                     stat-upgrade.completed {
                         display: none;
+                    }
+
+                    .completed-label {
+                        display: inline-block;
                     }
 
                     stat-upgrade.completed-transition {

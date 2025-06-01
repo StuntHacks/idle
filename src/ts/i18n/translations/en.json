@@ -6,6 +6,7 @@
         "unlockedAt": "Unlocked at",
         "currentEffect": "Current effect:",
         "additive": "additive",
+        "upgradesCompleted": "All current upgrades completed",
         "unlocks": {
             "quantum": {
                 "forces": "10,000 total Quarks"
@@ -190,7 +191,7 @@
                     }
                 },
                 "quarkUpgrades": {
-                    "title": "Quark Conversion",
+                    "title": "Particle Conversion",
                     "upgrades": {
                         
                     }
