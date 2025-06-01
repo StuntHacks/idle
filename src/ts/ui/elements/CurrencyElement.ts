@@ -1,4 +1,4 @@
-import { Currencies } from "game_logic/currencies/Currencies"
+import { Currencies, Currency, InferredCurrency } from "game_logic/currencies/Currencies"
 import { Numbers } from "numbers/numbers";
 import { QuantumFieldElement } from "./QuantumFieldElement";
 import { BigNumber } from "bignumber.js"
@@ -17,11 +17,11 @@ export class CurrencyElement extends HTMLElement {
 
     private getValue() {
         if (this.inferred) {
-            return Currencies.getInferred(this.currencies[0]).handler.getFormatted();
+            return (Currencies.get(this.currencies[0]) as InferredCurrency).handler.getFormatted();
         } else {
             let amount = new BigNumber(0);
             for (let c of this.currencies) {
-                let found = Currencies.get(c);
+                let found = Currencies.get(c) as Currency;
                 if (found) {
                     amount = amount.plus(found.amount);
                 }

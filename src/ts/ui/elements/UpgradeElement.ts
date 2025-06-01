@@ -5,13 +5,15 @@ import { Energy } from "game_logic/currencies/inferred/Energy";
 import { StatHandler } from "game_logic/StatHandler";
 import { Upgrade } from "types/SaveFile";
 import { BigNumber } from "bignumber.js"
-import { Currencies } from "game_logic/currencies/Currencies";
+import { Currencies, Currency, InferredCurrencyCallback } from "game_logic/currencies/Currencies";
+import { Numbers } from "numbers/numbers";
 
 export class UpgradeElement extends HTMLElement {
     private cost: BigNumber;
     private scaling: number;
     private levels: number = 0;
     private currency: string;
+    private disabled: boolean;
 
     private detailsElement: HTMLDivElement;
     private costElement: HTMLSpanElement;
@@ -22,13 +24,22 @@ export class UpgradeElement extends HTMLElement {
         super();
     }
 
+    private getCost() {
+        switch (this.currency) {
+            case "energy":
+                return BigNumber(this.cost.multipliedBy(this.scaling ** this.levels));
+            default:
+                return this.cost;
+        }
+    }
+
     private updateCost() {
         switch (this.currency) {
             case "energy":
-                this.costElement.innerText = Energy.getFormatted(BigNumber(this.cost.multipliedBy(this.scaling ** this.levels)));
+                this.costElement.innerText = Energy.getFormatted(this.getCost());
                 break;
             default:
-                this.costElement.innerText = this.cost + "";
+                this.costElement.innerText = Numbers.getFormatted(this.getCost());
         }
     }
 
@@ -51,6 +62,25 @@ export class UpgradeElement extends HTMLElement {
         this.costElement.classList.add("cost");
         this.currency = upgrade.currency;
         this.updateCost();
+
+        const checkCost = (total: BigNumber = undefined) => {
+            if (!total) {
+                const c = Currencies.get(this.currency);
+                if (c.inferred) {
+                    total = c.handler.getAmount();
+                } else {
+                    total = (c as Currency).amount;
+                }
+            }
+
+            this.disabled = !total.isGreaterThanOrEqualTo(this.getCost());
+            this.classList.toggle("disabled", this.disabled);
+        }
+
+        const energyCallback: InferredCurrencyCallback = (hash, type, amount, before, total) => {
+            checkCost(total);
+        }
+        Currencies.registerCallback(energyCallback, "energy");
 
         // todo: handle effects of non-descriptive upgrades (x2 etc)
         const effect = document.createElement("span");
@@ -102,6 +132,7 @@ export class UpgradeElement extends HTMLElement {
 
         this.appendChild(this.detailsElement);
         this.appendChild(this.costElement);
+        checkCost();
 
         this.costElement.addEventListener("click", (e) => {
             const result = StatHandler.gainUpgrade(namespace, id, true);
@@ -109,6 +140,7 @@ export class UpgradeElement extends HTMLElement {
                 this.levels += 1;
                 this.levelsElement.innerText = `${this.levels}/${upgrade.levels}`;
                 this.updateCost();
+                checkCost();
             }
         });
     }

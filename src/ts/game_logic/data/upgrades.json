@@ -8,7 +8,7 @@
                     "target": "electron_gain",
                     "type": "additive",
                     "amount": 1,
-                    "cost": 10000000,
+                    "cost": 2e6,
                     "costScaling": 1.5,
                     "levels": 10,
                     "currency": "energy"
@@ -19,7 +19,7 @@
                     "target": "energy_gain",
                     "type": "additive",
                     "amount": 1,
-                    "cost": 10000000,
+                    "cost": 2e6,
                     "costScaling": 1.5,
                     "levels": 10,
                     "currency": "energy"
@@ -30,7 +30,7 @@
                     "effect": "upgrades.quantum.energy.quantumFluctuations.effect",
                     "target": "quantum.fluctuators.first",
                     "type": "flag",
-                    "cost": 1000,
+                    "cost": 1e9,
                     "currency": "energy"
                 },
                 {

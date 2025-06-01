@@ -1,19 +1,29 @@
 
 import { Numbers } from "numbers/numbers";
 import { StatHandler } from "game_logic/StatHandler";
-import { Currencies } from "../Currencies";
+import { Currencies, CurrencyCallback, InferredCurrencyCallback } from "../Currencies";
 import { BigNumber } from "bignumber.js"
 
 export class Energy {
     private static amount = BigNumber(0);
+    private static callbacks: InferredCurrencyCallback[] = [];
 
     public static initialize() {
         Currencies.registerInferred("energy", this);
-        Currencies.registerCallback((hash, type, amount) => {
+
+        const electronCallback: CurrencyCallback = (hash, type, amount) => {
             if (type === "gain") {
-                this.amount = this.amount.plus(amount.multipliedBy(StatHandler.get("energy_gain").total));
+                const before = this.amount;
+                const total = before.plus(amount.multipliedBy(StatHandler.get("energy_gain").total));
+                this.amount = total;
+
+                for (let callback of this.callbacks) {
+                    callback(this, "gain", amount, before, total);
+                }
             }
-        }, "leptons-electron");
+        }
+
+        Currencies.registerCallback(electronCallback, "leptons-electron");
     }
 
     public static getFormatted(amount: BigNumber = undefined): string {
@@ -58,11 +68,21 @@ export class Energy {
 
     public static spend(amount: BigNumber) {
         if (this.amount.isGreaterThanOrEqualTo(amount)) {
-            // todo: add callbacks
-            this.amount = this.amount.minus(amount);
+            const before = this.amount;
+            const total = before.minus(amount);
+            this.amount = total;
+
+            for (let callback of this.callbacks) {
+                callback(this, "spend", amount, before, total);
+            }
+
             return true;
         }
 
         return false;
+    }
+
+    public static registerCallback(callback: InferredCurrencyCallback) {
+        this.callbacks.push(callback);
     }
 }

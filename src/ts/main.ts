@@ -27,8 +27,6 @@ export const main = () => {
     let data = SaveHandler.getData();
     Settings.set(data.settings);
 
-    let mainContainer = document.getElementById("main");
-
     // initialize
     Translator.initialize();
     Game.initialize();
@@ -48,7 +46,7 @@ export const main = () => {
         SaveHandler.saveData();
     });
 
-    document.getElementById("magic-button").addEventListener("click", () => {
+    document.getElementById("reset-button").addEventListener("click", () => {
         SaveHandler.initialize();
         location.reload();
     });

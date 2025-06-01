@@ -13,16 +13,20 @@ export class Currencies {
     private static inferredMap: { [key: string]: boolean } = {};
 
     public static register(className: string, hash: string) {
-        this.currencies.push({ className, amount: new BigNumber(0), hash, callbacks: [] });
+        this.currencies.push({ className, amount: new BigNumber(0), hash, callbacks: [], inferred: false });
         this.inferredMap[hash] = false;
     }
 
-    public static registerCallback(callback: CurrencyCallback, hash: string) {
-        this.currencies.find((c) => c.hash === hash).callbacks.push(callback);
+    public static registerCallback(callback: CurrencyCallback | InferredCurrencyCallback, hash: string) {
+        if (this.inferredMap[hash]) {
+            this.inferredCurrencies.find((c) => c.hash === hash).handler.registerCallback(callback as InferredCurrencyCallback)
+        } else {
+            this.currencies.find((c) => c.hash === hash).callbacks.push(callback as CurrencyCallback);
+        }
     }
 
     public static registerInferred(hash: string, handler: InferredCurrencyClass) {
-        this.inferredCurrencies.push({ hash, handler });
+        this.inferredCurrencies.push({ hash, handler, inferred: true });
         this.inferredMap[hash] = true;
     }
 
@@ -130,7 +134,7 @@ export class Currencies {
             if (currency) {
                 if (currency.amount.isGreaterThanOrEqualTo(amount)) {
                     const before = currency.amount;
-                    const total = amount.minus(before);
+                    const total = before.minus(amount);
                     currency.amount = total;
 
                     for (let callback of currency.callbacks) {
@@ -164,16 +168,16 @@ export class Currencies {
         }
     }
 
-    public static get(hash: string) {
-        return this.currencies.find(c => c.hash === hash);
+    public static get(hash: string): InferredCurrency | Currency {
+        if (this.inferredMap[hash]) {
+            return this.inferredCurrencies.find(c => c.hash === hash);
+        } else {
+            return this.currencies.find(c => c.hash === hash);
+        }
     }
 
     public static getAll(): [Currency[], InferredCurrency[]] {
         return [this.currencies, this.inferredCurrencies];
-    }
-
-    public static getInferred(hash: string) {
-        return this.inferredCurrencies.find(c => c.hash === hash);
     }
 
     public static getFromQuantumField(particle: WaveParticleInfo): string {
@@ -210,11 +214,14 @@ export interface Currency {
     className: string;
     hash: string;
     callbacks: CurrencyCallback[];
+    inferred: false;
 }
 
 export interface InferredCurrency {
     hash: string;
     handler: InferredCurrencyClass;
+    inferred: true;
 }
 
-type CurrencyCallback = (hash: string, type: "gain" | "spend" | "set", amount: BigNumber, before: BigNumber, total: BigNumber) => void;
+export type CurrencyCallback = (hash: string, type: "gain" | "spend" | "set", amount: BigNumber, before: BigNumber, total: BigNumber) => void;
+export type InferredCurrencyCallback = (handler: InferredCurrencyClass, type: "gain" | "spend" | "set", amount: BigNumber, before: BigNumber, total: BigNumber) => void;
