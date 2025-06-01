@@ -3,6 +3,7 @@ import { SaveFile, Upgrade } from "types/SaveFile";
 import { UI } from "ui/UI";
 import { Logger } from "utils/Logger";
 import { Settings } from "utils/Settings";
+import mock from "./mock.json"
 import _ from "lodash";
 
 export class SaveHandler {
@@ -106,9 +107,9 @@ export class SaveHandler {
         _.set(this.save.flags, flag, value);
     }
 
-    public static initialize(): SaveFile {
+    public static initialize(useMock: boolean = false): SaveFile {
         Logger.log("SaveHandler", "Initializing new save file...");
-        this.save = {
+        this.save = useMock ? mock as unknown as SaveFile : {
             version: this.getVersion(),
             currencies: {
                 normal: [],

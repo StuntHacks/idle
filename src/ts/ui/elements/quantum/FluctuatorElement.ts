@@ -125,6 +125,7 @@ export class FluctuatorElement extends HTMLElement {
             if (value) {
                 this.locked = false;
                 this.removeAttribute("locked");
+                this.lastTrigger = performance.now();
             }
         });
 

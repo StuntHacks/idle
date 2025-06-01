@@ -14,9 +14,9 @@ stat-upgrade {
     border-radius: 20px;
     padding: 10px;
     position: relative;
+    transition: filter 250ms;
 
     &.disabled {
-        pointer-events: none;
         filter: grayscale(1);
         background-color: #0002;
 
@@ -31,11 +31,37 @@ stat-upgrade {
         }
 
         .cost {
+            pointer-events: none;
             opacity: 0.4;
 
             &::before {
                 opacity: 0.15;
             }
+        }
+    }
+
+    &.completed-transition {
+        filter: grayscale(1);
+        animation: completed-animation 250ms forwards;
+        @keyframes completed-animation {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+                margin-left: -185px;
+            }
+        }
+
+        .cost::after {
+            opacity: 1;
+        }
+    }
+
+    &.completed {
+        .cost::after {
+            opacity: 1;
         }
     }
 
@@ -74,6 +100,28 @@ stat-upgrade {
         padding: 5px;
         text-align: center;
         cursor: pointer;
+        overflow: hidden;
+
+        &::after {
+            filter: grayscale(1);
+            background: linear-gradient(225deg, #00863c 0%, #00c050 50%, #00ff44 100%);
+            content: "check";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            transition: opacity 250ms;
+            opacity: 0;
+        }
 
         &:hover {
             &::before {

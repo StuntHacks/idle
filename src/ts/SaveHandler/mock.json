@@ -1,0 +1,288 @@
+{
+    "version": 2,
+    "currencies": {
+        "normal": [
+            {
+                "hash": "leptons-electron",
+                "amount": "14799.875",
+                "className": "particle lepton electron"
+            },
+            {
+                "hash": "leptons-muon",
+                "amount": "0",
+                "className": "particle lepton muon"
+            },
+            {
+                "hash": "leptons-tau",
+                "amount": "0",
+                "className": "particle lepton tau"
+            },
+            {
+                "hash": "quarks-up-red",
+                "amount": "3",
+                "className": "particle quark up red"
+            },
+            {
+                "hash": "quarks-up-green",
+                "amount": "5",
+                "className": "particle quark up green"
+            },
+            {
+                "hash": "quarks-up-blue",
+                "amount": "2",
+                "className": "particle quark up blue"
+            },
+            {
+                "hash": "quarks-up-rgb",
+                "amount": "0",
+                "className": "particle quark up rgb"
+            },
+            {
+                "hash": "quarks-down-red",
+                "amount": "3",
+                "className": "particle quark down red"
+            },
+            {
+                "hash": "quarks-down-green",
+                "amount": "0",
+                "className": "particle quark down green"
+            },
+            {
+                "hash": "quarks-down-blue",
+                "amount": "2",
+                "className": "particle quark down blue"
+            },
+            {
+                "hash": "quarks-down-rgb",
+                "amount": "0",
+                "className": "particle quark down rgb"
+            },
+            {
+                "hash": "quarks-strange-red",
+                "amount": "0",
+                "className": "particle quark strange red"
+            },
+            {
+                "hash": "quarks-strange-green",
+                "amount": "0",
+                "className": "particle quark strange green"
+            },
+            {
+                "hash": "quarks-strange-blue",
+                "amount": "0",
+                "className": "particle quark strange blue"
+            },
+            {
+                "hash": "quarks-strange-rgb",
+                "amount": "0",
+                "className": "particle quark strange rgb"
+            },
+            {
+                "hash": "quarks-charm-red",
+                "amount": "0",
+                "className": "particle quark charm red"
+            },
+            {
+                "hash": "quarks-charm-green",
+                "amount": "0",
+                "className": "particle quark charm green"
+            },
+            {
+                "hash": "quarks-charm-blue",
+                "amount": "0",
+                "className": "particle quark charm blue"
+            },
+            {
+                "hash": "quarks-charm-rgb",
+                "amount": "0",
+                "className": "particle quark charm rgb"
+            },
+            {
+                "hash": "quarks-top-red",
+                "amount": "0",
+                "className": "particle quark top red"
+            },
+            {
+                "hash": "quarks-top-green",
+                "amount": "0",
+                "className": "particle quark top green"
+            },
+            {
+                "hash": "quarks-top-blue",
+                "amount": "0",
+                "className": "particle quark top blue"
+            },
+            {
+                "hash": "quarks-top-rgb",
+                "amount": "0",
+                "className": "particle quark top rgb"
+            },
+            {
+                "hash": "quarks-bottom-red",
+                "amount": "0",
+                "className": "particle quark bottom red"
+            },
+            {
+                "hash": "quarks-bottom-green",
+                "amount": "0",
+                "className": "particle quark bottom green"
+            },
+            {
+                "hash": "quarks-bottom-blue",
+                "amount": "0",
+                "className": "particle quark bottom blue"
+            },
+            {
+                "hash": "quarks-bottom-rgb",
+                "amount": "0",
+                "className": "particle quark bottom rgb"
+            },
+            {
+                "hash": "bosons-gluon",
+                "amount": "0",
+                "className": "particle boson gluon"
+            },
+            {
+                "hash": "bosons-photon",
+                "amount": "0",
+                "className": "particle boson photon"
+            },
+            {
+                "hash": "bosons-z",
+                "amount": "0",
+                "className": "particle boson z"
+            },
+            {
+                "hash": "bosons-w-plus",
+                "amount": "0",
+                "className": "particle boson w-plus"
+            },
+            {
+                "hash": "bosons-w-minus",
+                "amount": "0",
+                "className": "particle boson w-minus"
+            },
+            {
+                "hash": "bosons-higgs",
+                "amount": "0",
+                "className": "particle boson higgs"
+            }
+        ],
+        "inferred": [
+            {
+                "hash": "energy",
+                "amount": "8.3722444712635152444402875e+9"
+            }
+        ]
+    },
+    "settings": {
+        "general": {
+            "title": "settings.general.title",
+            "settings": {
+                "language": {
+                    "value": "en",
+                    "default": "en",
+                    "name": "settings.general.language.name",
+                    "description": ""
+                },
+                "noTabHistory": {
+                    "value": false,
+                    "default": false,
+                    "name": "settings.general.noTabHistory.name",
+                    "description": "settings.general.noTabHistory.description"
+                }
+            }
+        },
+        "gameplay": {
+            "title": "settings.gameplay.title",
+            "settings": {
+                "noOfflineTime": {
+                    "value": false,
+                    "default": false,
+                    "name": "settings.gameplay.noOfflineTime.name"
+                }
+            }
+        },
+        "display": {
+            "title": "settings.display.title",
+            "settings": {
+                "darkNavigation": {
+                    "value": false,
+                    "default": false,
+                    "name": "settings.display.darkNavigation.name",
+                    "description": "settings.display.darkNavigation.name"
+                },
+                "reverseBottomBar": {
+                    "value": false,
+                    "default": false,
+                    "name": "settings.display.reverseBottomBar.name",
+                    "description": "settings.display.reverseBottomBar.name"
+                },
+                "stillFields": {
+                    "value": false,
+                    "default": false,
+                    "name": "settings.display.stillFields.name",
+                    "description": "settings.display.stillFields.name"
+                }
+            }
+        },
+        "debug": {
+            "title": "settings.debug.title",
+            "settings": {
+                "logging": {
+                    "value": true,
+                    "default": true,
+                    "name": "settings.debug.logging.name"
+                },
+                "verbose": {
+                    "value": false,
+                    "default": false,
+                    "name": "settings.debug.verbose.name"
+                }
+            }
+        }
+    },
+    "upgrades": [
+        {
+            "id": "more_electrons_1",
+            "title": "upgrades.quantum.energy.moreElectrons.title",
+            "target": "electron_gain",
+            "type": "additive",
+            "amount": 2,
+            "cost": 2000000,
+            "costScaling": 1.5,
+            "levels": 10,
+            "currency": "energy"
+        },
+        {
+            "id": "higher_charge_1",
+            "title": "upgrades.quantum.energy.higherCharge.title",
+            "target": "energy_gain",
+            "type": "multiplicative",
+            "amount": 1.1,
+            "cost": 2000000,
+            "costScaling": 1.5,
+            "levels": 10,
+            "currency": "energy"
+        },
+        {
+            "id": "more_electrons_2",
+            "title": "upgrades.quantum.energy.moreElectrons.title",
+            "target": "electron_gain",
+            "type": "multiplicative",
+            "amount": 1.5,
+            "cost": 2000000000,
+            "costScaling": 1.5,
+            "levels": 3,
+            "currency": "energy"
+        }
+    ],
+    "flags": {
+        "tutorial": {},
+        "quantum": {
+            "fluctuators": {
+                "first": true
+            }
+        }
+    }
+}

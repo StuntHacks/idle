@@ -51,6 +51,11 @@ export const main = () => {
         location.reload();
     });
 
+    document.getElementById("reset-button").addEventListener("auxclick", () => {
+        SaveHandler.initialize(true);
+        location.reload();
+    });
+
     window.addEventListener("beforeunload", () => {
         // handle closing
         SaveHandler.saveData();

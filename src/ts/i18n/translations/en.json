@@ -203,6 +203,7 @@
             "electronGain": "Electron Gain",
             "quarkGain": "Quark Gain",
             "gluonGain": "Gluon Gain",
+            "fieldGain": "All Field Gain",
             "energyGain": "Energy Gain"
         }
     },
@@ -218,6 +219,9 @@
                 },
                 "moreElectrons": {
                     "title": "More Electrons"
+                },
+                "moreQuarks": {
+                    "title": "More Quarks"
                 },
                 "higherCharge": {
                     "title": "Higher Charge"

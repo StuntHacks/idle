@@ -8,7 +8,7 @@
                     "target": "electron_gain",
                     "type": "additive",
                     "amount": 2,
-                    "cost": 3e6,
+                    "cost": 2e6,
                     "costScaling": 1.5,
                     "levels": 10,
                     "currency": "energy"
@@ -19,7 +19,7 @@
                     "target": "energy_gain",
                     "type": "multiplicative",
                     "amount": 1.1,
-                    "cost": 3e6,
+                    "cost": 2e6,
                     "costScaling": 1.5,
                     "levels": 10,
                     "currency": "energy"
@@ -31,6 +31,39 @@
                     "target": "quantum.fluctuators.first",
                     "type": "flag",
                     "cost": 1e9,
+                    "currency": "energy"
+                },
+                {
+                    "id": "more_quarks_1",
+                    "title": "upgrades.quantum.energy.moreQuarks.title",
+                    "target": "quark_gain",
+                    "type": "multiplicative",
+                    "amount": 1.5,
+                    "cost": 2e9,
+                    "costScaling": 1.5,
+                    "levels": 10,
+                    "currency": "energy"
+                },
+                {
+                    "id": "more_electrons_2",
+                    "title": "upgrades.quantum.energy.moreElectrons.title",
+                    "target": "electron_gain",
+                    "type": "multiplicative",
+                    "amount": 1.5,
+                    "cost": 2e9,
+                    "costScaling": 1.5,
+                    "levels": 10,
+                    "currency": "energy"
+                },
+                {
+                    "id": "stronger_fields_1",
+                    "title": "upgrades.quantum.energy.strongerFields.title",
+                    "target": "field_gain",
+                    "type": "multiplicative",
+                    "amount": 4,
+                    "cost": 1e11,
+                    "costScaling": 10,
+                    "levels": 3,
                     "currency": "energy"
                 }
             ],

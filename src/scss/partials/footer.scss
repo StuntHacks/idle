@@ -129,6 +129,7 @@ footer.main-footer {
                 width: 0;
                 transition: width 550ms ease 250ms;
                 pointer-events: none;
+                overflow: hidden;
 
                 .currency-section currency-display,
                 .currency-section.hidden currency-display {

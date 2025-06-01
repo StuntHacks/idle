@@ -74,7 +74,11 @@ export class UpgradeElement extends HTMLElement {
                 }
             }
 
-            this.disabled = this.levels >= upgrade.levels || SaveHandler.getFlag(upgrade.target) || !total.isGreaterThanOrEqualTo(this.getCost());
+            if (this.levels >= upgrade.levels || SaveHandler.getFlag(upgrade.target)) {
+                this.classList.add("completed");
+            }
+
+            this.disabled =  !total.isGreaterThanOrEqualTo(this.getCost());
             this.classList.toggle("disabled", this.disabled);
         }
 
@@ -139,19 +143,25 @@ export class UpgradeElement extends HTMLElement {
             const result = StatHandler.gainUpgrade(namespace, id, true);
             console.log(result)
             if (result) {
+                const hide = () => {
+                    this.classList.remove("completed-transition");
+                    this.classList.add("completed");
+                }
                 if (this.levelsElement) {
                     this.levels += 1;
                     this.levelsElement.innerText = `${this.levels}/${upgrade.levels}`;
                     if (this.levels >= upgrade.levels) {
                         this.disabled = true;
-                        this.classList.add("disabled");
+                        this.classList.add("completed-transition");
+                        this.addEventListener("animationend", hide);
                         return;
                     }
                     this.updateCost();
                     checkCost();
                 } else {
                     this.disabled = true;
-                    this.classList.add("disabled");
+                    this.classList.add("completed-transition");
+                    this.addEventListener("animationend", hide);
                 }
             }
         });
