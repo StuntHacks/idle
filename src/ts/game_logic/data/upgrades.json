@@ -8,7 +8,7 @@
                     "target": "electron_gain",
                     "type": "additive",
                     "amount": 1,
-                    "cost": 10,
+                    "cost": 10000000,
                     "costScaling": 1.5,
                     "levels": 10,
                     "currency": "energy"
@@ -19,7 +19,7 @@
                     "target": "energy_gain",
                     "type": "additive",
                     "amount": 1,
-                    "cost": 10,
+                    "cost": 10000000,
                     "costScaling": 1.5,
                     "levels": 10,
                     "currency": "energy"

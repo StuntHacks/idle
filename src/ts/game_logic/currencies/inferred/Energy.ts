@@ -57,10 +57,9 @@ export class Energy {
     }
 
     public static spend(amount: BigNumber) {
-        const actual = amount.multipliedBy(1000000);
-        if (this.amount.isGreaterThanOrEqualTo(actual)) {
+        if (this.amount.isGreaterThanOrEqualTo(amount)) {
             // todo: add callbacks
-            this.amount = this.amount.minus(actual);
+            this.amount = this.amount.minus(amount);
             return true;
         }
 

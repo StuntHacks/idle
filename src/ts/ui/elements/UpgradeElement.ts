@@ -9,7 +9,9 @@ import { Currencies } from "game_logic/currencies/Currencies";
 
 export class UpgradeElement extends HTMLElement {
     private cost: BigNumber;
+    private scaling: number;
     private levels: number = 0;
+    private currency: string;
 
     private detailsElement: HTMLDivElement;
     private costElement: HTMLSpanElement;
@@ -20,6 +22,16 @@ export class UpgradeElement extends HTMLElement {
         super();
     }
 
+    private updateCost() {
+        switch (this.currency) {
+            case "energy":
+                this.costElement.innerText = Energy.getFormatted(BigNumber(this.cost.multipliedBy(this.scaling ** this.levels)));
+                break;
+            default:
+                this.costElement.innerText = this.cost + "";
+        }
+    }
+
     connectedCallback() {
         const id = this.getAttribute("upgrade");
         const namespace = this.getAttribute("namespace");
@@ -28,11 +40,17 @@ export class UpgradeElement extends HTMLElement {
         this.detailsElement.classList.add("details");
 
         this.cost = BigNumber(upgrade.cost);
+        this.scaling = upgrade.costScaling || 1;
         this.levels = this.hasAttribute("levels") ? parseInt(this.getAttribute("levels")) : 0;
 
         const title = document.createElement("span");
         title.innerText = Translator.getTranslation(upgrade.title, "en");
         this.detailsElement.appendChild(title);
+
+        this.costElement = document.createElement("span");
+        this.costElement.classList.add("cost");
+        this.currency = upgrade.currency;
+        this.updateCost();
 
         // todo: handle effects of non-descriptive upgrades (x2 etc)
         const effect = document.createElement("span");
@@ -82,26 +100,15 @@ export class UpgradeElement extends HTMLElement {
             this.appendChild(tooltip);
         }
 
-        this.costElement = document.createElement("span");
-        this.costElement.classList.add("cost");
-        switch (upgrade.currency) {
-            case "energy":
-                this.costElement.innerText = Energy.getFormatted(BigNumber(upgrade.cost * 1000000));
-                break;
-            default:
-                this.costElement.innerText = upgrade.cost + "";
-        }
-
         this.appendChild(this.detailsElement);
         this.appendChild(this.costElement);
 
         this.costElement.addEventListener("click", (e) => {
             const result = StatHandler.gainUpgrade(namespace, id, true);
-            console.log(result)
             if (result && this.levelsElement) {
-                this.cost = this.cost.multipliedBy(upgrade.costScaling);
                 this.levels += 1;
                 this.levelsElement.innerText = `${this.levels}/${upgrade.levels}`;
+                this.updateCost();
             }
         });
     }

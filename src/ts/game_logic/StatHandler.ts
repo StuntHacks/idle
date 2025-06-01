@@ -71,7 +71,7 @@ export class StatHandler {
                 return false;
             }
 
-            const cost = BigNumber(upgrade.levels ? upgrade.cost * (levels ** upgrade.costScaling) : upgrade.cost);
+            const cost = BigNumber(upgrade.levels ? upgrade.cost * (upgrade.costScaling ** levels) : upgrade.cost);
 
             if (purchase) {
                 if (!Currencies.spend(upgrade.currency, cost)) {
