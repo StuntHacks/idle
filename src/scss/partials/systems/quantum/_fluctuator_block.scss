@@ -42,6 +42,7 @@ fluctuator-block {
             white-space: nowrap;
             word-wrap: normal;
             direction: ltr;
+            font-feature-settings: 'liga';
             -webkit-font-feature-settings: 'liga';
             -webkit-font-smoothing: antialiased;
             font-variation-settings:
@@ -109,6 +110,13 @@ fluctuator-block {
         &:active {
             background-color: #000a;
         }
+    }
+
+    .disable-button tool-tip,
+    .upgrade-button tool-tip {
+        width: auto;
+        right: inherit;
+        left: var(--offset);
     }
 
     .stats {

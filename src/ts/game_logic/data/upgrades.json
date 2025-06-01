@@ -3,12 +3,12 @@
         "energy": {
             "upgrades": [
                 {
-                    "id": "stronger_fields_1",
-                    "title": "upgrades.quantum.energy.strongerFields.title",
+                    "id": "more_electrons_1",
+                    "title": "upgrades.quantum.energy.moreElectrons.title",
                     "target": "electron_gain",
                     "type": "additive",
                     "amount": 2,
-                    "cost": 2e6,
+                    "cost": 3e6,
                     "costScaling": 1.5,
                     "levels": 10,
                     "currency": "energy"
@@ -19,7 +19,7 @@
                     "target": "energy_gain",
                     "type": "multiplicative",
                     "amount": 1.1,
-                    "cost": 2e6,
+                    "cost": 3e6,
                     "costScaling": 1.5,
                     "levels": 10,
                     "currency": "energy"
@@ -42,8 +42,8 @@
                     "type": "additive",
                     "amount": 1,
                     "cost": 1e9,
-                    "costScaling": 2,
-                    "levels": 10,
+                    "costScaling": 4,
+                    "levels": 18,
                     "currency": "energy"
                 },
                 {
@@ -53,8 +53,8 @@
                     "type": "additive",
                     "amount": 1,
                     "cost": 1e9,
-                    "costScaling": 2,
-                    "levels": 10,
+                    "costScaling": 4,
+                    "levels": 18,
                     "currency": "energy"
                 },
                 {
@@ -64,8 +64,8 @@
                     "type": "additive",
                     "amount": 1,
                     "cost": 1e9,
-                    "costScaling": 2,
-                    "levels": 10,
+                    "costScaling": 4,
+                    "levels": 18,
                     "currency": "energy"
                 },
                 {
@@ -75,8 +75,8 @@
                     "type": "additive",
                     "amount": 1,
                     "cost": 1e9,
-                    "costScaling": 2,
-                    "levels": 10,
+                    "costScaling": 4,
+                    "levels": 18,
                     "currency": "energy"
                 }
             ]

@@ -179,7 +179,9 @@
                 "fluctuators": {
                     "title": "Fluctuators",
                     "information": "You can continuously spend some of your energy in order to trigger periodic excitations in your quantum fields",
-                    "speed": "Interval: "
+                    "speed": "Interval: ",
+                    "disable": "Toggle",
+                    "upgrade": "Upgrade interval"
                 },
                 "energyUpgrades": {
                     "title": "Energy Upgrades",
@@ -213,6 +215,9 @@
                 },
                 "strongerFields": {
                     "title": "Stronger Fields"
+                },
+                "moreElectrons": {
+                    "title": "More Electrons"
                 },
                 "higherCharge": {
                     "title": "Higher Charge"

@@ -6,7 +6,7 @@ import { SaveHandler } from "SaveHandler/SaveHandler";
 export class FluctuatorElement extends HTMLElement {
     private disableButton: HTMLSpanElement;
     private upgradeButton: HTMLElement;
-    private enabled = false;
+    private enabled = true;
     private locked = true;
     static observedAttributes = ["disabled"];
     private lastTrigger: number = 0;
