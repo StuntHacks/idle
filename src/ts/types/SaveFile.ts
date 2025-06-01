@@ -30,6 +30,7 @@ export interface Upgrade {
     costScaling?: number;
     levels?: number;
     currency: string;
+    accessor: string;
 }
 
 interface SaveCurrency {

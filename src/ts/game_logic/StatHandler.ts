@@ -1,5 +1,5 @@
 import statsData from "./data/stats.json";
-import upgrades from "game_logic/data/upgrades.json";
+import upgradesData from "game_logic/data/upgrades.json";
 import { SaveHandler } from "SaveHandler/SaveHandler";
 import { Upgrade } from "types/SaveFile";
 import { BigNumber } from "bignumber.js";
@@ -31,16 +31,18 @@ export class StatHandler {
 
         if (grouped.additive) {
             for (const upgrade of grouped.additive) {
-                additive = additive.plus(upgrade.amount * upgrade.levels);
+                const u = _.get(upgradesData, upgrade.accessor).find((u: Upgrade) => u.id === upgrade.id) as Upgrade;
+                additive = additive.plus(u.amount * upgrade.levels);
             }
         }
 
         if (grouped.multiplicative) {
             for (const upgrade of grouped.multiplicative) {
+                const u = _.get(upgradesData, upgrade.accessor).find((u: Upgrade) => u.id === upgrade.id) as Upgrade;
                 if (upgrade.additive) {
-                    multiplicative = multiplicative.multipliedBy(upgrade.amount * upgrade.levels);
+                    multiplicative = multiplicative.multipliedBy(u.amount * upgrade.levels);
                 } else {
-                    multiplicative = multiplicative.multipliedBy(upgrade.amount ** upgrade.levels);
+                    multiplicative = multiplicative.multipliedBy(u.amount ** upgrade.levels);
                 }
             }
         }
@@ -54,7 +56,7 @@ export class StatHandler {
     }
 
     public static gainUpgrade(namespace: string, id: string, purchase: boolean = false, amount: number = 1): boolean {
-        const upgrade = _.get(upgrades, namespace).find((u: Upgrade) => u.id === id) as Upgrade;
+        const upgrade = _.get(upgradesData, namespace).find((u: Upgrade) => u.id === id) as Upgrade;
         if (upgrade.type === "flag") {
             if (purchase) {
                 if (!Currencies.spend(upgrade.currency, BigNumber(upgrade.cost))) {
@@ -87,6 +89,7 @@ export class StatHandler {
             if (index <= -1) {
                 save.push({
                     ...upgrade,
+                    accessor: namespace,
                     levels: 1,
                 });
             } else {

@@ -4,7 +4,7 @@
         "normal": [
             {
                 "hash": "leptons-electron",
-                "amount": "14799.875",
+                "amount": "1256",
                 "className": "particle lepton electron"
             },
             {
@@ -19,17 +19,17 @@
             },
             {
                 "hash": "quarks-up-red",
-                "amount": "3",
+                "amount": "0",
                 "className": "particle quark up red"
             },
             {
                 "hash": "quarks-up-green",
-                "amount": "5",
+                "amount": "0",
                 "className": "particle quark up green"
             },
             {
                 "hash": "quarks-up-blue",
-                "amount": "2",
+                "amount": "0",
                 "className": "particle quark up blue"
             },
             {
@@ -39,7 +39,7 @@
             },
             {
                 "hash": "quarks-down-red",
-                "amount": "3",
+                "amount": "0",
                 "className": "particle quark down red"
             },
             {
@@ -49,7 +49,7 @@
             },
             {
                 "hash": "quarks-down-blue",
-                "amount": "2",
+                "amount": "0",
                 "className": "particle quark down blue"
             },
             {
@@ -171,7 +171,7 @@
         "inferred": [
             {
                 "hash": "energy",
-                "amount": "8.3722444712635152444402875e+9"
+                "amount": "9.943038884889405276748e+8"
             }
         ]
     },
@@ -252,7 +252,8 @@
             "cost": 2000000,
             "costScaling": 1.5,
             "levels": 10,
-            "currency": "energy"
+            "currency": "energy",
+            "accessor": "quantum.energy.upgrades"
         },
         {
             "id": "higher_charge_1",
@@ -263,26 +264,12 @@
             "cost": 2000000,
             "costScaling": 1.5,
             "levels": 10,
-            "currency": "energy"
-        },
-        {
-            "id": "more_electrons_2",
-            "title": "upgrades.quantum.energy.moreElectrons.title",
-            "target": "electron_gain",
-            "type": "multiplicative",
-            "amount": 1.5,
-            "cost": 2000000000,
-            "costScaling": 1.5,
-            "levels": 3,
-            "currency": "energy"
+            "currency": "energy",
+            "accessor": "quantum.energy.upgrades"
         }
     ],
     "flags": {
         "tutorial": {},
-        "quantum": {
-            "fluctuators": {
-                "first": true
-            }
-        }
+        "quantum": {}
     }
 }

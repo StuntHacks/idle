@@ -8,8 +8,8 @@ export namespace Numbers {
             return "0";
         }
         if (num.gte("1e6") || num.lte("1e-6")) {
-            const [mantissa, exponent] = num.toPrecision(precision).replace("+", "").split("e");
-            return `${new BigNumber(mantissa).toPrecision(precision)}e${exponent}`;
+            const [mantissa, exponent] = num.toPrecision(3).replace("+", "").split("e");
+            return `${new BigNumber(mantissa).toPrecision(3)}e${exponent}`;
         } else {
             if (num.isInteger()) {
                 return num.toFixed(0);
