@@ -178,7 +178,7 @@
                 "description": "Energy is based on electrons",
                 "fluctuators": {
                     "title": "Fluctuators",
-                    "information": "You can continuously spend a portion of your total energy in order to trigger periodic excitations in your quantum fields",
+                    "information": "You can continuously spend some of your energy in order to trigger periodic excitations in your quantum fields",
                     "speed": "Interval: "
                 },
                 "energyUpgrades": {
@@ -200,6 +200,7 @@
         "quantum": {
             "electronGain": "Electron Gain",
             "quarkGain": "Quark Gain",
+            "gluonGain": "Gluon Gain",
             "energyGain": "Energy Gain"
         }
     },
@@ -215,6 +216,9 @@
                 },
                 "higherCharge": {
                     "title": "Higher Charge"
+                },
+                "fluctuatorSpeed": {
+                    "title": "Fluctuator Speed"
                 }
             }
         }

@@ -33,6 +33,52 @@
                     "cost": 1e9,
                     "currency": "energy"
                 }
+            ],
+            "fluctuators": [
+                {
+                    "id": "fluctuator_speed_1",
+                    "title": "upgrades.quantum.energy.fluctuatorSpeed.title",
+                    "target": "fluctuator_speed_1",
+                    "type": "additive",
+                    "amount": 1,
+                    "cost": 1e9,
+                    "costScaling": 2,
+                    "levels": 10,
+                    "currency": "energy"
+                },
+                {
+                    "id": "fluctuator_speed_2",
+                    "title": "upgrades.quantum.energy.fluctuatorSpeed.title",
+                    "target": "fluctuator_speed_2",
+                    "type": "additive",
+                    "amount": 1,
+                    "cost": 1e9,
+                    "costScaling": 2,
+                    "levels": 10,
+                    "currency": "energy"
+                },
+                {
+                    "id": "fluctuator_speed_3",
+                    "title": "upgrades.quantum.energy.fluctuatorSpeed.title",
+                    "target": "fluctuator_speed_3",
+                    "type": "additive",
+                    "amount": 1,
+                    "cost": 1e9,
+                    "costScaling": 2,
+                    "levels": 10,
+                    "currency": "energy"
+                },
+                {
+                    "id": "fluctuator_speed_4",
+                    "title": "upgrades.quantum.energy.fluctuatorSpeed.title",
+                    "target": "fluctuator_speed_4",
+                    "type": "additive",
+                    "amount": 1,
+                    "cost": 1e9,
+                    "costScaling": 2,
+                    "levels": 10,
+                    "currency": "energy"
+                }
             ]
         }
     }

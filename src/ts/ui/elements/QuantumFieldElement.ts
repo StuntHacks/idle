@@ -65,7 +65,7 @@ export class QuantumFieldElement extends HTMLElement {
                 const [particle, index] = this.getParticle();
                 // todo: consolidate this
                 const hash = Currencies.getFromQuantumField(particle);
-                const amount = Quantum.getParticleAmount(hash);
+                const amount = Quantum.getParticleAmount(particle);
 
                 if (particle.all && particle.type === "quark") {
                     const hashRed = hash.replace("rgb", "red");

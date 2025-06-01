@@ -3,12 +3,30 @@
 .field-label {
     position: absolute;
     padding: 5px 15px;
-    display: inline-block;
     border-radius: 0 5px 0 0;
     box-shadow: 0 0 8px 0px #000;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 255);
     margin-top: -90px;
     z-index: 1001;
+    display: flex;
+    align-items: center;
+    transition: filter 250ms;
+
+    &:hover {
+        filter: brightness(0.7);
+        cursor: pointer;
+
+        i {
+            transform: rotate(90deg) translateX(1px);
+        }
+    }
+
+    i {
+        margin-left: 10px;
+        transform: rotate(90deg) translateX(-1px);
+        margin-right: -5px;
+        transition: transform 250ms;
+    }
 
     &.rgb {
         @include gradient-quark-rgb;

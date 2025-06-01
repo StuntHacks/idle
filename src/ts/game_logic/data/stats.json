@@ -3,6 +3,14 @@
         "base": 1,
         "title": "stats.quantum.electronGain"
     },
+    "quark_gain": {
+        "base": 1,
+        "title": "stats.quantum.quarkGain"
+    },
+    "gluon_gain": {
+        "base": 1,
+        "title": "stats.quantum.gluonGain"
+    },
     "energy_gain": {
         "base": 511000,
         "title": "stats.quantum.energyGain"

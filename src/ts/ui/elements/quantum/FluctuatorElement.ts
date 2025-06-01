@@ -1,12 +1,13 @@
 import { Currencies } from "game_logic/currencies/Currencies";
 import { Quantum } from "game_logic/systems/quantum/Quantum";
 import { QuantumFieldElement } from "../QuantumFieldElement";
+import { SaveHandler } from "SaveHandler/SaveHandler";
 
 export class FluctuatorElement extends HTMLElement {
     private disableButton: HTMLSpanElement;
-    private increaseButton: HTMLElement;
-    private decreaseButton: HTMLElement;
-    private enabled = true;
+    private upgradeButton: HTMLElement;
+    private enabled = false;
+    private locked = true;
     static observedAttributes = ["disabled"];
     private lastTrigger: number = 0;
     private interval: number = 1000;
@@ -47,7 +48,7 @@ export class FluctuatorElement extends HTMLElement {
     }
 
     private tick(timestamp: number) {
-        if (this.enabled) {
+        if (this.enabled && !this.locked) {
             let now = performance.now();
             const elapsed = now - this.lastTrigger;
 
@@ -58,7 +59,7 @@ export class FluctuatorElement extends HTMLElement {
 
                 // todo: consolidate this
                 const hash = Currencies.getFromQuantumField(particle);
-                const amount = Quantum.getParticleAmount(hash);
+                const amount = Quantum.getParticleAmount(particle);
                 const position = Math.floor(Math.random() * this.width);
 
                 if (particle.all && particle.type === "quark") {
@@ -104,20 +105,27 @@ export class FluctuatorElement extends HTMLElement {
         this.enabled = !this.hasAttribute("disabled");
 
         this.intervalElement = this.querySelector(".interval") as HTMLSpanElement;
-        this.decreaseButton = this.querySelector(".decrease") as HTMLElement;
-        this.increaseButton = this.querySelector(".increase") as HTMLElement;
+        this.upgradeButton = this.querySelector(".upgrade-button") as HTMLElement;
         this.disableButton = this.querySelector(".disable-button") as HTMLSpanElement;
 
         this.disableButton.addEventListener("click", () => {
             this.toggle();
         });
 
-        this.decreaseButton.addEventListener("click", () => {
+        this.upgradeButton.addEventListener("click", () => {
             this.setInterval(this.interval - 100);
         });
 
-        this.increaseButton.addEventListener("click", () => {
-            this.setInterval(this.interval +  100);
+        if (SaveHandler.getFlag(`quantum.fluctuators.${this.getAttribute("index")}`)) {
+            this.locked = false;
+            this.removeAttribute("locked");
+        }
+
+        SaveHandler.registerFlagCallback(`quantum.fluctuators.${this.getAttribute("index")}`, (flag: string, value: any) => {
+            if (value) {
+                this.locked = false;
+                this.removeAttribute("locked");
+            }
         });
 
         addEventListener('resize', this.updatePosition.bind(this));
