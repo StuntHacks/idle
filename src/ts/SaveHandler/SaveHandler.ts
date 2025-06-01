@@ -7,6 +7,7 @@ import _ from "lodash";
 
 export class SaveHandler {
     private static save: SaveFile;
+    private static lastSave: number = 0;
 
     public static loadData(): boolean {
         Logger.log("SaveHandler", "Loading save file...");
@@ -25,6 +26,16 @@ export class SaveHandler {
         }
 
         return true;
+    }
+
+    public static autoSave(timestamp: number) {
+        const now = performance.now();
+        const elapsed = now - SaveHandler.lastSave;
+        if (elapsed >= 30000) {
+            SaveHandler.lastSave = now;
+            SaveHandler.saveData();
+        }
+        window.requestAnimationFrame(SaveHandler.autoSave)
     }
 
     public static getVersion(): number {
