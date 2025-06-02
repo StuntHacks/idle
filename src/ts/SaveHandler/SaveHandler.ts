@@ -41,7 +41,7 @@ export class SaveHandler {
     }
 
     public static getVersion(): number {
-        return 2;
+        return 3;
     }
 
     public static saveCurrencies() {

@@ -31,18 +31,22 @@ export class StatHandler {
 
         if (grouped.additive) {
             for (const upgrade of grouped.additive) {
-                const u = _.get(upgradesData, upgrade.accessor).find((u: Upgrade) => u.id === upgrade.id) as Upgrade;
-                additive = additive.plus(u.amount * upgrade.levels);
+                const u = _.get(upgradesData, upgrade.accessor);
+                if (u) {
+                    additive = additive.plus((u.find((u: Upgrade) => u.id === upgrade.id) as Upgrade).amount * upgrade.levels);
+                }
             }
         }
 
         if (grouped.multiplicative) {
             for (const upgrade of grouped.multiplicative) {
-                const u = _.get(upgradesData, upgrade.accessor).find((u: Upgrade) => u.id === upgrade.id) as Upgrade;
-                if (upgrade.additive) {
-                    multiplicative = multiplicative.multipliedBy(u.amount * upgrade.levels);
-                } else {
-                    multiplicative = multiplicative.multipliedBy(u.amount ** upgrade.levels);
+                const u = _.get(upgradesData, upgrade.accessor);
+                if (u) {
+                    if (upgrade.additive) {
+                        multiplicative = multiplicative.multipliedBy((u.find((u: Upgrade) => u.id === upgrade.id) as Upgrade).amount * upgrade.levels);
+                    } else {
+                        multiplicative = multiplicative.multipliedBy((u.find((u: Upgrade) => u.id === upgrade.id) as Upgrade).amount ** upgrade.levels);
+                    }
                 }
             }
         }
