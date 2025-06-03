@@ -190,8 +190,10 @@
 
                     }
                 },
-                "quarkUpgrades": {
+                "conversion": {
                     "title": "Particle Conversion",
+                    "information": "Here you can convert combinations of excess particles into small, exponentially scaling boosts",
+                    "perConversion": " / conversion",
                     "upgrades": {
                         
                     }
