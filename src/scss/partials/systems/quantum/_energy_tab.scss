@@ -205,26 +205,7 @@
                 flex-direction: column;
 
                 .section {
-                    flex-grow: 1;
-
-                    .upgrade .cost {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        gap: 10px;
-
-                        .particle {
-                            --size: 18px;
-
-                            &::before {
-                                font-size: 14px;
-                            }
-                        }
-
-                        &::before {
-                            @include gradient-quark-rgb;
-                        }
-                    }
+                    flex-grow: 0;
                 }
             }
         }
