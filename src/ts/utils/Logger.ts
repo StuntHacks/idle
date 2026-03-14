@@ -3,7 +3,6 @@ import { Settings } from "./Settings";
 export class Logger {
     public static log(context: string, message: string, ...args: any[]) {
         if (Settings.get() && Settings.get().debug.settings.logging.value) console.log(`[${context}]`, message, ...args);
-        
     }
 
     public static error(context: string, message: string, ...args: any[]) {
