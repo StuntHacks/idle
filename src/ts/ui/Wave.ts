@@ -1,5 +1,8 @@
 import { Utils } from "utils/utils";
 
+const FPS_SAMPLE_COUNT = 30;
+const FPS_SHADOW_THRESHOLD = 40;
+
 export class Wave {
     private config: WaveConfig;
     private canvas: HTMLCanvasElement;
@@ -9,6 +12,15 @@ export class Wave {
     private hover: boolean = false;
     private contained: boolean = false;
     private ripples: Ripple[] = [];
+
+    private cachedGradient: CanvasGradient | null = null;
+
+    private frameDeltasSamples: number[] = [];
+    private lastFrameTimestamp: number = 0;
+    private shadowEnabled: boolean = true;
+
+    private rafHandle: number | null = null;
+    private paused: boolean = false;
 
     constructor(element: HTMLCanvasElement, container: HTMLElement, config: WaveConfig, contained: boolean = false, autoStart: boolean = true) {
         this.canvas = element;
@@ -27,6 +39,8 @@ export class Wave {
         this.handleResize();
         addEventListener('resize', this.handleResize.bind(this));
 
+        document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
+
         this.initialize();
 
         if (autoStart) {
@@ -40,10 +54,50 @@ export class Wave {
         this.canvas.height = parent.parentElement.clientHeight;
         let rect = parent.getBoundingClientRect();
         this.config.offset = this.contained ? (rect.height / 2) : rect.y + (rect.height / 2) - 90;
+
+        this.cachedGradient = null;
+    }
+
+    private buildGradient(): CanvasGradient {
+        const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
+        gradient.addColorStop(0, this.config.color.start);
+        gradient.addColorStop(1, this.config.color.end);
+        return gradient;
+    }
+
+    private handleVisibilityChange() {
+        if (document.hidden) {
+            if (this.rafHandle !== null) {
+                window.cancelAnimationFrame(this.rafHandle);
+                this.rafHandle = null;
+            }
+            this.paused = true;
+        } else if (this.paused) {
+            this.paused = false;
+            this.start();
+        }
+    }
+
+    private updateFpsAndShadow(timestamp: number) {
+        if (this.lastFrameTimestamp !== 0) {
+            const delta = timestamp - this.lastFrameTimestamp;
+            this.frameDeltasSamples.push(delta);
+            if (this.frameDeltasSamples.length > FPS_SAMPLE_COUNT) {
+                this.frameDeltasSamples.shift();
+            }
+
+            if (this.frameDeltasSamples.length === FPS_SAMPLE_COUNT) {
+                const avgDelta = this.frameDeltasSamples.reduce((a, b) => a + b, 0) / FPS_SAMPLE_COUNT;
+                const fps = 1000 / avgDelta;
+                this.shadowEnabled = fps >= FPS_SHADOW_THRESHOLD;
+            }
+        }
+        this.lastFrameTimestamp = timestamp;
     }
 
     public setConfig(config: WaveConfig) {
         this.config = config;
+        this.cachedGradient = null;
     }
 
     public setAmplitude(amplitude: number) {
@@ -78,8 +132,7 @@ export class Wave {
         return this.config.speed;
     }
 
-    private cleanupRipples() {
-        const now = performance.now();
+    private cleanupRipples(now: number) {
         const threshold = 0.0001;
 
         this.ripples = this.ripples.filter(r => {
@@ -95,16 +148,17 @@ export class Wave {
     }
 
     public start() {
-        var start = performance.now();
+        const startTime = performance.now();
         const animate = (timestamp: number) => {
+            this.updateFpsAndShadow(timestamp);
+
             if (this.canvas.checkVisibility({ opacityProperty: true })) {
-                this.time = this.config.speed * ((timestamp - start) / 10);
+                this.time = this.config.speed * ((timestamp - startTime) / 10);
                 this.draw(this.time);
-                this.cleanupRipples();
             }
-            window.requestAnimationFrame(animate);
+            this.rafHandle = window.requestAnimationFrame(animate);
         }
-        window.requestAnimationFrame(animate);
+        this.rafHandle = window.requestAnimationFrame(animate);
     }
     
     private initialize() {
@@ -115,14 +169,12 @@ export class Wave {
         }));
     }
 
-    private getY(i: number, time: number, frequency: number, amplitude: number, offset: number) {
+    private getY(i: number, time: number, frequency: number, amplitude: number, offset: number, now: number) {
         const point = this.points[i];
         const noise = Math.sin((point.offset + time) * frequency) * 0.6 +
                       Math.sin((point.offset * 0.5 + time * 0.8) * frequency) * 0.4;
 
         let rippleOffset = 0;
-        const now = performance.now();
-
         for (let r of this.ripples) {
             const age = (now - r.startTime) / 1000;
             const distance = Math.abs(i - r.index);
@@ -141,31 +193,38 @@ export class Wave {
         const amplitude = this.config.amplitude;
         const offset = this.config.offset;
         const pointCount = this.config.pointCount;
+        const now = performance.now();
 
         const ctx = this.ctx;
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-        gradient.addColorStop(0, this.config.color.start);
-        gradient.addColorStop(1, this.config.color.end);
-        
-        ctx.shadowColor = Utils.hexToRGB(this.hover ? this.config.color.hover : this.config.color.glow);
-        ctx.shadowBlur = 10;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
 
-        ctx.strokeStyle = gradient;
+        if (!this.cachedGradient) {
+            this.cachedGradient = this.buildGradient();
+        }
+
+        if (this.shadowEnabled) {
+            ctx.shadowColor = Utils.hexToRGB(this.hover ? this.config.color.hover : this.config.color.glow);
+            ctx.shadowBlur = 10;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+        } else {
+            ctx.shadowBlur = 0;
+            ctx.shadowColor = 'transparent';
+        }
+
+        ctx.strokeStyle = this.cachedGradient;
         ctx.lineWidth = this.config.lineWidth;
         ctx.beginPath();
 
         const stepX = this.canvas.width / (pointCount - 1);
 
         let prevX = 0;
-        let prevY = this.getY(0, time, frequency, amplitude, offset);
+        let prevY = this.getY(0, time, frequency, amplitude, offset, now);
         ctx.moveTo(prevX, prevY);
 
         for (let i = 1; i < pointCount; i++) {
             const currX = i * stepX;
-            const currY = this.getY(i, time, frequency, amplitude, offset);
+            const currY = this.getY(i, time, frequency, amplitude, offset, now);
 
             const midX = (prevX + currX) / 2;
             const midY = (prevY + currY) / 2;
@@ -178,6 +237,8 @@ export class Wave {
 
         ctx.lineTo(prevX, prevY);
         ctx.stroke();
+
+        this.cleanupRipples(now);
     }
 
     public ripple(x: number, strength: number = 120, speed: number = 10, decay: number = 0.05) {
