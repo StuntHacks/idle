@@ -170,6 +170,7 @@ export class QuantumFieldElement extends HTMLElement {
                     pointCount: 10,
                     offset: this.offset,
                     particle: p,
+                    maxRippleAmplitude: 200,
                 }, contained));
             }
         }

@@ -4,41 +4,44 @@ const FPS_SAMPLE_COUNT = 30;
 const FPS_SHADOW_THRESHOLD = 40;
 
 export class Wave {
-    private config: WaveConfig;
+    public config: WaveConfig;
+
     private canvas: HTMLCanvasElement;
-    private points: WavePoint[] = [];
     private ctx: CanvasRenderingContext2D;
+    private points: WavePoint[] = [];
+    private ripples: Ripple[] = [];
+
     private time: number = 0;
     private hover: boolean = false;
     private contained: boolean = false;
-    private ripples: Ripple[] = [];
 
     private cachedGradient: CanvasGradient | null = null;
 
-    private frameDeltasSamples: number[] = [];
+    private frameDeltaSamples: number[] = [];
     private lastFrameTimestamp: number = 0;
     private shadowEnabled: boolean = true;
 
     private rafHandle: number | null = null;
-    private paused: boolean = false;
 
-    constructor(element: HTMLCanvasElement, container: HTMLElement, config: WaveConfig, contained: boolean = false, autoStart: boolean = true) {
+    private rippleGain: number = 1;
+
+    constructor(
+        element: HTMLCanvasElement,
+        container: HTMLElement,
+        config: WaveConfig,
+        contained: boolean = false,
+        autoStart: boolean = true,
+    ) {
         this.canvas = element;
         this.config = config;
         this.contained = contained;
         this.ctx = this.canvas.getContext('2d');
-        
-        if (!this.config.height) {
-            this.config.height = container.clientHeight;
-        }
 
-        if (this.config.offset === undefined) {
-            this.config.offset = this.config.height / 2;
-        }
+        this.config.height ??= container.clientHeight;
+        this.config.offset ??= this.config.height / 2;
 
         this.handleResize();
         addEventListener('resize', this.handleResize.bind(this));
-
         document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
 
         this.initialize();
@@ -49,20 +52,12 @@ export class Wave {
     }
 
     private handleResize() {
-        let parent = this.canvas.parentElement;
+        const parent = this.canvas.parentElement;
         this.canvas.width = parent.clientWidth;
         this.canvas.height = parent.parentElement.clientHeight;
-        let rect = parent.getBoundingClientRect();
-        this.config.offset = this.contained ? (rect.height / 2) : rect.y + (rect.height / 2) - 90;
-
+        const rect = parent.getBoundingClientRect();
+        this.config.offset = this.contained ? rect.height / 2 : rect.y + rect.height / 2 - 90;
         this.cachedGradient = null;
-    }
-
-    private buildGradient(): CanvasGradient {
-        const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-        gradient.addColorStop(0, this.config.color.start);
-        gradient.addColorStop(1, this.config.color.end);
-        return gradient;
     }
 
     private handleVisibilityChange() {
@@ -71,41 +66,23 @@ export class Wave {
                 window.cancelAnimationFrame(this.rafHandle);
                 this.rafHandle = null;
             }
-            this.paused = true;
-        } else if (this.paused) {
-            this.paused = false;
+        } else if (this.rafHandle === null) {
             this.start();
         }
     }
 
     private updateFpsAndShadow(timestamp: number) {
         if (this.lastFrameTimestamp !== 0) {
-            const delta = timestamp - this.lastFrameTimestamp;
-            this.frameDeltasSamples.push(delta);
-            if (this.frameDeltasSamples.length > FPS_SAMPLE_COUNT) {
-                this.frameDeltasSamples.shift();
+            this.frameDeltaSamples.push(timestamp - this.lastFrameTimestamp);
+            if (this.frameDeltaSamples.length > FPS_SAMPLE_COUNT) {
+                this.frameDeltaSamples.shift();
             }
-
-            if (this.frameDeltasSamples.length === FPS_SAMPLE_COUNT) {
-                const avgDelta = this.frameDeltasSamples.reduce((a, b) => a + b, 0) / FPS_SAMPLE_COUNT;
-                const fps = 1000 / avgDelta;
-                this.shadowEnabled = fps >= FPS_SHADOW_THRESHOLD;
+            if (this.frameDeltaSamples.length === FPS_SAMPLE_COUNT) {
+                const avgDelta = this.frameDeltaSamples.reduce((a, b) => a + b, 0) / FPS_SAMPLE_COUNT;
+                this.shadowEnabled = 1000 / avgDelta >= FPS_SHADOW_THRESHOLD;
             }
         }
         this.lastFrameTimestamp = timestamp;
-    }
-
-    public setConfig(config: WaveConfig) {
-        this.config = config;
-        this.cachedGradient = null;
-    }
-
-    public setAmplitude(amplitude: number) {
-        this.config.amplitude = amplitude;
-    }
-
-    public getAmplitude(): number {
-        return this.config.amplitude;
     }
 
     public setHovered(hovered: boolean) {
@@ -116,90 +93,83 @@ export class Wave {
         return this.hover;
     }
 
-    public setFrequency(frequency: number) {
-        this.config.frequency = frequency;
-    }
-
-    public getFrequency(): number {
-        return this.config.frequency;
-    }
-
-    public setSpeed(speed: number) {
-        this.config.speed = speed;
-    }
-
-    public getSpeed(): number {
-        return this.config.speed;
-    }
-
-    private cleanupRipples(now: number) {
-        const threshold = 0.0001;
-
-        this.ripples = this.ripples.filter(r => {
-            const age = (now - r.startTime) / 1000;
-            const rampUpTime = 0.5;
-            const ramp = Math.min(1, age / rampUpTime);
-            const easedRamp = Math.sin((ramp * Math.PI) / 2);
-            const propagation = age * r.speed;
-            const falloff = Math.exp(-r.decay * Math.pow(0 - propagation, 2));
-            const potentialAmplitude = r.strength * easedRamp * falloff;
-            return potentialAmplitude > threshold;
-        });
-    }
-
     public start() {
         const startTime = performance.now();
         const animate = (timestamp: number) => {
             this.updateFpsAndShadow(timestamp);
-
             if (this.canvas.checkVisibility({ opacityProperty: true })) {
                 this.time = this.config.speed * ((timestamp - startTime) / 10);
                 this.draw(this.time);
             }
             this.rafHandle = window.requestAnimationFrame(animate);
-        }
+        };
         this.rafHandle = window.requestAnimationFrame(animate);
     }
-    
+
     private initialize() {
-        this.points = [];
-        this.points = Array.from({ length: this.config.pointCount + 1 }, (_, i) => ({
-            x: i,
+        this.points = Array.from({ length: this.config.pointCount + 1 }, () => ({
             offset: Math.random() * 1000,
         }));
     }
 
-    private getY(i: number, time: number, frequency: number, amplitude: number, offset: number, now: number) {
-        const point = this.points[i];
-        const noise = Math.sin((point.offset + time) * frequency) * 0.6 +
-                      Math.sin((point.offset * 0.5 + time * 0.8) * frequency) * 0.4;
-
-        let rippleOffset = 0;
-        for (let r of this.ripples) {
+    private getRippleOffset(i: number, now: number): number {
+        let total = 0;
+        for (const r of this.ripples) {
             const age = (now - r.startTime) / 1000;
             const distance = Math.abs(i - r.index);
             const propagation = age * r.speed;
-            const falloff = Math.exp(-r.decay * Math.pow(distance - propagation, 2));
-            const ramp = Math.min(1, age / 0.5); 
-            const ease = Math.sin((ramp * Math.PI) / 2);
-            rippleOffset += r.strength * ease * falloff * Math.sin(distance - propagation);
+            const falloff = Math.exp(-r.decay * (distance - propagation) ** 2);
+            const ease = Math.sin((Math.min(1, age / 0.5) * Math.PI) / 2);
+            total += r.strength * ease * falloff * Math.sin(distance - propagation);
+        }
+        return total;
+    }
+
+    private cleanupRipples(now: number) {
+        const threshold = 0.0001;
+        this.ripples = this.ripples.filter(r => {
+            const age = (now - r.startTime) / 1000;
+            const ramp = Math.sin((Math.min(1, age / 0.5) * Math.PI) / 2);
+            const falloff = Math.exp(-r.decay * (age * r.speed) ** 2);
+            return r.strength * ramp * falloff > threshold;
+        });
+    }
+
+    private updateRippleGain(now: number) {
+        const limit = this.config.maxRippleAmplitude;
+
+        if (limit === undefined || this.ripples.length === 0) {
+            this.rippleGain = 1;
+            return;
         }
 
-        return offset + (noise * amplitude + rippleOffset);
+        let peak = 0;
+        for (let i = 0; i < this.config.pointCount; i++) {
+            const abs = Math.abs(this.getRippleOffset(i, now));
+            if (abs > peak) peak = abs;
+        }
+
+        const targetGain = peak > 0 ? Math.min(1, limit / peak) : 1;
+
+        const attackRate  = 0.2;
+        const releaseRate = 0.02;
+        const rate = targetGain < this.rippleGain ? attackRate : releaseRate;
+        this.rippleGain += (targetGain - this.rippleGain) * rate;
     }
 
     private draw(time: number) {
-        const frequency = this.config.frequency;
-        const amplitude = this.config.amplitude;
-        const offset = this.config.offset;
-        const pointCount = this.config.pointCount;
+        const { pointCount, frequency, amplitude, offset } = this.config;
         const now = performance.now();
-
         const ctx = this.ctx;
+
+        this.updateRippleGain(now);
+
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         if (!this.cachedGradient) {
-            this.cachedGradient = this.buildGradient();
+            this.cachedGradient = ctx.createLinearGradient(0, 0, 0, this.canvas.height);
+            this.cachedGradient.addColorStop(0, this.config.color.start);
+            this.cachedGradient.addColorStop(1, this.config.color.end);
         }
 
         if (this.shadowEnabled) {
@@ -218,19 +188,22 @@ export class Wave {
 
         const stepX = this.canvas.width / (pointCount - 1);
 
+        const getY = (i: number) => {
+            const pointOffset = this.points[i].offset;
+            const noise = Math.sin((pointOffset + time) * frequency) * 0.6 +
+                          Math.sin((pointOffset * 0.5 + time * 0.8) * frequency) * 0.4;
+            const ripple = this.getRippleOffset(i, now) * this.rippleGain;
+            return offset + noise * amplitude + ripple;
+        };
+
         let prevX = 0;
-        let prevY = this.getY(0, time, frequency, amplitude, offset, now);
+        let prevY = getY(0);
         ctx.moveTo(prevX, prevY);
 
         for (let i = 1; i < pointCount; i++) {
             const currX = i * stepX;
-            const currY = this.getY(i, time, frequency, amplitude, offset, now);
-
-            const midX = (prevX + currX) / 2;
-            const midY = (prevY + currY) / 2;
-
-            ctx.quadraticCurveTo(prevX, prevY, midX, midY);
-
+            const currY = getY(i);
+            ctx.quadraticCurveTo(prevX, prevY, (prevX + currX) / 2, (prevY + currY) / 2);
             prevX = currX;
             prevY = currY;
         }
@@ -242,10 +215,8 @@ export class Wave {
     }
 
     public ripple(x: number, strength: number = 120, speed: number = 10, decay: number = 0.05) {
-        const index = Math.floor((x / this.canvas.width) * this.config.pointCount);
-
         this.ripples.push({
-            index,
+            index: Math.floor((x / this.canvas.width) * this.config.pointCount),
             startTime: performance.now(),
             strength,
             speed,
@@ -264,6 +235,7 @@ export interface WaveConfig {
     pointCount: number;
     height?: number;
     offset?: number;
+    maxRippleAmplitude?: number;
 }
 
 export interface WaveParticleInfo {
@@ -281,7 +253,6 @@ export interface WaveColor {
 }
 
 interface WavePoint {
-    x: number;
     offset: number;
 }
 
