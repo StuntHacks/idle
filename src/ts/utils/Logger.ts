@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Settings } from "./Settings";
 
 export class Logger {

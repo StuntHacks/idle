@@ -30,7 +30,7 @@ export class SaveHandler {
         return true;
     }
 
-    public static autoSave(timestamp: number) {
+    public static autoSave() {
         const now = performance.now();
         const elapsed = now - SaveHandler.lastSave;
         if (elapsed >= 30000) {
@@ -97,7 +97,7 @@ export class SaveHandler {
         return _.get(this.save.flags, flag);
     }
 
-    public static setFlag(flag: string, value: any) {
+    public static setFlag(flag: string, value: unknown) {
         const callbacks = this.flagCallbacks[flag];
         if (callbacks) {
             for (const callback of callbacks) {
@@ -139,4 +139,4 @@ export class SaveHandler {
     }
 }
 
-export type FlagCallback = (flag: string, value: any) => void;
+export type FlagCallback = (flag: string, value: unknown) => void;

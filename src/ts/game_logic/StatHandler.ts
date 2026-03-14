@@ -18,7 +18,7 @@ export class StatHandler {
             upgrades = SaveHandler.getUpgrades();
         }
         const filtered = upgrades.filter((u: Upgrade) => u.target === stat);
-        const grouped = filtered.reduce<Record<string, Upgrade[]>>((acc: any, upgrade: Upgrade) => {
+        const grouped = filtered.reduce<Record<string, Upgrade[]>>((acc, upgrade) => {
             if (!acc[upgrade.type]) {
               acc[upgrade.type] = [];
             }

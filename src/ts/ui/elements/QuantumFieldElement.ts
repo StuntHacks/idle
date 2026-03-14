@@ -105,7 +105,7 @@ export class QuantumFieldElement extends HTMLElement {
                     }
                 }
             });
-            this.surface.addEventListener("mouseleave", (e: MouseEvent) => {
+            this.surface.addEventListener("mouseleave", () => {
                 for (let wave of this.waves) {
                     wave.setHovered(false);
                 }

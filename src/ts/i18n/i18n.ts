@@ -22,5 +22,5 @@ export class Translator {
 }
 
 interface TranslationMap {
-    [key: string]: any;
+    [key: string]: unknown;
 }

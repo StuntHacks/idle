@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Utils {
     export const hexToRGB = (hex: string, alpha?: number) => {
         let noHash = hex.replace("#", "");
@@ -12,6 +13,7 @@ export namespace Utils {
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     export const callFunctionByName = (name: string, context: any, ...args: any[]) => {
         const namespaces = name.split(".");
         const func = namespaces.pop();

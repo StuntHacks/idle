@@ -21,7 +21,7 @@ export class FluctuatorElement extends HTMLElement {
         this.enabled = enable;
     }
 
-    public toggle(enable: boolean = true) {
+    public toggle() {
         if (this.enabled) {
             this.setAttribute("disabled", "");
         } else {
@@ -47,7 +47,7 @@ export class FluctuatorElement extends HTMLElement {
         this.updatePosition();
     }
 
-    private tick(timestamp: number) {
+    private tick() {
         if (this.enabled && !this.locked) {
             let now = performance.now();
             const elapsed = now - this.lastTrigger;
@@ -129,7 +129,7 @@ export class FluctuatorElement extends HTMLElement {
             updateState();
         }
 
-        SaveHandler.registerFlagCallback(`quantum.fluctuators.${this.getAttribute("index")}`, (flag: string, value: any) => {
+        SaveHandler.registerFlagCallback(`quantum.fluctuators.${this.getAttribute("index")}`, (flag: string, value: unknown) => {
             if (value) {
                 updateState();
             }

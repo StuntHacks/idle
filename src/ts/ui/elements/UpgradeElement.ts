@@ -47,6 +47,7 @@ export class UpgradeElement extends HTMLElement {
     connectedCallback() {
         const id = this.getAttribute("upgrade");
         const namespace = this.getAttribute("namespace");
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const upgrade = _.get(upgrades, namespace).find((u: any) => u.id === id) as Upgrade;
         this.detailsElement = document.createElement("div");
         this.detailsElement.classList.add("details");
@@ -139,7 +140,7 @@ export class UpgradeElement extends HTMLElement {
         this.appendChild(this.costElement);
         checkCost();
 
-        this.costElement.addEventListener("click", (e) => {
+        this.costElement.addEventListener("click", () => {
             const result = StatHandler.gainUpgrade(namespace, id, true);
             console.log(result)
             if (result) {

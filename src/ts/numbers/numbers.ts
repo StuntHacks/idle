@@ -1,5 +1,6 @@
 import { BigNumber } from "bignumber.js"
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Numbers {
     export const getFormatted = (num: BigNumber, precision: number = 0): string => {
         BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_FLOOR });
