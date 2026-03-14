@@ -145,7 +145,6 @@
 
             .energy-upgrades {
                 .section {
-                    overflow-x: auto;
                     padding: 0 5px;
                     height: 160px;
                     position: relative;
@@ -174,6 +173,8 @@
                         -webkit-scrollbar-width: none;
                         mask-image: linear-gradient(to right, transparent 0%, #000 3%, #000 97%, transparent 100%);
                         padding-left: 20px;
+                        padding-right: 20px;
+                        height: 200%;
                     }
                 }
             }
