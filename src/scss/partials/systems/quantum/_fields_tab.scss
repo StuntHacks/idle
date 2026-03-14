@@ -18,9 +18,18 @@
 
                 .field-label {
                     position: relative;
-                    display: inline-block;
+                    display: none;
                 }
             }
+        }
+
+        &[data-field="electron"] .field-label.electron,
+        &[data-field="rgb"] .field-label.rgb,
+        &[data-field="neutrino"] .field-label.neutrino,
+        &[data-field="gluon"] .field-label.gluon,
+        &[data-field="higgs"] .field-label.higgs,
+        &[data-field="electroweak"] .field-label.electroweak {
+            display: flex;
         }
 
         .fields {
@@ -37,6 +46,16 @@
                     height: 120px;
                     border-radius: 20px 20px 0 0;
                     position: relative;
+                    cursor: pointer;
+                    transition: background-color 150ms;
+
+                    &:hover {
+                        background-color: hsla(0, 0%, 100%, .15);
+
+                        & + .settings {
+                            background-color: hsla(0, 0%, 100%, .15);
+                        }
+                    }
                 }
 
                 .settings {
@@ -45,6 +64,7 @@
                     height: 50px;
                     border-radius: 0 0 20px 20px;
                     margin-bottom: 20px;
+                    transition: background-color 150ms;
                 }
             }
         }

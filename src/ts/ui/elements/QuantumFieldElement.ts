@@ -87,6 +87,13 @@ export class QuantumFieldElement extends HTMLElement {
     }
 
     connectedCallback() {
+        const fieldLabel = this.getElementsByClassName("field-label")[0];
+        fieldLabel?.addEventListener("click", (e: MouseEvent) => {
+            document.querySelector(".tab-background").classList.add("active");
+            const tab = document.querySelector(".tab[data-tab='fields']") as HTMLDivElement;
+            tab.classList.add("active");
+            tab.dataset.field = (e.target as HTMLDivElement).closest(".field-label").getAttribute("data-field");
+        });
         this.handleClick = this.handleClick.bind(this);
         this.tabContainer = this.closest("system-tab") as HTMLElement;
         let width = 3;
