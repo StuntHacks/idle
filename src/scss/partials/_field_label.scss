@@ -16,7 +16,7 @@
         filter: brightness(0.7);
         cursor: pointer;
 
-        i {
+        i:not(.close) {
             transform: rotate(90deg) translateX(1px);
         }
     }

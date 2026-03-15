@@ -7,7 +7,7 @@
     display: flex;
     justify-content: center;
     z-index: 10002;
-    background: transparent;
+    background: linear-gradient(180deg, black 0%, transparent 100%);
     transition: background 250ms;
 
     &:has(.active)::before {
