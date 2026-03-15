@@ -25,6 +25,48 @@ export class UI {
         }
 
         QuantumUI.initialize();
+        this.initializeSystemTabs();
+    }
+
+    private static initializeSystemTabs() {
+        const navTabs = document.querySelectorAll(`.main-nav .nav-entry`);
+        navTabs.forEach((tab: HTMLElement) => {
+            console.log(navTabs)
+            tab.addEventListener("click", (e) => {
+                const tab = (e.target as HTMLElement).closest(".nav-entry") as HTMLElement;
+                if (tab.classList.contains("locked") || tab.classList.contains("disabled")) return;
+                UI.switchSystemTab(tab.dataset.system);
+            });
+        });
+    }
+
+    public static switchSystemTab(tabName: string) {
+        const tabs = document.querySelectorAll("system-tab");
+        tabs.forEach(tab => {
+            if (tab.id === `tab-${tabName}`) {
+                tab.classList.add("active");
+            } else {
+                tab.classList.remove("active");
+            }
+        });
+
+        const navTabs = document.querySelectorAll(`.main-nav .nav-entry`);
+        navTabs.forEach((tab: HTMLElement) => {
+            if (tab.dataset.system === tabName) {
+                tab.classList.add("active");
+            } else {
+                tab.classList.remove("active");
+            }
+        });
+
+        const backgrounds = document.querySelectorAll(`.system-background`);
+        backgrounds.forEach((background: HTMLElement) => {
+            if (background.classList.contains(tabName)) {
+                background.classList.add("active");
+            } else {
+                background.classList.remove("active");
+            }
+        });
     }
 
     private static updateMouseState(e: MouseEvent) {

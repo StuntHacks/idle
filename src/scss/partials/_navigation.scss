@@ -41,7 +41,11 @@ nav.main-nav {
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: background-color 150ms;
+        transition: background-color 150ms, color 150ms;
+
+        path {
+            transition: filter 150ms;
+        }
 
         &:not(.disabled) {
             cursor: pointer;

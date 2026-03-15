@@ -46,6 +46,10 @@ export const main = () => {
         SaveHandler.saveData();
     });
 
+    document.getElementById("settings-button").addEventListener("click", () => {
+        UI.switchSystemTab("settings");
+    });
+
     document.getElementById("reset-button").addEventListener("auxclick", () => {
         SaveHandler.initialize(true);
         location.reload();
@@ -64,6 +68,7 @@ export const main = () => {
     window.requestAnimationFrame(SaveHandler.autoSave);
 
     Game.calculateOfflineProgress();
+    UI.switchSystemTab("quantum");
     // ready
     document.getElementsByTagName("body")[0].classList.remove("loading");
 }

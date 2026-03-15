@@ -3,6 +3,15 @@ system-tab {
     display: flex;
     justify-content: center;
     user-select: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 150ms, visibility 0s linear 150ms;
+
+    &.active {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 150ms;
+    }
 
     .tab,
     .tab-background {

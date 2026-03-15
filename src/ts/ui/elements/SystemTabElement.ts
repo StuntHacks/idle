@@ -1,14 +1,13 @@
 export class SystemTabElement extends HTMLElement {
-    private active: string;
-
     constructor() {
         super();
     }
 
     connectedCallback() {
         const subTabs = this.querySelector("nav.sub-tabs");
-        const background = this.querySelector(".tab-background");
+        if (!subTabs) return;
 
+        const background = this.querySelector(".tab-background");
         const tabs = subTabs.getElementsByTagName("span");
         for (let i = 0; i < tabs.length; i++) {
             tabs[i].addEventListener("click", (e: MouseEvent) => {
