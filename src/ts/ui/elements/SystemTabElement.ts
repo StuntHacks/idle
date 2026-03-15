@@ -15,9 +15,10 @@ export class SystemTabElement extends HTMLElement {
                 if (!target.classList.contains("disabled")) {
                     const tab = this.querySelector(`section.tab[data-tab="${target.dataset.tab}"]`);
                     if (target.classList.contains("active")) {
+                        if (target.classList.contains("radio-style")) return;
                         target.classList.remove("active");
                         tab.classList.remove("active");
-                        background.classList.remove("active");
+                        background?.classList.remove("active");
                     } else {
                         const sectiontabs = this.querySelectorAll("section.tab");
                         const tabHeaders = target.closest(".sub-tabs").querySelectorAll("span");

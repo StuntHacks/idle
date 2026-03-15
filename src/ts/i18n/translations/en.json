@@ -16,6 +16,7 @@
     "settings": {
         "general": {
             "title": "General settings",
+            "tab": "General",
             "noTabHistory": {
                 "name": "Disable tab history",
                 "description": "Doesn't save changing between tabs in the browser history, so the back button leaves this page instead"
@@ -27,6 +28,7 @@
         },
         "gameplay": {
             "title": "Gameplay settings",
+            "tab": "Gameplay",
             "noOfflineTime": {
                 "name": "Disable offline time",
                 "description": ""
@@ -34,6 +36,7 @@
         },
         "display": {
             "title": "Display settings",
+            "tab": "Display",
             "darkNavigation": {
                 "name": "Dark header & footer",
                 "description": "Changes the color of header & footer to be the same as the theme background color"
@@ -45,6 +48,7 @@
         },
         "debug": {
             "title": "Debug settings",
+            "tab": "Debug",
             "logging": {
                 "name": "Enable logging",
                 "description": ""
