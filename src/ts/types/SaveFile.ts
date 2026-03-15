@@ -2,8 +2,9 @@ import { SAVE_FILE_VERSION } from "SaveHandler/SaveHandler";
 import { Settings } from "./Settings";
 
 export interface SaveFile {
-    version?: typeof SAVE_FILE_VERSION;
-    startTime?: number;
+    version: typeof SAVE_FILE_VERSION;
+    startTime: number;
+    timestamp: number;
     currencies: {
         normal: SaveCurrency[];
         inferred: SaveCurrency[];
@@ -35,7 +36,7 @@ export interface Upgrade {
     accessor: string;
 }
 
-interface SaveCurrency {
+export interface SaveCurrency {
     amount: BigNumber;
     className?: string;
     hash: string;

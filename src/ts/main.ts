@@ -63,6 +63,7 @@ export const main = () => {
 
     window.requestAnimationFrame(SaveHandler.autoSave);
 
+    Game.calculateOfflineProgress();
     // ready
     document.getElementsByTagName("body")[0].classList.remove("loading");
 }

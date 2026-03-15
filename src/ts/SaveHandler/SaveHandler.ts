@@ -1,5 +1,5 @@
 import { Currencies } from "game_logic/currencies/Currencies";
-import { SaveFile, Upgrade } from "types/SaveFile";
+import { SaveCurrency, SaveFile, Upgrade } from "types/SaveFile";
 import { UI } from "ui/UI";
 import { Logger } from "utils/Logger";
 import { Settings } from "utils/Settings";
@@ -68,7 +68,10 @@ export class SaveHandler {
     }
 
     public static saveData(fresh: boolean = false): void {
-        let data = SaveHandler.encode(JSON.stringify(SaveHandler.save));
+        let data = SaveHandler.encode(JSON.stringify({
+            ...SaveHandler.save,
+            timestamp: Date.now(),
+        }));
 
         if (!fresh) {
             SaveHandler.saveCurrencies();
@@ -113,11 +116,11 @@ export class SaveHandler {
         Logger.log("SaveHandler", "Initializing new save file...");
         const save = useMock ? mock as unknown as SaveFile : {
             currencies: {
-                normal: [],
-                inferred: [],
+                normal: [] as SaveCurrency[],
+                inferred: [] as SaveCurrency[],
             },
             settings: Settings.default(),
-            upgrades: [],
+            upgrades: [] as Upgrade[],
             flags: {
                 tutorial: {},
                 quantum: {}
@@ -127,6 +130,7 @@ export class SaveHandler {
             ...save,
             startTime: Date.now(),
             version: SAVE_FILE_VERSION,
+            timestamp: Date.now(),
         }
         this.saveData(true);
         return this.save;
