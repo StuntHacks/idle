@@ -14,6 +14,7 @@ import { SystemTabElement } from "./ui/elements/SystemTabElement";
 import { Game } from "./game_logic/Game";
 import { FluctuatorElement } from "./ui/elements/quantum/FluctuatorElement";
 import { UpgradeElement } from "./ui/elements/UpgradeElement";
+import { GameTimeElement } from "ui/elements/GameTimeElement";
 
 export const main = () => {
     BigNumber.config({ EXPONENTIAL_AT: 6, DECIMAL_PLACES: 1, ROUNDING_MODE: BigNumber.ROUND_FLOOR });
@@ -39,18 +40,19 @@ export const main = () => {
     customElements.define("system-tab", SystemTabElement);
     customElements.define("fluctuator-block", FluctuatorElement);
     customElements.define("stat-upgrade", UpgradeElement);
+    customElements.define("game-time", GameTimeElement);
 
     document.getElementById("save-button").addEventListener("click", () => {
         SaveHandler.saveData();
     });
 
-    document.getElementById("reset-button").addEventListener("click", () => {
-        SaveHandler.initialize();
+    document.getElementById("reset-button").addEventListener("auxclick", () => {
+        SaveHandler.initialize(true);
         location.reload();
     });
 
-    document.getElementById("reset-button").addEventListener("auxclick", () => {
-        SaveHandler.initialize(true);
+    document.getElementById("reset-button").addEventListener("click", () => {
+        SaveHandler.initialize();
         location.reload();
     });
 

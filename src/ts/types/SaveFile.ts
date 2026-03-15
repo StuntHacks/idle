@@ -1,7 +1,9 @@
+import { SAVE_FILE_VERSION } from "SaveHandler/SaveHandler";
 import { Settings } from "./Settings";
 
 export interface SaveFile {
-    version?: number;
+    version?: typeof SAVE_FILE_VERSION;
+    startTime?: number;
     currencies: {
         normal: SaveCurrency[];
         inferred: SaveCurrency[];

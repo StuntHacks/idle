@@ -6,6 +6,8 @@ import { Settings } from "utils/Settings";
 import mock from "./mock.json"
 import _ from "lodash";
 
+export const SAVE_FILE_VERSION = 4;
+
 export class SaveHandler {
     private static save: SaveFile;
     private static lastSave: number = 0;
@@ -16,16 +18,20 @@ export class SaveHandler {
         let data = localStorage.getItem("saveFile");
         if (data === null) {
             Logger.log("SaveHandler", "No save data found!");
-            return false;
+            this.initialize();
+            return true;
         }
 
         let parsed = JSON.parse(this.decode(data));
-        if (parsed.version === undefined || parsed.version < this.getVersion()) {
+        if (parsed.version === undefined || parsed.version < SAVE_FILE_VERSION) {
+            // todo: implement proper migration
             Logger.log("SaveHandler", "Outdated save file, resetting...");
             this.initialize();
         } else {
             this.save = parsed;
         }
+
+        // todo: load currencies
 
         return true;
     }
@@ -38,10 +44,6 @@ export class SaveHandler {
             SaveHandler.saveData();
         }
         window.requestAnimationFrame(SaveHandler.autoSave)
-    }
-
-    public static getVersion(): number {
-        return 3;
     }
 
     public static saveCurrencies() {
@@ -109,8 +111,7 @@ export class SaveHandler {
 
     public static initialize(useMock: boolean = false): SaveFile {
         Logger.log("SaveHandler", "Initializing new save file...");
-        this.save = useMock ? mock as unknown as SaveFile : {
-            version: this.getVersion(),
+        const save = useMock ? mock as unknown as SaveFile : {
             currencies: {
                 normal: [],
                 inferred: [],
@@ -122,6 +123,11 @@ export class SaveHandler {
                 quantum: {}
             }
         };
+        this.save = {
+            ...save,
+            startTime: Date.now(),
+            version: SAVE_FILE_VERSION,
+        }
         this.saveData(true);
         return this.save;
     }
