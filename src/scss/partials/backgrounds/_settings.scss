@@ -1,0 +1,108 @@
+/* Cool infinite background scrolling animation.
+ * Twitter: @kootoopas
+ * https: //codepen.io/kootoopas/pen/kGPoaB
+ */
+
+/* Background data (Original source: https://subtlepatterns.com/grid-me/) */
+$bg-url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kb9Lw0AcxV/TSkUqRewg4pChOtlFRRxLFYtgobQVWnUwufQXNGlIUlwcBdeCgz8Wqw4uzro6uAqC4A8Q/wBxUnSREr+XFFrEeHDch3f3HnfvAKFVY6oZiAOqZhmZZELMF1bF4Cv8CCMAYEhipp7KLubgOb7u4ePrXYxneZ/7cwwqRZMBPpE4znTDIt4gnt20dM77xBFWkRTic+JJgy5I/Mh12eU3zmWHBZ4ZMXKZeeIIsVjuYbmHWcVQiWeIo4qqUb6Qd1nhvMVZrTVY5578haGitpLlOs0xJLGEFNIQIaOBKmqwEKNVI8VEhvYTHv5Rx58ml0yuKhg5FlCHCsnxg //B727N0vSUmxRKAH0vtv0xDgR3gXbTtr+Pbbt9AvifgSut66+3gLlP0ptdLXoEhLeBi+uuJu8BlzvAyJMuGZIj+WkKpRLwfkbfVACGb4GBNbe3zj5OH4AcdbV8AxwcAhNlyl73eHd/b2//nun09wMkV3KH3wWTpQAAAAZiS0dEAAIAIABg9nzPpwAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+oDDwQMG0UR1v4AAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAe0lEQVRo3u3PsRGDMAAEwcejUDQFg6Nvw1T4qaqScpHTgTy3Hex23795HKfG6FpVrbvKdX3VWpPtZSNJVMbosi3b28KR+dGfIEKECBEiRIgQIUKECBEiRIgQIUKECBEiRIgQIUKECBEiRIgQIUKEyEupdVcSJZmrJpLoASg6G58YrHPbAAAAAElFTkSuQmCC";
+$bg-width: 50px;
+$bg-height: 50px;
+
+/* Animations */
+@-webkit-keyframes bg-scrolling-reverse {
+    100% {
+        background-position: $bg-width $bg-height;
+    }
+}
+
+@-moz-keyframes bg-scrolling-reverse {
+    100% {
+        background-position: $bg-width $bg-height;
+    }
+}
+
+@-o-keyframes bg-scrolling-reverse {
+    100% {
+        background-position: $bg-width $bg-height;
+    }
+}
+
+@keyframes bg-scrolling-reverse {
+    100% {
+        background-position: $bg-width $bg-height;
+    }
+}
+
+@-webkit-keyframes bg-scrolling {
+    0% {
+        background-position: $bg-width $bg-height;
+    }
+}
+
+@-moz-keyframes bg-scrolling {
+    0% {
+        background-position: $bg-width $bg-height;
+    }
+}
+
+@-o-keyframes bg-scrolling {
+    0% {
+        background-position: $bg-width $bg-height;
+    }
+}
+
+@keyframes bg-scrolling {
+    0% {
+        background-position: $bg-width $bg-height;
+    }
+}
+
+/* Main styles */
+.system-background.settings {
+    background-color: #000;
+    filter: brightness(0.125);
+
+    .shadow {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 25%;
+        background-image: linear-gradient(#090909, transparent);
+
+        &.bottom {
+            top: auto;
+            bottom: 0;
+            background-image: linear-gradient(transparent, #090909);
+        }
+    }
+
+    .grid {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 200%;
+        width: 200%;
+        /* img size is 50x50 */
+        background: url($bg-url) repeat 0 0;
+
+        -webkit-animation: bg-scrolling-reverse 2s infinite;
+        /* Safari 4+ */
+        -moz-animation: bg-scrolling-reverse 2s infinite;
+        /* Fx 5+ */
+        -o-animation: bg-scrolling-reverse 2s infinite;
+        /* Opera 12+ */
+        animation: bg-scrolling-reverse 2s infinite;
+        /* IE 10+ */
+        -webkit-animation-timing-function: linear;
+        -moz-animation-timing-function: linear;
+        -o-animation-timing-function: linear;
+        animation-timing-function: linear;
+        transform: translate(-50%, -50%) skewX(-20deg);
+        opacity: 1;
+
+        &.reverse {
+            transform: translate(-50%, -50%) translate(40px, 20px) rotate(180deg) skewX(10deg);
+            opacity: 0.5;
+        }
+    }
+}

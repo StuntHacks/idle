@@ -69,6 +69,8 @@ export const main = () => {
 
     Game.calculateOfflineProgress();
     UI.switchSystemTab("quantum");
+    // document.addEventListener("contextmenu", (e) => e.preventDefault());
+
     // ready
     document.getElementsByTagName("body")[0].classList.remove("loading");
 }
