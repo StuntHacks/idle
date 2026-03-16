@@ -7,6 +7,8 @@
         "currentEffect": "Current effect:",
         "additive": "additive",
         "upgradesCompleted": "All current upgrades completed",
+        "next": "Next",
+        "gotIt": "Got it",
         "unlocks": {
             "quantum": {
                 "forces": "1.00e6 total Quarks"
@@ -238,5 +240,13 @@
                 }
             }
         }
+    },
+    "tutorials": {
+        "introduction": {
+            "first": "",
+            "second": ""
+        },
+        "holdToFluctuate": "TIP: You can hold down quantum fields to make them continuously fluctuate, without having to click them repeatedly.",
+        "rightClickToBuy": "TIP: You can right-click (or ctrl + click) most buy buttons in the game to buy 10 levels at once, or hold them to buy as many levels as possible."
     }
 }
