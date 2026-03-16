@@ -70,9 +70,4 @@ export const main = async () => {
     Game.calculateOfflineProgress();
     UI.switchSystemTab("settings");
     // document.addEventListener("contextmenu", (e) => e.preventDefault());
-
-    // ready
-    document.getElementById("offline-progress-button").addEventListener("click", () => {
-        document.getElementById("offline-progress").classList.add("dismissed");
-    });
 }

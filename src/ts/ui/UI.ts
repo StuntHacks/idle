@@ -1,3 +1,4 @@
+import { OfflineProgressUI } from "./OfflineProgress";
 import { QuantumUI } from "./systems/Quantum";
 
 export class UI {
@@ -24,6 +25,7 @@ export class UI {
             }, { passive: false });
         }
 
+        OfflineProgressUI.initialize();
         QuantumUI.initialize();
         this.initializeSystemTabs();
     }
