@@ -34,9 +34,10 @@
         margin: 0;
         color: transparent;
         @include gradient-gluon;
-        animation: move-bg 10s linear infinite;
         background: var(--gradient-repeating);
         background-clip: text;
+        width: 50vw;
+        text-align: center;
 
         @keyframes move-bg {
             from {
@@ -44,7 +45,7 @@
             }
 
             to {
-                background-position-x: 100vw;
+                background-position-x: 50vw;
             }
         }
     }
@@ -78,19 +79,23 @@
 
     }
 
-    h1,
+    h1 {
+        filter: opacity(0);
+        animation: fadeIn 500ms ease forwards, move-bg 5s linear infinite;
+    }
+
     .bobber {
         filter: opacity(0);
         animation: l43 1s infinite linear, fadeIn 500ms ease forwards;
+    }
 
-        @keyframes fadeIn {
-            from {
-                filter: opacity(0);
-            }
-        
-            to {
-                filter: opacity(1);
-            }
+    @keyframes fadeIn {
+        from {
+            filter: opacity(0);
+        }
+    
+        to {
+            filter: opacity(1);
         }
     }
 }
