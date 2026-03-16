@@ -43,6 +43,37 @@ nav.main-nav {
         justify-content: center;
         transition: background-color 150ms, color 150ms;
 
+        @keyframes flash {
+            0% {
+                color: rgb(196, 0, 0);
+                transform: translateX(0);
+            }
+
+            10% { transform: translateX(-4px); }
+            20% {
+                color: rgb(196, 0, 0);
+                transform: translateX(4px);
+            }
+
+            30% { transform: translateX(-4px); }
+
+            40% { transform: translateX(4px); }
+            50% { transform: translateX(-3px); }
+            60% { transform: translateX(3px); }
+
+            70% { transform: translateX(-2px); }
+            80% { transform: translateX(2px); }
+
+            100% {
+                color: inherit;
+                transform: translateX(0);
+            }
+        }
+
+        &.flash svg {
+            animation: flash 300ms ease-out 1;
+        }
+
         path {
             transition: filter 150ms;
         }

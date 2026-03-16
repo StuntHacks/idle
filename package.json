@@ -2,7 +2,7 @@
   "scripts": {
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
-    "watch": "parallelshell \"sass src/scss/main.scss build/main.css --style compressed --watch\" \"webpack -w\" \"gulp watch\"",
+    "dev": "parallelshell \"sass src/scss/main.scss build/main.css --style compressed --watch\" \"webpack -w\" \"gulp watch\"",
     "build": "npm run lint && sass src/scss/main.scss build/main.css --style compressed && gulp html && webpack"
   },
   "devDependencies": {

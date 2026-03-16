@@ -31,10 +31,15 @@ export class UI {
     private static initializeSystemTabs() {
         const navTabs = document.querySelectorAll(`.main-nav .nav-entry`);
         navTabs.forEach((tab: HTMLElement) => {
-            console.log(navTabs)
             tab.addEventListener("click", (e) => {
                 const tab = (e.target as HTMLElement).closest(".nav-entry") as HTMLElement;
-                if (tab.classList.contains("locked") || tab.classList.contains("disabled")) return;
+                if (tab.classList.contains("disabled")) return;
+                if (tab.classList.contains("locked")) {
+                    tab.classList.remove("flash");
+                    void tab.offsetWidth;
+                    tab.classList.add("flash");
+                    return;
+                }
                 UI.switchSystemTab(tab.dataset.system);
             });
         });
