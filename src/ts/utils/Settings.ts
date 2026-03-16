@@ -31,6 +31,11 @@ export class Settings {
                         default: false,
                         name: "settings.gameplay.noOfflineTime.name"
                     },
+                    autoAcceptOfflineTime: {
+                        value: false,
+                        default: false,
+                        name: "settings.gameplay.autoAcceptOfflineTime.name",
+                    }
                 }
             },
             display: {

@@ -1,4 +1,4 @@
-export class FieldsTab {
+export class FieldsTabUI {
     public static initialize() {
         const tab = document.querySelector(".tab[data-tab='fields']") as HTMLDivElement;
         tab.querySelectorAll(".field-label").forEach((label) => {

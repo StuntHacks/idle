@@ -9,6 +9,9 @@
         "upgradesCompleted": "All current upgrades completed",
         "next": "Next",
         "gotIt": "Got it",
+        "offlineProgressCalc": "Calculating offline progress...",
+        "offlineProgress": "Offline results:",
+        "letMeIn": "Let me in",
         "unlocks": {
             "quantum": {
                 "forces": "1.00e6 total Quarks"
@@ -33,6 +36,10 @@
             "tab": "Gameplay",
             "noOfflineTime": {
                 "name": "Disable offline time",
+                "description": ""
+            },
+            "autoAcceptOfflineTime": {
+                "name": "Auto-accept offline time",
                 "description": ""
             }
         },

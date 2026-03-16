@@ -10,6 +10,7 @@ export interface Settings {
         title: string;
         settings: {
             noOfflineTime: Setting<boolean>;
+            autoAcceptOfflineTime: Setting<boolean>;
         };
     };
     display: {

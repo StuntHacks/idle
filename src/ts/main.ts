@@ -16,7 +16,7 @@ import { FluctuatorElement } from "./ui/elements/quantum/FluctuatorElement";
 import { UpgradeElement } from "./ui/elements/UpgradeElement";
 import { GameTimeElement } from "ui/elements/GameTimeElement";
 
-export const main = () => {
+export const main = async () => {
     BigNumber.config({ EXPONENTIAL_AT: 6, DECIMAL_PLACES: 1, ROUNDING_MODE: BigNumber.ROUND_FLOOR });
 
     if (!SaveHandler.loadData()) {
@@ -68,9 +68,11 @@ export const main = () => {
     window.requestAnimationFrame(SaveHandler.autoSave);
 
     Game.calculateOfflineProgress();
-    UI.switchSystemTab("quantum");
+    UI.switchSystemTab("settings");
     // document.addEventListener("contextmenu", (e) => e.preventDefault());
 
     // ready
-    document.getElementsByTagName("body")[0].classList.remove("loading");
+    document.getElementById("offline-progress-button").addEventListener("click", () => {
+        document.getElementById("offline-progress").classList.add("dismissed");
+    });
 }

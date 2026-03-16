@@ -1,10 +1,10 @@
 import { EnergyUI } from "./quantum/Energy";
-import { FieldsTab } from "./quantum/FieldsTab";
+import { FieldsTabUI } from "./quantum/FieldsTab";
 
 export class QuantumUI {
     public static initialize() {
         EnergyUI.initialize();
-        FieldsTab.initialize();
+        FieldsTabUI.initialize();
     }
 
     public static update(timestamp: number) {

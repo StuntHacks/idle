@@ -6,11 +6,6 @@
 
 @import "./partials/partials.scss";
 
-body.loading {
-    opacity: 0;
-    pointer-events: none;
-}
-
 :root {
     --timing-tab-transition: 300ms;
 }

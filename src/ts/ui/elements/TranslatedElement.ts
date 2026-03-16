@@ -8,7 +8,7 @@ export class TranslatedElement extends HTMLElement {
         super();
     }
 
-    connectedCallback() {
+    public refresh() {
         this.textId = this.textContent;
         const lang = Settings.get().general.settings.language.value;
         let translated = Translator.getTranslation(this.textId, lang);
@@ -16,5 +16,9 @@ export class TranslatedElement extends HTMLElement {
         if (translated) {
             this.textContent = translated;
         }
+    }
+
+    connectedCallback() {
+        this.refresh();
     }
 }
