@@ -28,6 +28,15 @@ export class UI {
             }, { passive: false });
         }
 
+        document.querySelector("#tab-version").addEventListener("scroll", (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            if (target.scrollTop > 0) {
+                target.querySelector(".headlines").classList.add("shadow");
+            } else {
+                target.querySelector(".headlines").classList.remove("shadow");
+            }
+        });
+
         OfflineProgressUI.initialize();
         QuantumUI.initialize();
         this.initializeSystemTabs();

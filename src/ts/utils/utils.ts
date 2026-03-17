@@ -45,4 +45,25 @@ export namespace Utils {
 
         return parts.join(" ");
     }
+
+    export const getVersionString = (): string => {
+        return document.getElementById("version-number").textContent.replace("v", "");
+    }
+
+    export const compareVersions = (a: string, b: string): -1 | 0 | 1 => {
+        if (!a && !b) return 0;
+        if (!a) return -1;
+        if (!b) return 1;
+        const partsA = a.split('.').map(Number);
+        const partsB = b.split('.').map(Number);
+
+        for (let i = 0; i < 3; i++) {
+            const diff = (partsA[i] || 0) - (partsB[i] || 0);
+            if (diff !== 0) {
+                return diff > 0 ? 1 : -1;
+            }
+        }
+
+        return 0;
+    }
 }

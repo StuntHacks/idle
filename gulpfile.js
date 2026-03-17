@@ -42,4 +42,5 @@ gulp.task("html", function () {
 
 gulp.task("watch", function () {
   gulp.watch("src/html/**/*.html", gulp.series("preprocess-svgs", "html"));
+  gulp.watch("package.json", gulp.series("html"));
 });
