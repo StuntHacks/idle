@@ -2,10 +2,10 @@
 import { Numbers } from "numbers/numbers";
 import { StatHandler } from "game_logic/StatHandler";
 import { Currencies, CurrencyCallback, InferredCurrencyCallback } from "../Currencies";
-import { BigNumber } from "bignumber.js"
+import Decimal from "break_eternity.js";
 
 export class Energy {
-    private static amount = BigNumber(0);
+    private static amount = new Decimal(0);
     private static callbacks: InferredCurrencyCallback[] = [];
 
     public static initialize() {
@@ -14,7 +14,7 @@ export class Energy {
         const electronCallback: CurrencyCallback = (hash, type, amount) => {
             if (type === "gain") {
                 const before = this.amount;
-                const total = before.plus(amount.multipliedBy(StatHandler.get("energy_gain").total));
+                const total = before.plus(amount.multiply(StatHandler.get("energy_gain").total));
                 this.amount = total;
 
                 for (let callback of this.callbacks) {
@@ -26,7 +26,7 @@ export class Energy {
         Currencies.registerCallback(electronCallback, "leptons-electron");
     }
 
-    public static getFormatted(amount: BigNumber = undefined): string {
+    public static getFormatted(amount: Decimal = undefined): string {
         if (!amount) {
             amount = this.amount;
         }
@@ -58,16 +58,16 @@ export class Energy {
         return amount.dividedBy(1000000).dividedBy(divisor).toFixed(1) + suffix;
     }
 
-    public static getAmount(): BigNumber {
+    public static getAmount(): Decimal {
         return this.amount;
     }
 
-    public static setAmount(amount: BigNumber) {
+    public static setAmount(amount: Decimal) {
         this.amount = amount;
     }
 
-    public static spend(amount: BigNumber) {
-        if (this.amount.isGreaterThanOrEqualTo(amount)) {
+    public static spend(amount: Decimal) {
+        if (this.amount.greaterThanOrEqualTo(amount)) {
             const before = this.amount;
             const total = before.minus(amount);
             this.amount = total;

@@ -4,13 +4,13 @@ import { Translator } from "i18n/i18n";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { StatHandler } from "game_logic/StatHandler";
 import { Upgrade } from "types/SaveFile";
-import { BigNumber } from "bignumber.js"
+import Decimal from "break_eternity.js";
 import { Currencies, Currency, InferredCurrencyCallback } from "game_logic/currencies/Currencies";
 import { Numbers } from "numbers/numbers";
 import { SaveHandler } from "SaveHandler/SaveHandler";
 
 export class UpgradeElement extends HTMLElement {
-    private cost: BigNumber;
+    private cost: Decimal;
     private scaling: number;
     private levels: number = 0;
     private currency: string;
@@ -28,7 +28,7 @@ export class UpgradeElement extends HTMLElement {
     private getCost() {
         switch (this.currency) {
             case "energy":
-                return BigNumber(this.cost.multipliedBy(this.scaling ** this.levels));
+                return new Decimal(this.cost.multiply(this.scaling ** this.levels));
             default:
                 return this.cost;
         }
@@ -52,7 +52,7 @@ export class UpgradeElement extends HTMLElement {
         this.detailsElement = document.createElement("div");
         this.detailsElement.classList.add("details");
 
-        this.cost = BigNumber(upgrade.cost);
+        this.cost = new Decimal(upgrade.cost);
         this.scaling = upgrade.costScaling || 1;
         this.levels = this.hasAttribute("levels") ? parseInt(this.getAttribute("levels")) : 0;
 
@@ -65,7 +65,7 @@ export class UpgradeElement extends HTMLElement {
         this.currency = upgrade.currency;
         this.updateCost();
 
-        const checkCost = (total: BigNumber = undefined) => {
+        const checkCost = (total: Decimal = undefined) => {
             if (!total) {
                 const c = Currencies.get(this.currency);
                 if (c.inferred) {
@@ -79,7 +79,7 @@ export class UpgradeElement extends HTMLElement {
                 this.classList.add("completed");
             }
 
-            this.disabled =  !total.isGreaterThanOrEqualTo(this.getCost());
+            this.disabled =  !total.greaterThanOrEqualTo(this.getCost());
             this.classList.toggle("disabled", this.disabled);
         }
 

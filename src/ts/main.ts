@@ -1,7 +1,6 @@
 
 import { SaveHandler } from "./SaveHandler/SaveHandler";
 import { Settings } from "./utils/Settings";
-import { BigNumber } from "bignumber.js"
 import { UI } from "./ui/UI";
 import { Currencies } from "./game_logic/currencies/Currencies";
 import { Translator } from "./i18n/i18n";
@@ -11,8 +10,6 @@ import { Utils } from "utils/utils";
 import { CustomElements } from "ui/CustomElements";
 
 export const main = async () => {
-    BigNumber.config({ EXPONENTIAL_AT: 6, DECIMAL_PLACES: 1, ROUNDING_MODE: BigNumber.ROUND_FLOOR });
-
     if (!SaveHandler.loadData()) {
         SaveHandler.initialize();
     }
