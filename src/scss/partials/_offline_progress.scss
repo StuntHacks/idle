@@ -98,4 +98,14 @@
             filter: opacity(1);
         }
     }
+
+    * {
+        display: none;
+    }
+
+    &.rendering {
+        * {
+            display: initial;
+        }
+    }
 }
