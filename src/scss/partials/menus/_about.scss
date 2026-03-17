@@ -5,7 +5,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: hidden auto;
+  justify-content: flex-start;
 
   h1,
   h2 {
@@ -25,6 +26,7 @@
     animation: move-nav-gradient 5s linear infinite;
     width: 100vw;
     text-align: center;
+    margin-top: 3rem;
   }
 
   h2 {
@@ -42,6 +44,20 @@
 
   .thx-headline {
     margin-top: 1.5rem;
+  }
+
+  .thx {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    max-width: 300px;
+
+    span {
+      flex-basis: calc(50% - 0.5rem);
+      text-align: center;
+    }
   }
 
   .icon-credits {

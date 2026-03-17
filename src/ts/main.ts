@@ -30,7 +30,8 @@ export const main = async () => {
         document.getElementById("tab-version").classList.add("updated");
         UI.switchSystemTab("version");
     } else {
-        UI.switchSystemTab("quantum");
+        document.getElementById("tab-about").classList.add("slide-in");
+        UI.switchSystemTab("about");
     }
     // document.addEventListener("contextmenu", (e) => e.preventDefault());
 }
