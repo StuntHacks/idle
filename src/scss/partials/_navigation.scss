@@ -23,9 +23,9 @@ nav.main-nav {
         bottom: 0;
         @include gradient-quark-rgb;
         background: var(--gradient-repeating);
-        animation: move-bg 10s linear infinite;
+        animation: move-nav-gradient 10s linear infinite;
 
-        @keyframes move-bg {
+        @keyframes move-nav-gradient {
             from {
                 background-position-x: 0vw;
             }

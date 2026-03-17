@@ -70,7 +70,7 @@
         line-height: 4.5rem;
         user-select: none;
 
-        @keyframes move-bg {
+        @keyframes move-text-bg {
             from {
                 background-position-x: 0vw;
             }
@@ -81,7 +81,7 @@
         }
 
         filter: opacity(0);
-        animation: fadeIn 500ms ease forwards, move-bg 5s linear infinite;
+        animation: fadeIn 500ms ease forwards, move-text-bg 5s linear infinite;
     }
 
     .bobber {
