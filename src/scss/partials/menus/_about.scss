@@ -59,11 +59,11 @@
 
   &.slide-in {
     * {
-      animation: move-credits-up 1s ease-out forwards;
+      animation: move-credits-up 0.5s ease-out forwards;
 
       @keyframes move-credits-up {
         from {
-          transform: translateY(200px);
+          transform: translateY(100px);
           opacity: 0;
         }
         to {
@@ -76,7 +76,7 @@
     h1 {
       animation:
         move-nav-gradient 5s linear infinite,
-        move-credits-up 1s ease-out forwards;
+        move-credits-up 0.5s ease-out forwards;
     }
   }
 }
