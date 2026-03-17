@@ -1,4 +1,5 @@
 {
+  "version": "0.0.1",
   "scripts": {
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",

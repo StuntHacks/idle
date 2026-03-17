@@ -24,17 +24,23 @@ gulp.task("preprocess-svgs", function () {
 });
 
 gulp.task("html", function () {
+  const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+
   return gulp
     .src(["src/html/index.html"])
     .pipe(
       fileInclude({
         prefix: "@",
         basepath: "@file",
-      })
+        context: {
+          VERSION: pkg.version,
+        },
+      }),
     )
     .pipe(gulp.dest("build"));
 });
 
 gulp.task("watch", function () {
+  gulp.series("preprocess-svgs", "html");
   gulp.watch("src/html/**/*.html", gulp.series("preprocess-svgs", "html"));
 });
