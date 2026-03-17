@@ -5,6 +5,7 @@ export class Logger {
     private static getLabel(context: string): string {
         return `\x1b[100m\x1b[37m ${context} \x1b[0m`;
     }
+
     public static log(context: string, message: string, ...args: any[]) {
         if (Settings.get() && Settings.get().debug.settings.logging.value) console.log(this.getLabel(context), message, ...args);
     }
