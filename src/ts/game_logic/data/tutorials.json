@@ -46,5 +46,12 @@
                 "action": "close"
             }
         ]
+     },
+     {
+        "id": "buyEnergyUpgrades",
+        "title": "Energy Upgrades",
+        "description": "You have a good amount of electrons now, which directly correspond to a certain amount of energy. Check the energy tab to see what you can invest it in.",
+        "trigger": "buyEnergyUpgrades",
+        "closeOn": "quantum-tab-energy"
      }
 ]
