@@ -1,3 +1,4 @@
+import { SaveHandler } from "SaveHandler/SaveHandler";
 import { OfflineProgressUI } from "./OfflineProgress";
 import { QuantumUI } from "./systems/Quantum";
 
@@ -28,6 +29,35 @@ export class UI {
         OfflineProgressUI.initialize();
         QuantumUI.initialize();
         this.initializeSystemTabs();
+        this.initializeBottomBar();
+    }
+
+    private static initializeBottomBar() {
+        document.getElementById("save-button").addEventListener("click", () => {
+            SaveHandler.saveData();
+        });
+
+        document.getElementById("settings-button").addEventListener("click", () => {
+            UI.switchSystemTab("settings");
+        });
+
+        document.getElementById("about-button").addEventListener("click", () => {
+            UI.switchSystemTab("about");
+        });
+
+        document.getElementById("version-number").addEventListener("click", () => {
+            UI.switchSystemTab("version");
+        });
+
+        document.getElementById("reset-button").addEventListener("auxclick", () => {
+            SaveHandler.initialize(true);
+            location.reload();
+        });
+
+        document.getElementById("reset-button").addEventListener("click", () => {
+            SaveHandler.initialize();
+            location.reload();
+        });
     }
 
     private static initializeSystemTabs() {

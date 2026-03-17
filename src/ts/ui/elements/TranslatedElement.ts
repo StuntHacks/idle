@@ -14,7 +14,7 @@ export class TranslatedElement extends HTMLElement {
         let translated = Translator.getTranslation(this.textId, lang);
 
         if (translated) {
-            this.textContent = translated;
+            this.innerHTML = translated;
         }
     }
 

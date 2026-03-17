@@ -18,6 +18,14 @@
             }
         }
     },
+    "about": {
+        "madeBy": "by stunthacks",
+        "icons": "Icons provided under CC BY 3.0 by <a href='https://game-icons.net/'>game-icons.net</a> and under Apache 2.0 by <a href='https://fonts.google.com/icons'>Google</a>",
+        "specialThanks": "Special Thanks"
+    },
+    "versionInfo": {
+        "title": "Version Information"
+    },
     "settings": {
         "general": {
             "title": "General settings",

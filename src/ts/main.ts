@@ -43,24 +43,6 @@ export const main = async () => {
     customElements.define("stat-upgrade", UpgradeElement);
     customElements.define("game-time", GameTimeElement);
 
-    document.getElementById("save-button").addEventListener("click", () => {
-        SaveHandler.saveData();
-    });
-
-    document.getElementById("settings-button").addEventListener("click", () => {
-        UI.switchSystemTab("settings");
-    });
-
-    document.getElementById("reset-button").addEventListener("auxclick", () => {
-        SaveHandler.initialize(true);
-        location.reload();
-    });
-
-    document.getElementById("reset-button").addEventListener("click", () => {
-        SaveHandler.initialize();
-        location.reload();
-    });
-
     window.addEventListener("beforeunload", () => {
         // handle closing
         SaveHandler.saveData();
@@ -69,6 +51,6 @@ export const main = async () => {
     window.requestAnimationFrame(SaveHandler.autoSave);
 
     OfflineHandler.calculateOfflineProgress();
-    UI.switchSystemTab("settings");
+    UI.switchSystemTab("about");
     // document.addEventListener("contextmenu", (e) => e.preventDefault());
 }
