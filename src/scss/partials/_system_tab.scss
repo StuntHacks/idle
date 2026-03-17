@@ -5,12 +5,12 @@ system-tab {
     user-select: none;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 150ms, visibility 0s linear 150ms;
+    transition: opacity var(--timing-tab-transition), visibility 0s linear var(--timing-tab-transition);
 
     &.active {
         opacity: 1;
         visibility: visible;
-        transition: opacity 150ms;
+        transition: opacity var(--timing-tab-transition);
     }
 
     .tab,
@@ -37,6 +37,7 @@ system-tab {
     .tab-background {
         background-color: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(20px);
+        will-change: opacity;
     }
 
     .tab {
@@ -55,6 +56,37 @@ system-tab {
             letter-spacing: 3px;
             margin-bottom: 5px;
             display: inline-block;
+        }
+    }
+}
+
+.system-background {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--timing-tab-transition), visibility 0s linear var(--timing-tab-transition);
+
+    &.active {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity var(--timing-tab-transition);
+    }
+
+    &.hidden {
+        display: none;
+    }
+
+    &.quantum {}
+
+    &.stellar {
+        filter: blur(1px);
+
+        &.active {
+            opacity: 0.7;
         }
     }
 }

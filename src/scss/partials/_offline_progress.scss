@@ -28,27 +28,6 @@
         transition: opacity 250ms;
     }
 
-    h1 {
-        font-size: 4rem;
-        font-weight: 300;
-        margin: 0;
-        color: transparent;
-        @include gradient-gluon;
-        animation: move-bg 10s linear infinite;
-        background: var(--gradient-repeating);
-        background-clip: text;
-
-        @keyframes move-bg {
-            from {
-                background-position-x: 0vw;
-            }
-
-            to {
-                background-position-x: 100vw;
-            }
-        }
-    }
-
     &.loading {
         .bobber {
             opacity: 1;
@@ -78,19 +57,55 @@
 
     }
 
-    h1,
+    h1 {
+        font-size: 4rem;
+        font-weight: 300;
+        margin: 0;
+        color: transparent;
+        @include gradient-gluon;
+        background: var(--gradient-repeating);
+        background-clip: text;
+        width: 50vw;
+        text-align: center;
+        line-height: 4.5rem;
+        user-select: none;
+
+        @keyframes move-text-bg {
+            from {
+                background-position-x: 0vw;
+            }
+
+            to {
+                background-position-x: 50vw;
+            }
+        }
+
+        filter: opacity(0);
+        animation: fadeIn 500ms ease forwards, move-text-bg 5s linear infinite;
+    }
+
     .bobber {
         filter: opacity(0);
         animation: l43 1s infinite linear, fadeIn 500ms ease forwards;
+    }
 
-        @keyframes fadeIn {
-            from {
-                filter: opacity(0);
-            }
-        
-            to {
-                filter: opacity(1);
-            }
+    @keyframes fadeIn {
+        from {
+            filter: opacity(0);
+        }
+    
+        to {
+            filter: opacity(1);
+        }
+    }
+
+    * {
+        display: none;
+    }
+
+    &.rendering {
+        * {
+            display: initial;
         }
     }
 }

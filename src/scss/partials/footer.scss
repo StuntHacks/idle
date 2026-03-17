@@ -7,7 +7,6 @@ footer.main-footer {
     width: 100%;
     bottom: 0;
     z-index: 2;
-    overflow: hidden;
 
     .currencies {
         display: flex;
@@ -193,6 +192,14 @@ footer.main-footer {
             }
         }
 
+        #about-button {
+            margin: 0;
+
+            i {
+                margin-right: 0;
+            }
+        }
+
         #save-notif {
             pointer-events: none;
             padding: 0 10px;
@@ -207,7 +214,6 @@ footer.main-footer {
         }
 
         .run-timer {
-            flex-grow: 1;
             color: #bbb;
             font-size: 14px;
             user-select: none;
@@ -215,6 +221,15 @@ footer.main-footer {
             game-time {
                 font-family: var(--font-mono);
             }
+        }
+
+        #version-number {
+            opacity: 0.5;
+            font-size: 0.8rem;
+            flex-grow: 1;
+            margin-left: 10px;
+            cursor: pointer;
+            user-select: none;
         }
 
         .bottom-button {

@@ -3,6 +3,7 @@ import { Settings } from "./Settings";
 
 export interface SaveFile {
     version: typeof SAVE_FILE_VERSION;
+    gameVersion?: string;
     startTime: number;
     timestamp: number;
     currencies: {

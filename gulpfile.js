@@ -13,28 +13,34 @@ gulp.task("preprocess-svgs", function () {
           const contents = file.contents.toString();
           const modified = contents.replace(
             ' style="height: 512px; width: 512px;"',
-            ""
+            "",
           );
           file.contents = Buffer.from(modified);
         }
         cb(null, file);
-      })
+      }),
     )
     .pipe(gulp.dest("src/assets/icons"));
 });
 
 gulp.task("html", function () {
+  const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+
   return gulp
     .src(["src/html/index.html"])
     .pipe(
       fileInclude({
         prefix: "@",
         basepath: "@file",
-      })
+        context: {
+          VERSION: pkg.version,
+        },
+      }),
     )
     .pipe(gulp.dest("build"));
 });
 
 gulp.task("watch", function () {
   gulp.watch("src/html/**/*.html", gulp.series("preprocess-svgs", "html"));
+  gulp.watch("package.json", gulp.series("html"));
 });

@@ -3,8 +3,11 @@ import { TranslatedElement } from "./elements/TranslatedElement";
 import { Settings } from "utils/Settings";
 
 export class OfflineProgressUI {
+    static initUI() {
+        document.getElementById("offline-progress").classList.add("rendering");
+    }
     public static initialize() {
-        document.getElementById("offline-progress-button").addEventListener("click", OfflineProgressUI.dismiss);
+        document.getElementById("offline-progress-button").addEventListener("click", () => OfflineProgressUI.dismiss());
     }
 
     public static dismiss() {
