@@ -15,6 +15,7 @@ import { Game } from "./game_logic/Game";
 import { FluctuatorElement } from "./ui/elements/quantum/FluctuatorElement";
 import { UpgradeElement } from "./ui/elements/UpgradeElement";
 import { GameTimeElement } from "ui/elements/GameTimeElement";
+import { OfflineHandler } from "game_logic/OfflineHandler";
 
 export const main = async () => {
     BigNumber.config({ EXPONENTIAL_AT: 6, DECIMAL_PLACES: 1, ROUNDING_MODE: BigNumber.ROUND_FLOOR });
@@ -67,7 +68,7 @@ export const main = async () => {
 
     window.requestAnimationFrame(SaveHandler.autoSave);
 
-    Game.calculateOfflineProgress();
+    OfflineHandler.calculateOfflineProgress();
     UI.switchSystemTab("settings");
     // document.addEventListener("contextmenu", (e) => e.preventDefault());
 }
