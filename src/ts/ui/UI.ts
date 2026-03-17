@@ -52,6 +52,7 @@ export class UI {
             if (UI.getActiveSystemTab() === "about" && UI.lastSystemTab !== "") {
                 UI.switchSystemTab(UI.lastSystemTab);
             } else {
+                document.getElementById("tab-about").classList.add("slide-in");
                 UI.lastSystemTab = UI.getActiveSystemTab();
                 UI.switchSystemTab("about");
             }

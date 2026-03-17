@@ -51,6 +51,6 @@ export const main = async () => {
     window.requestAnimationFrame(SaveHandler.autoSave);
 
     OfflineHandler.calculateOfflineProgress();
-    UI.switchSystemTab("about");
+    UI.switchSystemTab("quantum");
     // document.addEventListener("contextmenu", (e) => e.preventDefault());
 }
