@@ -42,7 +42,12 @@ export class ToolTip extends HTMLElement {
 
     private syncPosition() {
         const rect = this.host.getBoundingClientRect();
-        const MARGIN = 5;
+        let MARGIN = 5;
+
+        if (this.host.tagName.toLowerCase() === "currency-display") {
+            MARGIN = 10;
+        }
+
         const orientation = this.getAttribute("orientation") ?? "top";
         const align = this.getAttribute("align");
 
