@@ -10,20 +10,16 @@ export class Wave {
     private ctx: CanvasRenderingContext2D;
     private points: WavePoint[] = [];
     private ripples: Ripple[] = [];
-
+    private rafHandle: number | null = null;
     private time: number = 0;
     private hover: boolean = false;
     private contained: boolean = false;
-
     private cachedGradient: CanvasGradient | null = null;
-
     private frameDeltaSamples: number[] = [];
     private lastFrameTimestamp: number = 0;
     private shadowEnabled: boolean = true;
-
-    private rafHandle: number | null = null;
-
     private rippleGain: number = 1;
+    private pointInfluence: Float32Array = new Float32Array(0);
 
     constructor(
         element: HTMLCanvasElement,
@@ -110,6 +106,7 @@ export class Wave {
         this.points = Array.from({ length: this.config.pointCount + 1 }, () => ({
             offset: Math.random() * 1000,
         }));
+        this.pointInfluence = new Float32Array(this.config.pointCount + 1);
     }
 
     private getRippleOffset(i: number, now: number): number {
@@ -118,20 +115,54 @@ export class Wave {
             const age = (now - r.startTime) / 1000;
             const distance = Math.abs(i - r.index);
             const propagation = age * r.speed;
-            const falloff = Math.exp(-r.decay * (distance - propagation) ** 2);
-            const ease = Math.sin((Math.min(1, age / 0.5) * Math.PI) / 2);
-            total += r.strength * ease * falloff * Math.sin(distance - propagation);
+
+            const ease = Math.sin((Math.min(1, age / 0.1) * Math.PI) / 2);
+
+            const pulseFalloff = Math.exp(-0.2 * (distance - propagation) ** 2);
+            const trail = distance < propagation - 3
+                ? Math.exp(-0.5 * (distance - propagation + 3) ** 2)
+                : 1;
+            const wave = Math.sin(distance - propagation) + 0.3 * Math.sin(2 * (distance - propagation));
+            total += r.strength * ease * pulseFalloff * trail * wave;
         }
         return total;
+    }
+
+    private updatePointInfluence(now: number) {
+        const n = this.config.pointCount;
+        const lerpRate = 0.08;
+
+        for (let i = 0; i <= n; i++) {
+            const raw = this.getRippleOffset(i, now);
+            this.pointInfluence[i] += (raw - this.pointInfluence[i]) * lerpRate;
+        }
+
+        const radius = Math.floor(n * 0.12);
+        const blurred = new Float32Array(n + 1);
+        for (let i = 0; i <= n; i++) {
+            let sum = 0;
+            let count = 0;
+            for (let j = Math.max(0, i - radius); j <= Math.min(n, i + radius); j++) {
+                sum += this.pointInfluence[j];
+                count++;
+            }
+            blurred[i] = sum / count;
+        }
+        this.pointInfluence = blurred;
     }
 
     private cleanupRipples(now: number) {
         const threshold = 0.0001;
         this.ripples = this.ripples.filter(r => {
             const age = (now - r.startTime) / 1000;
-            const ramp = Math.sin((Math.min(1, age / 0.5) * Math.PI) / 2);
-            const falloff = Math.exp(-r.decay * (age * r.speed) ** 2);
-            return r.strength * ramp * falloff > threshold;
+            const propagation = age * r.speed;
+            const maxDistance = Math.max(r.index, this.config.pointCount - r.index);
+
+            if (propagation <= maxDistance + 4) return true;
+
+            const ease = Math.sin((Math.min(1, age / 0.1) * Math.PI) / 2);
+            const tailFalloff = Math.exp(-0.2 * (maxDistance - propagation) ** 2);
+            return r.strength * ease * tailFalloff > threshold;
         });
     }
 
@@ -163,6 +194,7 @@ export class Wave {
         const ctx = this.ctx;
 
         this.updateRippleGain(now);
+        this.updatePointInfluence(now);
 
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -193,7 +225,8 @@ export class Wave {
             const noise = Math.sin((pointOffset + time) * frequency) * 0.6 +
                           Math.sin((pointOffset * 0.5 + time * 0.8) * frequency) * 0.4;
             const ripple = this.getRippleOffset(i, now) * this.rippleGain;
-            return offset + noise * amplitude + ripple;
+            const influence = this.pointInfluence[i] * 0.4;
+            return offset + noise * amplitude + ripple + influence;
         };
 
         let prevX = 0;
@@ -214,7 +247,7 @@ export class Wave {
         this.cleanupRipples(now);
     }
 
-    public ripple(x: number, strength: number = 120, speed: number = 10, decay: number = 0.05) {
+    public ripple(x: number, strength: number = 120, speed: number = 8, decay: number = 0.05) {
         this.ripples.push({
             index: Math.floor((x / this.canvas.width) * this.config.pointCount),
             startTime: performance.now(),

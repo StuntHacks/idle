@@ -22,7 +22,7 @@ export class QuantumFieldElement extends HTMLElement {
     }
 
     ripplePassive(x: number) {
-        this.waves.forEach(wave => { wave.ripple(x, 20, 10, 0.05) });
+        this.waves.forEach(wave => { wave.ripple(x, 20, 6.5, 0.05) });
     }
 
     ripple(x: number, index: number) {
@@ -108,7 +108,7 @@ export class QuantumFieldElement extends HTMLElement {
                 for (let wave of this.waves) {
                     if (!wave.isHovered()) {
                         wave.setHovered(true);
-                        wave.ripple(e.clientX, 20, 10, 0.05);
+                        wave.ripple(e.clientX, 20, 6.5, 0.05);
                     }
                 }
             });
