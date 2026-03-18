@@ -16,7 +16,7 @@ stat-upgrade {
     position: relative;
     transition: filter 250ms;
 
-    &.disabled {
+    &.disabled:not(.completed) {
         filter: grayscale(1);
         background-color: #0002;
 
