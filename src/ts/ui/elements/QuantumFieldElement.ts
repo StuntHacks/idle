@@ -28,10 +28,10 @@ export class QuantumFieldElement extends HTMLElement {
     ripple(x: number, index: number) {
         if (this.type === "triple" || index === -1) {
             for (let wave of this.waves) {
-                wave.ripple(x, 160);
+                wave.ripple(x, 100);
             }
         } else {
-            this.waves[index].ripple(x, 160);
+            this.waves[index].ripple(x, 100);
         }
     }
 

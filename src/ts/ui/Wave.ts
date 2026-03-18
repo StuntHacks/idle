@@ -70,9 +70,11 @@ export class Wave {
     private updateFpsAndShadow(timestamp: number) {
         if (this.lastFrameTimestamp !== 0) {
             this.frameDeltaSamples.push(timestamp - this.lastFrameTimestamp);
+
             if (this.frameDeltaSamples.length > FPS_SAMPLE_COUNT) {
                 this.frameDeltaSamples.shift();
             }
+
             if (this.frameDeltaSamples.length === FPS_SAMPLE_COUNT) {
                 const avgDelta = this.frameDeltaSamples.reduce((a, b) => a + b, 0) / FPS_SAMPLE_COUNT;
                 this.shadowEnabled = 1000 / avgDelta >= FPS_SHADOW_THRESHOLD;
@@ -93,12 +95,15 @@ export class Wave {
         const startTime = performance.now();
         const animate = (timestamp: number) => {
             this.updateFpsAndShadow(timestamp);
+
             if (this.canvas.checkVisibility({ opacityProperty: true })) {
                 this.time = this.config.speed * ((timestamp - startTime) / 10);
                 this.draw(this.time);
             }
+
             this.rafHandle = window.requestAnimationFrame(animate);
         };
+
         this.rafHandle = window.requestAnimationFrame(animate);
     }
 
@@ -106,6 +111,7 @@ export class Wave {
         this.points = Array.from({ length: this.config.pointCount + 1 }, () => ({
             offset: Math.random() * 1000,
         }));
+
         this.pointInfluence = new Float32Array(this.config.pointCount + 1);
     }
 
@@ -115,16 +121,13 @@ export class Wave {
             const age = (now - r.startTime) / 1000;
             const distance = Math.abs(i - r.index);
             const propagation = age * r.speed;
-
             const ease = Math.sin((Math.min(1, age / 0.1) * Math.PI) / 2);
+            const falloff = Math.exp(-0.08 * (distance - propagation) ** 2);
 
-            const pulseFalloff = Math.exp(-0.2 * (distance - propagation) ** 2);
-            const trail = distance < propagation - 3
-                ? Math.exp(-0.5 * (distance - propagation + 3) ** 2)
-                : 1;
             const wave = Math.sin(distance - propagation) + 0.3 * Math.sin(2 * (distance - propagation));
-            total += r.strength * ease * pulseFalloff * trail * wave;
+            total += r.strength * ease * falloff * wave;
         }
+
         return total;
     }
 
@@ -161,7 +164,7 @@ export class Wave {
             if (propagation <= maxDistance + 4) return true;
 
             const ease = Math.sin((Math.min(1, age / 0.1) * Math.PI) / 2);
-            const tailFalloff = Math.exp(-0.2 * (maxDistance - propagation) ** 2);
+            const tailFalloff = Math.exp(-0.08 * (maxDistance - propagation) ** 2);
             return r.strength * ease * tailFalloff > threshold;
         });
     }
