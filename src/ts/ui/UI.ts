@@ -1,13 +1,14 @@
 import { SaveHandler } from "SaveHandler/SaveHandler";
 import { OfflineProgressUI } from "./OfflineProgress";
 import { QuantumUI } from "./systems/Quantum";
+import { Utils } from "utils/utils";
 
 export class UI {
     public static saveIndicator: HTMLElement;
     public static mouseDown: boolean = false;
     public static mouseX: number = 0;
     public static mouseY: number = 0;
-    public static lastSystemTab: string = "";
+    public static lastSystemTab: string = "quantum";
 
     public static initialize() {
         this.saveIndicator = document.getElementById("save-notif");
@@ -43,37 +44,37 @@ export class UI {
         this.initializeBottomBar();
     }
 
+    private static handleMenuTabs(tab: string): boolean {
+        if (UI.getActiveSystemTab() === tab && UI.lastSystemTab !== "") {
+            UI.switchSystemTab(UI.lastSystemTab);
+            return false;
+        } else {
+            UI.lastSystemTab = UI.getActiveSystemTab();
+            if (["settings", "about", "version"].includes(UI.lastSystemTab)) {
+                UI.lastSystemTab = "quantum";
+            }
+            UI.switchSystemTab(tab);
+            return true;
+        }
+    }
+
     private static initializeBottomBar() {
         document.getElementById("save-button").addEventListener("click", () => {
             SaveHandler.saveData();
         });
 
         document.getElementById("settings-button").addEventListener("click", () => {
-            if (UI.getActiveSystemTab() === "settings" && UI.lastSystemTab !== "") {
-                UI.switchSystemTab(UI.lastSystemTab);
-            } else {
-                UI.lastSystemTab = UI.getActiveSystemTab();
-                UI.switchSystemTab("settings");
-            }
+            UI.handleMenuTabs("settings");
         });
 
         document.getElementById("about-button").addEventListener("click", () => {
-            if (UI.getActiveSystemTab() === "about" && UI.lastSystemTab !== "") {
-                UI.switchSystemTab(UI.lastSystemTab);
-            } else {
+            if (UI.handleMenuTabs("about")) {
                 document.getElementById("tab-about").classList.add("slide-in");
-                UI.lastSystemTab = UI.getActiveSystemTab();
-                UI.switchSystemTab("about");
             }
         });
 
         document.getElementById("version-number").addEventListener("click", () => {
-            if (UI.getActiveSystemTab() === "version" && UI.lastSystemTab !== "") {
-                UI.switchSystemTab(UI.lastSystemTab);
-            } else {
-                UI.lastSystemTab = UI.getActiveSystemTab();
-                UI.switchSystemTab("version");
-            }
+            UI.handleMenuTabs("version");
         });
 
         document.getElementById("reset-button").addEventListener("auxclick", () => {
@@ -162,6 +163,15 @@ export class UI {
             window.requestAnimationFrame(() => {
                 this.saveIndicator.classList.remove("shown");
             });
+        }
+    }
+
+    public static selectStartingTab() {
+        if (Utils.compareVersions(SaveHandler.getData().gameVersion, Utils.getVersionString()) < 0) {
+            document.getElementById("tab-version").classList.add("updated");
+            UI.switchSystemTab("version");
+        } else {
+            UI.switchSystemTab("quantum");
         }
     }
 }

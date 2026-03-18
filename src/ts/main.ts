@@ -6,7 +6,6 @@ import { Currencies } from "./game_logic/currencies/Currencies";
 import { Translator } from "./i18n/i18n";
 import { Game } from "./game_logic/Game";
 import { OfflineHandler } from "game_logic/OfflineHandler";
-import { Utils } from "utils/utils";
 import { CustomElements } from "ui/CustomElements";
 
 export const main = async () => {
@@ -25,12 +24,5 @@ export const main = async () => {
     CustomElements.initialize();
 
     OfflineHandler.calculateOfflineProgress();
-
-    if (Utils.compareVersions(data.gameVersion, Utils.getVersionString()) < 0) {
-        document.getElementById("tab-version").classList.add("updated");
-        UI.switchSystemTab("version");
-    } else {
-        UI.switchSystemTab("quantum");
-    }
     // document.addEventListener("contextmenu", (e) => e.preventDefault());
 }

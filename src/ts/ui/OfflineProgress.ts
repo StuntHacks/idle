@@ -1,6 +1,7 @@
 import { OfflineResults } from "game_logic/Game";
 import { TranslatedElement } from "./elements/TranslatedElement";
 import { Settings } from "utils/Settings";
+import { UI } from "./UI";
 
 export class OfflineProgressUI {
     static initUI() {
@@ -11,6 +12,7 @@ export class OfflineProgressUI {
     }
 
     public static dismiss() {
+        UI.selectStartingTab();
         document.getElementById("offline-progress").classList.add("dismissed");
     }
 
