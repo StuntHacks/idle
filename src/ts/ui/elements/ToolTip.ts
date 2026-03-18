@@ -5,6 +5,8 @@ export class ToolTip extends HTMLElement {
     private onMouseLeave: () => void;
     private frameId: number | null = null;
     private lastRect: DOMRect | null = null;
+    private hovering: boolean = false;
+    private visible: boolean = false;
 
     constructor() {
         super();
@@ -19,14 +21,12 @@ export class ToolTip extends HTMLElement {
         this.syncPosition();
 
         this.onMouseEnter = () => {
+            this.hovering = true;
             this.syncPosition();
-            if (!this.host.matches(".sub-tabs .active")) {
-                this.classList.add("visible");
-            }
             this.startTracking();
         };
         this.onMouseLeave = () => {
-            this.classList.remove("visible");
+            this.hovering = false;
             this.stopTracking();
         };
 
@@ -38,6 +38,13 @@ export class ToolTip extends HTMLElement {
         this.host?.removeEventListener("mouseenter", this.onMouseEnter);
         this.host?.removeEventListener("mouseleave", this.onMouseLeave);
         this.stopTracking();
+    }
+
+    private setVisibility(visible: boolean) {
+        if (this.visible !== visible) {
+            this.visible = visible;
+            this.classList.toggle("visible", visible);
+        }
     }
 
     private syncPosition() {
@@ -57,8 +64,8 @@ export class ToolTip extends HTMLElement {
         switch (orientation) {
            case "bottom":
                 y = rect.bottom + MARGIN;
-                x = resolveX(rect, align);
-                this.style.transform = resolveTransformBottom(align);
+                x = this.getX(rect, align);
+                this.style.transform = this.getTransformBottom(align);
                 break;
             case "left":
                 y = rect.top + rect.height / 2;
@@ -73,8 +80,8 @@ export class ToolTip extends HTMLElement {
             case "top":
             default:
                 y = rect.top - MARGIN;
-                x = resolveX(rect, align);
-                this.style.transform = resolveTransformTop(align);
+                x = this.getX(rect, align);
+                this.style.transform = this.getTransformTop(align);
                 break;
         }
 
@@ -84,56 +91,69 @@ export class ToolTip extends HTMLElement {
 
     private startTracking() {
         const track = () => {
-            const rect = this.host.getBoundingClientRect();
+            const hidden = this.host.matches(".sub-tabs .active");
 
-            const moved = (
-                !this.lastRect ||
-                rect.top !== this.lastRect.top ||
-                rect.left !== this.lastRect.left ||
-                rect.width !== this.lastRect.width ||
-                rect.height !== this.lastRect.height
-            );
+            if (hidden) {
+                this.setVisibility(false);
+            } else {
+                const rect = this.host.getBoundingClientRect();
+                const moved =
+                    !this.lastRect ||
+                    rect.top    !== this.lastRect.top  ||
+                    rect.left   !== this.lastRect.left ||
+                    rect.width  !== this.lastRect.width ||
+                    rect.height !== this.lastRect.height;
 
-            if (moved) {
-                this.lastRect = rect;
-                this.syncPosition();
+                if (moved) {
+                    this.lastRect = rect;
+                    this.syncPosition();
+                }
+
+                if (this.hovering) {
+                    this.setVisibility(true);
+                }
             }
 
-            this.frameId = requestAnimationFrame(track);
+            if (this.hovering) {
+                this.frameId = requestAnimationFrame(track);
+            }
         };
+
+        this.frameId = requestAnimationFrame(track);
 
         this.frameId = requestAnimationFrame(track);
     }
 
     private stopTracking() {
+        this.setVisibility(false);
         if (this.frameId !== null) {
             cancelAnimationFrame(this.frameId);
             this.frameId = null;
         }
         this.lastRect = null;
     }
-}
 
-function resolveX(rect: DOMRect, align: string | null): number {
-    switch (align) {
-        case "left": return rect.left;
-        case "right": return rect.right;
-        default: return rect.left + rect.width / 2;
+    private getX(rect: DOMRect, align: string | null): number {
+        switch (align) {
+            case "left": return rect.left;
+            case "right": return rect.right;
+            default: return rect.left + rect.width / 2;
+        }
     }
-}
 
-function resolveTransformTop(align: string | null): string {
-    switch (align) {
-        case "left": return "translateY(-100%)";
-        case "right": return "translate(-100%, -100%)";
-        default: return "translate(-50%, -100%)";
+    private getTransformTop(align: string | null): string {
+        switch (align) {
+            case "left": return "translateY(-100%)";
+            case "right": return "translate(-100%, -100%)";
+            default: return "translate(-50%, -100%)";
+        }
     }
-}
 
-function resolveTransformBottom(align: string | null): string {
-    switch (align) {
-        case "left": return "none";
-        case "right": return "translateX(-100%)";
-        default: return "translateX(-50%)";
+    private getTransformBottom(align: string | null): string {
+        switch (align) {
+            case "left": return "none";
+            case "right": return "translateX(-100%)";
+            default: return "translateX(-50%)";
+        }
     }
 }
