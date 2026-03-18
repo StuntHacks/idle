@@ -1,4 +1,4 @@
-import { BigNumber } from "bignumber.js"
+import Decimal from "break_eternity.js";
 import { WaveParticleInfo } from "ui/Wave";
 import { Numbers } from "numbers/numbers";
 import { InferredCurrency as InferredCurrencyClass } from "./InferredCurrency";
@@ -13,7 +13,7 @@ export class Currencies {
     private static inferredMap: { [key: string]: boolean } = {};
 
     public static register(className: string, hash: string) {
-        this.currencies.push({ className, amount: new BigNumber(0), hash, callbacks: [], inferred: false });
+        this.currencies.push({ className, amount: new Decimal(0), hash, callbacks: [], inferred: false });
         this.inferredMap[hash] = false;
     }
 
@@ -83,11 +83,11 @@ export class Currencies {
         const currencies = SaveHandler.getData().currencies;
 
         for (const c of currencies.normal) {
-            this.set(c.hash, BigNumber(c.amount));
+            this.set(c.hash, new Decimal(c.amount));
         }
 
         for (const c of currencies.inferred) {
-            this.setInferred(c.hash, BigNumber(c.amount));
+            this.setInferred(c.hash, new Decimal(c.amount));
         }
     }
 
@@ -99,7 +99,7 @@ export class Currencies {
         }
     }
 
-    public static spawnGainElement(hash: string, amount: BigNumber, x: number, y: number, showRipple: boolean = false) {
+    public static spawnGainElement(hash: string, amount: Decimal, x: number, y: number, showRipple: boolean = false) {
         if (this.spawning) {
             let element = document.createElement("resource-gain");
             element.setAttribute("x", x + "");
@@ -113,7 +113,7 @@ export class Currencies {
         }
     }
 
-    public static gain(hash: string, amount: BigNumber) {
+    public static gain(hash: string, amount: Decimal) {
         const currency = this.currencies.find(r => r.hash === hash);
         if (currency) {
             const before = currency.amount;
@@ -126,13 +126,13 @@ export class Currencies {
         }
     }
 
-    public static spend(hash: string, amount: BigNumber): boolean {
+    public static spend(hash: string, amount: Decimal): boolean {
         if (this.inferredMap[hash]) {
             return this.inferredCurrencies.find(c => c.hash === hash).handler.spend(amount);
         } else {
             const currency = this.currencies.find(c => c.hash === hash);
             if (currency) {
-                if (currency.amount.isGreaterThanOrEqualTo(amount)) {
+                if (currency.amount.greaterThanOrEqualTo(amount)) {
                     const before = currency.amount;
                     const total = before.minus(amount);
                     currency.amount = total;
@@ -149,7 +149,7 @@ export class Currencies {
         }
     }
 
-    public static set(hash: string, amount: BigNumber) {
+    public static set(hash: string, amount: Decimal) {
         const currency = this.currencies.find(r => r.hash === hash);
         if (currency) {
             const before = currency.amount;
@@ -161,7 +161,7 @@ export class Currencies {
         }
     }
 
-    public static setInferred(hash: string, amount: BigNumber) {
+    public static setInferred(hash: string, amount: Decimal) {
         const currency = this.inferredCurrencies.find(c => c.hash === hash);
         if (currency) {
             currency.handler.setAmount(amount);
@@ -210,7 +210,7 @@ export class Currencies {
 }
 
 export interface Currency {
-    amount: BigNumber;
+    amount: Decimal;
     className: string;
     hash: string;
     callbacks: CurrencyCallback[];
@@ -223,5 +223,5 @@ export interface InferredCurrency {
     inferred: true;
 }
 
-export type CurrencyCallback = (hash: string, type: "gain" | "spend" | "set", amount: BigNumber, before: BigNumber, total: BigNumber) => void;
-export type InferredCurrencyCallback = (handler: InferredCurrencyClass, type: "gain" | "spend" | "set", amount: BigNumber, before: BigNumber, total: BigNumber) => void;
+export type CurrencyCallback = (hash: string, type: "gain" | "spend" | "set", amount: Decimal, before: Decimal, total: Decimal) => void;
+export type InferredCurrencyCallback = (handler: InferredCurrencyClass, type: "gain" | "spend" | "set", amount: Decimal, before: Decimal, total: Decimal) => void;

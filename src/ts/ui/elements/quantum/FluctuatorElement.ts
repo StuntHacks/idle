@@ -64,14 +64,14 @@ export class FluctuatorElement extends HTMLElement {
 
                 if (particle.all && particle.type === "quark") {
                     const hashRed = hash.replace("rgb", "red");
-                    Currencies.gain(hashRed, amount.multipliedBy(num));
+                    Currencies.gain(hashRed, amount.multiply(num));
                     const hashGreen = hashRed.replace("red", "green");
-                    Currencies.gain(hashGreen, amount.multipliedBy(num));
+                    Currencies.gain(hashGreen, amount.multiply(num));
                     const hashBlue = hashRed.replace("red", "blue");
-                    Currencies.gain(hashBlue, amount.multipliedBy(num));
+                    Currencies.gain(hashBlue, amount.multiply(num));
                     Currencies.spawnGainElement(hash, amount, position, this.offset + (this.height / 2) - 20);
                 } else {
-                    Currencies.gain(hash, amount.multipliedBy(num));
+                    Currencies.gain(hash, amount.multiply(num));
                     Currencies.spawnGainElement(hash, amount, position, this.offset + (this.height / 2) - 20);
                 }
     

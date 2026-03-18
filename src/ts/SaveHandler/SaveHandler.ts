@@ -5,6 +5,7 @@ import { Logger } from "utils/Logger";
 import { Settings } from "utils/Settings";
 import mock from "./mock.json"
 import _ from "lodash";
+import { Utils } from "utils/utils";
 
 export const SAVE_FILE_VERSION = 4;
 
@@ -71,7 +72,8 @@ export class SaveHandler {
         let data = SaveHandler.encode(JSON.stringify({
             ...SaveHandler.save,
             timestamp: Date.now(),
-        }));
+            gameVersion: Utils.getVersionString(),
+        } as SaveFile));
 
         if (!fresh) {
             SaveHandler.saveCurrencies();

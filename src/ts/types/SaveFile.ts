@@ -1,8 +1,10 @@
 import { SAVE_FILE_VERSION } from "SaveHandler/SaveHandler";
 import { Settings } from "./Settings";
+import Decimal from "break_eternity.js";
 
 export interface SaveFile {
     version: typeof SAVE_FILE_VERSION;
+    gameVersion?: string;
     startTime: number;
     timestamp: number;
     currencies: {
@@ -37,7 +39,7 @@ export interface Upgrade {
 }
 
 export interface SaveCurrency {
-    amount: BigNumber;
+    amount: Decimal;
     className?: string;
     hash: string;
 }

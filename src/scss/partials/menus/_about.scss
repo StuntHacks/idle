@@ -1,39 +1,82 @@
 @import "../../settings/gradients.scss";
 
 #tab-about {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 
-    h1,
-    h2 {
-        margin-bottom: 0.5rem;
-        margin-top: 0;
-        font-weight: 200;
-        font-size: 4rem;
-        @include gradient-weak;
-        background: var(--gradient-repeating);
-        background-clip: text;
-        color: transparent;
+  h1,
+  h2 {
+    margin-bottom: 0.5rem;
+    margin-top: 0;
+    font-weight: 200;
+    font-size: 4rem;
+    @include gradient-weak;
+    background: var(--gradient-repeating);
+    background-clip: text;
+    color: transparent;
+  }
+
+  h1 {
+    background: linear-gradient(135deg, #fff, #555 80%, #fff);
+    background-clip: text;
+    animation: move-nav-gradient 5s linear infinite;
+    width: 100vw;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin-top: 0rem;
+    color: #ddd;
+  }
+
+  .subline {
+    font-size: 1.5rem;
+    margin: 0;
+    background: transparent;
+    color: #777;
+  }
+
+  .thx-headline {
+    margin-top: 1.5rem;
+  }
+
+  .icon-credits {
+    color: #aaa;
+
+    a {
+      color: #ddd;
+
+      &:hover,
+      &:active {
+        text-decoration: none;
+      }
     }
+  }
 
-    h2 {
-        font-size: 2rem;
-        margin-top: 0rem;
-    }
+  &.slide-in {
+    * {
+      animation: move-credits-up 0.5s ease-out forwards;
 
-    p + h2 {
-        margin-top: 1.5rem;
-    }
-
-    p {
-        a {
-            color: #fff;
-
-            &:hover, &:active {
-                text-decoration: none;
-            }
+      @keyframes move-credits-up {
+        from {
+          transform: translateY(100px);
+          opacity: 0;
         }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
     }
+
+    h1 {
+      animation:
+        move-nav-gradient 5s linear infinite,
+        move-credits-up 0.5s ease-out forwards;
+    }
+  }
 }

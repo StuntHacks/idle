@@ -7,6 +7,8 @@ export class UI {
     public static mouseDown: boolean = false;
     public static mouseX: number = 0;
     public static mouseY: number = 0;
+    public static lastSystemTab: string = "";
+
     public static initialize() {
         this.saveIndicator = document.getElementById("save-notif");
         window.requestAnimationFrame(UI.animate);
@@ -26,6 +28,15 @@ export class UI {
             }, { passive: false });
         }
 
+        document.querySelector("#tab-version").addEventListener("scroll", (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            if (target.scrollTop > 0) {
+                target.querySelector(".headlines").classList.add("shadow");
+            } else {
+                target.querySelector(".headlines").classList.remove("shadow");
+            }
+        });
+
         OfflineProgressUI.initialize();
         QuantumUI.initialize();
         this.initializeSystemTabs();
@@ -38,15 +49,31 @@ export class UI {
         });
 
         document.getElementById("settings-button").addEventListener("click", () => {
-            UI.switchSystemTab("settings");
+            if (UI.getActiveSystemTab() === "settings" && UI.lastSystemTab !== "") {
+                UI.switchSystemTab(UI.lastSystemTab);
+            } else {
+                UI.lastSystemTab = UI.getActiveSystemTab();
+                UI.switchSystemTab("settings");
+            }
         });
 
         document.getElementById("about-button").addEventListener("click", () => {
-            UI.switchSystemTab("about");
+            if (UI.getActiveSystemTab() === "about" && UI.lastSystemTab !== "") {
+                UI.switchSystemTab(UI.lastSystemTab);
+            } else {
+                document.getElementById("tab-about").classList.add("slide-in");
+                UI.lastSystemTab = UI.getActiveSystemTab();
+                UI.switchSystemTab("about");
+            }
         });
 
         document.getElementById("version-number").addEventListener("click", () => {
-            UI.switchSystemTab("version");
+            if (UI.getActiveSystemTab() === "version" && UI.lastSystemTab !== "") {
+                UI.switchSystemTab(UI.lastSystemTab);
+            } else {
+                UI.lastSystemTab = UI.getActiveSystemTab();
+                UI.switchSystemTab("version");
+            }
         });
 
         document.getElementById("reset-button").addEventListener("auxclick", () => {
@@ -75,6 +102,15 @@ export class UI {
                 UI.switchSystemTab(tab.dataset.system);
             });
         });
+    }
+
+    public static getActiveSystemTab(): string {
+        const activeTab = document.querySelector("system-tab.active");
+        if (activeTab) {
+            return activeTab.id.replace("tab-", "");
+        } else {
+            return "";
+        }
     }
 
     public static switchSystemTab(tabName: string) {

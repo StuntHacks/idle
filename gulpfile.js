@@ -13,12 +13,12 @@ gulp.task("preprocess-svgs", function () {
           const contents = file.contents.toString();
           const modified = contents.replace(
             ' style="height: 512px; width: 512px;"',
-            ""
+            "",
           );
           file.contents = Buffer.from(modified);
         }
         cb(null, file);
-      })
+      }),
     )
     .pipe(gulp.dest("src/assets/icons"));
 });
@@ -41,6 +41,6 @@ gulp.task("html", function () {
 });
 
 gulp.task("watch", function () {
-  gulp.series("preprocess-svgs", "html");
   gulp.watch("src/html/**/*.html", gulp.series("preprocess-svgs", "html"));
+  gulp.watch("package.json", gulp.series("html"));
 });

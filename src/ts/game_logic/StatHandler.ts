@@ -2,7 +2,7 @@ import statsData from "./data/stats.json";
 import upgradesData from "game_logic/data/upgrades.json";
 import { SaveHandler } from "SaveHandler/SaveHandler";
 import { Upgrade } from "types/SaveFile";
-import { BigNumber } from "bignumber.js";
+import Decimal from "break_eternity.js";
 import _ from "lodash";
 import { Currencies } from "./currencies/Currencies";
 
@@ -26,8 +26,8 @@ export class StatHandler {
             return acc;
         }, {});
 
-        let additive = BigNumber(0);
-        let multiplicative = BigNumber(1);
+        let additive = new Decimal(0);
+        let multiplicative = new Decimal(1);
 
         if (grouped.additive) {
             for (const upgrade of grouped.additive) {
@@ -43,9 +43,9 @@ export class StatHandler {
                 const u = _.get(upgradesData, upgrade.accessor);
                 if (u) {
                     if (upgrade.additive) {
-                        multiplicative = multiplicative.multipliedBy((u.find((u: Upgrade) => u.id === upgrade.id) as Upgrade).amount * upgrade.levels);
+                        multiplicative = multiplicative.multiply((u.find((u: Upgrade) => u.id === upgrade.id) as Upgrade).amount * upgrade.levels);
                     } else {
-                        multiplicative = multiplicative.multipliedBy((u.find((u: Upgrade) => u.id === upgrade.id) as Upgrade).amount ** upgrade.levels);
+                        multiplicative = multiplicative.multiply((u.find((u: Upgrade) => u.id === upgrade.id) as Upgrade).amount ** upgrade.levels);
                     }
                 }
             }
@@ -55,7 +55,7 @@ export class StatHandler {
             ...this.stats[stat],
             additive: additive,
             multiplicative: multiplicative,
-            total: BigNumber(this.stats[stat].base).plus(additive).multipliedBy(multiplicative),
+            total: new Decimal(this.stats[stat].base).plus(additive).multiply(multiplicative),
         };
     }
 
@@ -63,7 +63,7 @@ export class StatHandler {
         const upgrade = _.get(upgradesData, namespace).find((u: Upgrade) => u.id === id) as Upgrade;
         if (upgrade.type === "flag") {
             if (purchase) {
-                if (!Currencies.spend(upgrade.currency, BigNumber(upgrade.cost))) {
+                if (!Currencies.spend(upgrade.currency, new Decimal(upgrade.cost))) {
                     return false;
                 }
             }
@@ -82,7 +82,7 @@ export class StatHandler {
                 return false;
             }
 
-            const cost = BigNumber(upgrade.levels && index > -1 ? upgrade.cost * (upgrade.costScaling ** levels) : upgrade.cost);
+            const cost = new Decimal(upgrade.levels && index > -1 ? upgrade.cost * (upgrade.costScaling ** levels) : upgrade.cost);
 
             if (purchase) {
                 if (!Currencies.spend(upgrade.currency, cost)) {
@@ -110,9 +110,9 @@ export class StatHandler {
             this.stats[stat] = {
                 base: data.base,
                 title: data.title,
-                additive: BigNumber(0),
-                multiplicative: BigNumber(1),
-                total: BigNumber(data.base),
+                additive: new Decimal(0),
+                multiplicative: new Decimal(1),
+                total: new Decimal(data.base),
             };
             this.update(stat);
         }
@@ -129,9 +129,9 @@ export interface Stats {
 
 export interface Stat {
     base: number;
-    additive: BigNumber;
-    multiplicative: BigNumber;
-    total: BigNumber;
+    additive: Decimal;
+    multiplicative: Decimal;
+    total: Decimal;
     title: string;
 }
 

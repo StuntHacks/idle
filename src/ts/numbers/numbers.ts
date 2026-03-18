@@ -1,26 +1,25 @@
-import { BigNumber } from "bignumber.js"
+import Decimal from "break_eternity.js";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Numbers {
-    export const getFormatted = (num: BigNumber, precision: number = 0): string => {
-        BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_FLOOR });
-
-        if (num.eq("0")) {
+    export const getFormatted = (num: Decimal, precision: number = 0): string => {
+        if (num.eq(0)) {
             return "0";
         }
+
         if (num.gte("1e6") || num.lte("1e-6")) {
-            const [mantissa, exponent] = num.toPrecision(3).replace("+", "").split("e");
-            return `${new BigNumber(mantissa).toPrecision(3)}e${exponent}`;
-        } else {
-            if (num.isInteger()) {
-                return num.toFixed(0);
-            } else {
-                return num.toFixed(precision);
-            }
+            // Use .m (mantissa) and .e (exponent) directly — no string parsing needed
+            const mantissa = Math.floor(num.m * 100) / 100;
+            return `${mantissa.toFixed(2)}e${num.e}`;
         }
-    }
-    
+
+        // Replicate ROUND_FLOOR manually using Math.floor
+        const factor = Math.pow(10, precision);
+        const floored = Math.floor(num.toNumber() * factor) / factor;
+        return floored.toFixed(precision);
+    };
+
     export const getFormattedFromString = (num: string): string => {
-        return getFormatted(BigNumber(num));
-    }
+        return getFormatted(new Decimal(num));
+    };
 }
