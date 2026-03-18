@@ -57,6 +57,10 @@
             > translated-string {
                 opacity: 1;
             }
+
+            &::before {
+                opacity: 0;
+            }
         }
 
         &.disabled {
