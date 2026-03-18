@@ -99,19 +99,19 @@ fluctuator-block {
         display: flex;
         padding: 20px 0;
         justify-content: center;
-        cursor: pointer;
         z-index: 1;
         transition: background-color 150ms;
         text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
         align-items: center;
+        // cursor: pointer;
 
-        &:hover {
-            background-color: #0009;
-        }
+        // &:hover {
+        //     background-color: #0009;
+        // }
 
-        &:active {
-            background-color: #000a;
-        }
+        // &:active {
+        //     background-color: #000a;
+        // }
     }
 
     .stats {

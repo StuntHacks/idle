@@ -105,6 +105,9 @@ stat-upgrade {
         text-align: center;
         cursor: pointer;
         overflow: hidden;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
 
         &::after {
             filter: grayscale(1);
