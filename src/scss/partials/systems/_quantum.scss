@@ -38,49 +38,6 @@
         }
     }
 
-    .sub-tabs {
-        [data-tab="energy"] {
-            tool-tip {
-                padding: 10px 5px;
-                flex-direction: column;
-                align-items: center;
-
-                currency-display[name="energy"] {
-                    @include gradient-electron;
-                    background: var(--gradient);
-                    text-shadow: 0px 0px 10px #fbff00b0;
-                    color: transparent;
-                    background-clip: text;
-                    font-weight: 600;
-                    font-size: 20px;
-                    justify-content: center;
-                }
-            }
-        }
-
-        [data-tab="forces"] {
-            tool-tip {
-                align-items: center;
-
-                .flavor-text {
-                    display: flex;
-                    flex-direction: column;
-                    margin-bottom: 15px;
-                }
-
-                currency-display {
-                    font-size: 14px;
-                    justify-content: center;
-                    width: 100%;
-
-                    span {
-                        margin-right: 10px;
-                    }
-                }
-            }
-        }
-    }
-
     #neutrino-field canvas {
         mask-image: linear-gradient(to right, #000a, transparent, transparent, #000a);
         mask-size: 200px;

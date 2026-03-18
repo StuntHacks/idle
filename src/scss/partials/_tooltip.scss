@@ -17,38 +17,17 @@ tool-tip {
     opacity: 0;
     transition: opacity 150ms;
     user-select: none;
+    width: max-content;
+    height: max-content;
 
-    &[align="right"] {
-        left: 0;
-        transform: none;
-    }
-
-    &[align="left"] {
-        right: 0;
-        left: auto;
-        transform: none;
+    &.visible {
+        opacity: 1;
     }
 
     &[center] {
         text-align: center;
-    }
-
-    &[orientation="bottom"] {
-        bottom: auto;
-        top: var(--offset);
-    }
-
-    &[orientation="right"] {
-        bottom: auto;
-        top: auto;
-        left: var(--offset);
-    }
-
-    &[orientation="right"] {
-        bottom: auto;
-        top: 50%;
-        right: var(--offset);
-        transform: translateY(-50%);
+        justify-content: center;
+        align-items: center;
     }
 
     .flavor-text {
@@ -66,8 +45,76 @@ tool-tip {
             margin: 0;
         }
     }
+
+    .flavor-text + currency-display {
+        margin-top: 10px;
+    }
 }
 
-:has(tool-tip):hover > tool-tip {
-    opacity: 1;
+#tooltip-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+// specific stylings
+tool-tip.energy-subtab {
+    padding: 10px 5px;
+    flex-direction: column;
+    align-items: center;
+
+    currency-display[name="energy"] {
+        @include gradient-electron;
+        background: var(--gradient);
+        text-shadow: 0px 0px 10px #fbff00b0;
+        color: transparent;
+        background-clip: text;
+        font-weight: 600;
+        font-size: 20px;
+        justify-content: center;
+    }
+}
+
+tool-tip.forces-subtab {
+    align-items: center;
+
+    .flavor-text {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 5px;
+    }
+
+    currency-display {
+        font-size: 14px;
+        justify-content: center;
+        width: 100%;
+
+        span {
+            margin-right: 10px;
+        }
+    }
+}
+
+tool-tip.fluctuators {
+    width: 250px;
+    white-space: normal;
+}
+
+tool-tip.particle-conversion {
+    width: 250px;
+    white-space: normal;
+}
+
+tool-tip.fluctuator-buttons {
+    width: fit-content;
+    right: inherit;
+    left: var(--offset);
+}
+
+tool-tip.footer-currency .title {
+    font-weight: bold;
 }
