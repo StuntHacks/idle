@@ -1,8 +1,12 @@
+let activeTooltip: ToolTip | null = null;
+
 export class ToolTip extends HTMLElement {
     private host: HTMLElement;
     private container: HTMLDivElement;
     private onMouseEnter: () => void;
     private onMouseLeave: () => void;
+    private onTouchStart: (e: TouchEvent) => void;
+    private onOutsideTouch: (e: TouchEvent) => void;
     private frameId: number | null = null;
     private lastRect: DOMRect | null = null;
     private hovering: boolean = false;
@@ -10,6 +14,25 @@ export class ToolTip extends HTMLElement {
 
     constructor() {
         super();
+    }
+
+    private show() {
+        if (activeTooltip && activeTooltip !== this) {
+            activeTooltip.hide();
+        }
+
+        activeTooltip = this;
+        this.hovering = true;
+        this.syncPosition();
+        this.startTracking();
+    }
+
+    private hide() {
+        if (activeTooltip === this) {
+            activeTooltip = null;
+        }
+        this.hovering = false;
+        this.stopTracking();
     }
 
     connectedCallback() {
@@ -20,23 +43,30 @@ export class ToolTip extends HTMLElement {
         }
         this.syncPosition();
 
-        this.onMouseEnter = () => {
-            this.hovering = true;
-            this.syncPosition();
-            this.startTracking();
+        this.onMouseEnter = () => this.show();
+        this.onMouseLeave = () => this.hide();
+
+        this.onTouchStart = (e: TouchEvent) => {
+            e.stopPropagation();
+            this.show();
         };
-        this.onMouseLeave = () => {
-            this.hovering = false;
-            this.stopTracking();
+        this.onOutsideTouch = () => {
+            if (this.hovering) {
+                this.hide();
+            }
         };
 
         this.host.addEventListener("mouseenter", this.onMouseEnter);
         this.host.addEventListener("mouseleave", this.onMouseLeave);
+        this.host.addEventListener("touchstart", this.onTouchStart, { passive: true });
+        document.addEventListener("touchstart", this.onOutsideTouch, { passive: true });
     }
 
     disconnectedCallback() {
         this.host?.removeEventListener("mouseenter", this.onMouseEnter);
         this.host?.removeEventListener("mouseleave", this.onMouseLeave);
+        this.host?.removeEventListener("touchstart", this.onTouchStart);
+        document.removeEventListener("touchstart", this.onOutsideTouch);
         this.stopTracking();
     }
 
@@ -62,7 +92,7 @@ export class ToolTip extends HTMLElement {
         let y: number;
 
         switch (orientation) {
-           case "bottom":
+            case "bottom":
                 y = rect.bottom + MARGIN;
                 x = this.getX(rect, align);
                 this.style.transform = this.getTransformBottom(align);
@@ -118,8 +148,6 @@ export class ToolTip extends HTMLElement {
                 this.frameId = requestAnimationFrame(track);
             }
         };
-
-        this.frameId = requestAnimationFrame(track);
 
         this.frameId = requestAnimationFrame(track);
     }
