@@ -114,13 +114,6 @@ fluctuator-block {
         }
     }
 
-    .disable-button tool-tip,
-    .upgrade-button tool-tip {
-        width: auto;
-        right: inherit;
-        left: var(--offset);
-    }
-
     .stats {
         display: flex;
         flex-direction: column;
