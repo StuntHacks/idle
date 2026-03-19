@@ -17,7 +17,7 @@ export abstract class System {
 
 export class Game {
     private lastTimestamp: number = undefined;
-    private delta: number;
+    private delta: number = 0;
     private systems: System[];
 
     constructor() {
@@ -41,6 +41,7 @@ export class Game {
     public start() {
         this.lastTimestamp = SaveHandler.getData().timestamp ?? Date.now();
         //this.calculateOfflineProgress(this.lastTimestamp);
+        this.lastTimestamp = Date.now(); // remove
         const tickLength = 1000 / TICK_RATE;
 
         const loop = (timestamp: number) => {

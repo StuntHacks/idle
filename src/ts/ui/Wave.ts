@@ -8,7 +8,7 @@ export class Wave {
 
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
-    private points: WavePoint[] = [];
+    private offsets: number[] = [];
     private ripples: Ripple[] = [];
     private rafHandle: number | null = null;
     private time: number = 0;
@@ -108,9 +108,7 @@ export class Wave {
     }
 
     private initialize() {
-        this.points = Array.from({ length: this.config.pointCount + 1 }, () => ({
-            offset: Math.random() * 1000,
-        }));
+        this.offsets = Array.from({ length: this.config.pointCount + 1 }, () => Math.random() * 1000);
 
         this.pointInfluence = new Float32Array(this.config.pointCount + 1);
     }
@@ -224,7 +222,7 @@ export class Wave {
         const stepX = this.canvas.width / (pointCount - 1);
 
         const getY = (i: number) => {
-            const pointOffset = this.points[i].offset;
+            const pointOffset = this.offsets[i];
             const noise = Math.sin((pointOffset + time) * frequency) * 0.6 +
                           Math.sin((pointOffset * 0.5 + time * 0.8) * frequency) * 0.4;
             const ripple = this.getRippleOffset(i, now) * this.rippleGain;
@@ -286,10 +284,6 @@ export interface WaveColor {
     end: string;
     glow: string;
     hover: string;
-}
-
-interface WavePoint {
-    offset: number;
 }
 
 interface Ripple {
