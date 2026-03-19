@@ -1,5 +1,5 @@
 import { Currencies } from "game_logic/currencies/Currencies";
-import { Quantum } from "game_logic/systems/quantum/Quantum";
+import { QuantumSystem } from "game_logic/systems/quantum/Quantum";
 import { UI } from "../UI";
 import { Wave, WaveParticleInfo } from "../Wave";
 
@@ -65,7 +65,7 @@ export class QuantumFieldElement extends HTMLElement {
                 const [particle, index] = this.getParticle();
                 // todo: consolidate this
                 const hash = Currencies.getFromQuantumField(particle);
-                const amount = Quantum.getParticleAmount(particle);
+                const amount = QuantumSystem.getParticleAmount(particle);
 
                 if (particle.all && particle.type === "quark") {
                     const hashRed = hash.replace("rgb", "red");

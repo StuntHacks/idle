@@ -1,9 +1,12 @@
 import Decimal from "break_eternity.js";
+import { System } from "game_logic/Game";
 import { StatHandler } from "game_logic/StatHandler";
 import { WaveParticleInfo } from "ui/Wave";
 
-export class Quantum {
-    public static getParticleAmount(particle: WaveParticleInfo): Decimal {
+export class QuantumSystem implements System {
+    public identifier = "quantum";
+
+    public getParticleAmount(particle: WaveParticleInfo): Decimal {
         const fieldGain = StatHandler.get("field_gain").total;
         if (particle.type === "quark") {
             return StatHandler.get("quark_gain").total.multiply(fieldGain);
@@ -24,7 +27,7 @@ export class Quantum {
         return new Decimal(0);
     }
 
-    public static update(): void {
+    public update(): void {
         return;
     }
 }

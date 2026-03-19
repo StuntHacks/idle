@@ -1,5 +1,5 @@
 import { Currencies } from "game_logic/currencies/Currencies";
-import { Quantum } from "game_logic/systems/quantum/Quantum";
+import { QuantumSystem } from "game_logic/systems/quantum/Quantum";
 import { QuantumFieldElement } from "../QuantumFieldElement";
 import { SaveHandler } from "SaveHandler/SaveHandler";
 
@@ -59,7 +59,7 @@ export class FluctuatorElement extends HTMLElement {
 
                 // todo: consolidate this
                 const hash = Currencies.getFromQuantumField(particle);
-                const amount = Quantum.getParticleAmount(particle);
+                const amount = QuantumSystem.getParticleAmount(particle);
                 const position = Math.floor(Math.random() * this.width);
 
                 if (particle.all && particle.type === "quark") {
