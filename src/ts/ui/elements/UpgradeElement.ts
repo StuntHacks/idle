@@ -81,16 +81,6 @@ export class UpgradeElement extends HTMLElement {
 
             this.disabled = !total.greaterThanOrEqualTo(this.getCost());
             this.classList.toggle("disabled", this.disabled);
-
-            // todo: solve this in a better way
-            const subtab = this.closest("system-tab .tab") as HTMLElement;
-            if (subtab) {
-                const navTab = document.querySelector(
-                    `.sub-tabs [data-tab="${subtab.dataset.tab}"]:not(.active)`
-                );
-                const showNew = subtab.querySelectorAll("stat-upgrade:not(.completed):not(.disabled)").length > 0;
-                navTab?.classList.toggle("new", showNew);
-            }
         }
 
         const energyCallback: InferredCurrencyCallback = (hash, type, amount, before, total) => {
