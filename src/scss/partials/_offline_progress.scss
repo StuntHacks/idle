@@ -24,7 +24,8 @@
     }
 
     button,
-    h1 {
+    h1,
+    h2 {
         transition: opacity 250ms;
     }
 
@@ -48,7 +49,8 @@
         pointer-events: none;
 
         button,
-        h1 {
+        h1,
+        h2 {
             opacity: 0;
         }
     }
@@ -57,7 +59,8 @@
 
     }
 
-    h1 {
+    h1,
+    h2 {
         font-size: 4rem;
         font-weight: 300;
         margin: 0;
@@ -65,10 +68,11 @@
         @include gradient-gluon;
         background: var(--gradient-repeating);
         background-clip: text;
-        width: 50vw;
+        width: 100vw;
         text-align: center;
         line-height: 4.5rem;
         user-select: none;
+        background-size: 50rem 100%;
 
         @keyframes move-text-bg {
             from {
@@ -76,12 +80,22 @@
             }
 
             to {
-                background-position-x: 50vw;
+                background-position-x: 50rem;
             }
         }
 
         filter: opacity(0);
         animation: fadeIn 500ms ease forwards, move-text-bg 5s linear infinite;
+    }
+
+    h2 {
+        @include gradient-weak;
+        font-size: 2rem;
+        font-weight: 500;
+        line-height: 2rem;
+        margin-bottom: 2rem;
+        margin-top: 0.5rem;
+        opacity: 0.7;
     }
 
     .bobber {

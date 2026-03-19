@@ -16,6 +16,10 @@ export class OfflineProgressUI {
         document.getElementById("offline-progress").classList.add("dismissed");
     }
 
+    public static setDuration(duration: string) {
+        document.getElementById("offline-duration").textContent = duration;
+    }
+
     public static renderProgress(progress: OfflineResults) {
         void progress;
         if (Settings.get().gameplay.settings.autoAcceptOfflineTime?.value) {

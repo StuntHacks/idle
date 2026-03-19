@@ -11,7 +11,8 @@ export class OfflineHandler {
             OfflineProgressUI.initUI();
 
             Logger.log("Game", `Calculating progress for ${Utils.getTimeString(time)} of offline time...`);
-            //await new Promise(resolve => setTimeout(resolve, 1000));
+            OfflineProgressUI.setDuration(Utils.getTimeString(time));
+            //await new Promise(resolve => setTimeout(resolve, 5000));
 
             if (time > 60 * 1000) {
                 OfflineProgressUI.renderProgress({ foo: 0 });
