@@ -30,8 +30,8 @@ export class ChangeLogElement extends HTMLElement {
                 changes.appendChild(changeItem);
             }
 
-            this.appendChild(versionHeader);
-            this.appendChild(changes);
+            this.prepend(changes);
+            this.prepend(versionHeader);
         }
     }
 }
