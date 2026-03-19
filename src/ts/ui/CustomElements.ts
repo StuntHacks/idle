@@ -4,6 +4,7 @@ import { GameTimeElement } from "./elements/GameTimeElement";
 import { FluctuatorElement } from "./elements/quantum/FluctuatorElement";
 import { QuantumFieldElement } from "./elements/QuantumFieldElement";
 import { ResourceGainElement } from "./elements/ResourceGainElement";
+import { StatInfoElement } from "./elements/StatInfoElement";
 import { SystemTabElement } from "./elements/SystemTabElement";
 import { ToolTip } from "./elements/ToolTip";
 import { TranslatedElement } from "./elements/TranslatedElement";
@@ -19,6 +20,7 @@ export class CustomElements {
         customElements.define("system-tab", SystemTabElement);
         customElements.define("fluctuator-block", FluctuatorElement);
         customElements.define("stat-upgrade", UpgradeElement);
+        customElements.define("stat-info", StatInfoElement);
         customElements.define("game-time", GameTimeElement);
         customElements.define("change-log", ChangeLogElement);
     }

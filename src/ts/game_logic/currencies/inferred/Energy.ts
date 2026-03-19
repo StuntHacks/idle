@@ -26,7 +26,7 @@ export class Energy {
         Currencies.registerCallback(electronCallback, "leptons-electron");
     }
 
-    public static getFormatted(amount: Decimal = undefined): string {
+    public static getFormatted(amount: Decimal = undefined, precision: number = 1): string {
         if (!amount) {
             amount = this.amount;
         }
@@ -55,7 +55,7 @@ export class Energy {
             return Numbers.getFormatted(amount) + "eV";
         }
 
-        return amount.dividedBy(1000000).dividedBy(divisor).toFixed(1) + suffix;
+        return amount.dividedBy(1000000).dividedBy(divisor).toFixed(precision) + suffix;
     }
 
     public static getAmount(): Decimal {

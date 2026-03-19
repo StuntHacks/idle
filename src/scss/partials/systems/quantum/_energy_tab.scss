@@ -105,6 +105,25 @@
                 display: flex;
                 align-items: center;
                 font-weight: bold;
+                flex-direction: column;
+
+                .rate {
+                    display: flex;
+                    align-items: center;
+                    margin-top: 1rem;
+
+                    stat-info {
+                        font-weight: bold;
+                        @include gradient-electron;
+                        background: var(--gradient);
+                        text-shadow: 0px 0px 10px #fbff00b0;
+                        color: transparent;
+                        background-clip: text;
+                        font-size: 1.2rem;
+                        margin-left: 0.5rem;
+                        margin-top: -1px;
+                    }
+                }
 
                 .particle {
                     margin-right: 10px;
