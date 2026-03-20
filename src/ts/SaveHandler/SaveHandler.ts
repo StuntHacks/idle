@@ -8,6 +8,7 @@ import _ from "lodash";
 import { Utils } from "utils/utils";
 
 export const SAVE_FILE_VERSION = 4;
+const SAVE_FILE_NAME = "idledynamics_saveFile"
 
 export class SaveHandler {
     private static save: SaveFile;
@@ -16,7 +17,7 @@ export class SaveHandler {
 
     public static loadData(): boolean {
         Logger.log("SaveHandler", "Loading save file...");
-        let data = localStorage.getItem("saveFile");
+        let data = localStorage.getItem(SAVE_FILE_NAME);
         if (data === null) {
             Logger.log("SaveHandler", "No save data found!");
             this.initialize();
@@ -79,8 +80,8 @@ export class SaveHandler {
             SaveHandler.saveCurrencies();
         }
 
-        localStorage.setItem("saveFileBak", localStorage.getItem("saveFile"));
-        localStorage.setItem("saveFile", data);
+        localStorage.setItem(`${SAVE_FILE_NAME}_bak`, localStorage.getItem(SAVE_FILE_NAME));
+        localStorage.setItem(SAVE_FILE_NAME, data);
         UI.flashSaveIndicator();
     }
 
