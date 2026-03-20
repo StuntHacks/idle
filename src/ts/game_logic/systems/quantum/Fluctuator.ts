@@ -91,14 +91,9 @@ export class QuantumFluctuator {
         const fields = document.querySelector("#tab-quantum > .fields").getElementsByTagName("quantum-field") as HTMLCollectionOf<QuantumFieldElement>;
         this.fieldElement = fields[this.index];
         this.updatePosition();
-
-        if (SaveHandler.getEnabledFlag(this.getFlagString())) {
-            this.toggle(true);
-        }
         
-        if (SaveHandler.getFlag(this.getFlagString())) {
-            this.toggleLock(false);
-        }
+        this.toggle(SaveHandler.getEnabledFlag(this.getFlagString()));
+        this.toggleLock(!SaveHandler.getFlag(this.getFlagString()));
 
         SaveHandler.registerFlagCallback(this.getFlagString(), (flag: string, value: unknown) => {
             this.toggleLock(!value);
