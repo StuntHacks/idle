@@ -13,15 +13,11 @@ export interface SaveFile {
     };
     settings: Settings;
     upgrades: Upgrade[];
-    flags: {
-        tutorial: {
-            [key: string]: boolean;
-        };
-        quantum: {
-            [key: string]: boolean;
-        };
-    }
+    flags: Flags,
+    enabledFlags: Flags;
 }
+
+type Flags = {[key: string]: boolean | Flags};
 
 export interface Upgrade {
     id: string;

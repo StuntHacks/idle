@@ -1,11 +1,11 @@
 import { Currencies } from "game_logic/currencies/Currencies";
-import { SaveCurrency, SaveFile, Upgrade } from "types/SaveFile";
+import { SaveFile, Upgrade } from "types/SaveFile";
 import { UI } from "ui/UI";
 import { Logger } from "utils/Logger";
-import { Settings } from "utils/Settings";
 import mock from "./mock.json"
 import _ from "lodash";
 import { Utils } from "utils/utils";
+import { defaultSave } from "./defaultSave";
 
 export const SAVE_FILE_VERSION = 4;
 const SAVE_FILE_NAME = "idledynamics_saveFile"
@@ -101,8 +101,22 @@ export class SaveHandler {
         }
     }
 
-    public static getFlag(flag: string) {
-        return _.get(this.save.flags, flag);
+    public static getEnabledFlag(flag: string): boolean {
+        const f = _.get(this.save.enabledFlags, flag);
+        if (typeof f === "boolean") {
+            return f;
+        }
+
+        return false;
+    }
+
+    public static getFlag(flag: string): boolean {
+        const f = _.get(this.save.flags, flag);
+        if (typeof f === "boolean") {
+            return f;
+        }
+
+        return false;
     }
 
     public static setFlag(flag: string, value: unknown) {
@@ -117,18 +131,7 @@ export class SaveHandler {
 
     public static initialize(useMock: boolean = false): SaveFile {
         Logger.log("SaveHandler", "Initializing new save file...");
-        const save = useMock ? mock as unknown as SaveFile : {
-            currencies: {
-                normal: [] as SaveCurrency[],
-                inferred: [] as SaveCurrency[],
-            },
-            settings: Settings.default(),
-            upgrades: [] as Upgrade[],
-            flags: {
-                tutorial: {},
-                quantum: {}
-            }
-        };
+        const save = useMock ? mock as unknown as SaveFile : defaultSave;
         this.save = {
             ...save,
             startTime: Date.now(),

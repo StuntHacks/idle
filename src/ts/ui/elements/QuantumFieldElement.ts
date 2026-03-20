@@ -2,6 +2,7 @@ import { Currencies } from "game_logic/currencies/Currencies";
 import { QuantumSystem } from "game_logic/systems/quantum/Quantum";
 import { UI } from "../UI";
 import { Wave, WaveParticleInfo } from "../Wave";
+import Decimal from "break_eternity.js";
 
 export class QuantumFieldElement extends HTMLElement {
     private waves: Wave[] = [];
@@ -65,7 +66,8 @@ export class QuantumFieldElement extends HTMLElement {
                 const [particle, index] = this.getParticle();
                 // todo: consolidate this
                 const hash = Currencies.getFromQuantumField(particle);
-                const amount = QuantumSystem.getParticleAmount(particle);
+                //const amount = QuantumSystem.getParticleAmount(particle);
+                const amount = new Decimal(1);
 
                 if (particle.all && particle.type === "quark") {
                     const hashRed = hash.replace("rgb", "red");
