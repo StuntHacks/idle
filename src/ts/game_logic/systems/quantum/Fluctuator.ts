@@ -12,7 +12,6 @@ export class QuantumFluctuator {
     private index: number = -1;
     private fieldElement: QuantumFieldElement;
     private fieldPosition: DOMRect;
-    private lastTrigger: number = 0;
     private acc: number = 0;
 
     private updatePosition() {
@@ -22,7 +21,6 @@ export class QuantumFluctuator {
     public toggleLock(force: boolean = undefined) {
         this.locked = typeof force === "boolean" ? force : !this.locked;
         this.element.setLocked(this.locked);
-        this.lastTrigger = performance.now();
 
         if (!this.locked && this.index > 0) {
             const container = this.element.closest(".fluctuators") as HTMLElement;
@@ -33,7 +31,6 @@ export class QuantumFluctuator {
     public toggle(force: boolean = undefined) {
         this.enabled = typeof force === "boolean" ? force : !this.enabled;
         this.element.setEnabled(this.enabled);
-        this.lastTrigger = performance.now();
     }
 
     public tryUpgrade() {
