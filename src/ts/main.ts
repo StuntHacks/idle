@@ -18,6 +18,10 @@ export const main = async () => {
     UI.initialize();
     CustomElements.initialize();
 
+    document.getElementById("magic-button").addEventListener("click", () => {
+        game.testingTimeskip();
+    });
+
     game.start();
     // document.addEventListener("contextmenu", (e) => e.preventDefault());
 }

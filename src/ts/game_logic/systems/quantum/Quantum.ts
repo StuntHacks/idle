@@ -14,20 +14,19 @@ export class QuantumSystem implements System {
             switch (particle.flavor) {
                 case "gluon":
                     return StatHandler.get("gluon_gain").total.multiply(fieldGain);
-                    break;
             }
         } else if (particle.type === "lepton") {
             switch (particle.flavor) {
                 case "electron":
                     return StatHandler.get("electron_gain").total.multiply(fieldGain);
-                    break;
             }
         }
 
         return new Decimal(0);
     }
 
-    public update(): void {
+    public update(tickLength: number, catchingUp: boolean): void {
+        console.log(`Quantum System: Update - tickLength: ${tickLength}, catchingUp: ${catchingUp}`)
         return;
     }
 }
