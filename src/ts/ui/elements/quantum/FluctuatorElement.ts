@@ -30,7 +30,7 @@ export class FluctuatorElement extends HTMLElement {
     }
 
     public setInterval(interval: number) {
-        this.intervalElement.textContent = `${interval}ms`;
+        this.intervalElement.textContent = `${interval.toFixed(0)}ms`;
     }
 
     constructor() {

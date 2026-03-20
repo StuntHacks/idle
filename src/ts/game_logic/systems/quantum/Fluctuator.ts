@@ -37,7 +37,8 @@ export class QuantumFluctuator {
     }
 
     public tryUpgrade() {
-
+        this.baseInterval *= 0.9;
+        this.element.setInterval(this.baseInterval);
     }
 
     private getInterval() {
