@@ -41,6 +41,7 @@ export class Game {
     }
 
     public async start() {
+        SaveHandler.autoSave();
         const now = Date.now();
         let savedTimestamp = SaveHandler.getData().timestamp ?? now;
         if (Settings.get().gameplay.settings.noOfflineTime?.value) {
