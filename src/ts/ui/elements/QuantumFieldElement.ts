@@ -1,7 +1,7 @@
 import { Currencies } from "game_logic/currencies/Currencies";
 import { QuantumSystem } from "game_logic/systems/quantum/Quantum";
 import { UI } from "../UI";
-import { Wave, WaveParticleInfo } from "../Wave";
+import { Wave, WaveParticleInfo } from "../systems/quantum/Wave";
 import Decimal from "break_eternity.js";
 
 export class QuantumFieldElement extends HTMLElement {

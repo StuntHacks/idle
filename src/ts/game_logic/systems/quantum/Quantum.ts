@@ -1,7 +1,7 @@
 import Decimal from "break_eternity.js";
 import { System } from "game_logic/Game";
 import { StatHandler } from "game_logic/StatHandler";
-import { WaveParticleInfo } from "ui/Wave";
+import { WaveParticleInfo } from "ui/systems/quantum/Wave";
 import { QuantumFluctuator } from "./Fluctuator";
 import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
 

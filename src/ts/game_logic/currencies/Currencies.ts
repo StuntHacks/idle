@@ -1,5 +1,5 @@
 import Decimal from "break_eternity.js";
-import { WaveParticleInfo } from "ui/Wave";
+import { WaveParticleInfo } from "ui/systems/quantum/Wave";
 import { Numbers } from "numbers/numbers";
 import { InferredCurrency as InferredCurrencyClass } from "./InferredCurrency";
 import { Energy } from "./inferred/Energy";
