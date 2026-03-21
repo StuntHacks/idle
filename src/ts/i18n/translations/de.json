@@ -1,0 +1,265 @@
+{
+  "misc": {
+    "hideCompleted": "Abgeschlossene ausblenden",
+    "locked": "Gesperrt",
+    "unimplemented": "Noch nicht implementiert",
+    "unlockedAt": "Freigeschalten bei",
+    "currentEffect": "Aktueller Effekt:",
+    "additive": "additiv",
+    "upgradesCompleted": "Alle jetztigen Upgrades abgeschlossen",
+    "next": "Weiter",
+    "gotIt": "Verstanden",
+    "offlineProgressCalc": "Offline Fortschritt wird berechnet...",
+    "offlineProgress": "Offline Ergebnisse:",
+    "letMeIn": "Lass' mich rein",
+    "unlocks": {
+      "quantum": {
+        "forces": "1.00e6 gesamte Quarks"
+      }
+    }
+  },
+  "about": {
+    "handwritten": "Made with 100% yard-grown, artisanal code",
+    "madeBy": "von stunthacks",
+    "icons": "Icons unter CC BY 3.0 von <a href='https://game-icons.net/'>game-icons.net</a> und unter Apache 2.0 von <a href='https://fonts.google.com/icons'>Google</a> zur Verfügung gestellt",
+    "specialThanks": "Besonderen Dank an"
+  },
+  "versionInfo": {
+    "title": "Versions Information",
+    "updated": "Aktualisiert!"
+  },
+  "settings": {
+    "general": {
+      "title": "Allgemeine Einstellungen",
+      "tab": "Allgemein",
+      "noTabHistory": {
+        "name": "Disable tab history",
+        "description": "Doesn't save changing between tabs in the browser history, so the back button leaves this page instead"
+      },
+      "language": {
+        "name": "Language",
+        "description": ""
+      }
+    },
+    "gameplay": {
+      "title": "Gameplay settings",
+      "tab": "Gameplay",
+      "noOfflineTime": {
+        "name": "Disable offline time",
+        "description": ""
+      },
+      "autoAcceptOfflineTime": {
+        "name": "Auto-accept offline time",
+        "description": ""
+      }
+    },
+    "display": {
+      "title": "Display settings",
+      "tab": "Display",
+      "darkNavigation": {
+        "name": "Dark header & footer",
+        "description": "Changes the color of header & footer to be the same as the theme background color"
+      },
+      "stillFields": {
+        "name": "Still Quantum Fields",
+        "description": "Prevents the quantum fields from fluctuating visually unless clicked manually. You will still gain the resources"
+      }
+    },
+    "debug": {
+      "title": "Debug settings",
+      "tab": "Debug",
+      "logging": {
+        "name": "Enable logging",
+        "description": ""
+      },
+      "verbose": {
+        "name": "Verbose logging",
+        "description": ""
+      }
+    }
+  },
+  "ui": {
+    "header": {},
+    "footer": {
+      "fermions": "Fermions",
+      "generations": {
+        "first": "Generation I",
+        "second": "Generation II",
+        "third": "Generation III"
+      },
+      "quarks": {
+        "up": {
+          "name": "Up Quarks",
+          "flavorText": ""
+        },
+        "down": {
+          "name": "Down Quarks",
+          "flavorText": ""
+        },
+        "charm": {
+          "name": "Charm Quarks",
+          "flavorText": ""
+        },
+        "strange": {
+          "name": "Strange Quarks",
+          "flavorText": ""
+        },
+        "top": {
+          "name": "Top Quarks",
+          "flavorText": ""
+        },
+        "bottom": {
+          "name": "Bottom Quarks",
+          "flavorText": ""
+        }
+      },
+      "leptons": {
+        "electron": {
+          "name": "Electrons",
+          "flavorText": ""
+        },
+        "muon": {
+          "name": "Muons",
+          "flavorText": ""
+        },
+        "tau": {
+          "name": "Taus",
+          "flavorText": ""
+        }
+      },
+      "bosons": {
+        "name": "Bosons",
+        "higgs": {
+          "name": "Higgs Bosons",
+          "flavorText": ""
+        },
+        "gluon": {
+          "name": "Gluons",
+          "flavorText": ""
+        },
+        "photon": {
+          "name": "Photons",
+          "flavorText": ""
+        },
+        "w_plus": {
+          "name": "W⁺ Bosons",
+          "flavorText": ""
+        },
+        "w_minus": {
+          "name": "W⁻ Bosons",
+          "flavorText": ""
+        },
+        "z": {
+          "name": "Z⁰ Bosons",
+          "flavorText": ""
+        }
+      },
+      "bottomBar": {
+        "save": "Save",
+        "saved": "Saved",
+        "load": "Load",
+        "settings": "Settings",
+        "runTime": "Run time: "
+      }
+    }
+  },
+  "systems": {
+    "quantum": {
+      "tabs": {
+        "energy": "Energy",
+        "fields": "Fields",
+        "forces": "Forces",
+        "hadrons": "Hadrons",
+        "mass": "Mass"
+      },
+      "fields": {
+        "electron": {
+          "name": "Electron Field",
+          "description": "The electron field produces electrons, which are converted into energy and thus can be used to energize the other fields"
+        },
+        "quark": {
+          "name": "Quark Field",
+          "description": "The quark field produces quarks of a random flavor, and one of three colors depending on which of the three fields got excited"
+        },
+        "gluon": {
+          "name": "Gluon Field",
+          "description": "The gluon field produces gluons, which are needed in order to confine quarks into hadrons"
+        },
+        "neutrino": {
+          "name": "Neutrino Field",
+          "description": ""
+        },
+        "electroweak": {
+          "name": "Electroweak Field",
+          "description": ""
+        },
+        "higgs": {
+          "name": "Higgs Field",
+          "description": ""
+        }
+      },
+      "energy": {
+        "description": "Energy is generated by electrons",
+        "fluctuators": {
+          "title": "Fluctuators",
+          "information": "You can continuously spend some of your energy in order to trigger periodic excitations in your quantum fields",
+          "speed": "Interval: ",
+          "disable": "Toggle",
+          "upgrade": "Upgrade interval"
+        },
+        "energyUpgrades": {
+          "title": "Energy Upgrades",
+          "upgrades": {}
+        },
+        "conversion": {
+          "title": "Particle Conversion",
+          "information": "Here you can convert combinations of excess particles into small, exponentially scaling boosts",
+          "perConversion": " / conversion",
+          "upgrades": {}
+        }
+      }
+    }
+  },
+  "stats": {
+    "quantum": {
+      "electronGain": "Electron Gain",
+      "quarkGain": "Quark Gain",
+      "gluonGain": "Gluon Gain",
+      "fieldGain": "All Field Gain",
+      "energyGain": "Energy Gain"
+    }
+  },
+  "upgrades": {
+    "quantum": {
+      "energy": {
+        "quantumFluctuations": {
+          "title": "Quantum Fluctuations",
+          "effect": "Unlocks the first fluctuator"
+        },
+        "strongerFields": {
+          "title": "Stronger Fields"
+        },
+        "moreElectrons": {
+          "title": "More Electrons"
+        },
+        "moreQuarks": {
+          "title": "More Quarks"
+        },
+        "higherCharge": {
+          "title": "Higher Charge"
+        },
+        "fluctuatorSpeed": {
+          "title": "Fluctuator Speed"
+        }
+      }
+    }
+  },
+  "tutorials": {
+    "introduction": {
+      "first": "",
+      "second": ""
+    },
+    "holdToFluctuate": "TIP: You can hold down quantum fields to make them continuously fluctuate, without having to click them repeatedly.",
+    "rightClickToBuy": "TIP: You can right-click (or ctrl + click) most buy buttons in the game to buy 10 levels at once, or hold them to buy as many levels as possible."
+  }
+}

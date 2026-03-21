@@ -26,7 +26,7 @@
     {
         "id": "holdToFluctuate",
         "title": "Hold to Fluctuate",
-        "description": "You can hold down quantum fields to make them continuously fluctuate, without having to click them repeatedly.",
+        "description": "Tip: You can hold down quantum fields to make them continuously fluctuate without having to click repeatedly, and even move between fields while holding down.",
         "trigger": "holdToFluctuate",
         "buttons": [
             {
@@ -38,7 +38,7 @@
     {
         "id": "rightClickToBuy",
         "title": "Right-Click to Buy",
-        "description": "You can right-click (or ctrl + click) most buy buttons in the game to buy 10 levels at once, or hold them to buy as many levels as possible.",
+        "description": "Tip: You can right-click (or ctrl + click) most buy buttons in the game to buy 10 levels at once, or hold them to buy as many levels as possible.",
         "trigger": "rightClickToBuy",
         "buttons": [
             {
@@ -50,8 +50,9 @@
     {
         "id": "buyEnergyUpgrades",
         "title": "Energy Upgrades",
-        "description": "You have a good amount of electrons now, which directly correspond to a certain amount of energy. Check the energy tab to see what you can invest it in.",
+        "description": "You have a good amount of electrons now, which each generate a certaim amount of energy when they appear. Check the energy tab to see what you can invest it in.",
         "trigger": "buyEnergyUpgrades",
-        "closeOn": "quantum-tab-energy"
+        "closeOn": "quantum-tab-energy",
+        "target": "quantum-tab-energy"
     }
 ]
