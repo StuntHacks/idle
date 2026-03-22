@@ -6,6 +6,7 @@ quantum-field {
         height: 85px;
         left: 0;
         z-index: 1000;
+        -webkit-tap-highlight-color: transparent;
 
         &.disabled {
             pointer-events: none;

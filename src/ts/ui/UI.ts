@@ -20,6 +20,11 @@ export class UI {
         window.addEventListener("mousemove", UI.updateMouseState);
         window.addEventListener("mouseup", UI.updateMouseState);
 
+        window.addEventListener("touchstart", UI.updateTouchState, { passive: true });
+        window.addEventListener("touchmove", UI.updateTouchState, { passive: true });
+        window.addEventListener("touchend", UI.updateTouchState, { passive: true });
+        window.addEventListener("touchcancel", UI.updateTouchState, { passive: true });
+
         const sidescrollers = document.getElementsByClassName("js-sidescroll");
         for (let i = 0; i < sidescrollers.length; i++) {
             const element = sidescrollers[i];
@@ -150,6 +155,20 @@ export class UI {
         UI.mouseDown = (flags & 1) === 1;
         UI.mouseX = e.clientX;
         UI.mouseY = e.clientY;
+    }
+
+    private static updateTouchState(e: TouchEvent) {
+        if (e.type === "touchend" || e.type === "touchcancel") {
+            UI.mouseDown = false;
+            return;
+        }
+
+        const touch = e.touches[0];
+        if (touch) {
+            UI.mouseDown = true;
+            UI.mouseX = touch.clientX;
+            UI.mouseY = touch.clientY;
+        }
     }
 
     public static animate(timestamp: number) {
