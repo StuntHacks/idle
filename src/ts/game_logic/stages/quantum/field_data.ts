@@ -8,7 +8,7 @@ export const FIELD_DATA: FieldData = {
     lepton: {
         gradient: "electron",
         clickDelay: 1000,
-        name: "systems.quantum.fields.electron.name",
+        name: "stages.quantum.fields.electron.name",
         subFields: [
             {
                 type: "lepton",
@@ -32,7 +32,7 @@ export const FIELD_DATA: FieldData = {
     quark: {
         gradient: "rgb",
         clickDelay: 700,
-        name: "systems.quantum.fields.quark.name",
+        name: "stages.quantum.fields.quark.name",
         multi: {
             type: "quark",
             color: "rgb",
@@ -62,7 +62,7 @@ export const FIELD_DATA: FieldData = {
     gluon: {
         gradient: "gluon",
         clickDelay: 2000,
-        name: "systems.quantum.fields.gluon.name",
+        name: "stages.quantum.fields.gluon.name",
         triple: true,
         subFields: [
             {
@@ -75,7 +75,7 @@ export const FIELD_DATA: FieldData = {
     higgs: {
         gradient: "higgs",
         clickDelay: -1,
-        name: "systems.quantum.fields.higgs.name",
+        name: "stages.quantum.fields.higgs.name",
         thick: true,
         subFields: [
             {
@@ -88,7 +88,7 @@ export const FIELD_DATA: FieldData = {
     electroweak: {
         gradient: "electroweak",
         clickDelay: 2000,
-        name: "systems.quantum.fields.electroweak.name",
+        name: "stages.quantum.fields.electroweak.name",
         multi: {
             type: "boson",
             flavor: "photon",
@@ -114,7 +114,7 @@ export const FIELD_DATA: FieldData = {
     neutrino: {
         gradient: "neutrino",
         clickDelay: 1000,
-        name: "systems.quantum.fields.neutrino.name",
+        name: "stages.quantum.fields.neutrino.name",
         subFields: [
             {
                 type: "lepton",

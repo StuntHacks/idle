@@ -1,0 +1,52 @@
+<div class="counter section">
+    <div class="energy-amount">
+        <div class="amount">
+            <currency-display design="plain" name="energy" inferred><span></span></currency-display>
+        </div>
+        <span class="description">
+            <translated-string>stages.quantum.energy.description</translated-string>
+            <div class="rate">
+                <div class="resource particle electron"></div>
+                <i class="material-symbols-outlined">arrow_forward</i>
+                <stat-info name="energy_gain"></stat-info>
+            </div>
+        </span>
+    </div>
+    <div class="fluctuators" data-hidden="0">
+        <div class="title block">
+            <translated-string>stages.quantum.energy.fluctuators.title</translated-string>
+        </div>
+        <fluctuator-block class="block electron" index="0">
+            <div class="field">
+                <translated-string>stages.quantum.fields.electron.name</translated-string>
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <span class="interval">
+                        <tool-tip class="fluctuator-interval">
+                            <translated-string>stages.quantum.energy.fluctuators.interval</translated-string>
+                            <translated-string class="flavor-text">stages.quantum.energy.fluctuators.intervalCap</translated-string>
+                        </tool-tip>
+                        <span>1000ms</span>
+                    </span>
+                    <span class="disable-button">
+                        <tool-tip orientation="right" class="fluctuator-buttons">
+                            <translated-string>stages.quantum.energy.fluctuators.disable</translated-string>
+                        </tool-tip>
+                        <i class="material-symbols-outlined">mode_off_on</i>
+                    </span>
+                </div>
+                <div class="settings">
+                    <span class="cost">2 GeV</span>
+                    <span class="upgrade-button">
+                        <tool-tip orientation="right" class="fluctuator-buttons">
+                            <translated-string>stages.quantum.energy.fluctuators.upgrade</translated-string>
+                            <span class="upgrade-stats"></span>
+                        </tool-tip>
+                        <i class="material-symbols-outlined">arrow_circle_up</i>
+                    </span>
+                </div>
+            </div>
+        </fluctuator-block>
+    </div>
+</div>

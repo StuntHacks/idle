@@ -1,4 +1,4 @@
-export class SystemTabElement extends HTMLElement {
+export class StageTabElement extends HTMLElement {
     constructor() {
         super();
     }

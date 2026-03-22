@@ -1,7 +1,7 @@
-import { FieldsTabUI } from "ui/systems/quantum/FieldsTab";
+import { FieldsTabUI } from "ui/stages/quantum/FieldsTab";
 import { UI } from "../UI";
-import { Wave } from "../systems/quantum/Wave";
-import { FieldModel } from "game_logic/systems/quantum/Field";
+import { Wave } from "../stages/quantum/Wave";
+import { FieldModel } from "game_logic/stages/quantum/Field";
 import { TranslatedElement } from "./TranslatedElement";
 
 export class QuantumFieldElement extends HTMLElement {
@@ -95,7 +95,7 @@ export class QuantumFieldElement extends HTMLElement {
         }
         this.appendChild(this.surface);
 
-        this.tabContainer = this.closest("system-tab") as HTMLElement;
+        this.tabContainer = this.closest("stage-tab") as HTMLElement;
         const width = this.data.thick ? 12 : 3;
         const copies = this.data.triple ? 3 : 1;
         const contained = this.hasAttribute("contained");

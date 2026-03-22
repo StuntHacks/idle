@@ -163,7 +163,7 @@
       }
     }
   },
-  "systems": {
+  "stages": {
     "quantum": {
       "tabs": {
         "energy": "Energy",

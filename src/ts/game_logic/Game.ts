@@ -1,6 +1,6 @@
 import { SaveHandler } from "SaveHandler/SaveHandler";
 import { StatHandler } from "./StatHandler";
-import { QuantumSystem } from "./systems/quantum/Quantum";
+import { QuantumStage } from "./stages/quantum/Quantum";
 import { OfflineProgressUI } from "ui/OfflineProgress";
 import { Utils } from "utils/utils";
 import { Logger } from "utils/Logger";
@@ -10,7 +10,7 @@ import { UI } from "ui/UI";
 
 export interface OfflineResults { [key: string]: unknown }; // placeholder
 
-export abstract class System {
+export abstract class Stage {
     public abstract update(tickLength: number, catchingUp: boolean): void;
     public abstract identifier: string;
 }
@@ -21,7 +21,7 @@ const TICK_LENGTH = 1000 / TICK_RATE;
 export class Game {
     private lastTimestamp: number = undefined;
     private delta: number = 0;
-    private systems: System[];
+    private stages: Stage[];
     private catchingUp: boolean = false;
 
     constructor() {
@@ -34,7 +34,7 @@ export class Game {
         Translator.initialize();
         UI.initialize();
 
-        this.systems = [new QuantumSystem()];
+        this.stages = [new QuantumStage()];
 
         window.addEventListener("beforeunload", () => {
             SaveHandler.saveData();
@@ -100,8 +100,8 @@ export class Game {
     }
 
     private tick(tickLength: number) {
-        for (const system of this.systems) {
-            system.update(tickLength, this.catchingUp);
+        for (const stage of this.stages) {
+            stage.update(tickLength, this.catchingUp);
         }
     }
 

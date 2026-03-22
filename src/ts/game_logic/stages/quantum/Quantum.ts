@@ -1,5 +1,5 @@
 import Decimal from "break_eternity.js";
-import { System } from "game_logic/Game";
+import { Stage } from "game_logic/Game";
 import { StatHandler } from "game_logic/StatHandler";
 import { QuantumFluctuator } from "./Fluctuator";
 import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
@@ -9,7 +9,7 @@ import { FIELD_DATA } from "./field_data";
 import { Settings } from "utils/Settings";
 import { SaveHandler } from "SaveHandler/SaveHandler";
 
-export class QuantumSystem implements System {
+export class QuantumStage implements Stage {
     public identifier = "quantum";
     private fluctuators: QuantumFluctuator[] = [];
     private fields: QuantumField[] = [];

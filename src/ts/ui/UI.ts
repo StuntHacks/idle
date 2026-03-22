@@ -1,6 +1,6 @@
 import { SaveHandler } from "SaveHandler/SaveHandler";
 import { OfflineProgressUI } from "./OfflineProgress";
-import { QuantumUI } from "./systems/Quantum";
+import { QuantumUI } from "./stages/Quantum";
 import { Utils } from "utils/utils";
 import { TranslatedElement } from "./elements/TranslatedElement";
 
@@ -9,7 +9,7 @@ export class UI {
     public static mouseDown: boolean = false;
     public static mouseX: number = 0;
     public static mouseY: number = 0;
-    public static lastSystemTab: string = "quantum";
+    public static lastStageTab: string = "quantum";
 
     public static initialize() {
         customElements.define("translated-string", TranslatedElement);
@@ -47,20 +47,20 @@ export class UI {
 
         OfflineProgressUI.initialize();
         QuantumUI.initialize();
-        this.initializeSystemTabs();
+        this.initializeStageTabs();
         this.initializeBottomBar();
     }
 
     private static handleMenuTabs(tab: string): boolean {
-        if (UI.getActiveSystemTab() === tab && UI.lastSystemTab !== "") {
-            UI.switchSystemTab(UI.lastSystemTab);
+        if (UI.getActiveStageTab() === tab && UI.lastStageTab !== "") {
+            UI.switchStageTab(UI.lastStageTab);
             return false;
         } else {
-            UI.lastSystemTab = UI.getActiveSystemTab();
-            if (["settings", "about", "version"].includes(UI.lastSystemTab)) {
-                UI.lastSystemTab = "quantum";
+            UI.lastStageTab = UI.getActiveStageTab();
+            if (["settings", "about", "version"].includes(UI.lastStageTab)) {
+                UI.lastStageTab = "quantum";
             }
-            UI.switchSystemTab(tab);
+            UI.switchStageTab(tab);
             return true;
         }
     }
@@ -95,7 +95,7 @@ export class UI {
         });
     }
 
-    private static initializeSystemTabs() {
+    private static initializeStageTabs() {
         const navTabs = document.querySelectorAll(`.main-nav .nav-entry`);
         navTabs.forEach((tab: HTMLElement) => {
             tab.addEventListener("click", (e) => {
@@ -107,13 +107,13 @@ export class UI {
                     tab.classList.add("flash");
                     return;
                 }
-                UI.switchSystemTab(tab.dataset.system);
+                UI.switchStageTab(tab.dataset.stage);
             });
         });
     }
 
-    public static getActiveSystemTab(): string {
-        const activeTab = document.querySelector("system-tab.active");
+    public static getActiveStageTab(): string {
+        const activeTab = document.querySelector("stage-tab.active");
         if (activeTab) {
             return activeTab.id.replace("tab-", "");
         } else {
@@ -121,8 +121,8 @@ export class UI {
         }
     }
 
-    public static switchSystemTab(tabName: string) {
-        const tabs = document.querySelectorAll("system-tab");
+    public static switchStageTab(tabName: string) {
+        const tabs = document.querySelectorAll("stage-tab");
         tabs.forEach(tab => {
             if (tab.id === `tab-${tabName}`) {
                 tab.classList.add("active");
@@ -133,14 +133,14 @@ export class UI {
 
         const navTabs = document.querySelectorAll(`.main-nav .nav-entry`);
         navTabs.forEach((tab: HTMLElement) => {
-            if (tab.dataset.system === tabName) {
+            if (tab.dataset.stage === tabName) {
                 tab.classList.add("active");
             } else {
                 tab.classList.remove("active");
             }
         });
 
-        const backgrounds = document.querySelectorAll(`.system-background`);
+        const backgrounds = document.querySelectorAll(`.stage-background`);
         backgrounds.forEach((background: HTMLElement) => {
             if (background.classList.contains(tabName)) {
                 background.classList.add("active");
@@ -190,9 +190,9 @@ export class UI {
     public static selectStartingTab() {
         if (Utils.compareVersions(SaveHandler.getData().gameVersion, Utils.getVersionString()) < 0) {
             document.getElementById("tab-version").classList.add("updated");
-            UI.switchSystemTab("version");
+            UI.switchStageTab("version");
         } else {
-            UI.switchSystemTab("quantum");
+            UI.switchStageTab("quantum");
         }
     }
 }
