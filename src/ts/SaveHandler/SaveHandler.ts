@@ -7,7 +7,7 @@ import _ from "lodash";
 import { Utils } from "utils/utils";
 import { defaultSave } from "./defaultSave";
 
-export const SAVE_FILE_VERSION = 4;
+export const SAVE_FILE_VERSION = 5;
 const SAVE_FILE_NAME = "idledynamics_saveFile"
 
 export class SaveHandler {

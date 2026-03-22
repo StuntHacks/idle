@@ -72,7 +72,7 @@ export class QuantumFluctuator {
         if (this.acc >= interval) {
             const num = Math.floor(this.acc / interval);
             this.acc -= num * interval;
-            this.field.gainParticle(this.getRandomPosition(), catchingUp)
+            this.field.gainParticle(catchingUp ? 0 : this.getRandomPosition(), catchingUp)
         }
     }
 
