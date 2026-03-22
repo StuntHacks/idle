@@ -10,7 +10,7 @@ export const main = async () => {
     CustomElements.initialize();
 
     document.getElementById("magic-button").addEventListener("click", () => {
-        game.testingTimeskip();
+        game.timeskip(3 * 3600);
     });
 
     game.start();

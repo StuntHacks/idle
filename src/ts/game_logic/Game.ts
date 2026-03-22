@@ -41,8 +41,8 @@ export class Game {
         });
     }
 
-    public testingTimeskip() {
-        this.lastTimestamp -= 60000;
+    public timeskip(seconds: number) {
+        this.lastTimestamp -= seconds * 1000;
     }
 
     public async start() {
@@ -68,6 +68,12 @@ export class Game {
 
         if (this.lastTimestamp === undefined) {
             this.lastTimestamp = timestamp;
+            this.delta = 0;
+            return;
+        }
+
+        if (this.catchingUp) {
+            this.lastTimestamp = timestamp;
             return;
         }
 
@@ -83,15 +89,11 @@ export class Game {
         }
 
         this.delta += elapsed;
-        this.catchingUp = this.delta > TICK_LENGTH * 2;
 
         while (this.delta >= TICK_LENGTH) {
-            if (this.catchingUp) break;
             this.tick(TICK_LENGTH);
             this.delta -= TICK_LENGTH;
         }
-
-        this.catchingUp = false;
     }
 
     private tick(tickLength: number) {
