@@ -56,7 +56,55 @@
     }
 
     button {
+        animation: fadeIn 500ms ease forwards;
+        border: none;
+        padding: 0.85rem 2.5rem;
+        border-radius: 20px;
+        background-color: #292929;
+        font-size: 1.3rem;
+        font-weight: lighter;
+        color: #fffa;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: color 150ms, opacity 250ms;
+        position: relative;
+        overflow: hidden;
 
+        translated-string {
+            z-index: 2;
+            position: relative;
+        }
+
+        &::before {
+            z-index: 1;
+            position: absolute;
+            top: 0;
+            right: 100%;
+            content: "";
+            height: 100%;
+            width: 100%;
+            @include gradient-gluon;
+            background: var(--gradient-repeating);
+            animation: fadeIn 500ms ease forwards;
+            transition: right 150ms;
+        }
+
+        &:hover {
+            color: #000a;
+
+            &::before {
+                right: 0;
+            }
+        }
+
+        &:focus {
+            color: #fffa;
+            opacity: 0;
+
+            &::before {
+                right: -100%;
+            }
+        }
     }
 
     h1,
