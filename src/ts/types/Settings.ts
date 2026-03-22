@@ -28,6 +28,23 @@ export interface Settings {
             verbose: Setting<boolean>;
         };
     };
+    internal: {
+        quantum: {
+            fluctuators: [
+                boolean, boolean, boolean, boolean, boolean, boolean
+            ],
+            fields: [
+                QField, QField, QField, QField, QField, QField
+            ]
+        }
+    };
+}
+
+type QField = QuantumFieldSettings;
+type QuantumFieldType = "lepton" | "quark" | "gluon" | "higgs" | "electroweak" | "neutrino";
+interface QuantumFieldSettings {
+    selected: QuantumFieldType;
+    next?: QuantumFieldType;
 }
 
 export interface Setting<T> {

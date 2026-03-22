@@ -1,13 +1,14 @@
 import { Currencies } from "game_logic/currencies/Currencies";
-import { SaveCurrency, SaveFile, Upgrade } from "types/SaveFile";
+import { SaveFile, Upgrade } from "types/SaveFile";
 import { UI } from "ui/UI";
 import { Logger } from "utils/Logger";
-import { Settings } from "utils/Settings";
 import mock from "./mock.json"
 import _ from "lodash";
 import { Utils } from "utils/utils";
+import { defaultSave } from "./defaultSave";
 
 export const SAVE_FILE_VERSION = 4;
+const SAVE_FILE_NAME = "idledynamics_saveFile"
 
 export class SaveHandler {
     private static save: SaveFile;
@@ -16,7 +17,7 @@ export class SaveHandler {
 
     public static loadData(): boolean {
         Logger.log("SaveHandler", "Loading save file...");
-        let data = localStorage.getItem("saveFile");
+        let data = localStorage.getItem(SAVE_FILE_NAME);
         if (data === null) {
             Logger.log("SaveHandler", "No save data found!");
             this.initialize();
@@ -79,8 +80,8 @@ export class SaveHandler {
             SaveHandler.saveCurrencies();
         }
 
-        localStorage.setItem("saveFileBak", localStorage.getItem("saveFile"));
-        localStorage.setItem("saveFile", data);
+        localStorage.setItem(`${SAVE_FILE_NAME}_bak`, localStorage.getItem(SAVE_FILE_NAME));
+        localStorage.setItem(SAVE_FILE_NAME, data);
         UI.flashSaveIndicator();
     }
 
@@ -100,8 +101,13 @@ export class SaveHandler {
         }
     }
 
-    public static getFlag(flag: string) {
-        return _.get(this.save.flags, flag);
+    public static getFlag(flag: string): boolean {
+        const f = _.get(this.save.flags, flag);
+        if (typeof f === "boolean") {
+            return f;
+        }
+
+        return false;
     }
 
     public static setFlag(flag: string, value: unknown) {
@@ -116,18 +122,7 @@ export class SaveHandler {
 
     public static initialize(useMock: boolean = false): SaveFile {
         Logger.log("SaveHandler", "Initializing new save file...");
-        const save = useMock ? mock as unknown as SaveFile : {
-            currencies: {
-                normal: [] as SaveCurrency[],
-                inferred: [] as SaveCurrency[],
-            },
-            settings: Settings.default(),
-            upgrades: [] as Upgrade[],
-            flags: {
-                tutorial: {},
-                quantum: {}
-            }
-        };
+        const save = useMock ? mock as unknown as SaveFile : defaultSave;
         this.save = {
             ...save,
             startTime: Date.now(),

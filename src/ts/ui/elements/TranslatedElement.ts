@@ -4,12 +4,13 @@ import { Settings } from "utils/Settings";
 export class TranslatedElement extends HTMLElement {
     private textId: string;
 
-    constructor() {
+    constructor(textId?: string) {
         super();
+        this.refresh(textId);
     }
 
-    public refresh() {
-        this.textId = this.textContent;
+    public refresh(textId?: string) {
+        this.textId = textId ?? this.textContent;
         const lang = Settings.get().general.settings.language.value;
         let translated = Translator.getTranslation(this.textId, lang);
 

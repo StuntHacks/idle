@@ -47,7 +47,7 @@ export class CurrencyElement extends HTMLElement {
 
         let field = this.getAttribute("field-id");
         if (field) {
-            let fieldElement = document.getElementById(field) as QuantumFieldElement;
+            let fieldElement = document.getElementById(`${field}-field`) as QuantumFieldElement;
             this.addEventListener("mouseenter", () => {
                 if (fieldElement) {
                     let x = Math.floor(Math.random() * window.innerWidth);

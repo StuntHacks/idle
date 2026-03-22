@@ -7,5 +7,13 @@
             "Various random stuff",
             "What exactly do you expect to see here? It's still in pre-alpha!"
         ]
+    },
+    {
+        "version": "0.0.12",
+        "date": "19.03.2026",
+        "changes": [
+            "Refactored to a proper tick system",
+            "Implemented offline time"
+        ]
     }
 ]
