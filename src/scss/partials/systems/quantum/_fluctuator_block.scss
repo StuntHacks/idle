@@ -159,6 +159,11 @@ fluctuator-block {
                 align-items: center;
                 justify-content: center;
             }
+
+            .interval > span {
+                background-color: transparent;
+                word-break: normal;
+            }
         }
 
         .settings {

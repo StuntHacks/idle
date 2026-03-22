@@ -115,6 +115,12 @@ tool-tip.fluctuator-buttons {
     left: var(--offset);
 }
 
+tool-tip.fluctuator-interval {
+    width: 200px;
+    white-space: normal;
+    text-align: center;
+}
+
 tool-tip.footer-currency .title {
     font-weight: bold;
 }
