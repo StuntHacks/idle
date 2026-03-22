@@ -1,3 +1,4 @@
+import { QuantumFieldElement } from "ui/elements/QuantumFieldElement";
 import { Utils } from "utils/utils";
 
 const FPS_SAMPLE_COUNT = 30;
@@ -47,12 +48,11 @@ export class Wave {
         }
     }
 
-    private handleResize() {
-        const parent = this.canvas.parentElement;
+    public handleResize() {
+        const parent = this.canvas.parentElement as QuantumFieldElement;
         this.canvas.width = parent.clientWidth;
         this.canvas.height = parent.parentElement.clientHeight;
-        const rect = parent.getBoundingClientRect();
-        this.config.offset = this.contained ? rect.height / 2 : rect.y + rect.height / 2 - 90;
+        this.config.offset = this.contained ? parent.clientHeight / 2 : parent.getWaveOffset();
         this.cachedGradient = null;
     }
 
@@ -93,6 +93,7 @@ export class Wave {
 
     public start() {
         const startTime = performance.now();
+        this.handleResize();
         const animate = (timestamp: number) => {
             this.updateFpsAndShadow(timestamp);
 
@@ -109,7 +110,6 @@ export class Wave {
 
     private initialize() {
         this.offsets = Array.from({ length: this.config.pointCount + 1 }, () => Math.random() * 1000);
-
         this.pointInfluence = new Float32Array(this.config.pointCount + 1);
     }
 
@@ -260,7 +260,6 @@ export class Wave {
 }
 
 export interface WaveConfig {
-    particle: WaveParticleInfo;
     amplitude: number;
     frequency: number;
     speed: number;
@@ -270,13 +269,6 @@ export interface WaveConfig {
     height?: number;
     offset?: number;
     maxRippleAmplitude?: number;
-}
-
-export interface WaveParticleInfo {
-    type?: string;
-    flavor?: string;
-    color?: string;
-    all?: boolean;
 }
 
 export interface WaveColor {

@@ -14,7 +14,6 @@ export interface SaveFile {
     settings: Settings;
     upgrades: Upgrade[];
     flags: Flags,
-    enabledFlags: Flags;
 }
 
 type Flags = {[key: string]: boolean | Flags};

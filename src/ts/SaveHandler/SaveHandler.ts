@@ -101,15 +101,6 @@ export class SaveHandler {
         }
     }
 
-    public static getEnabledFlag(flag: string): boolean {
-        const f = _.get(this.save.enabledFlags, flag);
-        if (typeof f === "boolean") {
-            return f;
-        }
-
-        return false;
-    }
-
     public static getFlag(flag: string): boolean {
         const f = _.get(this.save.flags, flag);
         if (typeof f === "boolean") {

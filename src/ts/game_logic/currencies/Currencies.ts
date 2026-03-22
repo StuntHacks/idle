@@ -1,5 +1,4 @@
 import Decimal from "break_eternity.js";
-import { WaveParticleInfo } from "ui/systems/quantum/Wave";
 import { Numbers } from "numbers/numbers";
 import { InferredCurrency as InferredCurrencyClass } from "./InferredCurrency";
 import { Energy } from "./inferred/Energy";
@@ -73,6 +72,10 @@ export class Currencies {
         this.register("particle boson w-plus", "bosons-w-plus");
         this.register("particle boson w-minus", "bosons-w-minus");
         this.register("particle boson higgs", "bosons-higgs");
+
+        this.register("particle lepton electron neutrino", "leptons-electron-neutrino");
+        this.register("particle lepton muon neutrino", "leptons-muon-neutrino");
+        this.register("particle lepton tau neutrino", "leptons-tau-neutrino");
 
         Energy.initialize();
 
@@ -178,34 +181,6 @@ export class Currencies {
 
     public static getAll(): [Currency[], InferredCurrency[]] {
         return [this.currencies, this.inferredCurrencies];
-    }
-
-    public static getFromQuantumField(particle: WaveParticleInfo): string {
-        let hash = "";
-        let flavor = particle.flavor ? particle.flavor : "";
-
-        switch (particle.type) {
-            case "quark":
-                hash += "quarks";
-                flavor += ["up", "down"][Math.floor(Math.random() * 2)];
-                break;
-            case "lepton":
-                hash += "leptons";
-                break;
-            case "boson":
-                hash += "bosons";
-                break;
-        }
-
-        if (flavor !== "") {
-            hash += `-${flavor}`;
-        }
-
-        if (particle.color) {
-            hash += `-${particle.color}`;
-        }
-
-        return hash;
     }
 }
 

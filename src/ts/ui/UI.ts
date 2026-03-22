@@ -2,6 +2,7 @@ import { SaveHandler } from "SaveHandler/SaveHandler";
 import { OfflineProgressUI } from "./OfflineProgress";
 import { QuantumUI } from "./systems/Quantum";
 import { Utils } from "utils/utils";
+import { TranslatedElement } from "./elements/TranslatedElement";
 
 export class UI {
     public static saveIndicator: HTMLElement;
@@ -11,6 +12,7 @@ export class UI {
     public static lastSystemTab: string = "quantum";
 
     public static initialize() {
+        customElements.define("translated-string", TranslatedElement);
         this.saveIndicator = document.getElementById("save-notif");
         window.requestAnimationFrame(UI.animate);
 

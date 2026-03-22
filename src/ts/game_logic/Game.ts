@@ -5,6 +5,8 @@ import { OfflineProgressUI } from "ui/OfflineProgress";
 import { Utils } from "utils/utils";
 import { Logger } from "utils/Logger";
 import { Settings } from "utils/Settings";
+import { Translator } from "i18n/i18n";
+import { UI } from "ui/UI";
 
 export interface OfflineResults { [key: string]: unknown }; // placeholder
 
@@ -26,8 +28,11 @@ export class Game {
         if (!SaveHandler.loadData()) {
             SaveHandler.initialize();
         }
+        Settings.set(SaveHandler.getData().settings);
 
         StatHandler.initialize();
+        Translator.initialize();
+        UI.initialize();
 
         this.systems = [new QuantumSystem()];
 
