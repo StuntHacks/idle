@@ -1,34 +1,63 @@
+import { UI } from "ui/UI";
+
+export const TAB_TRANSITION = 200;
+
 export class StageTabElement extends HTMLElement {
+    private activeSubTab?: HTMLElement;
+    private navElement: HTMLElement;
+    private bgElement: HTMLElement;
+    private subTabs: HTMLElement;
+    private radioStyle: boolean = false;
+
     constructor() {
         super();
     }
 
-    connectedCallback() {
-        const subTabs = this.querySelector("nav.sub-tabs");
-        if (!subTabs) return;
+    public open() {
+        this.classList.add("active");
+        this.bgElement.classList.add("active");
+        this.navElement?.classList.add("active");
+        if (this.activeSubTab) {
+            setTimeout(() => UI.switchSubTab(this.activeSubTab), this.radioStyle ? 0 : TAB_TRANSITION);
+        }
 
-        const background = this.querySelector(".tab-background");
-        const tabs = subTabs.getElementsByTagName("span");
-        for (let i = 0; i < tabs.length; i++) {
-            tabs[i].addEventListener("click", (e: MouseEvent) => {
+        if (this.radioStyle) {
+            UI.switchSubTab(this.subTabs.querySelector("span"));
+        }
+    }
+
+    public close(): boolean {
+        UI.closeSubTab(this.activeSubTab);
+        setTimeout(() => {
+            this.classList.remove("active");
+            this.bgElement.classList.remove("active");
+            this.navElement?.classList.remove("active");
+        }, this.activeSubTab && !this.radioStyle ? TAB_TRANSITION : 0);
+        return this.activeSubTab !== undefined && !this.radioStyle;
+    }
+
+    connectedCallback() {
+        const name = this.id.split("-")[1];
+        this.navElement = document.querySelector(`.main-nav .nav-entry[data-stage="${name}"]`);
+        this.bgElement = this.parentElement.querySelector(`.stage-background.${name}`);
+        this.navElement?.addEventListener("click", () => UI.switchStageTab(this))
+        this.subTabs = this.querySelector("nav.sub-tabs");
+
+        if (!this.subTabs) return;
+        this.radioStyle = this.subTabs.classList.contains("radio-style");
+
+        const tabs = this.subTabs.getElementsByTagName("span");
+        for (const tab of Array.from(tabs)) {
+            tab.addEventListener("click", (e: MouseEvent) => {
                 const target = (e.target as HTMLElement).closest("nav.sub-tabs span") as HTMLSpanElement;
                 if (!target.classList.contains("disabled")) {
-                    const tab = this.querySelector(`section.tab[data-tab="${target.dataset.tab}"]`);
                     if (target.classList.contains("active")) {
-                        if (target.classList.contains("radio-style")) return;
-                        target.classList.remove("active");
-                        tab.classList.remove("active");
-                        background?.classList.remove("active");
+                        if (this.subTabs.classList.contains("radio-style")) return;
+                        UI.closeSubTab(target);
+                        this.activeSubTab = undefined;
                     } else {
-                        const sectiontabs = this.querySelectorAll("section.tab");
-                        const tabHeaders = target.closest(".sub-tabs").querySelectorAll("span");
-
-                        sectiontabs.forEach(e => e.classList.remove("active"));
-                        tabHeaders.forEach(e => e.classList.remove("active"));
-
-                        target.classList.add("active");
-                        tab.classList.add("active");
-                        background?.classList.add("active");
+                        UI.switchSubTab(target);
+                        this.activeSubTab = target;
                     }
                 }
             });

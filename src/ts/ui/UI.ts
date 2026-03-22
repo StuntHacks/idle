@@ -3,6 +3,7 @@ import { OfflineProgressUI } from "./OfflineProgress";
 import { QuantumUI } from "./stages/Quantum";
 import { Utils } from "utils/utils";
 import { TranslatedElement } from "./elements/TranslatedElement";
+import { StageTabElement, TAB_TRANSITION } from "./elements/StageTabElement";
 
 export class UI {
     public static saveIndicator: HTMLElement;
@@ -52,11 +53,11 @@ export class UI {
     }
 
     private static handleMenuTabs(tab: string): boolean {
-        if (UI.getActiveStageTab() === tab && UI.lastStageTab !== "") {
+        if (UI.getActiveStage() === tab && UI.lastStageTab !== "") {
             UI.switchStageTab(UI.lastStageTab);
             return false;
         } else {
-            UI.lastStageTab = UI.getActiveStageTab();
+            UI.lastStageTab = UI.getActiveStage();
             if (["settings", "about", "version"].includes(UI.lastStageTab)) {
                 UI.lastStageTab = "quantum";
             }
@@ -112,7 +113,7 @@ export class UI {
         });
     }
 
-    public static getActiveStageTab(): string {
+    public static getActiveStage(): string {
         const activeTab = document.querySelector("stage-tab.active");
         if (activeTab) {
             return activeTab.id.replace("tab-", "");
@@ -121,33 +122,37 @@ export class UI {
         }
     }
 
-    public static switchStageTab(tabName: string) {
-        const tabs = document.querySelectorAll("stage-tab");
-        tabs.forEach(tab => {
-            if (tab.id === `tab-${tabName}`) {
-                tab.classList.add("active");
-            } else {
-                tab.classList.remove("active");
-            }
-        });
+    public static switchStageTab(tab: string | StageTabElement) {
+        const target = typeof tab === "string" ? document.getElementById(`tab-${tab}`) as StageTabElement : tab;
+        const active = document.querySelector("stage-tab.active") as StageTabElement;
+        const wait = active?.close();
+        setTimeout(() => target.open(), wait ? TAB_TRANSITION : 0);
+    }
 
-        const navTabs = document.querySelectorAll(`.main-nav .nav-entry`);
-        navTabs.forEach((tab: HTMLElement) => {
-            if (tab.dataset.stage === tabName) {
-                tab.classList.add("active");
-            } else {
-                tab.classList.remove("active");
-            }
-        });
+    public static openSubTab(tab: string | HTMLElement) {
+        const target = typeof tab === "string" ? document.getElementById(tab) : tab;
+        if (!target) return;
+        const content = target.closest("stage-tab").querySelector(`.tab[data-tab="${target.dataset.tab}"]`);
+        const bg = target.closest("stage-tab").querySelector(".tab-background");
+        target.classList.add("active");
+        content.classList.add("active");
+        bg?.classList.add("active");
+    }
 
-        const backgrounds = document.querySelectorAll(`.stage-background`);
-        backgrounds.forEach((background: HTMLElement) => {
-            if (background.classList.contains(tabName)) {
-                background.classList.add("active");
-            } else {
-                background.classList.remove("active");
-            }
-        });
+    public static closeSubTab(tab: string | HTMLElement) {
+        const target = typeof tab === "string" ? document.getElementById(tab) : tab;
+        if (!target) return;
+        const content = document.querySelector("stage-tab .tab.active");
+        const bg = target.closest("stage-tab").querySelector(".tab-background");
+        target?.classList.remove("active");
+        content?.classList.remove("active");
+        bg?.classList.remove("active");
+    }
+
+    public static switchSubTab(tab: string | HTMLElement) {
+        const active = document.querySelector(".sub-tabs .active") as HTMLElement;
+        if (active) this.closeSubTab(active);
+        this.openSubTab(tab);
     }
 
     private static updateMouseState(e: MouseEvent) {
