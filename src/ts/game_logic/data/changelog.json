@@ -15,5 +15,12 @@
             "Refactored to a proper tick system",
             "Implemented offline time"
         ]
+    },
+    {
+        "version": "0.0.13",
+        "date": "22.03.2026",
+        "changes": [
+            "Added full touch support"
+        ]
     }
 ]
