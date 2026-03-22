@@ -55,11 +55,11 @@
         }
 
         button {
-            color: #fffa;
+            background-color: #3a3a3a;
+            color: #fffc;
 
             &::before {
-                transition: right 300ms;
-                right: -300%;
+                right: -100%;
             }
         }
     }
@@ -75,7 +75,7 @@
         color: #fffa;
         text-transform: uppercase;
         cursor: pointer;
-        transition: color 300ms, opacity 250ms;
+        transition: color 300ms, opacity 250ms, background-color 150ms;
         position: relative;
         overflow: hidden;
 
@@ -90,37 +90,25 @@
             top: 0;
             content: "";
             height: 100%;
-            width: 100%;
             @include gradient-gluon;
             background: var(--gradient-repeating);
             animation: fadeIn 500ms ease forwards;
-            transition: right 1s;
-            -webkit-mask-image: linear-gradient(to left, transparent 10%, black, black, transparent 90%);
-            mask-image: linear-gradient(to left, transparent 10%, black, black, transparent 90%);
-            width: 300%;
-            right: 300%;
+            transition: right 300ms;
+            -webkit-mask-image: linear-gradient(to left, transparent, black, transparent);
+            mask-image: linear-gradient(to left, transparent, black, transparent);
+            width: 100%;
+            right: 100%;
         }
 
         &:hover,
         &:active {
-            &::before {
-                transition: right 200ms;
-            }
-        }
-
-        &:hover {
-            color: #000a;
-
-            &::before {
-                right: -100%;
-            }
+            background-color: #3a3a3a;
+            color: #fffc
         }
 
         &:active {
-            color: #fffa;
-
             &::before {
-                right: -300%;
+                right: -100%;
             }
         }
     }
