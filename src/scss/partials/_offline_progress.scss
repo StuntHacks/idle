@@ -53,6 +53,15 @@
         h2 {
             opacity: 0;
         }
+
+        button {
+            color: #fffa;
+
+            &::before {
+                transition: right 300ms;
+                right: -300%;
+            }
+        }
     }
 
     button {
@@ -66,7 +75,7 @@
         color: #fffa;
         text-transform: uppercase;
         cursor: pointer;
-        transition: color 150ms, opacity 250ms;
+        transition: color 300ms, opacity 250ms;
         position: relative;
         overflow: hidden;
 
@@ -79,30 +88,39 @@
             z-index: 1;
             position: absolute;
             top: 0;
-            right: 100%;
             content: "";
             height: 100%;
             width: 100%;
             @include gradient-gluon;
             background: var(--gradient-repeating);
             animation: fadeIn 500ms ease forwards;
-            transition: right 150ms;
+            transition: right 1s;
+            -webkit-mask-image: linear-gradient(to left, transparent 10%, black, black, transparent 90%);
+            mask-image: linear-gradient(to left, transparent 10%, black, black, transparent 90%);
+            width: 300%;
+            right: 300%;
+        }
+
+        &:hover,
+        &:active {
+            &::before {
+                transition: right 200ms;
+            }
         }
 
         &:hover {
             color: #000a;
 
             &::before {
-                right: 0;
+                right: -100%;
             }
         }
 
-        &:focus {
+        &:active {
             color: #fffa;
-            opacity: 0;
 
             &::before {
-                right: -100%;
+                right: -300%;
             }
         }
     }
