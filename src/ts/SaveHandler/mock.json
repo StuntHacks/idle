@@ -1,10 +1,9 @@
 {
-    "version": 2,
     "currencies": {
         "normal": [
             {
                 "hash": "leptons-electron",
-                "amount": "1256",
+                "amount": "1512",
                 "className": "particle lepton electron"
             },
             {
@@ -166,12 +165,27 @@
                 "hash": "bosons-higgs",
                 "amount": "0",
                 "className": "particle boson higgs"
+            },
+            {
+                "hash": "leptons-electron-neutrino",
+                "amount": "0",
+                "className": "particle lepton electron neutrino"
+            },
+            {
+                "hash": "leptons-muon-neutrino",
+                "amount": "0",
+                "className": "particle lepton muon neutrino"
+            },
+            {
+                "hash": "leptons-tau-neutrino",
+                "amount": "0",
+                "className": "particle lepton tau neutrino"
             }
         ],
         "inferred": [
             {
                 "hash": "energy",
-                "amount": "9.943038884889405276748e+8"
+                "amount": "983896291.7642329"
             }
         ]
     },
@@ -245,6 +259,38 @@
                     "name": "settings.debug.verbose.name"
                 }
             }
+        },
+        "internal": {
+            "quantum": {
+                "fluctuators": [
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true
+                ],
+                "fields": [
+                    {
+                        "selected": "lepton"
+                    },
+                    {
+                        "selected": "quark"
+                    },
+                    {
+                        "selected": "gluon"
+                    },
+                    {
+                        "selected": "higgs"
+                    },
+                    {
+                        "selected": "electroweak"
+                    },
+                    {
+                        "selected": "neutrino"
+                    }
+                ]
+            }
         }
     },
     "upgrades": [
@@ -254,8 +300,8 @@
             "target": "electron_gain",
             "type": "additive",
             "amount": 2,
-            "cost": 2000000,
-            "costScaling": 1.5,
+            "cost": 5000000,
+            "costScaling": 1.2,
             "levels": 10,
             "currency": "energy",
             "accessor": "quantum.energy.upgrades"
@@ -265,8 +311,8 @@
             "title": "upgrades.quantum.energy.higherCharge.title",
             "target": "energy_gain",
             "type": "multiplicative",
-            "amount": 1.1,
-            "cost": 2000000,
+            "amount": 1.2,
+            "cost": 6000000,
             "costScaling": 1.5,
             "levels": 10,
             "currency": "energy",
@@ -277,15 +323,8 @@
         "tutorial": {},
         "quantum": {}
     },
-    "enabledFlags": {
-        "quantum": {
-            "fluctuators": {
-                "f0": true,
-                "f1": true,
-                "f2": true,
-                "f3": true,
-                "f4": true
-            }
-        }
-    }
+    "startTime": 1774153749847,
+    "version": 5,
+    "timestamp": 1774153782590,
+    "gameVersion": "0.0.12"
 }

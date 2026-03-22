@@ -94,6 +94,8 @@ export class QuantumField {
                 Currencies.gain(hashGreen, amount);
                 const hashBlue = hashRed.replace("red", "blue");
                 Currencies.gain(hashBlue, amount);
+            } else {
+                Currencies.gain(hash, amount);
             }
         } else {
             Currencies.gain(hash, amount);
