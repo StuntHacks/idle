@@ -39,7 +39,7 @@ export class QuantumFluctuator {
     }
 
     private getRandomPosition() {
-        const width = this.field.getPosition().width;
+        const width = Math.max(this.field.getPosition().width - 110, 100);
         let bestPosition = Math.random() * width;
         let bestMinDist = 0;
 
@@ -60,7 +60,7 @@ export class QuantumFluctuator {
             this.positionsBuffer.shift();
         }
 
-        return Math.floor(bestPosition);
+        return Math.floor(bestPosition + 10);
     }
 
     public update(tickLength: number, catchingUp: boolean) {
