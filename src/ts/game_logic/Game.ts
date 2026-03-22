@@ -89,6 +89,9 @@ export class Game {
         }
 
         this.delta += elapsed;
+        if (this.delta > TICK_LENGTH * 10) {
+            Logger.debug("Game", `High delta: ${this.delta.toFixed(1)}ms (${(this.delta / TICK_LENGTH).toFixed(1)} ticks)`);
+        }
 
         while (this.delta >= TICK_LENGTH) {
             this.tick(TICK_LENGTH);
@@ -120,7 +123,7 @@ export class Game {
                 while (ticksDone < totalTicks) {
                     this.tick(TICK_LENGTH);
                     ticksDone++;
-                    if (performance.now() - chunkStart >= 50) break; // yield
+                    if (performance.now() - chunkStart >= 16) break; // yield
                 }
 
                 //OfflineProgressUI.setProgress(ticksDone / totalTicks);
