@@ -18,7 +18,7 @@ export abstract class Stage {
 const TICK_RATE = 20;
 const TICK_LENGTH = 1000 / TICK_RATE;
 
-export class Game {
+class Game {
     private lastTimestamp: number = undefined;
     private delta: number = 0;
     private stages: Stage[];
@@ -144,3 +144,13 @@ export class Game {
         });
     }
 }
+
+let _instance: Game;
+export const useGame = (): Game => {
+    if (!_instance) throw new Error("Call initGame() first");
+    return _instance;
+};
+export const initGame = (): Game => {
+    _instance = new Game();
+    return _instance;
+};

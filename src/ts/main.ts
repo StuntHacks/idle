@@ -1,9 +1,9 @@
 import { Currencies } from "./game_logic/currencies/Currencies";
-import { Game } from "./game_logic/Game";
+import { initGame } from "./game_logic/Game";
 import { CustomElements } from "ui/CustomElements";
 
 export const main = async () => {
-    const game = new Game();
+    const game = initGame();
 
     // initialize
     Currencies.initialize("quantum-resource-gain-container"); // todo: fix selector
