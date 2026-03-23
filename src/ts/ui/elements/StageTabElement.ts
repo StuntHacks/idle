@@ -1,7 +1,5 @@
 import { UI } from "ui/UI";
 
-export const TAB_TRANSITION = 200;
-
 export class StageTabElement extends HTMLElement {
     private activeSubTab?: HTMLElement;
     private navElement: HTMLElement;
@@ -17,8 +15,9 @@ export class StageTabElement extends HTMLElement {
         this.classList.add("active");
         this.bgElement.classList.add("active");
         this.navElement?.classList.add("active");
+
         if (this.activeSubTab) {
-            setTimeout(() => UI.switchSubTab(this.activeSubTab), this.radioStyle ? 0 : TAB_TRANSITION);
+            UI.switchSubTab(this.activeSubTab);
         }
 
         if (this.radioStyle) {
@@ -26,14 +25,11 @@ export class StageTabElement extends HTMLElement {
         }
     }
 
-    public close(): boolean {
+    public close() {
         UI.closeSubTab(this.activeSubTab);
-        setTimeout(() => {
-            this.classList.remove("active");
-            this.bgElement.classList.remove("active");
-            this.navElement?.classList.remove("active");
-        }, this.activeSubTab && !this.radioStyle ? TAB_TRANSITION : 0);
-        return this.activeSubTab !== undefined && !this.radioStyle;
+        this.classList.remove("active");
+        this.bgElement.classList.remove("active");
+        this.navElement?.classList.remove("active");;
     }
 
     connectedCallback() {

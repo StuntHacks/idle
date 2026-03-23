@@ -1,6 +1,6 @@
 @import "../../settings/gradients.scss";
 
-#tab-about {
+#tab-about .stage-main-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,27 +56,28 @@
       }
     }
   }
+}
 
-  &.slide-in {
-    * {
-      animation: move-credits-up 0.5s ease-out forwards;
+#tab-about.slide-in .stage-main-content {
+  * {
+    animation: move-credits-up 0.5s ease-out forwards;
 
-      @keyframes move-credits-up {
-        from {
-          transform: translateY(100px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
+    @keyframes move-credits-up {
+      from {
+        transform: translateY(100px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
       }
     }
+  }
 
-    h1 {
-      animation:
-        move-nav-gradient 5s linear infinite,
-        move-credits-up 0.5s ease-out forwards;
-    }
+  h1 {
+    animation:
+      move-nav-gradient 5s linear infinite,
+      move-credits-up 0.5s ease-out forwards;
   }
 }
