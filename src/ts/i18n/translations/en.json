@@ -18,8 +18,8 @@
         "forces": "1.00e6 total Quarks"
       }
     },
-    "exportTitle": "Export save",
-    "importTitle": "Import save",
+    "exportSave": "Export save",
+    "importSave": "Import save",
     "copy": "Copy to clipboard",
     "copied": "Copied!"
   },

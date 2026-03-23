@@ -1,0 +1,30 @@
+.button {
+    border-radius: 15px;
+    font-size: 1rem;
+    padding: 15px 20px;
+    flex-grow: 1;
+    border: none;
+    font-weight: bold;
+    --color: #fff3;
+    --hover: #fff5;
+    --active: #fff7;
+    background-color: var(--color);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 150ms;
+    user-select: none;
+
+    &:hover {
+        background-color: var(--hover);
+    }
+
+    &:active {
+        background-color: var(--active);
+    }
+
+    &.primary {
+        --color: #6f69;
+        --hover: #6f6b;
+        --active: #6f6d;
+    }
+}

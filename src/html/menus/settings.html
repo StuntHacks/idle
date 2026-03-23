@@ -1,13 +1,22 @@
 <stage-tab id="tab-settings">
     <div class="stage-main-content">
         <div class="save-area">
-    
+            <button class="button" id="export-save-button">
+                <translated-string>misc.exportSave</translated-string>
+            </button>
+            <button class="button" id="import-save-button">
+                <translated-string>misc.importSave</translated-string>
+            </button>
         </div>
         <div class="settings">
-            <settings-block for="general"></settings-block>
-            <settings-block for="general"></settings-block>
-            <settings-block for="general"></settings-block>
-            <settings-block for="general"></settings-block>
+            <div>
+                <settings-block for="general"></settings-block>
+                <settings-block for="display"></settings-block>
+            </div>
+            <div>
+                <settings-block for="gameplay"></settings-block>
+                <settings-block for="debug"></settings-block>
+            </div>
         </div>
     </div>
 </stage-tab>

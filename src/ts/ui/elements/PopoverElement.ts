@@ -38,7 +38,6 @@ export class PopoverElement extends HTMLElement {
     }
 
     private handleEscapePress = (e: KeyboardEvent) => {
-        console.log(e);
         if (e.key === "Escape") {
             this.dismiss();
             e.stopPropagation();
@@ -74,7 +73,7 @@ export class PopoverElement extends HTMLElement {
                     this.dismiss();
                 }
             });
-            b.classList.add(button.type ?? "secondary");
+            b.classList.add(button.type ?? "secondary", "button");
             buttonContainer.appendChild(b);
         }
     }

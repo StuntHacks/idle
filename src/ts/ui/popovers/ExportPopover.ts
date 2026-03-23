@@ -4,7 +4,7 @@ import { PopoverElement } from "ui/elements/PopoverElement";
 
 export class ExportPopover extends PopoverElement {
     constructor() {
-        super("misc.exportTitle", `
+        super("misc.exportSave", `
             <pre>${SaveHandler.getEncoded()}</pre>
         `, false);
 
