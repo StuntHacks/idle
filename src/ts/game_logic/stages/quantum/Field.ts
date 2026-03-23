@@ -1,4 +1,4 @@
-import { QuantumFieldElement } from "ui/elements/QuantumFieldElement";
+import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { ParticleModel, ParticleType, QuantumStage } from "./Quantum";
 import { Currencies } from "game_logic/currencies/Currencies";
 import { SaveHandler } from "SaveHandler/SaveHandler";

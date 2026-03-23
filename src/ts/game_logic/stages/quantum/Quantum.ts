@@ -3,7 +3,7 @@ import { Stage } from "game_logic/Game";
 import { StatHandler } from "game_logic/StatHandler";
 import { QuantumFluctuator } from "./Fluctuator";
 import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
-import { QuantumFieldElement } from "ui/elements/QuantumFieldElement";
+import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { QuantumField } from "./Field";
 import { FIELD_DATA } from "./field_data";
 import { Settings } from "utils/Settings";

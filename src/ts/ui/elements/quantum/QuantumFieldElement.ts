@@ -1,8 +1,8 @@
 import { FieldsTabUI } from "ui/stages/quantum/FieldsTab";
-import { UI } from "../UI";
-import { Wave } from "../stages/quantum/Wave";
+import { UI } from "../../UI";
+import { Wave } from "../../stages/quantum/Wave";
 import { FieldModel } from "game_logic/stages/quantum/Field";
-import { TranslatedElement } from "./TranslatedElement";
+import { TranslatedElement } from "../TranslatedElement";
 import { PopoverManager } from "ui/PopoverManager";
 
 export class QuantumFieldElement extends HTMLElement {

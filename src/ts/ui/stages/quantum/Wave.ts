@@ -1,4 +1,4 @@
-import { QuantumFieldElement } from "ui/elements/QuantumFieldElement";
+import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { Utils } from "utils/utils";
 
 const FPS_SAMPLE_COUNT = 30;

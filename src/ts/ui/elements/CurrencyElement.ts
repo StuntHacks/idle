@@ -1,6 +1,6 @@
 import { Currencies, Currency, InferredCurrency } from "game_logic/currencies/Currencies"
 import { Numbers } from "numbers/numbers";
-import { QuantumFieldElement } from "./QuantumFieldElement";
+import { QuantumFieldElement } from "./quantum/QuantumFieldElement";
 import Decimal from "break_eternity.js";
 
 export class CurrencyElement extends HTMLElement {
