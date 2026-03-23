@@ -3,6 +3,7 @@ import { UI } from "../UI";
 import { Wave } from "../stages/quantum/Wave";
 import { FieldModel } from "game_logic/stages/quantum/Field";
 import { TranslatedElement } from "./TranslatedElement";
+import { PopoverManager } from "ui/PopoverManager";
 
 export class QuantumFieldElement extends HTMLElement {
     private waves: Wave[] = [];
@@ -44,7 +45,11 @@ export class QuantumFieldElement extends HTMLElement {
         let rect = this.surface.getBoundingClientRect();
 
         if ((UI.mouseDown && UI.mouseY >= rect.y && UI.mouseY <= rect.bottom)) {
-            if (this.tabContainer.querySelector(".tab.active") === null && this.tabContainer.classList.contains("active")) {
+            if (
+                this.tabContainer.querySelector(".tab.active") === null &&
+                this.tabContainer.classList.contains("active") &&
+                !PopoverManager.isActive()
+            ) {
                 this.clickCallback(UI.mouseX);
             }
         }

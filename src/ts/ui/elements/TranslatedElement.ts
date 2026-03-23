@@ -1,5 +1,4 @@
 import { Translator } from "i18n/i18n";
-import { Settings } from "utils/Settings";
 
 export class TranslatedElement extends HTMLElement {
     private textId: string;
@@ -11,8 +10,7 @@ export class TranslatedElement extends HTMLElement {
 
     public refresh(textId?: string) {
         this.textId = textId ?? this.textContent;
-        const lang = Settings.get().general.settings.language.value;
-        let translated = Translator.getTranslation(this.textId, lang);
+        let translated = Translator.getTranslation(this.textId);
 
         if (translated) {
             this.innerHTML = translated;

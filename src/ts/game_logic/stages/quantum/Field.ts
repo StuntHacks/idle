@@ -36,7 +36,7 @@ export class QuantumField {
     private index: number;
     private data: FieldModel;
     private fieldElement: QuantumFieldElement;
-    private fieldPosition: DOMRect;
+    private fieldPosition: DOMRect = new DOMRect();
 
     private clickDelay: number;
     private lastClick: number = 0;

@@ -57,7 +57,7 @@ export class UpgradeElement extends HTMLElement {
         this.levels = this.hasAttribute("levels") ? parseInt(this.getAttribute("levels")) : 0;
 
         const title = document.createElement("span");
-        title.innerText = Translator.getTranslation(upgrade.title, "en");
+        title.innerText = Translator.getTranslation(upgrade.title);
         this.detailsElement.appendChild(title);
 
         this.costElement = document.createElement("span");
@@ -92,7 +92,7 @@ export class UpgradeElement extends HTMLElement {
         const effect = document.createElement("span");
         effect.classList.add("effect");
         if (upgrade.effect) {
-            effect.innerText = Translator.getTranslation(upgrade.effect, "en");
+            effect.innerText = Translator.getTranslation(upgrade.effect);
         }
 
         if (upgrade.effect && upgrade.type !== "flag") {
@@ -100,7 +100,7 @@ export class UpgradeElement extends HTMLElement {
         }
 
         if (upgrade.type !== "flag") {
-            effect.innerText = Translator.getTranslation(StatHandler.get(upgrade.target).title, "en");
+            effect.innerText = Translator.getTranslation(StatHandler.get(upgrade.target).title);
 
             if (upgrade.type === "additive") {
                 effect.innerText += " +";
@@ -111,7 +111,7 @@ export class UpgradeElement extends HTMLElement {
             effect.innerText += upgrade.amount;
 
             if (upgrade.additive) {
-                effect.innerText += ` (${Translator.getTranslation("misc.additive", "en")})`;
+                effect.innerText += ` (${Translator.getTranslation("misc.additive")})`;
             }
         }
 

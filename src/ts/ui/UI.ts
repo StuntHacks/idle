@@ -4,6 +4,7 @@ import { QuantumUI } from "./stages/Quantum";
 import { Utils } from "utils/utils";
 import { TranslatedElement } from "./elements/TranslatedElement";
 import { StageTabElement, TAB_TRANSITION } from "./elements/StageTabElement";
+import { PopoverManager } from "./PopoverManager";
 
 export class UI {
     public static saveIndicator: HTMLElement;
@@ -48,6 +49,7 @@ export class UI {
 
         OfflineProgressUI.initialize();
         QuantumUI.initialize();
+        PopoverManager.initialize();
         this.initializeBottomBar();
     }
 
