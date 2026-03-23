@@ -249,8 +249,10 @@ export class Wave {
     }
 
     public ripple(x: number, strength: number = 120, speed: number = 8, decay: number = 0.05) {
+        const rect = this.canvas.getBoundingClientRect();
+        const localX = x - rect.left;
         this.ripples.push({
-            index: Math.floor((x / this.canvas.width) * this.config.pointCount),
+            index: Math.floor((localX / rect.width) * (this.config.pointCount - 1)),
             startTime: performance.now(),
             strength,
             speed,

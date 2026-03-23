@@ -79,7 +79,7 @@ export class QuantumField {
         return hash;
     }
 
-    public gainParticle(position: number, catchingUp: boolean = false) {
+    public gainParticle(position: number, catchingUp: boolean = false, click: boolean = false) {
         if (this.locked) return;
 
         const [particle, index] = this.getParticle();
@@ -103,7 +103,7 @@ export class QuantumField {
         }
 
         if (!catchingUp) {
-            Currencies.spawnGainElement(hash, amount, position, this.fieldPosition.y + (this.fieldPosition.height / 2) - 20);
+            Currencies.spawnGainElement(hash, amount, position - (click ? 11 : 0), this.fieldPosition.y + (this.fieldPosition.height / 2) - 20);
             this.fieldElement.ripple(position, index);
         }
     }
@@ -161,7 +161,7 @@ export class QuantumField {
             let now = performance.now();
             if ((now - this.lastClick) < this.clickDelay) return;
             this.lastClick = now;
-            this.gainParticle(position - 11);
+            this.gainParticle(position, false, true);
         });
 
         document.getElementById("quantum-fields-container").appendChild(this.fieldElement);

@@ -1,8 +1,6 @@
-import { PopoverManager } from "ui/PopoverManager";
 import { Currencies } from "./game_logic/currencies/Currencies";
 import { Game } from "./game_logic/Game";
 import { CustomElements } from "ui/CustomElements";
-import { ExportPopover } from "ui/popovers/ExportPopover";
 
 export const main = async () => {
     const game = new Game();
@@ -15,7 +13,7 @@ export const main = async () => {
         game.timeskip(3 * 3600);
     });
 
-    PopoverManager.add(new ExportPopover());
+    // PopoverManager.add(new ExportPopover());
 
     game.start();
     // document.addEventListener("contextmenu", (e) => e.preventDefault());
