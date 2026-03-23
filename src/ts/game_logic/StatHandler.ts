@@ -14,7 +14,7 @@ export class StatHandler {
     public static update(stat: string) {
         let upgrades = SaveHandler.getUpgrades();
         if (!upgrades) {
-            SaveHandler.initialize();
+            SaveHandler.reset();
             upgrades = SaveHandler.getUpgrades();
         }
         const filtered = upgrades.filter((u: Upgrade) => u.target === stat);

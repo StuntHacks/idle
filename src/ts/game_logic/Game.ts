@@ -25,20 +25,17 @@ export class Game {
     private catchingUp: boolean = false;
 
     constructor() {
-        if (!SaveHandler.loadData()) {
-            SaveHandler.initialize();
-        }
-        Settings.set(SaveHandler.getData().settings);
-
+        SaveHandler.initialize();
         StatHandler.initialize();
         Translator.initialize();
         UI.initialize();
 
         this.stages = [new QuantumStage()];
 
-        window.addEventListener("beforeunload", () => {
-            SaveHandler.saveData();
-        });
+        // todo: implement better close-handling (this can overwrite offline time with a fresh save on mobile)
+        // window.addEventListener("beforeunload", () => {
+        //     SaveHandler.saveData();
+        // });
     }
 
     public timeskip(seconds: number) {

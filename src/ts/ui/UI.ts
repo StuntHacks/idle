@@ -85,12 +85,12 @@ export class UI {
         });
 
         document.getElementById("reset-button").addEventListener("auxclick", () => {
-            SaveHandler.initialize(true);
+            SaveHandler.reset(true);
             location.reload();
         });
 
         document.getElementById("reset-button").addEventListener("click", () => {
-            SaveHandler.initialize();
+            SaveHandler.reset();
             location.reload();
         });
     }

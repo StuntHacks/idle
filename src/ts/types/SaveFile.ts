@@ -1,5 +1,4 @@
 import { SAVE_FILE_VERSION } from "SaveHandler/SaveHandler";
-import { Settings } from "./Settings";
 import Decimal from "break_eternity.js";
 
 export interface SaveFile {
@@ -11,7 +10,6 @@ export interface SaveFile {
         normal: SaveCurrency[];
         inferred: SaveCurrency[];
     };
-    settings: Settings;
     upgrades: Upgrade[];
     flags: Flags,
 }

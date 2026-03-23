@@ -6,21 +6,29 @@ import mock from "./mock.json"
 import _ from "lodash";
 import { Utils } from "utils/utils";
 import { defaultSave } from "./defaultSave";
+import { Settings } from "utils/Settings";
 
 export const SAVE_FILE_VERSION = 5;
-const SAVE_FILE_NAME = "idledynamics_saveFile"
+const SAVE_FILE_NAME = "idledynamics_saveFile";
 
 export class SaveHandler {
     private static save: SaveFile;
     private static lastSave: number = 0;
     private static flagCallbacks: { [key: string]: FlagCallback[] } = {};
 
+    public static initialize() {
+        Settings.initialize();
+        if (!SaveHandler.loadData()) {
+            SaveHandler.reset();
+        }
+    }
+
     public static loadData(): boolean {
         Logger.log("SaveHandler", "Loading save file...");
         let data = localStorage.getItem(SAVE_FILE_NAME);
         if (data === null) {
             Logger.log("SaveHandler", "No save data found!");
-            this.initialize();
+            this.reset();
             return true;
         }
 
@@ -28,7 +36,7 @@ export class SaveHandler {
         if (parsed.version === undefined || parsed.version < SAVE_FILE_VERSION) {
             // todo: implement proper migration
             Logger.log("SaveHandler", "Outdated save file, resetting...");
-            this.initialize();
+            this.reset();
         } else {
             this.save = parsed;
         }
@@ -120,7 +128,7 @@ export class SaveHandler {
         _.set(this.save.flags, flag, value);
     }
 
-    public static initialize(useMock: boolean = false): SaveFile {
+    public static reset(useMock: boolean = false): SaveFile {
         Logger.log("SaveHandler", "Initializing new save file...");
         const save = useMock ? mock as unknown as SaveFile : defaultSave;
         this.save = {
