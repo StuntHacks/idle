@@ -24,6 +24,7 @@ export class QuantumFluctuator {
     }
 
     public toggle(force: boolean = undefined) {
+        this.acc = 0;
         this.enabled = typeof force === "boolean" ? force : !this.enabled;
         this.element?.setEnabled(this.enabled);
         Settings.get().internal.quantum.fluctuators[this.index] = this.enabled;
