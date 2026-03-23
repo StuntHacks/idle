@@ -5,6 +5,7 @@ stage-tab {
     user-select: none;
     visibility: hidden;
     transition: opacity var(--timing-tab-transition), visibility 0s linear var(--timing-tab-transition);
+    overflow: hidden;
 
     .tab,
     .tab-background,
