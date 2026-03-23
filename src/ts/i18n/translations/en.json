@@ -17,7 +17,11 @@
       "quantum": {
         "forces": "1.00e6 total Quarks"
       }
-    }
+    },
+    "exportTitle": "Export save",
+    "importTitle": "Import save",
+    "copy": "Copy to clipboard",
+    "copied": "Copied!"
   },
   "about": {
     "handwritten": "Made with 100% yard-grown, artisanal code",

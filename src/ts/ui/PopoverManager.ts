@@ -1,11 +1,17 @@
 import { PopoverElement } from "./elements/PopoverElement";
+import { ExportPopover } from "./popovers/ExportPopover";
 
 export class PopoverManager {
     private static container: HTMLElement;
     private static queue: PopoverElement[] = [];
 
-    public static initialize() {
+    private static initPopovers() {
         customElements.define("pop-over", PopoverElement);
+        customElements.define("export-pop-over", ExportPopover);
+    }
+
+    public static initialize() {
+        this.initPopovers();
         this.container = document.getElementById("popover-container");
     }
 

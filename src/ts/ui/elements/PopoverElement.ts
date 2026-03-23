@@ -3,14 +3,14 @@ import { PopoverManager } from "ui/PopoverManager";
 
 export interface PopoverButton {
     label: string;
-    callback?: () => void;
+    callback?: () => boolean | void;
     type?: "primary" | "secondary";
 };
 
 export class PopoverElement extends HTMLElement {
     private container: HTMLElement;
     private callback: () => void;
-    private buttons: PopoverButton[] = [];
+    protected buttons: PopoverButton[] = [];
     private popoverTitle: string;
     private content: string;
     private noDismiss: boolean;
@@ -26,18 +26,31 @@ export class PopoverElement extends HTMLElement {
 
     public dismiss = () => {
         this.container.removeEventListener("click", this.handleOverlayClick);
+        document.removeEventListener("keydown", this.handleEscapePress);
         this.callback();
-        this.remove();
         PopoverManager.next();
+        this.classList.add("dismissed");
+        setTimeout(() => this.remove(), PopoverManager.isActive() ? 0 : 150);
     }
 
     private handleOverlayClick = () => {
         this.dismiss();
     }
 
+    private handleEscapePress = (e: KeyboardEvent) => {
+        console.log(e);
+        if (e.key === "Escape") {
+            this.dismiss();
+            e.stopPropagation();
+        }
+    }
+
     connectedCallback() {
         this.container = document.getElementById("popover-container");
-        if (!this.noDismiss) this.container.addEventListener("click", this.handleOverlayClick);
+        if (!this.noDismiss) {
+            this.container.addEventListener("click", this.handleOverlayClick);
+            document.addEventListener("keydown", this.handleEscapePress);
+        }
         this.addEventListener("click", (e: MouseEvent) => e.stopPropagation());
 
         const title = document.createElement("h1");
@@ -45,6 +58,7 @@ export class PopoverElement extends HTMLElement {
         this.appendChild(title);
 
         const content = document.createElement("div");
+        content.classList.add("content");
         content.innerHTML = this.content;
         this.appendChild(content);
 
@@ -56,10 +70,11 @@ export class PopoverElement extends HTMLElement {
             const b = document.createElement("button");
             b.textContent = Translator.getTranslation(button.label);
             b.addEventListener("click", () => {
-                button.callback?.();
-                this.dismiss();
+                if (button.callback?.() !== false) {
+                    this.dismiss();
+                }
             });
-            b.classList.add(button.type ?? "primary");
+            b.classList.add(button.type ?? "secondary");
             buttonContainer.appendChild(b);
         }
     }

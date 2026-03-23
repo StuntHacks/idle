@@ -77,12 +77,16 @@ export class SaveHandler {
         }
     }
 
-    public static saveData(fresh: boolean = false): void {
-        let data = SaveHandler.encode(JSON.stringify({
+    public static getEncoded(): string {
+        return SaveHandler.encode(JSON.stringify({
             ...SaveHandler.save,
             timestamp: Date.now(),
             gameVersion: Utils.getVersionString(),
         } as SaveFile));
+    }
+
+    public static saveData(fresh: boolean = false): void {
+        let data = this.getEncoded();
 
         if (!fresh) {
             SaveHandler.saveCurrencies();
