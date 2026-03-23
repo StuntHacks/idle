@@ -15,7 +15,7 @@ export const main = async () => {
         game.timeskip(3 * 3600);
     });
 
-    // PopoverManager.add(new ExportPopover());
+    PopoverManager.add(new ExportPopover());
 
     game.start();
     // document.addEventListener("contextmenu", (e) => e.preventDefault());
