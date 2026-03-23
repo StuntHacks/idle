@@ -45,6 +45,7 @@ export class PopoverElement extends HTMLElement {
     }
 
     connectedCallback() {
+        this.classList.add("hidden");
         this.container = document.getElementById("popover-container");
         if (!this.noDismiss) {
             this.container.addEventListener("click", this.handleOverlayClick);
@@ -76,5 +77,7 @@ export class PopoverElement extends HTMLElement {
             b.classList.add(button.type ?? "secondary", "button");
             buttonContainer.appendChild(b);
         }
+
+        setTimeout(() => this.classList.remove("hidden"), 100)
     }
 }
