@@ -161,7 +161,7 @@ export class QuantumField {
             let now = performance.now();
             if ((now - this.lastClick) < this.clickDelay) return;
             this.lastClick = now;
-            this.gainParticle(position);
+            this.gainParticle(position - 11);
         });
 
         document.getElementById("quantum-fields-container").appendChild(this.fieldElement);
