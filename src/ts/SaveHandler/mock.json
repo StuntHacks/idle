@@ -3,7 +3,7 @@
         "normal": [
             {
                 "hash": "leptons-electron",
-                "amount": "1512",
+                "amount": "1554",
                 "className": "particle lepton electron"
             },
             {
@@ -185,7 +185,7 @@
         "inferred": [
             {
                 "hash": "energy",
-                "amount": "983896291.7642329"
+                "amount": "116783338.86178161"
             }
         ]
     },
@@ -321,10 +321,14 @@
     ],
     "flags": {
         "tutorial": {},
-        "quantum": {}
+        "quantum": {
+            "fluctuators": {
+                "f0": true
+            }
+        }
     },
-    "startTime": 1774153749847,
+    "startTime": 1774224539775,
     "version": 5,
-    "timestamp": 1774153782590,
-    "gameVersion": "0.0.12"
+    "timestamp": 1774221551827,
+    "gameVersion": "0.0.13"
 }

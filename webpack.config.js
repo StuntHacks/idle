@@ -12,13 +12,19 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
-    modules: [path.join(__dirname, "./src/ts"), path.join(__dirname, "./node_modules")],
+    modules: [
+      path.join(__dirname, "./src/ts"),
+      path.join(__dirname, "./node_modules"),
+    ],
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         loader: "ts-loader",
+        options: {
+          experimentalWatchApi: true,
+        },
       },
     ],
   },
