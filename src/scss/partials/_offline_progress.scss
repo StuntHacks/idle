@@ -67,8 +67,6 @@
     button {
         animation: fadeIn 500ms ease forwards;
         border: none;
-        padding: 0.85rem 2.5rem;
-        border-radius: 20px;
         background-color: #292929;
         font-size: 1.3rem;
         font-weight: lighter;
@@ -78,6 +76,7 @@
         transition: color 300ms, opacity 250ms, background-color 150ms;
         position: relative;
         overflow: hidden;
+        flex-grow: 0;
 
         translated-string {
             z-index: 2;
