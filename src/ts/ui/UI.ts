@@ -3,8 +3,9 @@ import { OfflineProgressUI } from "./OfflineProgress";
 import { QuantumUI } from "./stages/Quantum";
 import { Utils } from "utils/utils";
 import { TranslatedElement } from "./elements/TranslatedElement";
-import { StageTabElement, TAB_TRANSITION } from "./elements/StageTabElement";
+import { StageTabElement } from "./elements/StageTabElement";
 import { PopoverManager } from "./PopoverManager";
+import { SettingsUI } from "./Settings";
 
 export class UI {
     public static saveIndicator: HTMLElement;
@@ -49,6 +50,7 @@ export class UI {
 
         OfflineProgressUI.initialize();
         QuantumUI.initialize();
+        SettingsUI.initialize();
         PopoverManager.initialize();
         this.initializeBottomBar();
     }
@@ -110,8 +112,8 @@ export class UI {
         const target = typeof tab === "string" ? document.getElementById(`tab-${tab}`) as StageTabElement : tab;
         if (target?.classList.contains("active")) return;
         const active = document.querySelector("stage-tab.active") as StageTabElement;
-        const wait = active?.close();
-        setTimeout(() => target.open(), wait ? TAB_TRANSITION : 0);
+        active?.close();
+        target.open();
     }
 
     public static openSubTab(tab: string | HTMLElement) {
