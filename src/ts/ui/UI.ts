@@ -48,7 +48,6 @@ export class UI {
 
         OfflineProgressUI.initialize();
         QuantumUI.initialize();
-        this.initializeStageTabs();
         this.initializeBottomBar();
     }
 
@@ -96,23 +95,6 @@ export class UI {
         });
     }
 
-    private static initializeStageTabs() {
-        const navTabs = document.querySelectorAll(`.main-nav .nav-entry`);
-        navTabs.forEach((tab: HTMLElement) => {
-            tab.addEventListener("click", (e) => {
-                const tab = (e.target as HTMLElement).closest(".nav-entry") as HTMLElement;
-                if (tab.classList.contains("disabled")) return;
-                if (tab.classList.contains("locked")) {
-                    tab.classList.remove("flash");
-                    void tab.offsetWidth;
-                    tab.classList.add("flash");
-                    return;
-                }
-                UI.switchStageTab(tab.dataset.stage);
-            });
-        });
-    }
-
     public static getActiveStage(): string {
         const activeTab = document.querySelector("stage-tab.active");
         if (activeTab) {
@@ -124,6 +106,7 @@ export class UI {
 
     public static switchStageTab(tab: string | StageTabElement) {
         const target = typeof tab === "string" ? document.getElementById(`tab-${tab}`) as StageTabElement : tab;
+        if (target?.classList.contains("active")) return;
         const active = document.querySelector("stage-tab.active") as StageTabElement;
         const wait = active?.close();
         setTimeout(() => target.open(), wait ? TAB_TRANSITION : 0);

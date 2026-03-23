@@ -6,7 +6,7 @@ export const main = async () => {
     const game = new Game();
 
     // initialize
-    Currencies.initialize("resource-gain-container");
+    Currencies.initialize("quantum-resource-gain-container"); // todo: fix selector
     CustomElements.initialize();
 
     document.getElementById("magic-button").addEventListener("click", () => {

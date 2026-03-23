@@ -39,8 +39,19 @@ export class StageTabElement extends HTMLElement {
     connectedCallback() {
         const name = this.id.split("-")[1];
         this.navElement = document.querySelector(`.main-nav .nav-entry[data-stage="${name}"]`);
+
+        this.navElement?.addEventListener("click", () => {
+            if (this.navElement.classList.contains("disabled")) return;
+            if (this.navElement.classList.contains("locked")) {
+                this.navElement.classList.remove("flash");
+                void this.navElement.offsetWidth;
+                this.navElement.classList.add("flash");
+                return;
+            }
+            UI.switchStageTab(this.navElement.dataset.stage);
+        });
+
         this.bgElement = this.parentElement.querySelector(`.stage-background.${name}`);
-        this.navElement?.addEventListener("click", () => UI.switchStageTab(this))
         this.subTabs = this.querySelector("nav.sub-tabs");
 
         if (!this.subTabs) return;
