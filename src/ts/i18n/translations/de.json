@@ -205,23 +205,23 @@
         }
       },
       "energy": {
-        "description": "Energy wird von Elektronen erzeugt",
+        "description": "Energie wird von Elektronen erzeugt",
         "fluctuators": {
           "title": "Fluktuatoren",
           "information": "You can continuously spend some of your energy in order to trigger periodic excitations in your quantum fields",
           "speed": "Intervall: ",
           "disable": "Umschalten",
           "upgrade": "Intervall verbessern",
-          "interval": "Interval between excitations",
-          "intervalCap": "(caps at $0)"
+          "interval": "Intervall zwischen Fluktuationen",
+          "intervalCap": "(gedeckelt bei $0)"
         },
         "energyUpgrades": {
-          "title": "Energie Upgrades",
+          "title": "Energie-Upgrades",
           "upgrades": {}
         },
         "conversion": {
           "title": "Quark-Umwandlung",
-          "information": "Here you can convert combinations of excess particles into small, exponentially scaling boosts",
+          "information": "Hier kannst du Kombinationen von Quarks in kleine, exponentiell skalierende Boni umwandeln",
           "perConversion": "Umwandlung",
           "upgrades": {}
         }
@@ -257,7 +257,7 @@
           "effect": "Schaltet den ersten Fluktuator frei"
         },
         "strongerFields": {
-          "title": "Stronger Fields"
+          "title": "Stärkere Felder",
         },
         "moreElectrons": {
           "title": "Mehr Elektronen"
