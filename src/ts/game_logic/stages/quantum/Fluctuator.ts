@@ -1,7 +1,7 @@
 import { useSaveHandler } from "SaveHandler/SaveHandler";
 import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
 import { QuantumField } from "./Field";
-import { useSettings } from "utils/Settings";
+import { useSettings } from "utils/SettingsHandler";
 
 export class QuantumFluctuator {
     private baseInterval: number = 1000;

@@ -1,4 +1,4 @@
-import { useSettings } from "utils/Settings";
+import { useSettings } from "utils/SettingsHandler";
 import en from "./translations/en.json";
 import de from "./translations/de.json";
 import _ from "lodash";

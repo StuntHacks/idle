@@ -5,7 +5,7 @@ import { Utils } from "utils/utils";
 import { Logger } from "utils/Logger";
 import { Translator } from "i18n/i18n";
 import { UI } from "ui/UI";
-import { useSettings } from "utils/Settings";
+import { useSettings } from "utils/SettingsHandler";
 import { initSaveHandler, useSave, useSaveHandler } from "SaveHandler/SaveHandler";
 
 export interface OfflineResults { [key: string]: unknown }; // placeholder

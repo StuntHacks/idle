@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useSettings } from "./Settings";
+import { useSettings } from "./SettingsHandler";
 
 export class Logger {
     private static getLabel(context: string): string {

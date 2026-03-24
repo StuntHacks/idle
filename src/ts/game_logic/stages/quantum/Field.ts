@@ -2,7 +2,7 @@ import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { ParticleModel, ParticleType, QuantumStage } from "./Quantum";
 import { Currencies } from "game_logic/currencies/Currencies";
 import { StatHandler } from "game_logic/StatHandler";
-import { useSettings } from "utils/Settings";
+import { useSettings } from "utils/SettingsHandler";
 import { useSaveHandler } from "SaveHandler/SaveHandler";
 
 interface FieldColor {

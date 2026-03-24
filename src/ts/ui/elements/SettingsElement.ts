@@ -1,7 +1,7 @@
 import { Translator } from "i18n/i18n";
 import { Setting, Settings as SettingsType } from "types/Settings";
 import { TranslatedElement } from "./TranslatedElement";
-import { useSettings, useSettingsObject } from "utils/Settings";
+import { useSettings, useSettingsHandler } from "utils/SettingsHandler";
 
 type ST = Omit<SettingsType, "internal">;
 
@@ -42,7 +42,7 @@ export class SettingsElement extends HTMLElement {
                 input.type = "checkbox";
                 input.checked = setting.value;
                 input.addEventListener("change", () => {
-                    useSettingsObject().setSpecific(this.category, settingKey, input.checked);
+                    useSettingsHandler().setSpecific(this.category, settingKey, input.checked);
                     if (setting.action) this.handleAction(setting.action);
                 });
                 label.appendChild(input);
@@ -60,7 +60,7 @@ export class SettingsElement extends HTMLElement {
                 }
 
                 select.addEventListener("change", () => {
-                    useSettingsObject().setSpecific(this.category, settingKey, select.value);
+                    useSettingsHandler().setSpecific(this.category, settingKey, select.value);
                     if (setting.action) this.handleAction(setting.action);
                 });
                 label.appendChild(select);

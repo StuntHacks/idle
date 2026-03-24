@@ -3,7 +3,7 @@ import { defaultSettings } from './defaultSettings';
 
 const SETTINGS_NAME = "idledynamics_settings";
 
-class Settings {
+class SettingsHandler {
     private settings: SettingsType;
 
     constructor() {
@@ -26,7 +26,7 @@ class Settings {
             return result;
         }
 
-        this.settings = deepMerge(Settings.default(), JSON.parse(data));
+        this.settings = deepMerge(SettingsHandler.default(), JSON.parse(data));
     }
 
     public static default(): SettingsType {
@@ -41,7 +41,7 @@ class Settings {
         if (this.settings) {
             this.settings = {...this.settings, ...settings};
         } else {
-            this.settings = { ...Settings.default(), ...settings };
+            this.settings = { ...SettingsHandler.default(), ...settings };
         }
 
         this.save();
@@ -62,21 +62,21 @@ class Settings {
     }
 
     public reset(): void {
-        this.settings = Settings.default();
+        this.settings = SettingsHandler.default();
         this.save();
     }
 }
 
-let _instance: Settings;
+let _instance: SettingsHandler;
 export const useSettings = (): SettingsType => {
     if (!_instance) throw new Error("Call initSettings() first");
     return _instance.get();
 };
-export const useSettingsObject = (): Settings => {
+export const useSettingsHandler = (): SettingsHandler => {
     if (!_instance) throw new Error("Call initSettings() first");
     return _instance;
 };
-export const initSettings = (): Settings => {
-    _instance = new Settings();
+export const initSettings = (): SettingsHandler => {
+    _instance = new SettingsHandler();
     return _instance;
 };

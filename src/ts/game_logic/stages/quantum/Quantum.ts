@@ -6,7 +6,7 @@ import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
 import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { QuantumField } from "./Field";
 import { FIELD_DATA } from "./field_data";
-import { useSettings } from "utils/Settings";
+import { useSettings } from "utils/SettingsHandler";
 import { useSaveHandler } from "SaveHandler/SaveHandler";
 
 export class QuantumStage implements Stage {

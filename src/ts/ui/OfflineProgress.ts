@@ -1,7 +1,7 @@
 import { OfflineResults } from "game_logic/Game";
 import { TranslatedElement } from "./elements/TranslatedElement";
 import { UI } from "./UI";
-import { useSettings } from "utils/Settings";
+import { useSettings } from "utils/SettingsHandler";
 
 export class OfflineProgressUI {
     static initUI() {
