@@ -66,7 +66,7 @@
         "description": "Changes the color of header & footer to be the same as the theme background color"
       },
       "stillFields": {
-        "name": "Stille Quantenfelder",
+        "name": "Ruhige Quantenfelder",
         "description": "Verhindert, dass die Quantenfelder visuell fluktuiieren, außer wenn sie manuell angeklickt werden, um visuellen Lärm zu reduzieren"
       }
     },
