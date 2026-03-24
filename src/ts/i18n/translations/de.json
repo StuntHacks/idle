@@ -14,7 +14,7 @@
     "letMeIn": "Lass' mich rein",
     "unlocks": {
       "quantum": {
-        "forces": "1.00e6 gesamte Quarks"
+        "forces": "1.00e6 gesamten Quarks"
       }
     },
     "ok": "Ok",
@@ -47,7 +47,7 @@
       }
     },
     "gameplay": {
-      "title": "Spiel-Einstellungen",
+      "title": "Spiel Einstellungen",
       "tab": "Spiel",
       "noOfflineTime": {
         "name": "Offline-Zeit deaktivieren",
