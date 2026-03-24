@@ -33,8 +33,8 @@
       "title": "Allgemeine Einstellungen",
       "tab": "Allgemein",
       "noTabHistory": {
-        "name": "Disable tab history",
-        "description": "Doesn't save changing between tabs in the browser history, so the back button leaves this page instead"
+        "name": "Tab-Verlauf deaktivieren",
+        "description": "Speichert das Wechseln zwischen Tabs nicht im Browser-Verlauf, damit der Zurück-Button diese Seite stattdessen verlässt"
       },
       "language": {
         "name": "Language",
@@ -42,38 +42,38 @@
       }
     },
     "gameplay": {
-      "title": "Gameplay settings",
-      "tab": "Gameplay",
+      "title": "Spiel-Einstellungen",
+      "tab": "Spiel",
       "noOfflineTime": {
-        "name": "Disable offline time",
+        "name": "Offline-Zeit deaktivieren",
         "description": ""
       },
       "autoAcceptOfflineTime": {
-        "name": "Auto-accept offline time",
+        "name": "Offline-Zeit automatisch akzeptieren",
         "description": ""
       }
     },
     "display": {
-      "title": "Display settings",
-      "tab": "Display",
+      "title": "Anzeigeeinstellungen",
+      "tab": "Anzeige",
       "darkNavigation": {
-        "name": "Dark header & footer",
+        "name": "Dunkler Header & Footer",
         "description": "Changes the color of header & footer to be the same as the theme background color"
       },
       "stillFields": {
-        "name": "Still Quantum Fields",
-        "description": "Prevents the quantum fields from fluctuating visually unless clicked manually. You will still gain the resources"
+        "name": "Stille Quantenfelder",
+        "description": "Verhindert, dass die Quantenfelder visuell fluktuiieren, außer wenn sie manuell angeklickt werden, um visuellen Lärm zu reduzieren"
       }
     },
     "debug": {
-      "title": "Debug settings",
+      "title": "Debug Einstellungen",
       "tab": "Debug",
       "logging": {
-        "name": "Enable logging",
+        "name": "Logging aktivieren",
         "description": ""
       },
       "verbose": {
-        "name": "Verbose logging",
+        "name": "Ausführliches Logging",
         "description": ""
       }
     }
@@ -81,7 +81,7 @@
   "ui": {
     "header": {},
     "footer": {
-      "fermions": "Fermions",
+      "fermions": "Fermionen",
       "generations": {
         "first": "Generation I",
         "second": "Generation II",
@@ -115,141 +115,154 @@
       },
       "leptons": {
         "electron": {
-          "name": "Electrons",
+          "name": "Elektronen",
           "flavorText": ""
         },
         "muon": {
-          "name": "Muons",
+          "name": "Myonen",
           "flavorText": ""
         },
         "tau": {
-          "name": "Taus",
+          "name": "Tauonen",
           "flavorText": ""
         }
       },
       "bosons": {
-        "name": "Bosons",
+        "name": "Bosonen",
         "higgs": {
-          "name": "Higgs Bosons",
+          "name": "Higgs-Bosonen",
           "flavorText": ""
         },
         "gluon": {
-          "name": "Gluons",
+          "name": "Gluonen",
           "flavorText": ""
         },
         "photon": {
-          "name": "Photons",
+          "name": "Photonen",
           "flavorText": ""
         },
         "w_plus": {
-          "name": "W⁺ Bosons",
+          "name": "W⁺-Bosonen",
           "flavorText": ""
         },
         "w_minus": {
-          "name": "W⁻ Bosons",
+          "name": "W⁻-Bosonen",
           "flavorText": ""
         },
         "z": {
-          "name": "Z⁰ Bosons",
+          "name": "Z⁰-Bosonen",
           "flavorText": ""
         }
       },
       "bottomBar": {
-        "save": "Save",
-        "saved": "Saved",
-        "load": "Load",
-        "settings": "Settings",
-        "runTime": "Run time: "
+        "save": "Speichern",
+        "saved": "Gespeichert",
+        "load": "Laden",
+        "settings": "Einstellungen",
+        "runTime": "Aktuelle Laufzeit: "
       }
     }
   },
   "stages": {
     "quantum": {
+      "name": "Quantenfelder",
       "tabs": {
-        "energy": "Energy",
-        "fields": "Fields",
-        "forces": "Forces",
-        "hadrons": "Hadrons",
-        "mass": "Mass"
+        "energy": "Energie",
+        "fields": "Felder",
+        "forces": "Kräfte",
+        "hadrons": "Hadronen",
+        "mass": "Masse"
       },
       "fields": {
         "electron": {
-          "name": "Electron Field",
-          "description": "The electron field produces electrons, which are converted into energy and thus can be used to energize the other fields"
+          "name": "Elektronen-Feld",
+          "description": "Das Elektronen-Feld produziert Elektronen, welche in Energie umgewandelt werden und somit verwendet werden können, um die anderen Felder zu energetisieren"
         },
         "quark": {
-          "name": "Quark Field",
-          "description": "The quark field produces quarks of a random flavor, and one of three colors depending on which of the three fields got excited"
+          "name": "Quark-Feld",
+          "description": "Das Quark-Feld produziert Quarks einer zufälligen Sorte und in einer von drei Farben, abhängig davon, welches der drei Felder angeregt wurde"
         },
         "gluon": {
-          "name": "Gluon Field",
-          "description": "The gluon field produces gluons, which are needed in order to confine quarks into hadrons"
+          "name": "Gluon-Feld",
+          "description": "Das Gluon-Feld produziert Gluonen, welche benötigt werden, um Quarks in Hadronen zu verbinden"
         },
         "neutrino": {
-          "name": "Neutrino Field",
+          "name": "Neutrino-Feld",
           "description": ""
         },
         "electroweak": {
-          "name": "Electroweak Field",
+          "name": "Elektroschwaches Feld",
           "description": ""
         },
         "higgs": {
-          "name": "Higgs Field",
+          "name": "Higgs-Feld",
           "description": ""
         }
       },
       "energy": {
-        "description": "Energy is generated by electrons",
+        "description": "Energy wird von Elektronen erzeugt",
         "fluctuators": {
-          "title": "Fluctuators",
+          "title": "Fluktuatoren",
           "information": "You can continuously spend some of your energy in order to trigger periodic excitations in your quantum fields",
-          "speed": "Interval: ",
-          "disable": "Toggle",
-          "upgrade": "Upgrade interval"
+          "speed": "Intervall: ",
+          "disable": "Umschalten",
+          "upgrade": "Intervall verbessern"
         },
         "energyUpgrades": {
-          "title": "Energy Upgrades",
+          "title": "Energie Upgrades",
           "upgrades": {}
         },
         "conversion": {
-          "title": "Particle Conversion",
+          "title": "Quark-Umwandlung",
           "information": "Here you can convert combinations of excess particles into small, exponentially scaling boosts",
-          "perConversion": " / conversion",
+          "perConversion": "Umwandlung",
           "upgrades": {}
         }
       }
+    },
+    "stellar": {
+      "name": "Stellarer Hort"
+    },
+    "genetic": {
+      "name": "Genetischer Pool"
+    },
+    "cosmic": {
+      "name": "Kosmische Ebene"
+    },
+    "spacetime": {
+      "name": "Zeitlose Weite"
     }
   },
   "stats": {
     "quantum": {
-      "electronGain": "Electron Gain",
-      "quarkGain": "Quark Gain",
-      "gluonGain": "Gluon Gain",
-      "fieldGain": "All Field Gain",
-      "energyGain": "Energy Gain"
+      "electronGain": "Elektronen-Gewinn",
+      "quarkGain": "Quark-Gewinn",
+      "gluonGain": "Gluon-Gewinn",
+      "fieldGain": "Feld-Gewinn",
+      "energyGain": "Energie-Gewinn"
     }
   },
   "upgrades": {
     "quantum": {
       "energy": {
         "quantumFluctuations": {
-          "title": "Quantum Fluctuations",
-          "effect": "Unlocks the first fluctuator"
+          "title": "Quantenfluktuationen",
+          "effect": "Schaltet den ersten Fluktuator frei"
         },
         "strongerFields": {
-          "title": "Stronger Fields"
-        },
+            "title": "Stronger Fields"
+          },
         "moreElectrons": {
-          "title": "More Electrons"
+          "title": "Mehr Elektronen"
         },
         "moreQuarks": {
-          "title": "More Quarks"
+          "title": "Mehr Quarks"
         },
         "higherCharge": {
           "title": "Higher Charge"
         },
         "fluctuatorSpeed": {
-          "title": "Fluctuator Speed"
+          "title": "Fluctuations-Intervall"
         }
       }
     }
