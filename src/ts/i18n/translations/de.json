@@ -37,7 +37,7 @@
         "description": "Speichert das Wechseln zwischen Tabs nicht im Browser-Verlauf, damit der Zurück-Button diese Seite stattdessen verlässt"
       },
       "language": {
-        "name": "Language",
+        "name": "Sprache",
         "description": ""
       }
     },

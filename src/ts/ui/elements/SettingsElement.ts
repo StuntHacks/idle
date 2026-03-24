@@ -12,8 +12,8 @@ export class SettingsElement extends HTMLElement {
         super();
     }
 
-    connectedCallback() {
-        this.category = (this.getAttribute("for")) as keyof ST;
+    public rebuild() {
+        this.innerHTML = "";
         const category = Settings.get()[this.category];
         const settings = category.settings as Record<string, Setting<unknown>>;
         const title = document.createElement("h1");
@@ -68,15 +68,18 @@ export class SettingsElement extends HTMLElement {
         }
     }
 
+    connectedCallback() {
+        this.category = (this.getAttribute("for")) as keyof ST;
+        this.rebuild();
+    }
+
     private handleAction(action: string) {
         switch (action) {
             case "updateLanguage":
                 // todo: update other elements that dont directly use translated-strings
                 // currently in: SettingsElement, ...
-                const elements = Array.from(document.querySelectorAll("translated-string")) as TranslatedElement[];
-                for (const element of elements) {
-                    element.refresh();
-                }
+                document.querySelectorAll("translated-string").forEach((el: TranslatedElement) => el.refresh());
+                document.querySelectorAll("settings-block").forEach((el: SettingsElement) => el.rebuild());
                 break;
         }
     }
