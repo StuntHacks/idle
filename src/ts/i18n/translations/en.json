@@ -227,7 +227,16 @@
       }
     },
     "stellar": {
-      "name": "Stellar Birthplace"
+      "name": "Stellar Nursery"
+    },
+    "genetic": {
+      "name": "Genetic Pool"
+    },
+    "cosmic": {
+      "name": "Cosmic Plane"
+    },
+    "spacetime": {
+      "name": "Timeless Expanse"
     }
   },
   "stats": {
