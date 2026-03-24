@@ -24,7 +24,7 @@ export class QuantumStage implements Stage {
         this.fields = [];
         this.fluctuators = [];
         for (let i = 0; i < 6; i++) {
-            const key = Settings.get().internal.quantum.fields[i].selected;
+            const key = Settings.get().internal.settings.quantum.fields[i].selected;
             let field = FIELD_DATA[key];
 
             // todo: figure out a better location for this

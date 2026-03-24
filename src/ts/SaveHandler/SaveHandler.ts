@@ -8,7 +8,7 @@ import { Utils } from "utils/utils";
 import { defaultSave } from "./defaultSave";
 import { Settings } from "utils/Settings";
 
-export const SAVE_FILE_VERSION = 5;
+export const SAVE_FILE_VERSION = 6;
 const SAVE_FILE_NAME = "idledynamics_saveFile";
 
 export class SaveHandler {

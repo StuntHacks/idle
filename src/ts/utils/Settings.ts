@@ -1,4 +1,4 @@
-import type { Settings as SettingsType } from 'types/Settings';
+import type { Setting, Settings as SettingsType } from 'types/Settings';
 import { defaultSettings } from './defaultSettings';
 import { Logger } from './Logger';
 
@@ -9,13 +9,28 @@ export class Settings {
 
     public static initialize() {
         Logger.log("Settings", "Loading settings...");
-        let data = localStorage.getItem(SETTINGS_NAME);
+        const data = localStorage.getItem(SETTINGS_NAME);
         if (data === null) {
             Logger.log("Settings", "No settings found - resetting!");
             this.reset();
+            return; // <-- stop here
         }
 
-        this.set(JSON.parse(data));
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const deepMerge = (base: any, override: any): SettingsType => {
+            const result = { ...base };
+            for (const key in override) {
+                if (override[key] && typeof override[key] === "object" && !Array.isArray(override[key])) {
+                    result[key] = deepMerge(base[key] ?? {}, override[key]);
+                } else {
+                    result[key] = override[key];
+                }
+            }
+            return result;
+        }
+
+        this.settings = deepMerge(this.default(), JSON.parse(data));
+        // no save() here, nothing changed
     }
 
     public static default(): SettingsType {
@@ -36,7 +51,17 @@ export class Settings {
         this.save();
     }
 
-    private static save() {
+    // trust me bro we'll add types to javascript bro it'll be so much better bro
+    public static setSpecific<
+        C extends keyof SettingsType,
+        K extends keyof SettingsType[C]["settings"],
+        V extends SettingsType[C]["settings"][K] extends Setting<infer U> ? U : never,
+    >(cat: C, key: K, value: V): void {
+        (this.get()[cat].settings as Record<K, Setting<V>>)[key].value = value;
+        this.save();
+    };
+
+    public static save() {
         localStorage.setItem(SETTINGS_NAME, JSON.stringify(this.settings));
     }
 

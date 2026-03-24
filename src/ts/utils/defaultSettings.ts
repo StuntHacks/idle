@@ -8,7 +8,18 @@ export const defaultSettings: Settings = {
                 value: "en",
                 default: "en",
                 name: "settings.general.language.name",
-                description: ""
+                description: "",
+                action: "updateLanguage",
+                options: [
+                    {
+                        name: "English",
+                        value: "en",
+                    },
+                    {
+                        name: "Deutsch",
+                        value: "de",
+                    }
+                ]
             },
             noTabHistory: {
                 value: false,
@@ -72,16 +83,19 @@ export const defaultSettings: Settings = {
         }
     },
     internal: {
-        quantum: {
-            fluctuators: [true, true, true, true, true, true],
-            fields: [
-                { selected: "lepton" },
-                { selected: "quark" },
-                { selected: "gluon" },
-                { selected: "higgs" },
-                { selected: "electroweak" },
-                { selected: "neutrino" },
-            ]
+        title: "Internal settings",
+        settings: {
+            quantum: {
+                fluctuators: [true, true, true, true, true, true],
+                fields: [
+                    { selected: "lepton" },
+                    { selected: "quark" },
+                    { selected: "gluon" },
+                    { selected: "higgs" },
+                    { selected: "electroweak" },
+                    { selected: "neutrino" },
+                ]
+            }
         }
     }
 }

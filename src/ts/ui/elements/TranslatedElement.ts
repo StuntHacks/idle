@@ -13,7 +13,6 @@ export class TranslatedElement extends HTMLElement {
         let translated = Translator.getTranslation(this.textId);
 
         if (translated) {
-            console.log(translated)
             this.innerHTML = translated;
         }
     }

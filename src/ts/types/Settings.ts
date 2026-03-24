@@ -29,13 +29,16 @@ export interface Settings {
         };
     };
     internal: {
-        quantum: {
-            fluctuators: [
-                boolean, boolean, boolean, boolean, boolean, boolean
-            ],
-            fields: [
-                QField, QField, QField, QField, QField, QField
-            ]
+        title: string;
+        settings: {
+            quantum: {
+                fluctuators: [
+                    boolean, boolean, boolean, boolean, boolean, boolean
+                ],
+                fields: [
+                    QField, QField, QField, QField, QField, QField
+                ]
+            }
         }
     };
 }
@@ -52,4 +55,9 @@ export interface Setting<T> {
     default: T;
     name: string;
     description?: string;
+    options?: {
+        name: string;
+        value: T;
+    }[];
+    action?: string;
 }

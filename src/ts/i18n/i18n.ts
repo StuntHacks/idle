@@ -1,5 +1,6 @@
 import { Settings } from "utils/Settings";
 import en from "./translations/en.json";
+import de from "./translations/de.json";
 import _ from "lodash";
 
 export class Translator {
@@ -19,6 +20,7 @@ export class Translator {
     public static initialize() {
         this.translations = {
             "en": en,
+            "de": de,
         };
     }
 }
