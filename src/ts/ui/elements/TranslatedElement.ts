@@ -5,7 +5,7 @@ export class TranslatedElement extends HTMLElement {
 
     constructor(textId?: string) {
         super();
-        this.refresh(textId);
+        this.textId = textId;
     }
 
     public refresh(textId?: string) {
@@ -13,11 +13,12 @@ export class TranslatedElement extends HTMLElement {
         let translated = Translator.getTranslation(this.textId);
 
         if (translated) {
+            console.log(translated)
             this.innerHTML = translated;
         }
     }
 
     connectedCallback() {
-        this.refresh();
+        this.refresh(this.textId);
     }
 }
