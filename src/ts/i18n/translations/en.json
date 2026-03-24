@@ -170,6 +170,7 @@
   },
   "stages": {
     "quantum": {
+      "name": "Quantum Fields",
       "tabs": {
         "energy": "Energy",
         "fields": "Fields",
@@ -224,6 +225,9 @@
           "upgrades": {}
         }
       }
+    },
+    "stellar": {
+      "name": "Stellar Birthplace"
     }
   },
   "stats": {
