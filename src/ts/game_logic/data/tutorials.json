@@ -54,5 +54,11 @@
         "trigger": "buyEnergyUpgrades",
         "closeOn": "quantum-tab-energy",
         "target": "quantum-tab-energy"
+    },
+    {
+        "id": "quarkConversion",
+        "title": "Quark Conversion",
+        "description": "As you don't have access gluons yet, we can't confine Quarks into more complex particles just yet. Nontheless you can already start harnessing their combined energy and funnel it into ever-increasing boosts to your quantum system.",
+        "trigger": "quarkConversion",
     }
 ]
