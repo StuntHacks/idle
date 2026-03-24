@@ -5,7 +5,8 @@
     "lint:fix": "eslint src/**/*.ts --fix",
     "dev": "parallelshell \"sass src/scss/main.scss build/main.css --style compressed --watch\" \"webpack -w\" \"gulp html\" \"gulp watch\"",
     "build": "npm run lint && sass src/scss/main.scss build/main.css --style compressed && gulp html && webpack",
-    "bump-version": "node scripts/bump-version.js"
+    "bump-version": "node scripts/bump-version.js",
+    "update-translations": "node scripts/update-translations.js"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.57.0",

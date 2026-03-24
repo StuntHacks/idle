@@ -16,7 +16,12 @@
       "quantum": {
         "forces": "1.00e6 gesamte Quarks"
       }
-    }
+    },
+    "ok": "Ok",
+    "exportSave": "Export save",
+    "importSave": "Import save",
+    "copy": "Copy to clipboard",
+    "copied": "Copied!"
   },
   "about": {
     "handwritten": "Made with 100% yard-grown, artisanal code",
@@ -206,7 +211,9 @@
           "information": "You can continuously spend some of your energy in order to trigger periodic excitations in your quantum fields",
           "speed": "Intervall: ",
           "disable": "Umschalten",
-          "upgrade": "Intervall verbessern"
+          "upgrade": "Intervall verbessern",
+          "interval": "Interval between excitations",
+          "intervalCap": "(caps at $0)"
         },
         "energyUpgrades": {
           "title": "Energie Upgrades",
@@ -250,8 +257,8 @@
           "effect": "Schaltet den ersten Fluktuator frei"
         },
         "strongerFields": {
-            "title": "Stronger Fields"
-          },
+          "title": "Stronger Fields"
+        },
         "moreElectrons": {
           "title": "Mehr Elektronen"
         },
