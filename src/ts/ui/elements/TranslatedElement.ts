@@ -9,7 +9,9 @@ export class TranslatedElement extends HTMLElement {
     }
 
     public refresh(textId?: string) {
-        this.textId = textId ?? this.textContent;
+        if (!this.textId || textId) {
+            this.textId = textId ?? this.textContent;
+        }
         let translated = Translator.getTranslation(this.textId);
         const interpolations = JSON.parse(this.getAttribute("interpolate") || "[]");
 
