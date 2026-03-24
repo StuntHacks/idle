@@ -210,7 +210,7 @@
           "title": "Fluctuators",
           "information": "You can continuously spend some of your energy in order to trigger periodic excitations in your quantum fields",
           "interval": "Interval between excitations",
-          "intervalCap": "(caps at 50ms)",
+          "intervalCap": "(caps at $0)",
           "disable": "Toggle",
           "upgrade": "Upgrade interval"
         },
