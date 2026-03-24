@@ -6,7 +6,7 @@ import mock from "./mock.json"
 import _ from "lodash";
 import { Utils } from "utils/utils";
 import { defaultSave } from "./defaultSave";
-import { Settings } from "utils/Settings";
+import { initSettings } from "utils/Settings";
 
 export const SAVE_FILE_VERSION = 6;
 const SAVE_FILE_NAME = "idledynamics_saveFile";
@@ -17,7 +17,7 @@ export class SaveHandler {
     private static flagCallbacks: { [key: string]: FlagCallback[] } = {};
 
     public static initialize() {
-        Settings.initialize();
+        initSettings();
         if (!SaveHandler.loadData()) {
             SaveHandler.reset();
         }

@@ -4,9 +4,9 @@ import { QuantumStage } from "./stages/quantum/Quantum";
 import { OfflineProgressUI } from "ui/OfflineProgress";
 import { Utils } from "utils/utils";
 import { Logger } from "utils/Logger";
-import { Settings } from "utils/Settings";
 import { Translator } from "i18n/i18n";
 import { UI } from "ui/UI";
+import { useSettings } from "utils/Settings";
 
 export interface OfflineResults { [key: string]: unknown }; // placeholder
 
@@ -46,7 +46,7 @@ class Game {
         SaveHandler.autoSave();
         const now = Date.now();
         let savedTimestamp = SaveHandler.getData().timestamp ?? now;
-        if (Settings.get().gameplay.settings.noOfflineTime?.value) {
+        if (useSettings().gameplay.settings.noOfflineTime?.value) {
             savedTimestamp = now;
         }
         const offlineGap = now - savedTimestamp;

@@ -1,7 +1,7 @@
 import { Translator } from "i18n/i18n";
 import { Setting, Settings as SettingsType } from "types/Settings";
-import { Settings } from "utils/Settings";
 import { TranslatedElement } from "./TranslatedElement";
+import { useSettings, useSettingsObject } from "utils/Settings";
 
 type ST = Omit<SettingsType, "internal">;
 
@@ -14,7 +14,7 @@ export class SettingsElement extends HTMLElement {
 
     public rebuild() {
         this.innerHTML = "";
-        const category = Settings.get()[this.category];
+        const category = useSettings()[this.category];
         const settings = category.settings as Record<string, Setting<unknown>>;
         const title = document.createElement("h1");
         title.textContent = Translator.getTranslation(category.title);
@@ -42,7 +42,7 @@ export class SettingsElement extends HTMLElement {
                 input.type = "checkbox";
                 input.checked = setting.value;
                 input.addEventListener("change", () => {
-                    Settings.setSpecific(this.category, settingKey, input.checked);
+                    useSettingsObject().setSpecific(this.category, settingKey, input.checked);
                     if (setting.action) this.handleAction(setting.action);
                 });
                 label.appendChild(input);
@@ -60,7 +60,7 @@ export class SettingsElement extends HTMLElement {
                 }
 
                 select.addEventListener("change", () => {
-                    Settings.setSpecific(this.category, settingKey, select.value);
+                    useSettingsObject().setSpecific(this.category, settingKey, select.value);
                     if (setting.action) this.handleAction(setting.action);
                 });
                 label.appendChild(select);

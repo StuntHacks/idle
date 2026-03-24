@@ -1,7 +1,7 @@
 import { OfflineResults } from "game_logic/Game";
 import { TranslatedElement } from "./elements/TranslatedElement";
-import { Settings } from "utils/Settings";
 import { UI } from "./UI";
+import { useSettings } from "utils/Settings";
 
 export class OfflineProgressUI {
     static initUI() {
@@ -22,7 +22,7 @@ export class OfflineProgressUI {
 
     public static renderProgress(progress: OfflineResults) {
         void progress;
-        if (Settings.get().gameplay.settings.autoAcceptOfflineTime?.value) {
+        if (useSettings().gameplay.settings.autoAcceptOfflineTime?.value) {
             OfflineProgressUI.dismiss();
         } else {
             document.getElementById("offline-progress").classList.remove("loading");

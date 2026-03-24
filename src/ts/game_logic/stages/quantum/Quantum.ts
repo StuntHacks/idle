@@ -6,8 +6,8 @@ import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
 import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { QuantumField } from "./Field";
 import { FIELD_DATA } from "./field_data";
-import { Settings } from "utils/Settings";
 import { SaveHandler } from "SaveHandler/SaveHandler";
+import { useSettings } from "utils/Settings";
 
 export class QuantumStage implements Stage {
     public identifier = "quantum";
@@ -24,7 +24,7 @@ export class QuantumStage implements Stage {
         this.fields = [];
         this.fluctuators = [];
         for (let i = 0; i < 6; i++) {
-            const key = Settings.get().internal.settings.quantum.fields[i].selected;
+            const key = useSettings().internal.settings.quantum.fields[i].selected;
             let field = FIELD_DATA[key];
 
             // todo: figure out a better location for this

@@ -1,19 +1,16 @@
 import type { Setting, Settings as SettingsType } from 'types/Settings';
 import { defaultSettings } from './defaultSettings';
-import { Logger } from './Logger';
 
 const SETTINGS_NAME = "idledynamics_settings";
 
-export class Settings {
-    private static settings: SettingsType;
+class Settings {
+    private settings: SettingsType;
 
-    public static initialize() {
-        Logger.log("Settings", "Loading settings...");
+    constructor() {
         const data = localStorage.getItem(SETTINGS_NAME);
         if (data === null) {
-            Logger.log("Settings", "No settings found - resetting!");
             this.reset();
-            return; // <-- stop here
+            return;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,30 +26,29 @@ export class Settings {
             return result;
         }
 
-        this.settings = deepMerge(this.default(), JSON.parse(data));
-        // no save() here, nothing changed
+        this.settings = deepMerge(Settings.default(), JSON.parse(data));
     }
 
     public static default(): SettingsType {
         return defaultSettings;
     }
 
-    public static get(): SettingsType {
+    public get(): SettingsType {
         return this.settings;
     }
 
-    public static set(settings: Partial<SettingsType>): void {
+    public set(settings: Partial<SettingsType>): void {
         if (this.settings) {
             this.settings = {...this.settings, ...settings};
         } else {
-            this.settings = { ...this.default(), ...settings };
+            this.settings = { ...Settings.default(), ...settings };
         }
 
         this.save();
     }
 
     // trust me bro we'll add types to javascript bro it'll be so much better bro
-    public static setSpecific<
+    public setSpecific<
         C extends keyof SettingsType,
         K extends keyof SettingsType[C]["settings"],
         V extends SettingsType[C]["settings"][K] extends Setting<infer U> ? U : never,
@@ -61,12 +57,26 @@ export class Settings {
         this.save();
     };
 
-    public static save() {
+    public save() {
         localStorage.setItem(SETTINGS_NAME, JSON.stringify(this.settings));
     }
 
-    public static reset(): void {
-        this.settings = this.default();
+    public reset(): void {
+        this.settings = Settings.default();
         this.save();
     }
 }
+
+let _instance: Settings;
+export const useSettings = (): SettingsType => {
+    if (!_instance) throw new Error("Call initSettings() first");
+    return _instance.get();
+};
+export const useSettingsObject = (): Settings => {
+    if (!_instance) throw new Error("Call initSettings() first");
+    return _instance;
+};
+export const initSettings = (): Settings => {
+    _instance = new Settings();
+    return _instance;
+};

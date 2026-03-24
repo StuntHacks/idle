@@ -3,7 +3,7 @@ import { ParticleModel, ParticleType, QuantumStage } from "./Quantum";
 import { Currencies } from "game_logic/currencies/Currencies";
 import { SaveHandler } from "SaveHandler/SaveHandler";
 import { StatHandler } from "game_logic/StatHandler";
-import { Settings } from "utils/Settings";
+import { useSettings } from "utils/Settings";
 
 interface FieldColor {
     start: string;
@@ -105,7 +105,7 @@ export class QuantumField {
 
         if (!catchingUp) {
             Currencies.spawnGainElement(hash, amount, position - (click ? 11 : 0), this.fieldPosition.y + (this.fieldPosition.height / 2) - 20);
-            if (click || !Settings.get().display.settings.stillFields.value) {
+            if (click || !useSettings().display.settings.stillFields.value) {
                 this.fieldElement.ripple(position, index);
             }
         }
