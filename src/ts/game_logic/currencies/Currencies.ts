@@ -2,7 +2,7 @@ import Decimal from "break_eternity.js";
 import { Numbers } from "numbers/numbers";
 import { InferredCurrency as InferredCurrencyClass } from "./InferredCurrency";
 import { Energy } from "./inferred/Energy";
-import { SaveHandler } from "SaveHandler/SaveHandler";
+import { useSave } from "SaveHandler/SaveHandler";
 
 export class Currencies {
     private static currencies: Currency[] = [];
@@ -83,7 +83,7 @@ export class Currencies {
     }
 
     private static loadFromSave() {
-        const currencies = SaveHandler.getData().currencies;
+        const currencies = useSave().currencies;
 
         for (const c of currencies.normal) {
             this.set(c.hash, new Decimal(c.amount));

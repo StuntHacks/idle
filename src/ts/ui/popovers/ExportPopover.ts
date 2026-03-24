@@ -1,11 +1,11 @@
 import { Translator } from "i18n/i18n";
-import { SaveHandler } from "SaveHandler/SaveHandler";
+import { useSaveHandler } from "SaveHandler/SaveHandler";
 import { PopoverElement } from "ui/elements/PopoverElement";
 
 export class ExportPopover extends PopoverElement {
     constructor() {
         super("misc.exportSave", `
-            <pre>${SaveHandler.getEncoded()}</pre>
+            <pre>${useSaveHandler().getEncoded()}</pre>
         `, false);
 
         this.buttons = [{

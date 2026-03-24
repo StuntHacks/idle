@@ -1,4 +1,3 @@
-import { SaveHandler } from "SaveHandler/SaveHandler";
 import { StatHandler } from "./StatHandler";
 import { QuantumStage } from "./stages/quantum/Quantum";
 import { OfflineProgressUI } from "ui/OfflineProgress";
@@ -7,6 +6,7 @@ import { Logger } from "utils/Logger";
 import { Translator } from "i18n/i18n";
 import { UI } from "ui/UI";
 import { useSettings } from "utils/Settings";
+import { initSaveHandler, useSave, useSaveHandler } from "SaveHandler/SaveHandler";
 
 export interface OfflineResults { [key: string]: unknown }; // placeholder
 
@@ -25,7 +25,7 @@ class Game {
     private catchingUp: boolean = false;
 
     constructor() {
-        SaveHandler.initialize();
+        initSaveHandler();
         StatHandler.initialize();
         Translator.initialize();
         UI.initialize();
@@ -43,9 +43,9 @@ class Game {
     }
 
     public async start() {
-        SaveHandler.autoSave();
+        useSaveHandler().autoSave();
         const now = Date.now();
-        let savedTimestamp = SaveHandler.getData().timestamp ?? now;
+        let savedTimestamp = useSave().timestamp ?? now;
         if (useSettings().gameplay.settings.noOfflineTime?.value) {
             savedTimestamp = now;
         }

@@ -1,4 +1,4 @@
-import { SaveHandler } from "SaveHandler/SaveHandler";
+import { useSave, useSaveHandler } from "SaveHandler/SaveHandler";
 import { OfflineProgressUI } from "./OfflineProgress";
 import { QuantumUI } from "./stages/Quantum";
 import { Utils } from "utils/utils";
@@ -71,7 +71,7 @@ export class UI {
 
     private static initializeBottomBar() {
         document.getElementById("save-button").addEventListener("click", () => {
-            SaveHandler.saveData();
+            useSaveHandler().saveData();
         });
 
         document.getElementById("settings-button").addEventListener("click", () => {
@@ -89,12 +89,12 @@ export class UI {
         });
 
         document.getElementById("reset-button").addEventListener("auxclick", () => {
-            SaveHandler.reset(true);
+            useSaveHandler().reset(true);
             location.reload();
         });
 
         document.getElementById("reset-button").addEventListener("click", () => {
-            SaveHandler.reset();
+            useSaveHandler().reset();
             location.reload();
         });
     }
@@ -180,7 +180,7 @@ export class UI {
     }
 
     public static selectStartingTab() {
-        if (Utils.compareVersions(SaveHandler.getData().gameVersion, Utils.getVersionString()) < 0) {
+        if (Utils.compareVersions(useSave().gameVersion, Utils.getVersionString()) < 0) {
             document.getElementById("tab-version").classList.add("updated");
             UI.switchStageTab("version");
         } else {

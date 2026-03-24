@@ -1,10 +1,10 @@
 import statsData from "./data/stats.json";
 import upgradesData from "game_logic/data/upgrades.json";
-import { SaveHandler } from "SaveHandler/SaveHandler";
 import { Upgrade } from "types/SaveFile";
 import Decimal from "break_eternity.js";
 import _ from "lodash";
 import { Currencies } from "./currencies/Currencies";
+import { useSaveHandler } from "SaveHandler/SaveHandler";
 
 const stats = statsData as StatData;
 
@@ -12,10 +12,10 @@ export class StatHandler {
     private static stats: Stats = {};
 
     public static update(stat: string) {
-        let upgrades = SaveHandler.getUpgrades();
+        let upgrades = useSaveHandler().getUpgrades();
         if (!upgrades) {
-            SaveHandler.reset();
-            upgrades = SaveHandler.getUpgrades();
+            useSaveHandler().reset();
+            upgrades = useSaveHandler().getUpgrades();
         }
         const filtered = upgrades.filter((u: Upgrade) => u.target === stat);
         const grouped = filtered.reduce<Record<string, Upgrade[]>>((acc, upgrade) => {
@@ -67,9 +67,9 @@ export class StatHandler {
                     return false;
                 }
             }
-            SaveHandler.setFlag(upgrade.target, true);
+            useSaveHandler().setFlag(upgrade.target, true);
         } else {
-            const save = SaveHandler.getUpgrades();
+            const save = useSaveHandler().getUpgrades();
             const index = save.findIndex((u: Upgrade) => u.id === id);
             if (index > -1 && !upgrade.levels) {
                 return false;

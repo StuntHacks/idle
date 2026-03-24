@@ -1,4 +1,4 @@
-import { SaveHandler } from "SaveHandler/SaveHandler";
+import { useSave } from "SaveHandler/SaveHandler";
 import { Utils } from "utils/utils";
 
 export class GameTimeElement extends HTMLElement {
@@ -9,7 +9,7 @@ export class GameTimeElement extends HTMLElement {
     connectedCallback() {
         const self = this;
         function update() {
-            self.textContent = Utils.getTimeString(Date.now() - SaveHandler.getData().startTime);
+            self.textContent = Utils.getTimeString(Date.now() - useSave().startTime);
             window.requestAnimationFrame(update);
         }
 

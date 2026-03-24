@@ -1,4 +1,4 @@
-import { SaveHandler } from "SaveHandler/SaveHandler";
+import { useSaveHandler } from "SaveHandler/SaveHandler";
 import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
 import { QuantumField } from "./Field";
 import { useSettings } from "utils/Settings";
@@ -90,9 +90,9 @@ export class QuantumFluctuator {
         this.field = field;
         
         this.toggle(useSettings().internal.settings.quantum.fluctuators[this.index]);
-        this.toggleLock(!SaveHandler.getFlag(this.getFlagString()));
+        this.toggleLock(!useSaveHandler().getFlag(this.getFlagString()));
 
-        SaveHandler.registerFlagCallback(this.getFlagString(), (flag: string, value: unknown) => {
+        useSaveHandler().registerFlagCallback(this.getFlagString(), (flag: string, value: unknown) => {
             this.toggleLock(!value);
         });
     }

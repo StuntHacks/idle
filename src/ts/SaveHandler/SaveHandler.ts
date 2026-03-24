@@ -12,18 +12,18 @@ export const SAVE_FILE_VERSION = 6;
 const SAVE_FILE_NAME = "idledynamics_saveFile";
 
 export class SaveHandler {
-    private static save: SaveFile;
-    private static lastSave: number = 0;
-    private static flagCallbacks: { [key: string]: FlagCallback[] } = {};
+    private save: SaveFile;
+    private lastSave: number = 0;
+    private flagCallbacks: { [key: string]: FlagCallback[] } = {};
 
-    public static initialize() {
+    constructor() {
         initSettings();
-        if (!SaveHandler.loadData()) {
-            SaveHandler.reset();
+        if (!this.loadData()) {
+            this.reset();
         }
     }
 
-    public static loadData(): boolean {
+    public loadData(): boolean {
         Logger.log("SaveHandler", "Loading save file...");
         let data = localStorage.getItem(SAVE_FILE_NAME);
         if (data === null) {
@@ -46,50 +46,50 @@ export class SaveHandler {
         return true;
     }
 
-    public static autoSave() {
+    public autoSave = () => {
         const now = performance.now();
-        const elapsed = now - SaveHandler.lastSave;
+        const elapsed = now - this.lastSave;
         if (elapsed >= 30000) {
-            SaveHandler.lastSave = now;
-            SaveHandler.saveData();
+            this.lastSave = now;
+            this.saveData();
         }
-        window.requestAnimationFrame(SaveHandler.autoSave)
+        window.requestAnimationFrame(this.autoSave)
     }
 
-    public static saveCurrencies() {
+    public saveCurrencies() {
         const [currencies, inferred] = Currencies.getAll();
 
-        SaveHandler.save.currencies.normal = [];
+        this.save.currencies.normal = [];
         for (const c of currencies) {
-            SaveHandler.save.currencies.normal.push({
+            this.save.currencies.normal.push({
                 hash: c.hash,
                 amount: c.amount,
                 className: c.className
             });
         }
 
-        SaveHandler.save.currencies.inferred = [];
+        this.save.currencies.inferred = [];
         for (const c of inferred) {
-            SaveHandler.save.currencies.inferred.push({
+            this.save.currencies.inferred.push({
                 hash: c.hash,
                 amount: c.handler.getAmount(),
             });
         }
     }
 
-    public static getEncoded(): string {
-        return SaveHandler.encode(JSON.stringify({
-            ...SaveHandler.save,
+    public getEncoded(): string {
+        return this.encode(JSON.stringify({
+            ...this.save,
             timestamp: Date.now(),
             gameVersion: Utils.getVersionString(),
         } as SaveFile));
     }
 
-    public static saveData(fresh: boolean = false): void {
+    public saveData(fresh: boolean = false): void {
         let data = this.getEncoded();
 
         if (!fresh) {
-            SaveHandler.saveCurrencies();
+            this.saveCurrencies();
         }
 
         localStorage.setItem(`${SAVE_FILE_NAME}_bak`, localStorage.getItem(SAVE_FILE_NAME));
@@ -97,15 +97,15 @@ export class SaveHandler {
         UI.flashSaveIndicator();
     }
 
-    public static getData(): SaveFile {
+    public getData(): SaveFile {
         return this.save;
     }
 
-    public static getUpgrades(): Upgrade[] {
+    public getUpgrades(): Upgrade[] {
         return this.save.upgrades;
     }
 
-    public static registerFlagCallback(flag: string, callback: FlagCallback) {
+    public registerFlagCallback(flag: string, callback: FlagCallback) {
         if (this.flagCallbacks[flag]) {
             this.flagCallbacks[flag].push(callback);
         } else {
@@ -113,7 +113,7 @@ export class SaveHandler {
         }
     }
 
-    public static getFlag(flag: string): boolean {
+    public getFlag(flag: string): boolean {
         const f = _.get(this.save.flags, flag);
         if (typeof f === "boolean") {
             return f;
@@ -122,7 +122,7 @@ export class SaveHandler {
         return false;
     }
 
-    public static setFlag(flag: string, value: unknown) {
+    public setFlag(flag: string, value: unknown) {
         const callbacks = this.flagCallbacks[flag];
         if (callbacks) {
             for (const callback of callbacks) {
@@ -132,7 +132,7 @@ export class SaveHandler {
         _.set(this.save.flags, flag, value);
     }
 
-    public static reset(useMock: boolean = false): SaveFile {
+    public reset(useMock: boolean = false): SaveFile {
         Logger.log("SaveHandler", "Initializing new save file...");
         const save = useMock ? mock as unknown as SaveFile : defaultSave;
         this.save = {
@@ -145,13 +145,13 @@ export class SaveHandler {
         return this.save;
     }
 
-    private static encode(data: string): string {
+    private encode(data: string): string {
         Logger.log("SaveHandler", "Encoding save data...");
         // TODO: Implement encoding logic
         return data;
     }
 
-    private static decode(data: string): string {
+    private decode(data: string): string {
         Logger.log("SaveHandler", "Decoding save data...");
         // TODO: Implement decoding logic
         return data;
@@ -159,3 +159,17 @@ export class SaveHandler {
 }
 
 export type FlagCallback = (flag: string, value: unknown) => void;
+
+let _instance: SaveHandler;
+export const useSave = (): SaveFile => {
+    if (!_instance) throw new Error("Call initSaveHandler() first");
+    return _instance.getData();
+};
+export const useSaveHandler = (): SaveHandler => {
+    if (!_instance) throw new Error("Call initSaveHandler() first");
+    return _instance;
+};
+export const initSaveHandler = (): SaveHandler => {
+    _instance = new SaveHandler();
+    return _instance;
+};

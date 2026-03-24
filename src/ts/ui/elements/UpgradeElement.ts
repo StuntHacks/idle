@@ -7,7 +7,7 @@ import { Upgrade } from "types/SaveFile";
 import Decimal from "break_eternity.js";
 import { Currencies, Currency, InferredCurrencyCallback } from "game_logic/currencies/Currencies";
 import { Numbers } from "numbers/numbers";
-import { SaveHandler } from "SaveHandler/SaveHandler";
+import { useSaveHandler } from "SaveHandler/SaveHandler";
 
 export class UpgradeElement extends HTMLElement {
     private cost: Decimal;
@@ -75,7 +75,7 @@ export class UpgradeElement extends HTMLElement {
                 }
             }
 
-            if (this.levels >= upgrade.levels || SaveHandler.getFlag(upgrade.target)) {
+            if (this.levels >= upgrade.levels || useSaveHandler().getFlag(upgrade.target)) {
                 this.classList.add("completed");
             }
 

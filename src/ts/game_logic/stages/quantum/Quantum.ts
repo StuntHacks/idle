@@ -6,8 +6,8 @@ import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
 import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { QuantumField } from "./Field";
 import { FIELD_DATA } from "./field_data";
-import { SaveHandler } from "SaveHandler/SaveHandler";
 import { useSettings } from "utils/Settings";
+import { useSaveHandler } from "SaveHandler/SaveHandler";
 
 export class QuantumStage implements Stage {
     public identifier = "quantum";
@@ -29,7 +29,7 @@ export class QuantumStage implements Stage {
 
             // todo: figure out a better location for this
             if (key === "electroweak" && field.multi) {
-                field.multi = { ...field.multi, chance: SaveHandler.getFlag("quantum.fields.weak_bosons") ? 0.25 : 1 };
+                field.multi = { ...field.multi, chance: useSaveHandler().getFlag("quantum.fields.weak_bosons") ? 0.25 : 1 };
             }
 
             this.fields.push(

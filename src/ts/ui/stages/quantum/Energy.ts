@@ -1,5 +1,5 @@
-import { SaveHandler } from "SaveHandler/SaveHandler";
 import upgrades from "game_logic/data/upgrades.json";
+import { useSaveHandler } from "SaveHandler/SaveHandler";
 
 export class EnergyUI {
     private static energyUpgradesElement: HTMLDivElement;
@@ -44,7 +44,7 @@ export class EnergyUI {
             const element = document.createElement("stat-upgrade");
             element.setAttribute("namespace", "quantum.energy.upgrades");
             element.setAttribute("upgrade", upgrade.id);
-            element.setAttribute("levels", (SaveHandler.getUpgrades().find((u) => u.id === upgrade.id)?.levels || 0) + "");
+            element.setAttribute("levels", (useSaveHandler().getUpgrades().find((u) => u.id === upgrade.id)?.levels || 0) + "");
             this.energyUpgradesElement.appendChild(element);
         }
     }
