@@ -8,24 +8,59 @@
         overflow-y: auto;
         overflow-x: hidden;
 
+        .button {
+            --color: #1d1d1d;
+            --hover: #2d2d2d;
+            --active: #3e3e3e;
+        }
+
         .settings {
-            display: flex;
-            gap: 2rem;
+            display: grid;
+            gap: 1rem 2rem;
             margin-top: 2rem;
-            flex-wrap: wrap;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
             justify-content: center;
 
-            div {
+            settings-block {
+                padding: 10px 30px;
                 display: flex;
                 flex-direction: column;
-                gap: 5rem;
-                
-                settings-block {
-                    padding: 20px 30px;
-                    
-                    h1 {
-                        white-space: nowrap;
-                        font-weight: lighter;
+                word-break: keep-all;
+                background-color: #1D1D1D;
+                border-radius: 20px;
+
+                h1 {
+                    white-space: nowrap;
+                    font-weight: lighter;
+                    margin: 0;
+                    margin-bottom: 1rem;
+                    margin-top: 0.5rem;
+                }
+
+                label {
+                    display: flex;
+                    margin-bottom: 1rem;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    padding-left: 1rem;
+                    cursor: pointer;
+
+                    .name {
+                        margin-right: 1rem;
+                    }
+
+                    &.checkbox {
+                        .name {
+                            flex-grow: 1;
+                            margin-right: 0;
+                        }
+                    }
+
+                    .description {
+                        width: 100%;
+                        color: #aaa;
+                        padding-left: 1.5rem;
+                        transition: color 150ms;
                     }
                 }
             }

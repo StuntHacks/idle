@@ -62,12 +62,14 @@
       "title": "Display settings",
       "tab": "Display",
       "darkNavigation": {
-        "name": "Dark header & footer",
-        "description": "Changes the color of header & footer to be the same as the theme background color"
+        "name": "Dark header & footer"
+      },
+      "reverseBottomBar": {
+        "name": "Reverse bottom bar layout"
       },
       "stillFields": {
         "name": "Still Quantum Fields",
-        "description": "Prevents the quantum fields from fluctuating visually unless clicked manually. You will still gain the resources"
+        "description": "Prevents the quantum fields from fluctuating visually unless clicked manually, to reduce visual noise"
       }
     },
     "debug": {

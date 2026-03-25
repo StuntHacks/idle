@@ -29,25 +29,30 @@ export class SettingsElement extends HTMLElement {
 
             const name = document.createElement("span");
             name.textContent = Translator.getTranslation(setting.name);
+            name.classList.add("name");
             label.appendChild(name);
 
             if (setting.description) {
                 const desc = document.createElement("span");
                 desc.textContent = Translator.getTranslation(setting.description);
+                desc.classList.add("description");
                 label.appendChild(desc);
             }
+
 
             if (typeof setting.value === "boolean") {
                 const input = document.createElement("input");
                 input.type = "checkbox";
+                label.classList.add("checkbox");
                 input.checked = setting.value;
                 input.addEventListener("change", () => {
                     useSettingsHandler().setSpecific(this.category, settingKey, input.checked);
                     if (setting.action) this.handleAction(setting.action);
                 });
-                label.appendChild(input);
+                label.prepend(input);
             } else if (typeof setting.value === "string") {
                 const select = document.createElement("select");
+                select.id = setting.name;
 
                 if (setting.options) {
                     for (const option of setting.options) {
