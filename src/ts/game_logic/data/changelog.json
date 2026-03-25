@@ -20,7 +20,8 @@
         "version": "0.0.13",
         "date": "22.03.2026",
         "changes": [
-            "Added full touch support"
+            "Added full touch support",
+            "Implemented settings"
         ]
     }
 ]
