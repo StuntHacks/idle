@@ -188,8 +188,10 @@ footer.main-footer {
         &.reverse {
             flex-direction: row;
 
-            .run-timer {
+            #version-number {
                 text-align: right;
+                margin-left: 0;
+                margin-right: 10px;
             }
         }
 

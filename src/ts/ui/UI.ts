@@ -6,6 +6,7 @@ import { TranslatedElement } from "./elements/TranslatedElement";
 import { StageTabElement } from "./elements/StageTabElement";
 import { PopoverManager } from "./PopoverManager";
 import { SettingsUI } from "./Settings";
+import { useSettings } from "utils/SettingsHandler";
 
 export class UI {
     public static saveIndicator: HTMLElement;
@@ -53,6 +54,7 @@ export class UI {
         SettingsUI.initialize();
         PopoverManager.initialize();
         this.initializeBottomBar();
+        this.updateDarkMode();
     }
 
     private static handleMenuTabs(tab: string): boolean {
@@ -97,6 +99,17 @@ export class UI {
             useSaveHandler().reset();
             location.reload();
         });
+
+        this.updateBottomBar();
+    }
+
+    public static updateDarkMode() {
+        document.body.classList.toggle("dark-mode", useSettings().display.settings.darkNavigation.value);
+    }
+
+    public static updateBottomBar() {
+        const bottomBar = document.getElementById("bottom-bar");
+        bottomBar.classList.toggle("reverse", useSettings().display.settings.reverseBottomBar.value);
     }
 
     public static getActiveStage(): string {

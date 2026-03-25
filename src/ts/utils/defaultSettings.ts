@@ -50,12 +50,14 @@ export const defaultSettings: Settings = {
             darkNavigation: {
                 value: false,
                 default: false,
-                name: "settings.display.darkNavigation.name"
+                name: "settings.display.darkNavigation.name",
+                action: "darkenNavigation",
             },
             reverseBottomBar: {
                 value: false,
                 default: false,
-                name: "settings.display.reverseBottomBar.name"
+                name: "settings.display.reverseBottomBar.name",
+                action: "reverseBottomBar",
             },
             stillFields: {
                 value: false,

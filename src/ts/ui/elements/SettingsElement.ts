@@ -2,6 +2,7 @@ import { Translator } from "i18n/i18n";
 import { Setting, Settings as SettingsType } from "types/Settings";
 import { TranslatedElement } from "./TranslatedElement";
 import { useSettings, useSettingsHandler } from "utils/SettingsHandler";
+import { UI } from "ui/UI";
 
 type ST = Omit<SettingsType, "internal">;
 
@@ -85,6 +86,12 @@ export class SettingsElement extends HTMLElement {
                 // currently in: SettingsElement, ...
                 document.querySelectorAll("translated-string").forEach((el: TranslatedElement) => el.refresh());
                 document.querySelectorAll("settings-block").forEach((el: SettingsElement) => el.rebuild());
+                break;
+            case "darkenNavigation":
+                UI.updateDarkMode();
+                break;
+            case "reverseBottomBar":
+                UI.updateBottomBar();
                 break;
         }
     }

@@ -1,5 +1,14 @@
 @import "../settings/gradients.scss";
 
+// todo: implement dark mode
+// body.dark-mode {
+//     --color-navigation: #1d1d1d;
+//     --color-navigation-inactive: #555;
+//     --color-navigation-hover: #2d2d2d;
+//     --color-navigation-active: #3e3e3e;
+//     --color-navigation-disabled: #333;
+// }
+
 nav.main-nav {
     display: flex;
     position: sticky;
