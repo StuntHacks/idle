@@ -21,6 +21,12 @@ input[type="checkbox"] {
     &:checked {
         background: #666;
         border-color: #666;
+
+        &:hover,
+        &:active {
+            background-color: #4f4f4f;
+            border-color: #4f4f4f;
+        }
     }
 
     &:checked::after {
@@ -41,13 +47,13 @@ input[type="checkbox"] {
     }
 
     &:disabled {
-        opacity: 0.4;
-        cursor: not-allowed;
-
-        &:hover {
-            border-color: #aaa;
-        }
+        pointer-events: none;
     }
+}
+
+label:has(input[type="checkbox"]:disabled) {
+    pointer-events: none;
+        opacity: 0.4;
 }
 
 select {
