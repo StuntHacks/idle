@@ -1,117 +1,180 @@
 import statsData from "./data/stats.json";
 import upgradesData from "game_logic/data/upgrades.json";
-import { Upgrade } from "types/SaveFile";
+import { UpgradeDef, SavedUpgrade } from "types/SaveFile";
 import Decimal from "break_eternity.js";
 import _ from "lodash";
 import { Currencies } from "./currencies/Currencies";
 import { useSaveHandler } from "SaveHandler/SaveHandler";
+import { Logger } from "utils/Logger";
 
 const stats = statsData as StatData;
 
 export class StatHandler {
     private static stats: Stats = {};
 
+    private static getUpgradeDef(saved: SavedUpgrade): UpgradeDef | null {
+        const list: UpgradeDef[] | undefined = _.get(upgradesData, saved.accessor);
+        if (!Array.isArray(list)) return null;
+        return list.find((u) => u.id === saved.id) ?? null;
+    }
+
     public static update(stat: string) {
-        let upgrades = useSaveHandler().getUpgrades();
-        if (!upgrades) {
-            useSaveHandler().reset();
-            upgrades = useSaveHandler().getUpgrades();
+        if (!this.stats[stat]) {
+            Logger.warning("StatHandler", `Unknown stat "${stat}"`);
+            return;
         }
-        const filtered = upgrades.filter((u: Upgrade) => u.target === stat);
-        const grouped = filtered.reduce<Record<string, Upgrade[]>>((acc, upgrade) => {
-            if (!acc[upgrade.type]) {
-              acc[upgrade.type] = [];
-            }
-            acc[upgrade.type].push(upgrade);
-            return acc;
-        }, {});
+
+        const savedUpgrades = useSaveHandler().getUpgrades();
+        const relevant = savedUpgrades.flatMap((saved) => {
+            const def = this.getUpgradeDef(saved);
+            return def?.target === stat ? [{ saved, def }] : [];
+        });
 
         let additive = new Decimal(0);
         let multiplicative = new Decimal(1);
+        let additiveMultiplicativeSum = new Decimal(0);
 
-        if (grouped.additive) {
-            for (const upgrade of grouped.additive) {
-                const u = _.get(upgradesData, upgrade.accessor);
-                if (u) {
-                    additive = additive.plus((u.find((u: Upgrade) => u.id === upgrade.id) as Upgrade).amount * upgrade.levels);
-                }
+        for (const { saved, def } of relevant) {
+            if (def.amount == null) {
+                Logger.warning("StatHandler", `Upgrade "${def.id}" has no amount!`);
+                continue;
+            }
+
+            switch (def.type) {
+                case "additive":
+                    additive = additive.plus(def.amount * saved.levels);
+                    break;
+
+                case "multiplicative":
+                    multiplicative = multiplicative.multiply(
+                        new Decimal(def.amount).pow(saved.levels)
+                    );
+                    break;
+
+                case "additive_multiplicative":
+                    additiveMultiplicativeSum = additiveMultiplicativeSum.plus(
+                        def.amount * saved.levels
+                    );
+                    break;
             }
         }
 
-        if (grouped.multiplicative) {
-            for (const upgrade of grouped.multiplicative) {
-                const u = _.get(upgradesData, upgrade.accessor);
-                if (u) {
-                    if (upgrade.additive) {
-                        multiplicative = multiplicative.multiply((u.find((u: Upgrade) => u.id === upgrade.id) as Upgrade).amount * upgrade.levels);
-                    } else {
-                        multiplicative = multiplicative.multiply((u.find((u: Upgrade) => u.id === upgrade.id) as Upgrade).amount ** upgrade.levels);
-                    }
-                }
-            }
-        }
+        const additiveMultiplicative = new Decimal(1).plus(additiveMultiplicativeSum);
 
         this.stats[stat] = {
             ...this.stats[stat],
-            additive: additive,
-            multiplicative: multiplicative,
-            total: new Decimal(this.stats[stat].base).plus(additive).multiply(multiplicative),
+            additive,
+            multiplicative,
+            additiveMultiplicative,
+            total: new Decimal(this.stats[stat].base)
+                .plus(additive)
+                .multiply(multiplicative)
+                .multiply(additiveMultiplicative),
         };
     }
 
-    public static gainUpgrade(namespace: string, id: string, purchase: boolean = false, amount: number = 1): boolean {
-        const upgrade = _.get(upgradesData, namespace).find((u: Upgrade) => u.id === id) as Upgrade;
-        if (upgrade.type === "flag") {
-            if (purchase) {
-                if (!Currencies.spend(upgrade.currency, new Decimal(upgrade.cost))) {
-                    return false;
-                }
-            }
-            useSaveHandler().setFlag(upgrade.target, true);
-        } else {
-            const save = useSaveHandler().getUpgrades();
-            const index = save.findIndex((u: Upgrade) => u.id === id);
-            if (index > -1 && !upgrade.levels) {
-                return false;
-            }
-
-            // todo: implement correct calculations for buying multiple levels at once
-            const levels = save[index] ? save[index].levels : amount;
-
-            if (index > -1 && save[index].levels >= upgrade.levels) {
-                return false;
-            }
-
-            const cost = new Decimal(upgrade.levels && index > -1 ? upgrade.cost * (upgrade.costScaling ** levels) : upgrade.cost);
-
-            if (purchase) {
-                if (!Currencies.spend(upgrade.currency, cost)) {
-                    return false;
-                }
-            }
-
-            if (index <= -1) {
-                save.push({
-                    ...upgrade,
-                    accessor: namespace,
-                    levels: 1,
-                });
-            } else {
-                save[index].levels += amount;
-            }
-            this.update(upgrade.target);
+    public static calculateCost(def: UpgradeDef, currentLevel: number, amount: number): Decimal {
+        const scaling = def.costScaling ?? 1;
+        if (scaling === 1) {
+            return new Decimal(def.cost * amount);
         }
+        return new Decimal(def.cost)
+            .multiply(scaling ** currentLevel)
+            .multiply(1 - scaling ** amount)
+            .divide(1 - scaling);
+    }
+
+    public static getUpgradeEffect(def: UpgradeDef, currentLevel: number): Decimal | null {
+        if (def.amount == null || currentLevel === 0) return null;
+
+        switch (def.type) {
+            case "additive":
+                return new Decimal(def.amount * currentLevel);
+
+            case "multiplicative":
+                return new Decimal(def.amount).pow(currentLevel);
+
+            case "additive_multiplicative":
+                return new Decimal(1).plus(def.amount * currentLevel);
+
+            case "flag":
+                return null;
+        }
+    }
+
+    public static gainUpgrade(
+        namespace: string,
+        id: string,
+        purchase: boolean = false,
+        amount: number = 1
+    ): boolean {
+        const defList: UpgradeDef[] | undefined = _.get(upgradesData, namespace);
+        if (!Array.isArray(defList)) {
+            Logger.warning("StatHandler", `Invalid namespace "${namespace}"`);
+            return false;
+        }
+
+        const def = defList.find((u) => u.id === id);
+        if (!def) {
+            Logger.warning("StatHandler", `Upgrade "${id}" not found in "${namespace}"`);
+            return false;
+        }
+
+        if (def.type === "flag") {
+            if (purchase && !Currencies.spend(def.currency, new Decimal(def.cost))) {
+                return false;
+            }
+            useSaveHandler().setFlag(def.target, true);
+            return true;
+        }
+
+        const saveHandler = useSaveHandler();
+        const savedUpgrades = saveHandler.getUpgrades();
+        const index = savedUpgrades.findIndex((u) => u.id === id);
+        const existing = index > -1 ? savedUpgrades[index] : null;
+
+        if (existing && !def.levels) {
+            return false;
+        }
+
+        const currentLevel = existing ? existing.levels : 0;
+
+        if (def.levels && currentLevel >= def.levels) {
+            return false;
+        }
+
+        const levelsRemaining = def.levels ? def.levels - currentLevel : amount;
+        const actualAmount = Math.min(amount, levelsRemaining);
+
+        const cost = this.calculateCost(def, currentLevel, actualAmount);
+
+        if (purchase && !Currencies.spend(def.currency, cost)) {
+            return false;
+        }
+
+        if (!existing) {
+            savedUpgrades.push({
+                id: def.id,
+                accessor: namespace,
+                levels: actualAmount,
+            });
+        } else {
+            savedUpgrades[index].levels = currentLevel + actualAmount;
+        }
+
+        this.update(def.target);
         return true;
     }
 
     public static initialize() {
-        for (let stat in stats) {
+        for (const stat in stats) {
             const data = stats[stat];
             this.stats[stat] = {
                 base: data.base,
                 title: data.title,
                 additive: new Decimal(0),
                 multiplicative: new Decimal(1),
+                additiveMultiplicative: new Decimal(1),
                 total: new Decimal(data.base),
             };
             this.update(stat);
@@ -131,6 +194,7 @@ export interface Stat {
     base: number;
     additive: Decimal;
     multiplicative: Decimal;
+    additiveMultiplicative: Decimal;
     total: Decimal;
     title: string;
 }

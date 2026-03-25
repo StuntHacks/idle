@@ -1,5 +1,5 @@
 import { Currencies } from "game_logic/currencies/Currencies";
-import { SaveFile, Upgrade } from "types/SaveFile";
+import { SaveFile, SavedUpgrade } from "types/SaveFile";
 import { UI } from "ui/UI";
 import { Logger } from "utils/Logger";
 import mock from "./mock.json"
@@ -101,7 +101,7 @@ export class SaveHandler {
         return this.save;
     }
 
-    public getUpgrades(): Upgrade[] {
+    public getUpgrades(): SavedUpgrade[] {
         return this.save.upgrades;
     }
 

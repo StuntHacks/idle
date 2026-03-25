@@ -1,11 +1,11 @@
-import { SaveCurrency, SaveFile, Upgrade } from "types/SaveFile";
+import { SaveCurrency, SavedUpgrade, SaveFile } from "types/SaveFile";
 
 export const defaultSave: Omit<SaveFile, "version" | "startTime" | "timestamp"> = {
     currencies: {
         normal: [] as SaveCurrency[],
         inferred: [] as SaveCurrency[],
     },
-    upgrades: [] as Upgrade[],
+    upgrades: [] as SavedUpgrade[],
     flags: {
         tutorial: {},
         quantum: {}

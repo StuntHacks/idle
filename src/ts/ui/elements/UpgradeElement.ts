@@ -3,166 +3,189 @@ import _ from "lodash";
 import { Translator } from "i18n/i18n";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { StatHandler } from "game_logic/StatHandler";
-import { Upgrade } from "types/SaveFile";
+import { UpgradeDef } from "types/SaveFile";
 import Decimal from "break_eternity.js";
 import { Currencies, Currency, InferredCurrencyCallback } from "game_logic/currencies/Currencies";
 import { Numbers } from "numbers/numbers";
 import { useSaveHandler } from "SaveHandler/SaveHandler";
 
 export class UpgradeElement extends HTMLElement {
-    private cost: Decimal;
-    private scaling: number;
-    private levels: number = 0;
-    private currency: string;
-    private disabled: boolean;
+    private def: UpgradeDef;
+    private namespace: string;
 
     private detailsElement: HTMLDivElement;
     private costElement: HTMLSpanElement;
     private levelsElement: HTMLSpanElement;
     private currentEffectElement: HTMLSpanElement;
+    private tooltip: HTMLElement;
 
     constructor() {
         super();
     }
 
-    private getCost() {
-        switch (this.currency) {
-            case "energy":
-                return new Decimal(this.cost.multiply(this.scaling ** this.levels));
-            default:
-                return this.cost;
+    private getCurrentLevel(): number {
+        const saved = useSaveHandler().getUpgrades().find((u) => u.id === this.def.id);
+        return saved ? saved.levels : 0;
+    }
+
+    private isCompleted(): boolean {
+        if (this.def.type === "flag") {
+            return useSaveHandler().getFlag(this.def.target);
         }
+        return this.def.levels != null && this.getCurrentLevel() >= this.def.levels;
+    }
+
+    private getCost(): Decimal {
+        return StatHandler.calculateCost(this.def, this.getCurrentLevel(), 1);
     }
 
     private updateCost() {
-        switch (this.currency) {
+        const cost = this.getCost();
+        switch (this.def.currency) {
             case "energy":
-                this.costElement.innerText = Energy.getFormatted(this.getCost());
+                this.costElement.innerText = Energy.getFormatted(cost);
                 break;
             default:
-                this.costElement.innerText = Numbers.getFormatted(this.getCost());
+                this.costElement.innerText = Numbers.getFormatted(cost);
+                break;
+        }
+    }
+
+    private updateCurrentEffect() {
+        if (!this.currentEffectElement) return;
+        this.tooltip.hidden = this.getCurrentLevel() === 0;
+
+        const level = this.getCurrentLevel();
+        const effect = StatHandler.getUpgradeEffect(this.def, level);
+
+        if (effect === null) {
+            this.currentEffectElement.innerText = Translator.getTranslation("misc.noEffect");
+            return;
+        }
+
+        switch (this.def.type) {
+            case "additive":
+                this.currentEffectElement.innerText = `+${Numbers.getFormatted(effect, 2)}`;
+                break;
+            case "multiplicative":
+            case "additive_multiplicative":
+                this.currentEffectElement.innerText = `×${Numbers.getFormatted(effect, 2)}`;
+                break;
+        }
+    }
+
+    private updateLevels() {
+        if (this.levelsElement) {
+            this.levelsElement.innerText = `${this.getCurrentLevel()}/${this.def.levels}`;
         }
     }
 
     connectedCallback() {
         const id = this.getAttribute("upgrade");
-        const namespace = this.getAttribute("namespace");
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const upgrade = _.get(upgrades, namespace).find((u: any) => u.id === id) as Upgrade;
+        this.namespace = this.getAttribute("namespace");
+        this.def = _.get(upgrades, this.namespace).find((u: UpgradeDef) => u.id === id) as UpgradeDef;
+
         this.detailsElement = document.createElement("div");
         this.detailsElement.classList.add("details");
 
-        this.cost = new Decimal(upgrade.cost);
-        this.scaling = upgrade.costScaling || 1;
-        this.levels = this.hasAttribute("levels") ? parseInt(this.getAttribute("levels")) : 0;
-
         const title = document.createElement("span");
-        title.innerText = Translator.getTranslation(upgrade.title);
+        title.innerText = Translator.getTranslation(this.def.title);
         this.detailsElement.appendChild(title);
 
-        this.costElement = document.createElement("span");
-        this.costElement.classList.add("cost");
-        this.currency = upgrade.currency;
-        this.updateCost();
-
-        const checkCost = (total: Decimal = undefined) => {
-            if (!total) {
-                const c = Currencies.get(this.currency);
-                if (c.inferred) {
-                    total = c.handler.getAmount();
-                } else {
-                    total = (c as Currency).amount;
-                }
-            }
-
-            if (this.levels >= upgrade.levels || useSaveHandler().getFlag(upgrade.target)) {
-                this.classList.add("completed");
-            }
-
-            this.disabled = !total.greaterThanOrEqualTo(this.getCost());
-            this.classList.toggle("disabled", this.disabled);
-        }
-
-        const energyCallback: InferredCurrencyCallback = (hash, type, amount, before, total) => {
-            checkCost(total);
-        }
-        Currencies.registerCallback(energyCallback, "energy");
-
-        // todo: handle effects of non-descriptive upgrades (x2 etc)
         const effect = document.createElement("span");
         effect.classList.add("effect");
-        if (upgrade.effect) {
-            effect.innerText = Translator.getTranslation(upgrade.effect);
+
+        if (this.def.effect) {
+            effect.innerText = Translator.getTranslation(this.def.effect);
         }
 
-        if (upgrade.effect && upgrade.type !== "flag") {
-            effect.insertAdjacentHTML("beforeend", "<br />");
-        }
-
-        if (upgrade.type !== "flag") {
-            effect.innerText = Translator.getTranslation(StatHandler.get(upgrade.target).title);
-
-            if (upgrade.type === "additive") {
-                effect.innerText += " +";
-            } else {
-                effect.innerText += " x";
+        if (this.def.type !== "flag") {
+            if (this.def.effect) {
+                effect.insertAdjacentHTML("beforeend", "<br />");
             }
 
-            effect.innerText += upgrade.amount;
+            const statTitle = StatHandler.get(this.def.target)?.title ?? this.def.target;
+            effect.insertAdjacentText("beforeend", Translator.getTranslation(statTitle));
 
-            if (upgrade.additive) {
-                effect.innerText += ` (${Translator.getTranslation("misc.additive")})`;
+            switch (this.def.type) {
+                case "additive":
+                    effect.insertAdjacentText("beforeend", ` +${Numbers.getFormatted(new Decimal(this.def.amount), 2)}`);
+                    break;
+                case "multiplicative":
+                    effect.insertAdjacentText("beforeend", ` ×${Numbers.getFormatted(new Decimal(this.def.amount), 2)}`);
+                    break;
+                case "additive_multiplicative":
+                    effect.insertAdjacentText("beforeend", ` ×${Numbers.getFormatted(new Decimal(this.def.amount), 2)} (${Translator.getTranslation("misc.additive")})`);
+                    break;
             }
         }
 
         this.detailsElement.appendChild(effect);
 
-        if (upgrade.levels) {
+        if (this.def.levels) {
             this.levelsElement = document.createElement("span");
             this.levelsElement.classList.add("amount");
-            this.levelsElement.innerText = `${this.levels}/${upgrade.levels}`;
             this.detailsElement.appendChild(this.levelsElement);
+            this.updateLevels();
         }
 
-        if (upgrade.type !== "flag") {
-            const tooltip = document.createElement("tool-tip");
-            tooltip.setAttribute("orientation", "bottom");
+        if (this.def.type !== "flag") {
+            this.tooltip = document.createElement("tool-tip");
+            this.tooltip.setAttribute("center", "");
+            this.tooltip.setAttribute("orientation", "bottom");
             const label = document.createElement("translated-string");
             this.currentEffectElement = document.createElement("span");
+            this.currentEffectElement.classList.add("flavor-text");
             this.currentEffectElement.classList.add("current-amount");
             label.innerText = "misc.currentEffect";
-            tooltip.appendChild(label);
-            tooltip.appendChild(this.currentEffectElement);
-            this.appendChild(tooltip);
+            this.tooltip.appendChild(label);
+            this.tooltip.appendChild(this.currentEffectElement);
+            this.appendChild(this.tooltip);
+            this.updateCurrentEffect();
         }
+
+        this.costElement = document.createElement("span");
+        this.costElement.classList.add("cost");
+        this.updateCost();
+
+        if (this.isCompleted()) {
+            this.classList.add("completed");
+        }
+
+        const checkCost = (total?: Decimal) => {
+            if (total == null) {
+                const c = Currencies.get(this.def.currency);
+                total = c.inferred ? c.handler.getAmount() : (c as Currency).amount;
+            }
+            this.classList.toggle("disabled", !total.greaterThanOrEqualTo(this.getCost()));
+        };
+
+        const currencyCallback: InferredCurrencyCallback = (_hash, _type, _amount, _before, total) => {
+            checkCost(total);
+        };
+        Currencies.registerCallback(currencyCallback, this.def.currency);
 
         this.appendChild(this.detailsElement);
         this.appendChild(this.costElement);
         checkCost();
 
         this.costElement.addEventListener("click", () => {
-            const result = StatHandler.gainUpgrade(namespace, id, true);
-            if (result) {
-                const hide = () => {
+            if (this.isCompleted()) return;
+
+            const result = StatHandler.gainUpgrade(this.namespace, this.def.id, true);
+            if (!result) return;
+
+            this.updateCost();
+            this.updateLevels();
+            this.updateCurrentEffect();
+            checkCost();
+
+            if (this.isCompleted()) {
+                this.classList.add("completed-transition");
+                this.addEventListener("animationend", () => {
                     this.classList.remove("completed-transition");
                     this.classList.add("completed");
-                }
-                if (this.levelsElement) {
-                    this.levels += 1;
-                    this.levelsElement.innerText = `${this.levels}/${upgrade.levels}`;
-                    if (this.levels >= upgrade.levels) {
-                        this.disabled = true;
-                        this.classList.add("completed-transition");
-                        this.addEventListener("animationend", hide);
-                        return;
-                    }
-                    this.updateCost();
-                    checkCost();
-                } else {
-                    this.disabled = true;
-                    this.classList.add("completed-transition");
-                    this.addEventListener("animationend", hide);
-                }
+                }, { once: true });
             }
         });
     }

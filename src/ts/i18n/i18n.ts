@@ -14,6 +14,8 @@ export class Translator {
             result = _.get(this.translations["en"], id);
         }
 
+        if (!result) console.log(id)
+
         return result ?? id;
     }
 

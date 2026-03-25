@@ -10,25 +10,30 @@ export interface SaveFile {
         normal: SaveCurrency[];
         inferred: SaveCurrency[];
     };
-    upgrades: Upgrade[];
+    upgrades: SavedUpgrade[];
     flags: Flags,
 }
 
 type Flags = {[key: string]: boolean | Flags};
 
-export interface Upgrade {
+export type UpgradeType = "flag" | "additive" | "multiplicative" | "additive_multiplicative";
+export interface UpgradeDef {
     id: string;
     title: string;
     effect?: string;
     target: string;
-    type: "flag" | "additive" | "multiplicative";
-    additive?: boolean;
+    type: UpgradeType;
     amount?: number;
     cost: number;
     costScaling?: number;
     levels?: number;
     currency: string;
+}
+
+export interface SavedUpgrade {
+    id: string;
     accessor: string;
+    levels: number;
 }
 
 export interface SaveCurrency {
