@@ -69,7 +69,7 @@ export class UpgradeElement extends HTMLElement {
                 break;
             case "multiplicative":
             case "additive_multiplicative":
-                this.currentEffectElement.innerText = `×${Numbers.getFormatted(effect, 2)}`;
+                this.currentEffectElement.innerText = `x${Numbers.getFormatted(effect, 2)}`;
                 break;
         }
     }
@@ -112,10 +112,10 @@ export class UpgradeElement extends HTMLElement {
                     effect.insertAdjacentText("beforeend", ` +${Numbers.getFormatted(new Decimal(this.def.amount), 2)}`);
                     break;
                 case "multiplicative":
-                    effect.insertAdjacentText("beforeend", ` ×${Numbers.getFormatted(new Decimal(this.def.amount), 2)}`);
+                    effect.insertAdjacentText("beforeend", ` x${Numbers.getFormatted(new Decimal(this.def.amount), 2)}`);
                     break;
                 case "additive_multiplicative":
-                    effect.insertAdjacentText("beforeend", ` ×${Numbers.getFormatted(new Decimal(this.def.amount), 2)} (${Translator.getTranslation("misc.additive")})`);
+                    effect.insertAdjacentText("beforeend", ` x${Numbers.getFormatted(new Decimal(this.def.amount), 2)} (${Translator.getTranslation("misc.additive")})`);
                     break;
             }
         }
