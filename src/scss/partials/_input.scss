@@ -49,3 +49,24 @@ input[type="checkbox"] {
         }
     }
 }
+
+select {
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #3e3e3e;
+    color: #fff;
+    border: 2px solid #3e3e3e;
+    transition: border-color 150ms, background-color 150ms;
+    outline: none;
+
+    &:hover {
+        background-color: #575757;
+        border-color: #575757;
+    }
+
+    &:active {
+        background-color: #3e3e3e;
+        border-color: #3e3e3e;
+    }
+}
