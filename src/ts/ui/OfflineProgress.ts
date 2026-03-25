@@ -27,8 +27,7 @@ export class OfflineProgressUI {
         } else {
             document.getElementById("offline-progress").classList.remove("loading");
             const title = document.getElementById("offline-progress-title") as TranslatedElement;
-            title.textContent = "misc.offlineProgress";
-            title.refresh();
+            title.refresh("misc.offlineProgress");
         }
     }
 }
