@@ -1,10 +1,11 @@
-import type { Setting, Settings as SettingsType } from 'types/Settings';
+import type { Setting, Settings, SavedSettings } from 'types/Settings';
 import { defaultSettings } from './defaultSettings';
 
+export const SETTINGS_VERSION = 1;
 const SETTINGS_NAME = "idledynamics_settings";
 
 class SettingsHandler {
-    private settings: SettingsType;
+    private settings: Settings;
 
     constructor() {
         const data = localStorage.getItem(SETTINGS_NAME);
@@ -13,52 +14,84 @@ class SettingsHandler {
             return;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const deepMerge = (base: any, override: any): SettingsType => {
-            const result = { ...base };
-            for (const key in override) {
-                if (override[key] && typeof override[key] === "object" && !Array.isArray(override[key])) {
-                    result[key] = deepMerge(base[key] ?? {}, override[key]);
-                } else {
-                    result[key] = override[key];
-                }
-            }
-            return result;
+        const parsed = JSON.parse(data) as SavedSettings;
+        if (parsed.version === undefined || parsed.version < SETTINGS_VERSION) {
+            // todo: implement proper migration
+            this.reset();
+            return;
         }
 
-        this.settings = deepMerge(SettingsHandler.default(), JSON.parse(data));
+        this.settings = SettingsHandler.mergeWithDefs(parsed);
     }
 
-    public static default(): SettingsType {
-        return defaultSettings;
+    private static mergeWithDefs(saved: SavedSettings): Settings {
+        const categories = Object.fromEntries(
+            (Object.keys(defaultSettings) as Array<keyof typeof defaultSettings>).map((cat) => {
+                const defCategory = defaultSettings[cat];
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const savedCategory = (saved as any)[cat];
+
+                const settings = Object.fromEntries(
+                    (Object.keys(defCategory.settings) as Array<keyof typeof defCategory.settings>).map((key) => {
+                        const def = defCategory.settings[key];
+                        const savedValue = savedCategory?.settings?.[key];
+
+                        if (!("default" in def)) {
+                            return [key, savedValue ?? def];
+                        }
+
+                        return [key, {
+                            ...(def as Record<string, unknown>),
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            value: savedValue ?? (def as any).default,
+                        }];
+                    })
+                );
+
+                return [cat, { title: defCategory.title, settings }];
+            })
+        );
+
+        return { version: SETTINGS_VERSION, ...categories } as Settings;
     }
 
-    public get(): SettingsType {
+    private static extractSaved(settings: Settings): SavedSettings {
+        const categories = Object.fromEntries(
+            (Object.keys(defaultSettings) as Array<keyof typeof defaultSettings>).map((cat) => {
+                const category = settings[cat];
+                const savedSettings = Object.fromEntries(
+                    (Object.keys(category.settings) as Array<keyof typeof category.settings>).map((key) => {
+                        const entry = category.settings[key];
+                        return [key, "value" in entry ? (entry as Setting<unknown>).value : entry];
+                    })
+                );
+                return [cat, { settings: savedSettings }];
+            })
+        );
+
+        return { version: SETTINGS_VERSION, ...categories } as SavedSettings;
+    }
+
+    public static default(): Settings {
+        return SettingsHandler.mergeWithDefs({ version: SETTINGS_VERSION } as SavedSettings);
+    }
+
+    public get(): Settings {
         return this.settings;
-    }
-
-    public set(settings: Partial<SettingsType>): void {
-        if (this.settings) {
-            this.settings = {...this.settings, ...settings};
-        } else {
-            this.settings = { ...SettingsHandler.default(), ...settings };
-        }
-
-        this.save();
     }
 
     // trust me bro we'll add types to javascript bro it'll be so much better bro
     public setSpecific<
-        C extends keyof SettingsType,
-        K extends keyof SettingsType[C]["settings"],
-        V extends SettingsType[C]["settings"][K] extends Setting<infer U> ? U : never,
+        C extends keyof Omit<Settings, "version">,
+        K extends keyof Settings[C]["settings"],
+        V extends Settings[C]["settings"][K] extends Setting<infer U> ? U : never,
     >(cat: C, key: K, value: V): void {
         (this.get()[cat].settings as Record<K, Setting<V>>)[key].value = value;
         this.save();
-    };
+    }
 
-    public save() {
-        localStorage.setItem(SETTINGS_NAME, JSON.stringify(this.settings));
+    public save(): void {
+        localStorage.setItem(SETTINGS_NAME, JSON.stringify(SettingsHandler.extractSaved(this.settings)));
     }
 
     public reset(): void {
@@ -68,7 +101,7 @@ class SettingsHandler {
 }
 
 let _instance: SettingsHandler;
-export const useSettings = (): SettingsType => {
+export const useSettings = (): Settings => {
     if (!_instance) throw new Error("Call initSettings() first");
     return _instance.get();
 };

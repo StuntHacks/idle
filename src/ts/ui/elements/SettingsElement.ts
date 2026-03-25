@@ -4,7 +4,7 @@ import { TranslatedElement } from "./TranslatedElement";
 import { useSettings, useSettingsHandler } from "utils/SettingsHandler";
 import { UI } from "ui/UI";
 
-type ST = Omit<SettingsType, "internal">;
+type ST = Omit<SettingsType, "version" | "internal">;
 
 export class SettingsElement extends HTMLElement {
     private category: keyof ST;
@@ -40,7 +40,6 @@ export class SettingsElement extends HTMLElement {
                 label.appendChild(desc);
             }
 
-
             if (typeof setting.value === "boolean") {
                 const input = document.createElement("input");
                 input.type = "checkbox";
@@ -75,7 +74,7 @@ export class SettingsElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.category = (this.getAttribute("for")) as keyof ST;
+        this.category = this.getAttribute("for") as keyof ST;
         this.rebuild();
     }
 

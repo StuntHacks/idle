@@ -1,86 +1,77 @@
-import { Settings } from "types/Settings";
+import { SettingCategory, SettingDef, QuantumSettings } from "types/Settings";
 
-export const defaultSettings: Settings = {
+export const defaultSettings: {
+    general: SettingCategory<{ language: SettingDef<"en" | "de">; noTabHistory: SettingDef<boolean> }>;
+    gameplay: SettingCategory<{ noOfflineTime: SettingDef<boolean>; autoAcceptOfflineTime: SettingDef<boolean> }>;
+    display: SettingCategory<{ darkNavigation: SettingDef<boolean>; reverseBottomBar: SettingDef<boolean>; stillFields: SettingDef<boolean> }>;
+    debug: SettingCategory<{ logging: SettingDef<boolean>; verbose: SettingDef<boolean> }>;
+    internal: SettingCategory<{ quantum: QuantumSettings }>;
+} = {
     general: {
         title: "settings.general.title",
         settings: {
             language: {
-                value: "en",
                 default: "en",
                 name: "settings.general.language.name",
                 description: "",
                 action: "updateLanguage",
                 options: [
-                    {
-                        name: "English",
-                        value: "en",
-                    },
-                    {
-                        name: "Deutsch",
-                        value: "de",
-                    }
-                ]
+                    { name: "English", value: "en" },
+                    { name: "Deutsch", value: "de" },
+                ],
             },
             noTabHistory: {
-                value: false,
                 default: false,
                 name: "settings.general.noTabHistory.name",
-                description: "settings.general.noTabHistory.description"
+                description: "settings.general.noTabHistory.description",
             },
-        }
+        },
     },
     gameplay: {
         title: "settings.gameplay.title",
         settings: {
             noOfflineTime: {
-                value: false,
                 default: false,
-                name: "settings.gameplay.noOfflineTime.name"
+                name: "settings.gameplay.noOfflineTime.name",
             },
             autoAcceptOfflineTime: {
-                value: false,
                 default: false,
                 name: "settings.gameplay.autoAcceptOfflineTime.name",
-            }
-        }
+            },
+        },
     },
     display: {
         title: "settings.display.title",
         settings: {
             darkNavigation: {
-                value: false,
                 default: false,
                 name: "settings.display.darkNavigation.name",
                 action: "darkenNavigation",
             },
             reverseBottomBar: {
-                value: false,
                 default: false,
                 name: "settings.display.reverseBottomBar.name",
                 action: "reverseBottomBar",
             },
             stillFields: {
-                value: false,
                 default: false,
                 name: "settings.display.stillFields.name",
-                description: "settings.display.stillFields.description"
+                description: "settings.display.stillFields.description",
             },
-        }
+        },
     },
     debug: {
         title: "settings.debug.title",
         settings: {
             logging: {
-                value: true,
                 default: true,
                 name: "settings.debug.logging.name",
             },
             verbose: {
-                value: false,
                 default: false,
                 name: "settings.debug.verbose.name",
-            }
-        }
+            },
+        },
     },
     internal: {
         title: "Internal settings",
@@ -94,8 +85,8 @@ export const defaultSettings: Settings = {
                     { selected: "higgs" },
                     { selected: "electroweak" },
                     { selected: "neutrino" },
-                ]
-            }
-        }
-    }
-}
+                ],
+            },
+        },
+    },
+};
