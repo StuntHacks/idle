@@ -1,4 +1,3 @@
-import { Currencies } from "./game_logic/currencies/Currencies";
 import { initGame } from "./game_logic/Game";
 import { CustomElements } from "ui/CustomElements";
 
@@ -6,7 +5,6 @@ export const main = async () => {
     const game = initGame();
 
     // initialize
-    Currencies.initialize("quantum-resource-gain-container"); // todo: fix selector
     CustomElements.initialize();
 
     document.getElementById("magic-button").addEventListener("click", () => {

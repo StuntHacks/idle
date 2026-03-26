@@ -1,4 +1,3 @@
-import { Currencies } from "game_logic/currencies/Currencies";
 import { SaveFile, SavedUpgrade } from "types/SaveFile";
 import { UI } from "ui/UI";
 import { Logger } from "utils/Logger";
@@ -7,6 +6,7 @@ import _ from "lodash";
 import { Utils } from "utils/utils";
 import { defaultSave } from "./defaultSave";
 import { initSettings } from "utils/SettingsHandler";
+import { useCurrencyHandler } from "game_logic/currencies/Currencies";
 
 export const SAVE_FILE_VERSION = 6;
 const SAVE_FILE_NAME = "idledynamics_saveFile";
@@ -57,7 +57,7 @@ export class SaveHandler {
     }
 
     public saveCurrencies() {
-        const [currencies, inferred] = Currencies.getAll();
+        const [currencies, inferred] = useCurrencyHandler().getAll();
 
         this.save.currencies.normal = [];
         for (const c of currencies) {

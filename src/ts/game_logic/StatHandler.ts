@@ -3,9 +3,9 @@ import upgradesData from "game_logic/data/upgrades.json";
 import { UpgradeDef, SavedUpgrade } from "types/SaveFile";
 import Decimal from "break_eternity.js";
 import _ from "lodash";
-import { Currencies } from "./currencies/Currencies";
 import { useSaveHandler } from "SaveHandler/SaveHandler";
 import { Logger } from "utils/Logger";
+import { useCurrencyHandler } from "./currencies/Currencies";
 
 const stats = statsData as StatData;
 
@@ -121,7 +121,7 @@ class StatHandler {
         }
 
         if (def.type === "flag") {
-            if (purchase && !Currencies.spend(def.currency, new Decimal(def.cost))) {
+            if (purchase && !useCurrencyHandler().spend(def.currency, new Decimal(def.cost))) {
                 return false;
             }
             useSaveHandler().setFlag(def.target, true);
@@ -148,7 +148,7 @@ class StatHandler {
 
         const cost = this.calculateCost(def, currentLevel, actualAmount);
 
-        if (purchase && !Currencies.spend(def.currency, cost)) {
+        if (purchase && !useCurrencyHandler().spend(def.currency, cost)) {
             return false;
         }
 

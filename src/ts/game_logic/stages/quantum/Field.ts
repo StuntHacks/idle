@@ -1,9 +1,10 @@
 import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { ParticleModel, ParticleType, QuantumStage } from "./Quantum";
-import { Currencies } from "game_logic/currencies/Currencies";
 import { useSettings } from "utils/SettingsHandler";
 import { useSaveHandler } from "SaveHandler/SaveHandler";
 import { useStat } from "game_logic/StatHandler";
+import { useCurrencyHandler } from "game_logic/currencies/Currencies";
+import { UI } from "ui/UI";
 
 interface FieldColor {
     start: string;
@@ -91,20 +92,20 @@ export class QuantumField {
             // todo: solve this with loop instead
             if (particle.type === "quark") {
                 const hashRed = hash.replace("rgb", "red");
-                Currencies.gain(hashRed, amount);
+                useCurrencyHandler().gain(hashRed, amount);
                 const hashGreen = hashRed.replace("red", "green");
-                Currencies.gain(hashGreen, amount);
+                useCurrencyHandler().gain(hashGreen, amount);
                 const hashBlue = hashRed.replace("red", "blue");
-                Currencies.gain(hashBlue, amount);
+                useCurrencyHandler().gain(hashBlue, amount);
             } else {
-                Currencies.gain(hash, amount);
+                useCurrencyHandler().gain(hash, amount);
             }
         } else {
-            Currencies.gain(hash, amount);
+            useCurrencyHandler().gain(hash, amount);
         }
 
         if (!catchingUp) {
-            Currencies.spawnGainElement(hash, amount, position - (click ? 11 : 0), this.fieldPosition.y + (this.fieldPosition.height / 2) - 20);
+            UI.spawnGainElement("quantum-resource-gain-container", hash, amount, position - (click ? 11 : 0), this.fieldPosition.y + (this.fieldPosition.height / 2) - 20);
             if (click || !useSettings().display.settings.stillFields.value) {
                 this.fieldElement.ripple(position, index);
             }

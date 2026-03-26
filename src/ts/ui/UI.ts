@@ -7,13 +7,18 @@ import { StageTabElement } from "./elements/StageTabElement";
 import { PopoverManager } from "./PopoverManager";
 import { SettingsUI } from "./Settings";
 import { useSettings } from "utils/SettingsHandler";
+import Decimal from "break_eternity.js";
+import { Currency, useCurrency } from "game_logic/currencies/Currencies";
+import { Logger } from "utils/Logger";
+import { Numbers } from "numbers/numbers";
 
 export class UI {
-    public static saveIndicator: HTMLElement;
+    private static saveIndicator: HTMLElement;
     public static mouseDown: boolean = false;
     public static mouseX: number = 0;
     public static mouseY: number = 0;
-    public static lastStageTab: string = "quantum";
+    private static lastStageTab: string = "quantum";
+    private static currencyContainerMap = new Map<string, HTMLElement>();
 
     public static initialize() {
         customElements.define("translated-string", TranslatedElement);
@@ -198,6 +203,38 @@ export class UI {
             UI.switchStageTab("version");
         } else {
             UI.switchStageTab("settings");
+        }
+    }
+
+    public static spawnGainElement(
+        container: string,
+        hash: string,
+        amount: Decimal,
+        x: number,
+        y: number,
+        showRipple: boolean = false
+    ) {
+        const currency = useCurrency(hash) as Currency;
+        if (!currency || currency.inferred) {
+            Logger.error("spawnGainElement()", `"${hash}" is inferred`);
+            return;
+        }
+
+        const element = document.createElement("resource-gain");
+        element.setAttribute("x", x + "");
+        element.setAttribute("y", y + "");
+        element.setAttribute("data-class", currency.className);
+        element.setAttribute("amount", Numbers.getFormatted(amount));
+        if (showRipple) element.setAttribute("ripple", "true");
+
+        if (UI.currencyContainerMap.has(container)) {
+            UI.currencyContainerMap.get(container).appendChild(element);
+        } else {
+            const containerElement = document.getElementById(container);
+            if (containerElement) {
+                containerElement.appendChild(element);
+                UI.currencyContainerMap.set(container, containerElement);
+            }
         }
     }
 }

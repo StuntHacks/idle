@@ -7,6 +7,7 @@ import { UI } from "ui/UI";
 import { useSettings } from "utils/SettingsHandler";
 import { initSaveHandler, useSave, useSaveHandler } from "SaveHandler/SaveHandler";
 import { initStatHandler } from "./StatHandler";
+import { initCurrencyHandler } from "./currencies/Currencies";
 
 export interface OfflineResults { [key: string]: unknown }; // placeholder
 
@@ -26,6 +27,7 @@ class Game {
 
     constructor() {
         initSaveHandler();
+        initCurrencyHandler();
         initStatHandler();
         Translator.initialize();
         UI.initialize();

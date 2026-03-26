@@ -1,88 +1,95 @@
-
 import { Numbers } from "numbers/numbers";
-import { Currencies, CurrencyCallback, InferredCurrencyCallback } from "../Currencies";
+import { CurrencyCallback, CurrencyHandler, InferredCurrencyCallback, useCurrencyHandler } from "../Currencies";
+import { InferredCurrency } from "../InferredCurrency";
 import Decimal from "break_eternity.js";
 import { useStat } from "game_logic/StatHandler";
 
-export class Energy {
-    private static amount = new Decimal(0);
-    private static callbacks: InferredCurrencyCallback[] = [];
+export class Energy extends InferredCurrency {
+    private amount = new Decimal(0);
+    private callbacks: InferredCurrencyCallback[] = [];
 
-    public static initialize() {
-        Currencies.registerInferred("energy", this);
+    private static instance: Energy;
+
+    private constructor() {
+        super();
+    }
+
+    public static initialize(handler: CurrencyHandler) {
+        this.instance = new Energy();
+        handler.registerInferred("energy", this.instance);
 
         const electronCallback: CurrencyCallback = (hash, type, amount) => {
             if (type === "gain") {
-                const before = this.amount;
+                const before = this.instance.amount;
                 const total = before.plus(amount.multiply(useStat("energy_gain").total));
-                this.amount = total;
+                this.instance.amount = total;
 
-                for (let callback of this.callbacks) {
-                    callback(this, "gain", amount, before, total);
+                for (const callback of this.instance.callbacks) {
+                    callback("energy", "gain", amount, before, total);
                 }
             }
-        }
+        };
 
-        Currencies.registerCallback(electronCallback, "leptons-electron");
+        handler.registerCallback(electronCallback, "leptons-electron");
     }
 
-    public static getFormatted(amount: Decimal = undefined, precision: number = 1): string {
-        if (!amount) {
-            amount = this.amount;
-        }
+    public static getFormatted(amount?: Decimal, precision: number = 1): string {
+        return this.instance.getFormatted(amount, precision);
+    }
+
+    public getFormatted(amount?: Decimal, precision: number = 1): string {
+        const value = amount ?? this.amount;
 
         let suffix = "";
         let divisor = 1;
 
-        if (amount.e < 9) {
+        if (value.e < 9) {
             suffix = "MeV";
-        } else if (amount.e < 12) {
+        } else if (value.e < 12) {
             suffix = "GeV";
             divisor = 1e3;
-        } else if (amount.e < 15) {
+        } else if (value.e < 15) {
             suffix = "TeV";
             divisor = 1e6;
-        } else if (amount.e < 18) {
+        } else if (value.e < 18) {
             suffix = "PeV";
             divisor = 1e9;
-        } else if (amount.e < 21) {
+        } else if (value.e < 21) {
             suffix = "EeV";
             divisor = 1e12;
-        } else if (amount.e < 24) {
+        } else if (value.e < 24) {
             suffix = "ZeV";
             divisor = 1e15;
         } else {
-            return Numbers.getFormatted(amount) + "eV";
+            return Numbers.getFormatted(value) + "eV";
         }
 
-        return amount.dividedBy(1000000).dividedBy(divisor).toFixed(precision) + suffix;
+        return value.dividedBy(1000000).dividedBy(divisor).toFixed(precision) + suffix;
     }
 
-    public static getAmount(): Decimal {
+    public getAmount(): Decimal {
         return this.amount;
     }
 
-    public static setAmount(amount: Decimal) {
+    public setAmount(amount: Decimal) {
         this.amount = amount;
     }
 
-    public static spend(amount: Decimal) {
-        if (this.amount.greaterThanOrEqualTo(amount)) {
-            const before = this.amount;
-            const total = before.minus(amount);
-            this.amount = total;
+    public spend(amount: Decimal): boolean {
+        if (!this.amount.greaterThanOrEqualTo(amount)) return false;
 
-            for (let callback of this.callbacks) {
-                callback(this, "spend", amount, before, total);
-            }
+        const before = this.amount;
+        const total = before.minus(amount);
+        this.amount = total;
 
-            return true;
+        for (const callback of this.callbacks) {
+            callback("energy", "spend", amount, before, total);
         }
 
-        return false;
+        return true;
     }
 
-    public static registerCallback(callback: InferredCurrencyCallback) {
+    public registerCallback(callback: InferredCurrencyCallback) {
         this.callbacks.push(callback);
     }
 }

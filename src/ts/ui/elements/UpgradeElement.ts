@@ -4,7 +4,7 @@ import { Translator } from "i18n/i18n";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { UpgradeDef } from "types/SaveFile";
 import Decimal from "break_eternity.js";
-import { Currencies, Currency, InferredCurrencyCallback } from "game_logic/currencies/Currencies";
+import { Currency, InferredCurrencyCallback, useCurrency, useCurrencyHandler } from "game_logic/currencies/Currencies";
 import { Numbers } from "numbers/numbers";
 import { useSaveHandler } from "SaveHandler/SaveHandler";
 import { useStat, useStatHandler } from "game_logic/StatHandler";
@@ -154,7 +154,7 @@ export class UpgradeElement extends HTMLElement {
 
         const checkCost = (total?: Decimal) => {
             if (total == null) {
-                const c = Currencies.get(this.def.currency);
+                const c = useCurrency(this.def.currency);
                 total = c.inferred ? c.handler.getAmount() : (c as Currency).amount;
             }
             this.classList.toggle("disabled", !total.greaterThanOrEqualTo(this.getCost()));
@@ -163,7 +163,7 @@ export class UpgradeElement extends HTMLElement {
         const currencyCallback: InferredCurrencyCallback = (_hash, _type, _amount, _before, total) => {
             checkCost(total);
         };
-        Currencies.registerCallback(currencyCallback, this.def.currency);
+        useCurrencyHandler().registerCallback(currencyCallback, this.def.currency);
 
         this.appendChild(this.detailsElement);
         this.appendChild(this.costElement);
