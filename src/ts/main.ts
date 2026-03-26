@@ -14,5 +14,5 @@ export const main = async () => {
     // PopoverManager.add(new ExportPopover());
 
     game.start();
-    // document.addEventListener("contextmenu", (e) => e.preventDefault());
+    document.addEventListener("contextmenu", (e) => e.preventDefault());
 }

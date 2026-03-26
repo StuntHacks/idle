@@ -7,6 +7,10 @@ quantum-field {
         left: 0;
         z-index: 1000;
         -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+        touch-action: none;
 
         &.disabled {
             pointer-events: none;
