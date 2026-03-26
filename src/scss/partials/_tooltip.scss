@@ -22,12 +22,12 @@ tool-tip {
     width: max-content;
     height: max-content;
 
-    &[hidden] {
-        display: none;
-    }
-
     &.visible {
         opacity: 1;
+    }
+
+    &[hidden] {
+        opacity: 0;
     }
 
     &[center] {
