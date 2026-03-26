@@ -5,7 +5,6 @@ import { useSettings } from "utils/SettingsHandler";
 import { Numbers } from "numbers/numbers";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { Currency, useCurrency } from "game_logic/currencies/Currencies";
-import Decimal from "break_eternity.js";
 
 export class OfflineProgressUI {
     static initUI() {
@@ -26,46 +25,6 @@ export class OfflineProgressUI {
 
     public static renderProgress(progress: OfflineResults) {
         void progress;
-        progress = {
-            "quantum": {
-                "particles": [
-                    {
-                        "hash": "bosons-gluon",
-                        "amount": new Decimal(23458749398573987548937893453455345.375)
-                    },
-                    {
-                        "hash": "bosons-photon",
-                        "amount": new Decimal(43252456.375)
-                    },
-                    {
-                        "hash": "bosons-z",
-                        "amount": new Decimal(23458749398573987548937893453455345.375)
-                    },
-                    {
-                        "hash": "bosons-w-plus",
-                        "amount": new Decimal(43252456.375)
-                    },
-                    {
-                        "hash": "bosons-w-minus",
-                        "amount": new Decimal(23458749398573987548937893453455345.375)
-                    }
-                ],
-                "inferred": [
-                    {
-                        "hash": "energy",
-                        "amount": new Decimal(4597762057148427)
-                    },
-                    {
-                        "hash": "energy",
-                        "amount": new Decimal(349785693872465987263498757684320873645048793578623487567834)
-                    },
-                    {
-                        "hash": "energy",
-                        "amount": new Decimal(34554)
-                    }
-                ]
-            }
-        };
         if (useSettings().gameplay.settings.autoAcceptOfflineTime?.value) {
             OfflineProgressUI.dismiss();
         } else {
