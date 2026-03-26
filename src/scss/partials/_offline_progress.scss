@@ -47,6 +47,11 @@
         pointer-events: none;
 
         .title-section,
+        .button-section {
+            pointer-events:  none;
+        }
+
+        .title-section,
         .button-section,
         #offline-results {
             opacity: 0;
