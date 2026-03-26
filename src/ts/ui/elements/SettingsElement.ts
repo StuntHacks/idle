@@ -27,6 +27,7 @@ export class SettingsElement extends HTMLElement {
 
             const label = document.createElement("label");
             this.appendChild(label);
+            if (setting.platform) label.classList.add(setting.platform);
 
             const name = document.createElement("span");
             name.textContent = Translator.getTranslation(setting.name);

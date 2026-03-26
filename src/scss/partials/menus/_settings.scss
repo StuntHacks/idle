@@ -29,6 +29,12 @@
                 background-color: #1D1D1D;
                 border-radius: 20px;
 
+                &[desktop] {
+                    @media screen and (max-width: 963px) {
+                        display: none;
+                    }
+                }
+
                 h1 {
                     white-space: nowrap;
                     font-weight: lighter;
@@ -45,6 +51,30 @@
                     padding-left: 1rem;
                     cursor: pointer;
 
+                    &.desktop { // 964px and above
+                        @media screen and (max-width: 963px) {
+                            display: none;
+                        }
+                    }
+
+                    &.tablet-up { // 535px and above
+                        @media screen and (max-width: 534px) {
+                            display: none;
+                        }
+                    }
+
+                    &.tablet-down { // 963px and below
+                        @media screen and (min-width: 964px) {
+                            display: none;
+                        }
+                    }
+
+                    &.mobile { // 534px and below
+                        @media screen and (min-width: 535px) {
+                            display: none;
+                        }
+                    }
+
                     .name {
                         margin-right: 1rem;
                     }
@@ -54,6 +84,10 @@
                             flex-grow: 1;
                             margin-right: 0;
                         }
+                    }
+
+                    &:has(select) {
+                        width: fit-content;
                     }
 
                     .description {

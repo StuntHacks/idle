@@ -24,6 +24,29 @@ export interface Settings {
     }>;
 }
 
+export interface SettingsDef {
+    general: SettingCategory<{
+        language: SettingDef<"en" | "de">;
+        noTabHistory: SettingDef<boolean>
+    }>;
+    gameplay: SettingCategory<{
+        noOfflineTime: SettingDef<boolean>;
+        autoAcceptOfflineTime: SettingDef<boolean>
+    }>;
+    display: SettingCategory<{
+        darkNavigation: SettingDef<boolean>;
+        reverseBottomBar: SettingDef<boolean>;
+        stillFields: SettingDef<boolean>
+    }>;
+    debug: SettingCategory<{
+        logging: SettingDef<boolean>;
+        verbose: SettingDef<boolean>
+    }>;
+    internal: SettingCategory<{
+        quantum: QuantumSettings
+    }>;
+}
+
 export interface Setting<T> extends SettingDef<T> {
     value: T;
 }
@@ -34,6 +57,7 @@ export interface SettingDef<T> {
     description?: string;
     options?: { name: string; value: T }[];
     action?: string;
+    platform?: "desktop" | "tablet-up" | "tablet-down" | "mobile";
 }
 
 export interface SettingCategory<S> {
@@ -53,7 +77,6 @@ export type SavedSettings = {
 };
 
 export type QuantumFieldType = "lepton" | "quark" | "gluon" | "higgs" | "electroweak" | "neutrino";
-
 export interface QuantumFieldSettings {
     selected: QuantumFieldType;
     next?: QuantumFieldType;

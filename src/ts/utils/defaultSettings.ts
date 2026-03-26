@@ -1,12 +1,6 @@
-import { SettingCategory, SettingDef, QuantumSettings } from "types/Settings";
+import { SettingsDef } from "types/Settings";
 
-export const defaultSettings: {
-    general: SettingCategory<{ language: SettingDef<"en" | "de">; noTabHistory: SettingDef<boolean> }>;
-    gameplay: SettingCategory<{ noOfflineTime: SettingDef<boolean>; autoAcceptOfflineTime: SettingDef<boolean> }>;
-    display: SettingCategory<{ darkNavigation: SettingDef<boolean>; reverseBottomBar: SettingDef<boolean>; stillFields: SettingDef<boolean> }>;
-    debug: SettingCategory<{ logging: SettingDef<boolean>; verbose: SettingDef<boolean> }>;
-    internal: SettingCategory<{ quantum: QuantumSettings }>;
-} = {
+export const defaultSettings: SettingsDef = {
     general: {
         title: "settings.general.title",
         settings: {
@@ -24,7 +18,7 @@ export const defaultSettings: {
                 default: false,
                 name: "settings.general.noTabHistory.name",
                 description: "settings.general.noTabHistory.description",
-            },
+            }
         },
     },
     gameplay: {
@@ -52,6 +46,7 @@ export const defaultSettings: {
                 default: false,
                 name: "settings.display.reverseBottomBar.name",
                 action: "reverseBottomBar",
+                platform: "tablet-up",
             },
             stillFields: {
                 default: false,

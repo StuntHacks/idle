@@ -111,5 +111,6 @@ export const useSettingsHandler = (): SettingsHandler => {
 };
 export const initSettings = (): SettingsHandler => {
     _instance = new SettingsHandler();
+    _instance.save();
     return _instance;
 };
