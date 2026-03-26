@@ -16,6 +16,10 @@ nav.main-nav {
     z-index: 2;
     max-width: 100vw;
     overflow: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     background-color: var(--color-navigation);
     color: var(--color-navigation-inactive);

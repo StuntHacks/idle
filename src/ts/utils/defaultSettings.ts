@@ -32,6 +32,11 @@ export const defaultSettings: SettingsDef = {
                 default: false,
                 name: "settings.gameplay.autoAcceptOfflineTime.name",
             },
+            detailedOfflineProgress: {
+                default: false,
+                name: "settings.gameplay.detailedOfflineProgress.name",
+                description: "settings.gameplay.detailedOfflineProgress.description",
+            },
         },
     },
     display: {

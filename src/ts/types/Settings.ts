@@ -9,6 +9,7 @@ export interface Settings {
     gameplay: SettingCategory<{
         noOfflineTime: Setting<boolean>;
         autoAcceptOfflineTime: Setting<boolean>;
+        detailedOfflineProgress: Setting<boolean>;
     }>;
     display: SettingCategory<{
         darkNavigation: Setting<boolean>;

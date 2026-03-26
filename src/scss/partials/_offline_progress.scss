@@ -12,8 +12,10 @@
     background-color: #000;
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     .bobber {
         --color: #fff;
@@ -50,7 +52,8 @@
 
         button,
         h1,
-        h2 {
+        h2,
+        #offline-results {
             opacity: 0;
         }
 
@@ -64,6 +67,46 @@
         }
     }
 
+    .title-section,
+    .button-section {
+        position: sticky;
+        z-index: 100;
+        width: 100%;
+        background-color: #000;
+        display: flex;
+        justify-content: center;
+        flex-shrink: 0;
+        box-sizing: border-box;
+        box-shadow: 0 0 10px 5px #000;
+    }
+
+    .title-section {
+        top: 0;
+        padding-top: 10vh;
+        margin-bottom: 2rem;
+
+        @media screen and (max-height: 729px) {
+            padding-top: 5vh;
+            margin-bottom: 1rem;
+
+            #offline-duration {
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+
+    .button-section {
+        bottom: 0;
+        height: fit-content;
+        padding-bottom: 4rem;
+        padding-top: 2rem;
+
+        @media screen and (max-height: 729px) {
+            padding-bottom: 1rem;
+            padding-top: 0.5rem;
+        }
+    }
+
     button {
         animation: fadeIn 500ms ease forwards;
         border: none;
@@ -74,9 +117,9 @@
         text-transform: uppercase;
         cursor: pointer;
         transition: color 300ms, opacity 250ms, background-color 150ms;
-        position: relative;
         overflow: hidden;
         flex-grow: 0;
+        height: fit-content;
 
         translated-string {
             z-index: 2;
@@ -174,6 +217,10 @@
         > * {
             display: initial;
         }
+
+        .button-section {
+            display: flex;
+        }
     }
 
     #offline-results {
@@ -190,15 +237,22 @@
             word-break: keep-all;
             background-color: #1D1D1D;
             border-radius: 20px;
-            width: 400px;
+            width: 450px;
             align-items: center;
             margin-bottom: 1rem;
             user-select: none;
-            gap: 1rem;
+            gap: 10px;
+            box-sizing: border-box;
+
+            @media screen and (max-width: 529px) {
+                width: 100%;
+                border-radius: 0;
+            }
 
             .gain {
                 display: flex;
                 align-items: center;
+                white-space: nowrap;
             }
 
             .particles {
@@ -225,6 +279,8 @@
                 justify-content: space-around;
                 width: 100%;
                 margin-bottom: 1rem;
+                gap: 1rem;
+                flex-wrap: wrap;
 
                 .energy {
                     @include energy-text;

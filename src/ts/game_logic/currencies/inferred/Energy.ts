@@ -64,10 +64,10 @@ export class Energy extends InferredCurrency {
             suffix = "ZeV";
             divisor = 1e15;
         } else {
-            return Numbers.getFormatted(value) + "eV";
+            return Numbers.getFormatted(value) + " eV";
         }
 
-        return value.dividedBy(1000000).dividedBy(divisor).toFixed(precision) + suffix;
+        return value.dividedBy(1000000).dividedBy(divisor).toFixed(precision) + ` ${suffix}`;
     }
 
     public getAmount(): Decimal {

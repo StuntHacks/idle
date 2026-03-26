@@ -5,6 +5,7 @@ import { useSave } from "SaveHandler/SaveHandler";
 import currencyData from "../data/currencies.json";
 import { Logger } from "utils/Logger";
 import { OfflineResults } from "game_logic/Game";
+import { useSettings } from "utils/SettingsHandler";
 
 export class CurrencyHandler {
     private currencyMap = new Map<string, Currency | InferredCurrency>();
@@ -89,7 +90,9 @@ export class CurrencyHandler {
             const { stage, group } = currency;
             if (!results[stage]) results[stage] = {};
             if (!results[stage][group]) results[stage][group] = [];
-            results[stage][group].push({ hash, amount: gained });
+            if (currency.important || useSettings().gameplay.settings.detailedOfflineProgress?.value) {
+                results[stage][group].push({ hash, amount: gained });
+            }
         }
 
         return results;
@@ -203,6 +206,7 @@ export interface Currency {
     hash: string;
     stage: string;
     group: string;
+    important?: boolean;
     callbacks: CurrencyCallback[];
     inferred: false;
 }
@@ -212,6 +216,7 @@ export interface InferredCurrency {
     handler: InferredCurrencyClass;
     stage: string;
     group: string;
+    important?: boolean;
     inferred: true;
 }
 

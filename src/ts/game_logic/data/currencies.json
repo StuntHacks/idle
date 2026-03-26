@@ -34,18 +34,18 @@
         { "className": "particle quark bottom blue", "hash": "quarks-bottom-blue", "stage": "quantum", "group": "particles" },
         { "className": "particle quark bottom rgb", "hash": "quarks-bottom-rgb", "stage": "quantum", "group": "particles" },
 
-        { "className": "particle boson gluon", "hash": "bosons-gluon", "stage": "quantum", "group": "particles" },
-        { "className": "particle boson photon", "hash": "bosons-photon", "stage": "quantum", "group": "particles" },
-        { "className": "particle boson z", "hash": "bosons-z", "stage": "quantum", "group": "particles" },
-        { "className": "particle boson w-plus", "hash": "bosons-w-plus", "stage": "quantum", "group": "particles" },
-        { "className": "particle boson w-minus", "hash": "bosons-w-minus", "stage": "quantum", "group": "particles" },
-        { "className": "particle boson higgs", "hash": "bosons-higgs", "stage": "quantum", "group": "particles" },
+        { "className": "particle boson gluon", "hash": "bosons-gluon", "stage": "quantum", "group": "particles", "important": true },
+        { "className": "particle boson photon", "hash": "bosons-photon", "stage": "quantum", "group": "particles", "important": true },
+        { "className": "particle boson z", "hash": "bosons-z", "stage": "quantum", "group": "particles", "important": true },
+        { "className": "particle boson w-plus", "hash": "bosons-w-plus", "stage": "quantum", "group": "particles", "important": true },
+        { "className": "particle boson w-minus", "hash": "bosons-w-minus", "stage": "quantum", "group": "particles", "important": true },
+        { "className": "particle boson higgs", "hash": "bosons-higgs", "stage": "quantum", "group": "particles", "important": true },
 
         { "className": "particle lepton electron neutrino", "hash": "leptons-electron-neutrino", "stage": "quantum", "group": "particles" },
         { "className": "particle lepton muon neutrino", "hash": "leptons-muon-neutrino", "stage": "quantum", "group": "particles" },
         { "className": "particle lepton tau neutrino", "hash": "leptons-tau-neutrino", "stage": "quantum", "group": "particles" }
     ],
     "inferred": [
-        { "hash": "energy", "stage": "quantum", "group": "inferred" }
+        { "hash": "energy", "stage": "quantum", "group": "inferred", "important": true }
     ]
 }

@@ -50,6 +50,7 @@
                     flex-wrap: wrap;
                     padding-left: 1rem;
                     cursor: pointer;
+                    width: fit-content;
 
                     &.desktop { // 964px and above
                         @media screen and (max-width: 963px) {
