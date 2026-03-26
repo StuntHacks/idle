@@ -59,8 +59,8 @@
         "description": ""
       },
       "detailedOfflineProgress": {
-        "name": "Detailed offline progress",
-        "description": "Shows all currencies gained on the offline progress screen, instead of only the important ones"
+        "name": "Detailed offline results",
+        "description": "Shows all currencies gained on the offline results screen, instead of only the important ones"
       }
     },
     "display": {
