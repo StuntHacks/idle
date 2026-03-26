@@ -30,13 +30,13 @@ export class QuantumFieldElement extends HTMLElement {
         this.waves.forEach(wave => { wave.ripple(x, 20, 6.5, 0.05) });
     }
 
-    public ripple(x: number, index: number) {
+    public ripple(x: number, index: number, down?: boolean) {
         if (this.data.triple || index === -1) {
             for (let wave of this.waves) {
-                wave.ripple(x, 100);
+                wave.ripple(x, down ? -100 : 100);
             }
         } else {
-            this.waves[index].ripple(x, 100);
+            this.waves[index].ripple(x, down ? -100 : 100);
         }
     }
 
