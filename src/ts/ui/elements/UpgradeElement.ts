@@ -57,6 +57,7 @@ export class UpgradeElement extends HTMLElement {
 
         const level = this.getCurrentLevel();
         const effect = useStatHandler().getUpgradeEffect(this.def, level);
+        const label = useTranslation(useStat(this.def.target)?.title);
 
         if (effect === null) {
             this.currentEffectElement.innerText = useTranslation("misc.noEffect");
@@ -65,11 +66,11 @@ export class UpgradeElement extends HTMLElement {
 
         switch (this.def.type) {
             case "additive":
-                this.currentEffectElement.innerText = `+${Numbers.getFormatted(effect, 2)}`;
+                this.currentEffectElement.innerText = `${label} +${Numbers.getFormatted(effect, 2)}`;
                 break;
             case "multiplicative":
             case "additive_multiplicative":
-                this.currentEffectElement.innerText = `x${Numbers.getFormatted(effect, 2)}`;
+                this.currentEffectElement.innerText = `${label} x${Numbers.getFormatted(effect, 2)}`;
                 break;
         }
     }
