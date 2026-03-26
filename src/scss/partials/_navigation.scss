@@ -13,8 +13,9 @@ nav.main-nav {
     display: flex;
     position: sticky;
     top: 0;
-    justify-content: center;
     z-index: 2;
+    max-width: 100vw;
+    overflow: auto;
 
     background-color: var(--color-navigation);
     color: var(--color-navigation-inactive);
@@ -26,10 +27,10 @@ nav.main-nav {
 
     &::after {
         content: "";
-        position: absolute;
+        position: fixed;
         width: 100%;
         height: 3px;
-        bottom: 0;
+        top: 87px;
         @include gradient-quark-rgb;
         background: var(--gradient-repeating);
         animation: move-nav-gradient 10s linear infinite;
@@ -51,6 +52,14 @@ nav.main-nav {
         align-items: center;
         justify-content: center;
         transition: background-color 150ms, color 150ms;
+
+        &:first-of-type {
+            margin-left: auto;
+        }
+
+        &:last-of-type {
+            margin-right: auto;
+        }
 
         @keyframes flash {
             0% {
