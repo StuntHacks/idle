@@ -24,28 +24,12 @@ export interface Settings {
     }>;
 }
 
-export interface SettingsDef {
-    general: SettingCategory<{
-        language: SettingDef<"en" | "de">;
-        noTabHistory: SettingDef<boolean>
+export type SettingsDef = {
+    [C in keyof Omit<Settings, "version">]: SettingCategory<{
+        [K in keyof Settings[C]["settings"]]:
+            Settings[C]["settings"][K] extends Setting<infer T> ? SettingDef<T> : Settings[C]["settings"][K];
     }>;
-    gameplay: SettingCategory<{
-        noOfflineTime: SettingDef<boolean>;
-        autoAcceptOfflineTime: SettingDef<boolean>
-    }>;
-    display: SettingCategory<{
-        darkNavigation: SettingDef<boolean>;
-        reverseBottomBar: SettingDef<boolean>;
-        stillFields: SettingDef<boolean>
-    }>;
-    debug: SettingCategory<{
-        logging: SettingDef<boolean>;
-        verbose: SettingDef<boolean>
-    }>;
-    internal: SettingCategory<{
-        quantum: QuantumSettings
-    }>;
-}
+};
 
 export interface Setting<T> extends SettingDef<T> {
     value: T;
