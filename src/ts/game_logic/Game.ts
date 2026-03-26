@@ -110,7 +110,7 @@ class Game {
         this.catchingUp = true;
 
         if (!catchUp) {
-            OfflineProgressUI.initUI();
+            OfflineProgressUI.prepare();
             OfflineProgressUI.setDuration(Utils.getTimeString(time));
         }
 

@@ -7,9 +7,10 @@ import { Energy } from "game_logic/currencies/inferred/Energy";
 import { Currency, useCurrency } from "game_logic/currencies/Currencies";
 
 export class OfflineProgressUI {
-    static initUI() {
-        document.getElementById("offline-progress").classList.add("rendering");
+    public static prepare() {
+        document.getElementById("offline-progress").classList.add("calculating");
     }
+
     public static initialize() {
         document.getElementById("offline-progress-button").addEventListener("click", () => OfflineProgressUI.dismiss());
     }
@@ -28,7 +29,9 @@ export class OfflineProgressUI {
         if (useSettings().gameplay.settings.autoAcceptOfflineTime?.value) {
             OfflineProgressUI.dismiss();
         } else {
-            document.getElementById("offline-progress").classList.remove("loading");
+            const screen = document.getElementById("offline-progress");
+            screen.classList.remove("calculating");
+            screen.classList.add("displaying");
             const title = document.getElementById("offline-progress-title") as TranslatedElement;
             title.refresh("misc.offlineProgress");
 

@@ -17,28 +17,16 @@
     overflow-y: auto;
     overflow-x: hidden;
 
-    .bobber {
-        --color: #fff;
+    .title-section,
+    .button-section {
         transition: opacity 250ms;
         opacity: 0;
-        height: 50px;
-        margin: 20px 0;
+        pointer-events: none;
     }
 
-    button,
-    h1,
-    h2 {
-        transition: opacity 250ms;
-    }
-
-    &.loading {
-        .bobber {
+    &.calculating {
+        .title-section {
             opacity: 1;
-        }
-
-        button {
-            opacity: 0;
-            pointer-events: none;
         }
 
         h1 {
@@ -46,13 +34,20 @@
         }
     }
 
+    &.displaying {
+        .title-section,
+        .button-section {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    }
+
     &.dismissed {
         opacity: 0;
         pointer-events: none;
 
-        button,
-        h1,
-        h2,
+        .title-section,
+        .button-section,
         #offline-results {
             opacity: 0;
         }
@@ -78,12 +73,15 @@
         flex-shrink: 0;
         box-sizing: border-box;
         box-shadow: 0 0 10px 5px #000;
+        transition: opacity 250ms;
     }
 
     .title-section {
         top: 0;
         padding-top: 10vh;
         margin-bottom: 2rem;
+        display: flex;
+        flex-direction: column;
 
         @media screen and (max-height: 729px) {
             padding-top: 5vh;
@@ -194,11 +192,6 @@
         opacity: 0.7;
     }
 
-    .bobber {
-        filter: opacity(0);
-        animation: l43 1s infinite linear, fadeIn 500ms ease forwards;
-    }
-
     @keyframes fadeIn {
         from {
             filter: opacity(0);
@@ -209,22 +202,12 @@
         }
     }
 
-    > * {
-        display: none;
-    }
-
-    &.rendering {
-        > * {
-            display: initial;
-        }
-
-        .button-section {
-            display: flex;
-        }
-    }
-
     #offline-results {
         transition: opacity 250ms;
+
+        &:not(:has(.gain)) {
+            display: none;
+        }
 
         &.hidden {
             opacity: 0;
