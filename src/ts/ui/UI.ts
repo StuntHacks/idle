@@ -202,7 +202,7 @@ export class UI {
             document.getElementById("tab-version").classList.add("updated");
             UI.switchStageTab("version");
         } else {
-            UI.switchStageTab("settings");
+            UI.switchStageTab("quantum");
         }
     }
 
