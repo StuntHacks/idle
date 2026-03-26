@@ -53,7 +53,7 @@ class Game {
         const offlineGap = now - savedTimestamp;
 
         if (offlineGap > 5000) {
-            await this.calculateOfflineProgress(offlineGap);
+            await this.calculateOfflineProgress(useSettings().gameplay.settings.noOfflineTime?.value ? 0 : offlineGap);
         } else {
             OfflineProgressUI.dismiss();
         }
