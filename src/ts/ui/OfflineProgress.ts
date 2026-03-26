@@ -2,6 +2,9 @@ import { OfflineResults } from "game_logic/Game";
 import { TranslatedElement } from "./elements/TranslatedElement";
 import { UI } from "./UI";
 import { useSettings } from "utils/SettingsHandler";
+import { Numbers } from "numbers/numbers";
+import { Energy } from "game_logic/currencies/inferred/Energy";
+import { Currency, useCurrency } from "game_logic/currencies/Currencies";
 
 export class OfflineProgressUI {
     static initUI() {
@@ -28,6 +31,46 @@ export class OfflineProgressUI {
             document.getElementById("offline-progress").classList.remove("loading");
             const title = document.getElementById("offline-progress-title") as TranslatedElement;
             title.refresh("misc.offlineProgress");
+
+            const results = document.getElementById("offline-results");
+            results.classList.remove("hidden");
+
+            for (const stage in progress) {
+                const container = document.createElement("div");
+                container.classList.add("stage");
+                results.appendChild(container);
+
+                for (const group in progress[stage]) {
+                    const groupContainer = document.createElement("div");
+                    groupContainer.classList.add("group", group);
+                    container.appendChild(groupContainer);
+
+                    for (const gain of progress[stage][group]) {
+                        const element = document.createElement("div");
+                        groupContainer.appendChild(element);
+                        let amount = "";
+                        switch (gain.hash) {
+                            case "energy":
+                                amount = Energy.getFormatted(gain.amount);
+                                break;
+                            default:
+                                amount = Numbers.getFormatted(gain.amount);
+                        }
+
+                        const label = document.createElement("span");
+                        label.textContent = `+${amount}`;
+                        element.appendChild(label);
+
+                        element.classList.add("gain", gain.hash);
+                        const currency = useCurrency(gain.hash) as Currency;
+                        if (currency && !currency.inferred) {
+                            const particle = document.createElement("div");
+                            particle.className = `resource ${currency.className}`;
+                            element.prepend(particle);
+                        }
+                    }
+                }
+            }
         }
     }
 }

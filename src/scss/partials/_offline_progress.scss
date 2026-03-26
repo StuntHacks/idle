@@ -1,4 +1,4 @@
-@import "../settings/gradients.scss";
+@import "../settings/textstyle.scss";
 
 #offline-progress {
     position: fixed;
@@ -166,13 +166,70 @@
         }
     }
 
-    * {
+    > * {
         display: none;
     }
 
     &.rendering {
-        * {
+        > * {
             display: initial;
+        }
+    }
+
+    #offline-results {
+        transition: opacity 250ms;
+
+        &.hidden {
+            opacity: 0;
+        }
+
+        .stage {
+            padding: 20px 30px;
+            display: flex;
+            flex-direction: column;
+            word-break: keep-all;
+            background-color: #1D1D1D;
+            border-radius: 20px;
+            width: 400px;
+            align-items: center;
+            margin-bottom: 1rem;
+            user-select: none;
+            gap: 1rem;
+
+            .gain {
+                display: flex;
+                align-items: center;
+            }
+
+            .particles {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1.6rem;
+
+                .gain {
+                    flex-basis: calc(30% - 1rem);
+                    font-weight: bold;
+
+                    .particle {
+                        width: 25px;
+                        height: 25px;
+                        margin-right: 8px;
+                    }
+                }
+            }
+
+            .inferred {
+                order: -1;
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+                margin-bottom: 1rem;
+
+                .energy {
+                    @include energy-text;
+                }
+            }
         }
     }
 }

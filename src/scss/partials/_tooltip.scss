@@ -1,3 +1,5 @@
+@import "../settings/textstyle.scss";
+
 tool-tip {
     position: absolute;
     background-color: var(--color-tooltip);
@@ -72,13 +74,7 @@ tool-tip.energy-subtab {
     align-items: center;
 
     currency-display[name="energy"] {
-        @include gradient-electron;
-        background: var(--gradient);
-        text-shadow: 0px 0px 10px #fbff00b0;
-        color: transparent;
-        background-clip: text;
-        font-weight: 600;
-        font-size: 20px;
+        @include energy-text;
         justify-content: center;
     }
 }

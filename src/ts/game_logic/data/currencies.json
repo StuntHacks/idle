@@ -1,46 +1,51 @@
-[
-    { "className": "particle lepton electron", "hash": "leptons-electron" },
-    { "className": "particle lepton muon", "hash": "leptons-muon" },
-    { "className": "particle lepton tau", "hash": "leptons-tau" },
+{
+    "normal": [
+        { "className": "particle lepton electron", "hash": "leptons-electron", "stage": "quantum", "group": "particles" },
+        { "className": "particle lepton muon", "hash": "leptons-muon", "stage": "quantum", "group": "particles" },
+        { "className": "particle lepton tau", "hash": "leptons-tau", "stage": "quantum", "group": "particles" },
 
-    { "className": "particle quark up red", "hash": "quarks-up-red" },
-    { "className": "particle quark up green", "hash": "quarks-up-green" },
-    { "className": "particle quark up blue", "hash": "quarks-up-blue" },
-    { "className": "particle quark up rgb", "hash": "quarks-up-rgb" },
+        { "className": "particle quark up red", "hash": "quarks-up-red", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark up green", "hash": "quarks-up-green", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark up blue", "hash": "quarks-up-blue", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark up rgb", "hash": "quarks-up-rgb", "stage": "quantum", "group": "particles" },
 
-    { "className": "particle quark down red", "hash": "quarks-down-red" },
-    { "className": "particle quark down green", "hash": "quarks-down-green" },
-    { "className": "particle quark down blue", "hash": "quarks-down-blue" },
-    { "className": "particle quark down rgb", "hash": "quarks-down-rgb" },
+        { "className": "particle quark down red", "hash": "quarks-down-red", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark down green", "hash": "quarks-down-green", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark down blue", "hash": "quarks-down-blue", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark down rgb", "hash": "quarks-down-rgb", "stage": "quantum", "group": "particles" },
 
-    { "className": "particle quark strange red", "hash": "quarks-strange-red" },
-    { "className": "particle quark strange green", "hash": "quarks-strange-green" },
-    { "className": "particle quark strange blue", "hash": "quarks-strange-blue" },
-    { "className": "particle quark strange rgb", "hash": "quarks-strange-rgb" },
+        { "className": "particle quark strange red", "hash": "quarks-strange-red", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark strange green", "hash": "quarks-strange-green", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark strange blue", "hash": "quarks-strange-blue", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark strange rgb", "hash": "quarks-strange-rgb", "stage": "quantum", "group": "particles" },
 
-    { "className": "particle quark charm red", "hash": "quarks-charm-red" },
-    { "className": "particle quark charm green", "hash": "quarks-charm-green" },
-    { "className": "particle quark charm blue", "hash": "quarks-charm-blue" },
-    { "className": "particle quark charm rgb", "hash": "quarks-charm-rgb" },
+        { "className": "particle quark charm red", "hash": "quarks-charm-red", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark charm green", "hash": "quarks-charm-green", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark charm blue", "hash": "quarks-charm-blue", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark charm rgb", "hash": "quarks-charm-rgb", "stage": "quantum", "group": "particles" },
 
-    { "className": "particle quark top red", "hash": "quarks-top-red" },
-    { "className": "particle quark top green", "hash": "quarks-top-green" },
-    { "className": "particle quark top blue", "hash": "quarks-top-blue" },
-    { "className": "particle quark top rgb", "hash": "quarks-top-rgb" },
+        { "className": "particle quark top red", "hash": "quarks-top-red", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark top green", "hash": "quarks-top-green", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark top blue", "hash": "quarks-top-blue", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark top rgb", "hash": "quarks-top-rgb", "stage": "quantum", "group": "particles" },
 
-    { "className": "particle quark bottom red", "hash": "quarks-bottom-red" },
-    { "className": "particle quark bottom green", "hash": "quarks-bottom-green" },
-    { "className": "particle quark bottom blue", "hash": "quarks-bottom-blue" },
-    { "className": "particle quark bottom rgb", "hash": "quarks-bottom-rgb" },
+        { "className": "particle quark bottom red", "hash": "quarks-bottom-red", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark bottom green", "hash": "quarks-bottom-green", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark bottom blue", "hash": "quarks-bottom-blue", "stage": "quantum", "group": "particles" },
+        { "className": "particle quark bottom rgb", "hash": "quarks-bottom-rgb", "stage": "quantum", "group": "particles" },
 
-    { "className": "particle boson gluon", "hash": "bosons-gluon" },
-    { "className": "particle boson photon", "hash": "bosons-photon" },
-    { "className": "particle boson z", "hash": "bosons-z" },
-    { "className": "particle boson w-plus", "hash": "bosons-w-plus" },
-    { "className": "particle boson w-minus", "hash": "bosons-w-minus" },
-    { "className": "particle boson higgs", "hash": "bosons-higgs" },
+        { "className": "particle boson gluon", "hash": "bosons-gluon", "stage": "quantum", "group": "particles" },
+        { "className": "particle boson photon", "hash": "bosons-photon", "stage": "quantum", "group": "particles" },
+        { "className": "particle boson z", "hash": "bosons-z", "stage": "quantum", "group": "particles" },
+        { "className": "particle boson w-plus", "hash": "bosons-w-plus", "stage": "quantum", "group": "particles" },
+        { "className": "particle boson w-minus", "hash": "bosons-w-minus", "stage": "quantum", "group": "particles" },
+        { "className": "particle boson higgs", "hash": "bosons-higgs", "stage": "quantum", "group": "particles" },
 
-    { "className": "particle lepton electron neutrino", "hash": "leptons-electron-neutrino" },
-    { "className": "particle lepton muon neutrino", "hash": "leptons-muon-neutrino" },
-    { "className": "particle lepton tau neutrino", "hash": "leptons-tau-neutrino" }
-]
+        { "className": "particle lepton electron neutrino", "hash": "leptons-electron-neutrino", "stage": "quantum", "group": "particles" },
+        { "className": "particle lepton muon neutrino", "hash": "leptons-muon-neutrino", "stage": "quantum", "group": "particles" },
+        { "className": "particle lepton tau neutrino", "hash": "leptons-tau-neutrino", "stage": "quantum", "group": "particles" }
+    ],
+    "inferred": [
+        { "hash": "energy", "stage": "quantum", "group": "inferred" }
+    ]
+}

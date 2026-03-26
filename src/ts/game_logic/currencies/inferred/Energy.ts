@@ -1,8 +1,9 @@
 import { Numbers } from "numbers/numbers";
-import { CurrencyCallback, CurrencyHandler, InferredCurrencyCallback } from "../Currencies";
+import { CurrencyHandler, CurrencyCallback, InferredCurrencyCallback } from "../Currencies";
 import { InferredCurrency } from "../InferredCurrency";
 import Decimal from "break_eternity.js";
 import { useStat } from "game_logic/StatHandler";
+import currencyData from "../../data/currencies.json";
 
 export class Energy extends InferredCurrency {
     private amount = new Decimal(0);
@@ -16,7 +17,9 @@ export class Energy extends InferredCurrency {
 
     public static initialize(handler: CurrencyHandler) {
         this.instance = new Energy();
-        handler.registerInferred("energy", this.instance);
+
+        const { stage, group } = currencyData.inferred.find(c => c.hash === "energy");
+        handler.registerInferred("energy", this.instance, stage, group);
 
         const electronCallback: CurrencyCallback = (hash, type, amount) => {
             if (type === "gain") {

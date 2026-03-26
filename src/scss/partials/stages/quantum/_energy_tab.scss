@@ -1,4 +1,4 @@
-@import "../../../settings/gradients.scss";
+@import "../../../settings/textstyle.scss";
 
 #tab-quantum {
     .tab[data-tab="energy"] {
@@ -37,13 +37,7 @@
                     width: 100%;
 
                     currency-display {
-                        font-weight: 600;
-                        @include gradient-electron;
-                        background: var(--gradient);
-                        text-shadow: 0px 0px 10px #fbff00b0;
-                        color: transparent;
-                        background-clip: text;
-                        padding: 0 30px;
+                        @include energy-text;
                         font-size: 70px;
                         justify-content: center;
                         box-sizing: border-box;

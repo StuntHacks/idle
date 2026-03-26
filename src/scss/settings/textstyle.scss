@@ -1,0 +1,9 @@
+@mixin energy-text {
+    @include gradient-electron;
+    background: var(--gradient);
+    text-shadow: 0px 0px 10px #fbff00b0;
+    color: transparent;
+    background-clip: text;
+    font-weight: 600;
+    font-size: 20px;
+}

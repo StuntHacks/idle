@@ -7,13 +7,12 @@ import { UI } from "ui/UI";
 import { useSettings } from "utils/SettingsHandler";
 import { initSaveHandler, useSave, useSaveHandler } from "SaveHandler/SaveHandler";
 import { initStatHandler } from "./StatHandler";
-import { initCurrencyHandler } from "./currencies/Currencies";
+import { initCurrencyHandler, useCurrencyHandler } from "./currencies/Currencies";
+import Decimal from "break_eternity.js";
 
-export interface OfflineResults { [key: string]: unknown }; // placeholder
-
-export abstract class Stage {
-    public abstract update(tickLength: number, catchingUp: boolean): void;
-    public abstract identifier: string;
+export interface Stage {
+    update(tickLength: number, catchingUp: boolean): void;
+    identifier: string;
 }
 
 const TICK_RATE = 20;
@@ -115,6 +114,8 @@ class Game {
             OfflineProgressUI.setDuration(Utils.getTimeString(time));
         }
 
+        const snapshot = useCurrencyHandler().snapshot();
+
         return new Promise(resolve => {
             const processChunk = () => {
                 const chunkStart = performance.now();
@@ -122,22 +123,23 @@ class Game {
                 while (ticksDone < totalTicks) {
                     this.tick(TICK_LENGTH);
                     ticksDone++;
-                    if (performance.now() - chunkStart >= 16) break; // yield
+                    if (performance.now() - chunkStart >= 16) break;
                 }
-
-                //OfflineProgressUI.setProgress(ticksDone / totalTicks);
 
                 if (ticksDone < totalTicks) {
                     setTimeout(processChunk, 0);
                 } else {
                     this.catchingUp = false;
+                    const results: OfflineResults = useCurrencyHandler().diff(snapshot);
+
                     if (!catchUp) {
                         if (time > 60 * 1000) {
-                            OfflineProgressUI.renderProgress({ foo: 0 });
+                            OfflineProgressUI.renderProgress(results);
                         } else {
                             OfflineProgressUI.dismiss();
                         }
                     }
+
                     resolve();
                 }
             };
@@ -145,6 +147,17 @@ class Game {
             processChunk();
         });
     }
+}
+
+export type OfflineResults = {
+    [stage: string]: {
+        [group: string]: OfflineGain[];
+    };
+};
+ 
+export interface OfflineGain {
+    hash: string;
+    amount: Decimal;
 }
 
 let _instance: Game;
