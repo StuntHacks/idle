@@ -4,13 +4,13 @@ import { QuantumUI } from "./stages/Quantum";
 import { Utils } from "utils/utils";
 import { TranslatedElement } from "./elements/TranslatedElement";
 import { StageTabElement } from "./elements/StageTabElement";
-import { PopoverManager } from "./PopoverManager";
 import { SettingsUI } from "./Settings";
 import { useSettings } from "utils/SettingsHandler";
 import Decimal from "break_eternity.js";
 import { Currency, useCurrency } from "game_logic/currencies/Currencies";
 import { Logger } from "utils/Logger";
 import { Numbers } from "numbers/numbers";
+import { initPopoverManager } from "./PopoverManager";
 
 export class UI {
     private static saveIndicator: HTMLElement;
@@ -57,7 +57,7 @@ export class UI {
         OfflineProgressUI.initialize();
         QuantumUI.initialize();
         SettingsUI.initialize();
-        PopoverManager.initialize();
+        initPopoverManager();
         this.initializeBottomBar();
         this.updateDarkMode();
     }

@@ -1,5 +1,5 @@
 import { useTranslation } from "i18n/i18n";
-import { PopoverManager } from "ui/PopoverManager";
+import { usePopoverManager } from "ui/PopoverManager";
 
 export interface PopoverButton {
     label: string;
@@ -28,9 +28,9 @@ export class PopoverElement extends HTMLElement {
         this.container.removeEventListener("click", this.handleOverlayClick);
         document.removeEventListener("keydown", this.handleEscapePress);
         this.callback();
-        PopoverManager.next();
+        usePopoverManager().next();
         this.classList.add("dismissed");
-        setTimeout(() => this.remove(), PopoverManager.isActive() ? 0 : 150);
+        setTimeout(() => this.remove(), usePopoverManager().isActive() ? 0 : 150);
     }
 
     private handleOverlayClick = () => {

@@ -3,7 +3,7 @@ import { UI } from "../../UI";
 import { Wave } from "../../stages/quantum/Wave";
 import { FieldModel } from "game_logic/stages/quantum/Field";
 import { TranslatedElement } from "../TranslatedElement";
-import { PopoverManager } from "ui/PopoverManager";
+import { usePopoverManager } from "ui/PopoverManager";
 
 export class QuantumFieldElement extends HTMLElement {
     private waves: Wave[] = [];
@@ -48,7 +48,7 @@ export class QuantumFieldElement extends HTMLElement {
             if (
                 this.tabContainer.querySelector(".tab.active") === null &&
                 this.tabContainer.classList.contains("active") &&
-                !PopoverManager.isActive()
+                !usePopoverManager().isActive()
             ) {
                 this.clickCallback(UI.mouseX);
             }
