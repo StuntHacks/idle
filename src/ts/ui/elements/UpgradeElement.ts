@@ -1,6 +1,6 @@
 import upgrades from "game_logic/data/upgrades.json";
 import _ from "lodash";
-import { Translator } from "i18n/i18n";
+import { useTranslation } from "i18n/i18n";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { UpgradeDef } from "types/SaveFile";
 import Decimal from "break_eternity.js";
@@ -59,7 +59,7 @@ export class UpgradeElement extends HTMLElement {
         const effect = useStatHandler().getUpgradeEffect(this.def, level);
 
         if (effect === null) {
-            this.currentEffectElement.innerText = Translator.getTranslation("misc.noEffect");
+            this.currentEffectElement.innerText = useTranslation("misc.noEffect");
             return;
         }
 
@@ -89,14 +89,14 @@ export class UpgradeElement extends HTMLElement {
         this.detailsElement.classList.add("details");
 
         const title = document.createElement("span");
-        title.innerText = Translator.getTranslation(this.def.title);
+        title.innerText = useTranslation(this.def.title);
         this.detailsElement.appendChild(title);
 
         const effect = document.createElement("span");
         effect.classList.add("effect");
 
         if (this.def.effect) {
-            effect.innerText = Translator.getTranslation(this.def.effect);
+            effect.innerText = useTranslation(this.def.effect);
         }
 
         if (this.def.type !== "flag") {
@@ -105,7 +105,7 @@ export class UpgradeElement extends HTMLElement {
             }
 
             const statTitle = useStat(this.def.target)?.title ?? this.def.target;
-            effect.insertAdjacentText("beforeend", Translator.getTranslation(statTitle));
+            effect.insertAdjacentText("beforeend", useTranslation(statTitle));
 
             switch (this.def.type) {
                 case "additive":
@@ -115,7 +115,7 @@ export class UpgradeElement extends HTMLElement {
                     effect.insertAdjacentText("beforeend", ` x${Numbers.getFormatted(new Decimal(this.def.amount), 2)}`);
                     break;
                 case "additive_multiplicative":
-                    effect.insertAdjacentText("beforeend", ` x${Numbers.getFormatted(new Decimal(this.def.amount), 2)} (${Translator.getTranslation("misc.additive")})`);
+                    effect.insertAdjacentText("beforeend", ` x${Numbers.getFormatted(new Decimal(this.def.amount), 2)} (${useTranslation("misc.additive")})`);
                     break;
             }
         }

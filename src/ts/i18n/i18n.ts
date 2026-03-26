@@ -3,10 +3,10 @@ import en from "./translations/en.json";
 import de from "./translations/de.json";
 import _ from "lodash";
 
-export class Translator {
-    public static translations: TranslationMap = {};
+class Translator {
+    public translations: TranslationMap = {};
 
-    public static getTranslation(id: string, lang?: string): string {
+    public getTranslation(id: string, lang?: string): string {
         if (!lang) lang = useSettings().general.settings.language.value;
         let result = _.get(this.translations[lang], id);
 
@@ -17,13 +17,23 @@ export class Translator {
         return result ?? id;
     }
 
-    public static initialize() {
+    constructor() {
         this.translations = {
             "en": en,
             "de": de,
         };
     }
 }
+
+let _instance: Translator;
+export const useTranslation = (id: string, lang?: string): string => {
+    if (!_instance) throw new Error("Call initTranslator() first");
+    return _instance.getTranslation(id, lang);
+};
+export const initTranslator = () => {
+    _instance = new Translator();
+    return;
+};
 
 interface TranslationMap {
     [key: string]: unknown;

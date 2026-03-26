@@ -1,4 +1,4 @@
-import { Translator } from "i18n/i18n";
+import { useTranslation } from "i18n/i18n";
 import { PopoverManager } from "ui/PopoverManager";
 
 export interface PopoverButton {
@@ -54,7 +54,7 @@ export class PopoverElement extends HTMLElement {
         this.addEventListener("click", (e: MouseEvent) => e.stopPropagation());
 
         const title = document.createElement("h1");
-        title.innerText = Translator.getTranslation(this.popoverTitle);
+        title.innerText = useTranslation(this.popoverTitle);
         this.appendChild(title);
 
         const content = document.createElement("div");
@@ -68,7 +68,7 @@ export class PopoverElement extends HTMLElement {
 
         for (const button of this.buttons) {
             const b = document.createElement("button");
-            b.textContent = Translator.getTranslation(button.label);
+            b.textContent = useTranslation(button.label);
             b.addEventListener("click", () => {
                 if (button.callback?.() !== false) {
                     this.dismiss();

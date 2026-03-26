@@ -2,7 +2,7 @@ import { QuantumStage } from "./stages/quantum/Quantum";
 import { OfflineProgressUI } from "ui/OfflineProgress";
 import { Utils } from "utils/utils";
 import { Logger } from "utils/Logger";
-import { Translator } from "i18n/i18n";
+import { initTranslator } from "i18n/i18n";
 import { UI } from "ui/UI";
 import { useSettings } from "utils/SettingsHandler";
 import { initSaveHandler, useSave, useSaveHandler } from "SaveHandler/SaveHandler";
@@ -29,7 +29,7 @@ class Game {
         initSaveHandler();
         initCurrencyHandler();
         initStatHandler();
-        Translator.initialize();
+        initTranslator();
         UI.initialize();
 
         this.stages = [new QuantumStage()];

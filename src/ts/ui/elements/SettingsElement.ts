@@ -1,4 +1,4 @@
-import { Translator } from "i18n/i18n";
+import { useTranslation } from "i18n/i18n";
 import { Setting, Settings as SettingsType } from "types/Settings";
 import { TranslatedElement } from "./TranslatedElement";
 import { useSettings, useSettingsHandler } from "utils/SettingsHandler";
@@ -18,7 +18,7 @@ export class SettingsElement extends HTMLElement {
         const category = useSettings()[this.category];
         const settings = category.settings as Record<string, Setting<unknown>>;
         const title = document.createElement("h1");
-        title.textContent = Translator.getTranslation(category.title);
+        title.textContent = useTranslation(category.title);
         this.appendChild(title);
 
         for (const key in settings) {
@@ -30,13 +30,13 @@ export class SettingsElement extends HTMLElement {
             if (setting.platform) label.classList.add(setting.platform);
 
             const name = document.createElement("span");
-            name.textContent = Translator.getTranslation(setting.name);
+            name.textContent = useTranslation(setting.name);
             name.classList.add("name");
             label.appendChild(name);
 
             if (setting.description) {
                 const desc = document.createElement("span");
-                desc.textContent = Translator.getTranslation(setting.description);
+                desc.textContent = useTranslation(setting.description);
                 desc.classList.add("description");
                 label.appendChild(desc);
             }
@@ -59,7 +59,7 @@ export class SettingsElement extends HTMLElement {
                     for (const option of setting.options) {
                         const element = document.createElement("option");
                         element.value = option.value as string;
-                        element.textContent = Translator.getTranslation(option.name);
+                        element.textContent = useTranslation(option.name);
                         if (setting.value === option.value) element.selected = true;
                         select.appendChild(element);
                     }

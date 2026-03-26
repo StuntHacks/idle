@@ -1,4 +1,4 @@
-import { Translator } from "i18n/i18n";
+import { useTranslation } from "i18n/i18n";
 
 export class TranslatedElement extends HTMLElement {
     private textId: string;
@@ -12,7 +12,7 @@ export class TranslatedElement extends HTMLElement {
         if (!this.textId || textId) {
             this.textId = textId ?? this.textContent;
         }
-        let translated = Translator.getTranslation(this.textId);
+        let translated = useTranslation(this.textId);
         const interpolations = JSON.parse(this.getAttribute("interpolate") || "[]");
 
         for (let i = 0; i < interpolations.length; i++) {
