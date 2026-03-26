@@ -16,6 +16,9 @@ export class ToolTip extends HTMLElement {
         super();
     }
 
+    private tipWidth: number = 0;
+    private tipHeight: number = 0;
+
     private show() {
         if (activeTooltip && activeTooltip !== this) {
             activeTooltip.hide();
@@ -23,6 +26,20 @@ export class ToolTip extends HTMLElement {
 
         activeTooltip = this;
         this.hovering = true;
+
+        // Measure dimensions here — element is in DOM and has had time to lay out
+        if (this.tipWidth === 0) {
+            // Briefly make it layout-visible but opacity-hidden to force measurement
+            this.style.opacity = "0";
+            this.style.visibility = "hidden";
+            this.classList.add("visible");
+            this.tipWidth = this.offsetWidth;
+            this.tipHeight = this.offsetHeight;
+            this.classList.remove("visible");
+            this.style.opacity = "";
+            this.style.visibility = "";
+        }
+
         this.syncPosition();
         this.startTracking();
     }
@@ -79,42 +96,59 @@ export class ToolTip extends HTMLElement {
 
     private syncPosition() {
         const rect = this.host.getBoundingClientRect();
-        let MARGIN = 5;
+        let MARGIN_X = 5;
+        let MARGIN_Y = 5;
+
+        if (this.hasAttribute("margin")) {
+            if (this.getAttribute("margin").includes(",")) {
+                const parts = this.getAttribute("margin").split(",");
+                MARGIN_X = parseInt(parts[0].trim());
+                MARGIN_Y = parseInt(parts[1].trim());
+            } else {
+                MARGIN_X = MARGIN_Y = parseInt(this.getAttribute("margin"));
+            }
+        }
 
         if (this.host.tagName.toLowerCase() === "currency-display") {
-            MARGIN = 10;
+            MARGIN_X = MARGIN_Y = 10;
         }
 
         const orientation = this.getAttribute("orientation") ?? "top";
         const align = this.getAttribute("align");
+        const vw = document.documentElement.clientWidth;
+        const vh = document.documentElement.clientHeight;
+        const tw = this.tipWidth;
+        const th = this.tipHeight;
 
         let x: number;
         let y: number;
 
         switch (orientation) {
             case "bottom":
-                y = rect.bottom + MARGIN;
-                x = this.getX(rect, align);
-                this.style.transform = this.getTransformBottom(align);
+                y = rect.bottom + MARGIN_Y;
+                x = this.getX(rect, align, tw);
                 break;
             case "left":
-                y = rect.top + rect.height / 2;
-                x = rect.left - MARGIN;
-                this.style.transform = "translate(-100%, -50%)";
+                y = rect.top + rect.height / 2 - th / 2;
+                x = rect.left - MARGIN_X - tw;
                 break;
             case "right":
-                y = rect.top + rect.height / 2;
-                x = rect.right + MARGIN;
-                this.style.transform = "translateY(-50%)";
+                y = rect.top + rect.height / 2 - th / 2;
+                x = rect.right + MARGIN_X;
                 break;
             case "top":
             default:
-                y = rect.top - MARGIN;
-                x = this.getX(rect, align);
-                this.style.transform = this.getTransformTop(align);
+                y = rect.top - MARGIN_Y - th;
+                x = this.getX(rect, align, tw);
                 break;
         }
 
+        if (tw > 0) {
+            x = Math.max(MARGIN_X, Math.min(x, vw - tw - MARGIN_X));
+            y = Math.max(MARGIN_Y, Math.min(y, vh - th - MARGIN_Y));
+        }
+
+        this.style.transform = "none";
         this.style.left = `${x}px`;
         this.style.top = `${y}px`;
     }
@@ -161,11 +195,11 @@ export class ToolTip extends HTMLElement {
         this.lastRect = null;
     }
 
-    private getX(rect: DOMRect, align: string | null): number {
+    private getX(rect: DOMRect, align: string | null, tooltipWidth: number): number {
         switch (align) {
-            case "left": return rect.left;
-            case "right": return rect.right;
-            default: return rect.left + rect.width / 2;
+            case "left":  return rect.left;
+            case "right": return rect.right - tooltipWidth;
+            default:      return rect.left + rect.width / 2 - tooltipWidth / 2;
         }
     }
 
