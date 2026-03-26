@@ -41,7 +41,7 @@ export class SaveHandler {
             this.save = parsed;
         }
 
-        // todo: load currencies
+        // todo: move currency loading here instead of in Currency class
 
         return true;
     }
