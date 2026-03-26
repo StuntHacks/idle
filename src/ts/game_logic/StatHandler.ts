@@ -20,7 +20,7 @@ class StatHandler {
 
     public update(stat: string) {
         if (!this.stats[stat]) {
-            Logger.warning("StatHandler", `Unknown stat "${stat}"`);
+            Logger.error("StatHandler", `Unknown stat "${stat}"`);
             return;
         }
 
@@ -110,13 +110,13 @@ class StatHandler {
     ): boolean {
         const defList: UpgradeDef[] | undefined = _.get(upgradesData, namespace);
         if (!Array.isArray(defList)) {
-            Logger.warning("StatHandler", `Invalid namespace "${namespace}"`);
+            Logger.error("StatHandler", `Invalid namespace "${namespace}"`);
             return false;
         }
 
         const def = defList.find((u) => u.id === id);
         if (!def) {
-            Logger.warning("StatHandler", `Upgrade "${id}" not found in "${namespace}"`);
+            Logger.error("StatHandler", `Upgrade "${id}" not found in "${namespace}"`);
             return false;
         }
 

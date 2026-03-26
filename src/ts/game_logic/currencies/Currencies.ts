@@ -10,7 +10,7 @@ export class CurrencyHandler {
 
     public register(className: string, hash: string) {
         if (this.currencyMap.has(hash)) {
-            Logger.warning("Currencies", `"${hash}" already registered`);
+            Logger.error("Currencies", `"${hash}" already registered`);
             return;
         }
         this.currencyMap.set(hash, { className, amount: new Decimal(0), hash, callbacks: [], inferred: false });
@@ -18,7 +18,7 @@ export class CurrencyHandler {
 
     public registerInferred(hash: string, handler: InferredCurrencyClass) {
         if (this.currencyMap.has(hash)) {
-            Logger.warning("Currencies", `"${hash}" already registered`);
+            Logger.error("Currencies", `"${hash}" already registered`);
             return;
         }
         this.currencyMap.set(hash, { hash, handler, inferred: true });
@@ -27,7 +27,7 @@ export class CurrencyHandler {
     public registerCallback(callback: CurrencyCallback | InferredCurrencyCallback, hash: string) {
         const currency = this.currencyMap.get(hash);
         if (!currency) {
-            Logger.warning("Currencies", `Unknown hash "${hash}"`);
+            Logger.error("Currencies", `Unknown hash "${hash}"`);
             return;
         }
         if (currency.inferred) {
@@ -61,13 +61,13 @@ export class CurrencyHandler {
     public gain(hash: string, amount: Decimal) {
         const currency = this.currencyMap.get(hash) as Currency | undefined;
         if (!currency || currency.inferred) {
-            Logger.warning("Currencies", `Unknown or inferred hash "${hash}"`);
+            Logger.error("Currencies", `Unknown or inferred hash "${hash}"`);
             return;
         }
 
         const before = currency.amount;
         const total = before.plus(amount);
-        currency.amount = total;
+        currency.amount = total.floor();
 
         for (const callback of currency.callbacks) {
             callback(hash, "gain", amount, before, total);
@@ -77,7 +77,7 @@ export class CurrencyHandler {
     public spend(hash: string, amount: Decimal): boolean {
         const currency = this.currencyMap.get(hash);
         if (!currency) {
-            Logger.warning("Currencies", `Unknown hash "${hash}"`);
+            Logger.error("Currencies", `Unknown hash "${hash}"`);
             return false;
         }
 
@@ -102,7 +102,7 @@ export class CurrencyHandler {
     public set(hash: string, amount: Decimal) {
         const currency = this.currencyMap.get(hash) as Currency | undefined;
         if (!currency || currency.inferred) {
-            Logger.warning("Currencies", `Unknown or inferred hash "${hash}"`);
+            Logger.error("Currencies", `Unknown or inferred hash "${hash}"`);
             return;
         }
 
@@ -117,7 +117,7 @@ export class CurrencyHandler {
     public setInferred(hash: string, amount: Decimal) {
         const currency = this.currencyMap.get(hash) as InferredCurrency | undefined;
         if (!currency || !currency.inferred) {
-            Logger.warning("Currencies", `Unknown or non-inferred hash "${hash}"`);
+            Logger.error("Currencies", `Unknown or non-inferred hash "${hash}"`);
             return;
         }
         currency.handler.setAmount(amount);
@@ -126,7 +126,7 @@ export class CurrencyHandler {
     public get(hash: string): Currency | InferredCurrency {
         const currency = this.currencyMap.get(hash);
         if (!currency) {
-            Logger.warning("Currencies", `Unknown hash "${hash}"`);
+            Logger.error("Currencies", `Unknown hash "${hash}"`);
             return undefined;
         }
         return currency;
