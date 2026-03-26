@@ -1,6 +1,6 @@
 import Decimal from "break_eternity.js";
 import { Energy } from "game_logic/currencies/inferred/Energy";
-import { StatHandler } from "game_logic/StatHandler";
+import { useStat } from "game_logic/StatHandler";
 
 export class StatInfoElement extends HTMLElement {
     private stat: string;
@@ -14,7 +14,7 @@ export class StatInfoElement extends HTMLElement {
         switch (this.stat) {
             case "energy_gain":
                 // todo: handle this via StatHandler callback
-                const newContent = Energy.getFormatted(new Decimal(StatHandler.get("energy_gain").total), 3);
+                const newContent = Energy.getFormatted(new Decimal(useStat("energy_gain").total), 3);
                 if (this.content !== newContent) {
                     this.content = newContent;
                     this.textContent = newContent;

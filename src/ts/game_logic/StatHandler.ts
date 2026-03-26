@@ -9,16 +9,16 @@ import { Logger } from "utils/Logger";
 
 const stats = statsData as StatData;
 
-export class StatHandler {
-    private static stats: Stats = {};
+class StatHandler {
+    private stats: Stats = {};
 
-    private static getUpgradeDef(saved: SavedUpgrade): UpgradeDef | null {
+    private getUpgradeDef(saved: SavedUpgrade): UpgradeDef | null {
         const list: UpgradeDef[] | undefined = _.get(upgradesData, saved.accessor);
         if (!Array.isArray(list)) return null;
         return list.find((u) => u.id === saved.id) ?? null;
     }
 
-    public static update(stat: string) {
+    public update(stat: string) {
         if (!this.stats[stat]) {
             Logger.warning("StatHandler", `Unknown stat "${stat}"`);
             return;
@@ -73,7 +73,7 @@ export class StatHandler {
         };
     }
 
-    public static calculateCost(def: UpgradeDef, currentLevel: number, amount: number): Decimal {
+    public calculateCost(def: UpgradeDef, currentLevel: number, amount: number): Decimal {
         const scaling = def.costScaling ?? 1;
         if (scaling === 1) {
             return new Decimal(def.cost * amount);
@@ -84,7 +84,7 @@ export class StatHandler {
             .divide(1 - scaling);
     }
 
-    public static getUpgradeEffect(def: UpgradeDef, currentLevel: number): Decimal | null {
+    public getUpgradeEffect(def: UpgradeDef, currentLevel: number): Decimal | null {
         if (def.amount == null || currentLevel === 0) return null;
 
         switch (def.type) {
@@ -102,7 +102,7 @@ export class StatHandler {
         }
     }
 
-    public static gainUpgrade(
+    public gainUpgrade(
         namespace: string,
         id: string,
         purchase: boolean = false,
@@ -166,7 +166,7 @@ export class StatHandler {
         return true;
     }
 
-    public static initialize() {
+    constructor() {
         for (const stat in stats) {
             const data = stats[stat];
             this.stats[stat] = {
@@ -181,10 +181,24 @@ export class StatHandler {
         }
     }
 
-    public static get(stat: string): Stat {
+    public get(stat: string): Stat {
         return this.stats[stat];
     }
 }
+
+let _instance: StatHandler;
+export const useStat = (stat: string): Stat => {
+    if (!_instance) throw new Error("Call initStatHandler() first");
+    return _instance.get(stat);
+};
+export const useStatHandler = (): StatHandler => {
+    if (!_instance) throw new Error("Call initStatHandler() first");
+    return _instance;
+};
+export const initStatHandler = (): StatHandler => {
+    _instance = new StatHandler();
+    return _instance;
+};
 
 export interface Stats {
     [key: string]: Stat;

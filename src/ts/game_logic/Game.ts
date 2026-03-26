@@ -1,4 +1,3 @@
-import { StatHandler } from "./StatHandler";
 import { QuantumStage } from "./stages/quantum/Quantum";
 import { OfflineProgressUI } from "ui/OfflineProgress";
 import { Utils } from "utils/utils";
@@ -7,6 +6,7 @@ import { Translator } from "i18n/i18n";
 import { UI } from "ui/UI";
 import { useSettings } from "utils/SettingsHandler";
 import { initSaveHandler, useSave, useSaveHandler } from "SaveHandler/SaveHandler";
+import { initStatHandler } from "./StatHandler";
 
 export interface OfflineResults { [key: string]: unknown }; // placeholder
 
@@ -26,7 +26,7 @@ class Game {
 
     constructor() {
         initSaveHandler();
-        StatHandler.initialize();
+        initStatHandler();
         Translator.initialize();
         UI.initialize();
 

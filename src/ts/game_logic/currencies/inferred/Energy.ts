@@ -1,8 +1,8 @@
 
 import { Numbers } from "numbers/numbers";
-import { StatHandler } from "game_logic/StatHandler";
 import { Currencies, CurrencyCallback, InferredCurrencyCallback } from "../Currencies";
 import Decimal from "break_eternity.js";
+import { useStat } from "game_logic/StatHandler";
 
 export class Energy {
     private static amount = new Decimal(0);
@@ -14,7 +14,7 @@ export class Energy {
         const electronCallback: CurrencyCallback = (hash, type, amount) => {
             if (type === "gain") {
                 const before = this.amount;
-                const total = before.plus(amount.multiply(StatHandler.get("energy_gain").total));
+                const total = before.plus(amount.multiply(useStat("energy_gain").total));
                 this.amount = total;
 
                 for (let callback of this.callbacks) {

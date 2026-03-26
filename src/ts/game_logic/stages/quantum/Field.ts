@@ -1,9 +1,9 @@
 import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { ParticleModel, ParticleType, QuantumStage } from "./Quantum";
 import { Currencies } from "game_logic/currencies/Currencies";
-import { StatHandler } from "game_logic/StatHandler";
 import { useSettings } from "utils/SettingsHandler";
 import { useSaveHandler } from "SaveHandler/SaveHandler";
+import { useStat } from "game_logic/StatHandler";
 
 interface FieldColor {
     start: string;
@@ -85,7 +85,7 @@ export class QuantumField {
 
         const [particle, index] = this.getParticle();
         const hash = this.getHashFromParticle(particle);
-        const amount = QuantumStage.getParticleAmount(particle).multiply(StatHandler.get("field_gain").total);
+        const amount = QuantumStage.getParticleAmount(particle).multiply(useStat("field_gain").total);
 
         if (index === -1) { // multi
             // todo: solve this with loop instead

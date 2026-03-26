@@ -1,6 +1,5 @@
 import Decimal from "break_eternity.js";
 import { Stage } from "game_logic/Game";
-import { StatHandler } from "game_logic/StatHandler";
 import { QuantumFluctuator } from "./Fluctuator";
 import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
 import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
@@ -8,6 +7,7 @@ import { QuantumField } from "./Field";
 import { FIELD_DATA } from "./field_data";
 import { useSettings } from "utils/SettingsHandler";
 import { useSaveHandler } from "SaveHandler/SaveHandler";
+import { useStat } from "game_logic/StatHandler";
 
 export class QuantumStage implements Stage {
     public identifier = "quantum";
@@ -43,16 +43,16 @@ export class QuantumStage implements Stage {
 
     public static getParticleAmount(particle: ParticleModel): Decimal {
         if (particle.type === "quark") {
-            return StatHandler.get("quark_gain").total;
+            return useStat("quark_gain").total;
         } else if (particle.type === "boson") {
             switch (particle.flavor) {
                 case "gluon":
-                    return StatHandler.get("gluon_gain").total;
+                    return useStat("gluon_gain").total;
             }
         } else if (particle.type === "lepton") {
             switch (particle.flavor) {
                 case "electron":
-                    return StatHandler.get("electron_gain").total;
+                    return useStat("electron_gain").total;
             }
         }
 

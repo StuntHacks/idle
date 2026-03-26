@@ -2,12 +2,12 @@ import upgrades from "game_logic/data/upgrades.json";
 import _ from "lodash";
 import { Translator } from "i18n/i18n";
 import { Energy } from "game_logic/currencies/inferred/Energy";
-import { StatHandler } from "game_logic/StatHandler";
 import { UpgradeDef } from "types/SaveFile";
 import Decimal from "break_eternity.js";
 import { Currencies, Currency, InferredCurrencyCallback } from "game_logic/currencies/Currencies";
 import { Numbers } from "numbers/numbers";
 import { useSaveHandler } from "SaveHandler/SaveHandler";
+import { useStat, useStatHandler } from "game_logic/StatHandler";
 
 export class UpgradeElement extends HTMLElement {
     private def: UpgradeDef;
@@ -36,7 +36,7 @@ export class UpgradeElement extends HTMLElement {
     }
 
     private getCost(): Decimal {
-        return StatHandler.calculateCost(this.def, this.getCurrentLevel(), 1);
+        return useStatHandler().calculateCost(this.def, this.getCurrentLevel(), 1);
     }
 
     private updateCost() {
@@ -56,7 +56,7 @@ export class UpgradeElement extends HTMLElement {
         this.tooltip.hidden = this.getCurrentLevel() === 0;
 
         const level = this.getCurrentLevel();
-        const effect = StatHandler.getUpgradeEffect(this.def, level);
+        const effect = useStatHandler().getUpgradeEffect(this.def, level);
 
         if (effect === null) {
             this.currentEffectElement.innerText = Translator.getTranslation("misc.noEffect");
@@ -104,7 +104,7 @@ export class UpgradeElement extends HTMLElement {
                 effect.insertAdjacentHTML("beforeend", "<br />");
             }
 
-            const statTitle = StatHandler.get(this.def.target)?.title ?? this.def.target;
+            const statTitle = useStat(this.def.target)?.title ?? this.def.target;
             effect.insertAdjacentText("beforeend", Translator.getTranslation(statTitle));
 
             switch (this.def.type) {
@@ -172,7 +172,7 @@ export class UpgradeElement extends HTMLElement {
         this.costElement.addEventListener("click", () => {
             if (this.isCompleted()) return;
 
-            const result = StatHandler.gainUpgrade(this.namespace, this.def.id, true);
+            const result = useStatHandler().gainUpgrade(this.namespace, this.def.id, true);
             if (!result) return;
 
             this.updateCost();
