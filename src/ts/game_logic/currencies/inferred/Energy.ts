@@ -1,5 +1,5 @@
 import { Numbers } from "numbers/numbers";
-import { CurrencyCallback, CurrencyHandler, InferredCurrencyCallback, useCurrencyHandler } from "../Currencies";
+import { CurrencyCallback, CurrencyHandler, InferredCurrencyCallback } from "../Currencies";
 import { InferredCurrency } from "../InferredCurrency";
 import Decimal from "break_eternity.js";
 import { useStat } from "game_logic/StatHandler";
