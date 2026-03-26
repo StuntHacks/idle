@@ -114,18 +114,18 @@ export class Wave {
     }
 
     private getRippleOffset(i: number, now: number): number {
+        const stepX = this.canvas.width / (this.config.pointCount - 1);
+        const pointX = i * stepX;
         let total = 0;
         for (const r of this.ripples) {
             const age = (now - r.startTime) / 1000;
-            const distance = Math.abs(i - r.index);
+            const distance = Math.abs(pointX - r.originX) / stepX;
             const propagation = age * r.speed;
             const ease = Math.sin((Math.min(1, age / 0.1) * Math.PI) / 2);
             const falloff = Math.exp(-0.08 * (distance - propagation) ** 2);
-
             const wave = Math.sin(distance - propagation) + 0.3 * Math.sin(2 * (distance - propagation));
             total += r.strength * ease * falloff * wave;
         }
-
         return total;
     }
 
@@ -153,11 +153,12 @@ export class Wave {
     }
 
     private cleanupRipples(now: number) {
+        const stepX = this.canvas.width / (this.config.pointCount - 1);
         const threshold = 0.0001;
         this.ripples = this.ripples.filter(r => {
             const age = (now - r.startTime) / 1000;
             const propagation = age * r.speed;
-            const maxDistance = Math.max(r.index, this.config.pointCount - r.index);
+            const maxDistance = Math.max(r.originX, this.canvas.width - r.originX) / stepX;
 
             if (propagation <= maxDistance + 4) return true;
 
@@ -250,9 +251,8 @@ export class Wave {
 
     public ripple(x: number, strength: number = 120, speed: number = 8, decay: number = 0.05) {
         const rect = this.canvas.getBoundingClientRect();
-        const localX = x - rect.left;
         this.ripples.push({
-            index: Math.floor((localX / rect.width) * (this.config.pointCount - 1)),
+            originX: x - rect.left,
             startTime: performance.now(),
             strength,
             speed,
@@ -281,7 +281,7 @@ export interface WaveColor {
 }
 
 interface Ripple {
-    index: number;
+    originX: number;
     startTime: number;
     strength: number;
     speed: number;
