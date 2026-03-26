@@ -107,7 +107,8 @@ export class QuantumField {
         if (!catchingUp) {
             UI.spawnGainElement("quantum-resource-gain-container", hash, amount, position - (click ? 11 : 0), this.fieldPosition.y + (this.fieldPosition.height / 2) - 20);
             if (click || !useSettings().display.settings.stillFields.value) {
-                this.fieldElement.ripple(position, index, hash.includes("down"));
+                const down = hash.includes("down") || hash.includes("bottom") || hash.includes("minus");
+                this.fieldElement.ripple(position, index, down);
             }
         }
     }
