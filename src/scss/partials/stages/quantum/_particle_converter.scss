@@ -15,6 +15,7 @@ particle-converter {
     transition: background-color 150ms;
     justify-content: space-between;
 
+    &::after,
     &::before {
         position: absolute;
         top: 0;
@@ -32,8 +33,6 @@ particle-converter {
         font-weight: lighter;
         text-transform: uppercase;
         text-align: center;
-
-        content: "lock";
         font-family: "Material Symbols Outlined";
         font-weight: normal;
         font-style: normal;
@@ -54,6 +53,14 @@ particle-converter {
         text-shadow: 2px 2px 5px rgba(0, 0, 0, .8);
         color: #fff;
         display: flex;
+    }
+
+    &::before {
+        content: "lock";
+    }
+
+    &::after {
+        content: "pause";
     }
 
     &[locked] {
@@ -88,6 +95,10 @@ particle-converter {
                 opacity: 0;
             }
         }
+    }
+
+    &[disabled]::after {
+        opacity: 1;
     }
 
     animation: active-converter 3s infinite;
