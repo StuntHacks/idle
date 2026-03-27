@@ -13,6 +13,7 @@ particle-converter {
     position: relative;
     overflow: hidden;
     transition: background-color 150ms;
+    justify-content: space-between;
 
     &::before {
         position: absolute;
