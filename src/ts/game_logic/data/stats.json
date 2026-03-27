@@ -18,5 +18,9 @@
     "field_gain": {
         "base": 1,
         "title": "stats.quantum.fieldGain"
+    },
+    "converter_speed": {
+        "base": 1,
+        "title": "stats.quantum.converterSpeed"
     }
 }

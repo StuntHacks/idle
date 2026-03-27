@@ -8,15 +8,19 @@ import { FIELD_DATA } from "./field_data";
 import { useSettings } from "utils/SettingsHandler";
 import { useSaveHandler } from "SaveHandler/SaveHandler";
 import { useStat } from "game_logic/StatHandler";
+import { ConverterElement } from "ui/elements/quantum/ConverterElement";
+import { ParticleConverter } from "./Converter";
 
 export class QuantumStage implements Stage {
     public identifier = "quantum";
     private fluctuators: QuantumFluctuator[] = [];
     private fields: QuantumField[] = [];
+    private converters: ParticleConverter[] = [];
 
     constructor() {
         customElements.define("fluctuator-block", FluctuatorElement);
         customElements.define("quantum-field", QuantumFieldElement);
+        customElements.define("particle-converter", ConverterElement);
         this.initializeFields();
     }
 
@@ -36,8 +40,14 @@ export class QuantumStage implements Stage {
                 new QuantumField(field, i, key)
             );
             this.fluctuators.push(
-                new QuantumFluctuator(document.querySelector(`fluctuator-block[index="${i}"]`), this.fields[i])
+                new QuantumFluctuator(i, document.querySelector(`fluctuator-block:nth-of-type(${i + 1})`), this.fields[i])
             );
+
+            if (i < 4) {
+                this.converters.push(
+                    new ParticleConverter(i, document.querySelector(`particle-converter:nth-of-type(${i + 1})`))
+                );
+            }
         }
     }
 

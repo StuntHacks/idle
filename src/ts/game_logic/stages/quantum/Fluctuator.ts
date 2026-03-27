@@ -81,12 +81,12 @@ export class QuantumFluctuator {
         return `quantum.fluctuators.f${this.index}`;
     }
 
-    constructor(element: FluctuatorElement, field: QuantumField) {
+    constructor(index: number, element: FluctuatorElement, field: QuantumField) {
         if (!element) return;
         this.element = element;
         this.element.setToggleCallback(this.toggle.bind(this));
         this.element.setUpgradeCallback(this.tryUpgrade.bind(this));
-        this.index = Number(this.element.getAttribute("index"));
+        this.index = index;
         this.field = field;
         
         this.toggle(useSettings().internal.settings.quantum.fluctuators[this.index]);

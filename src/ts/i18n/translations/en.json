@@ -227,8 +227,11 @@
         },
         "conversion": {
           "title": "Quark Conversion",
-          "information": "Here you can convert combinations of excess particles into small, exponentially scaling boosts",
+          "information": "Here you can convert combinations of quarks into small, exponentially scaling boosts",
           "perConversion": "conversion",
+          "enable": "Click to turn on",
+          "disable": "Click to turn off",
+          "locked": "Locked",
           "upgrades": {}
         }
       }
@@ -252,7 +255,8 @@
       "quarkGain": "Quark Gain",
       "gluonGain": "Gluon Gain",
       "fieldGain": "All Field Gain",
-      "energyGain": "Energy Gain"
+      "energyGain": "Energy Gain",
+      "converterSpeed": "Quark Converter Speed"
     }
   },
   "upgrades": {
@@ -276,6 +280,10 @@
         },
         "fluctuatorSpeed": {
           "title": "Fluctuator Speed"
+        },
+        "quarkConverters": {
+          "title": "Quark Converters",
+          "effect": "Unlocks 4 quark converters"
         }
       }
     }
