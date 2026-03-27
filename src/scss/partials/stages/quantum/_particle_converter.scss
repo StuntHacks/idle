@@ -78,6 +78,16 @@ particle-converter {
         .arrow {
             color: transparent;
         }
+
+        .input {
+            &::before {
+                opacity: 0;
+            }
+
+            .particle {
+                opacity: 0;
+            }
+        }
     }
 
     animation: active-converter 3s infinite;
@@ -126,6 +136,7 @@ particle-converter {
             background: var(--gradient);
             animation: active-converter-input 3s infinite;
             animation-play-state: paused;
+            transition: opacity 150ms;
 
             @keyframes active-converter-input {
                 0% {
@@ -165,6 +176,7 @@ particle-converter {
                 font-size: 18px;
                 top: 50%; left: 50%;
                 margin: -15px 0 0 -15px;
+                transition: opacity 150ms;
             }
         }
     }
@@ -206,17 +218,17 @@ particle-converter {
         border-radius: 10px;
     }
 
-    &.red .input::before {
+    &.red:not([locked]) .input::before {
         @include gradient-quark-red;
         opacity: 0.7;
     }
 
-    &.green .input::before {
+    &.green:not([locked]) .input::before {
         @include gradient-quark-green;
         opacity: 0.7;
     }
 
-    &.blue .input::before {
+    &.blue:not([locked]) .input::before {
         @include gradient-quark-blue;
     }
 }
