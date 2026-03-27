@@ -11,8 +11,8 @@ export class CurrencyHandler {
     private currencyMap = new Map<string, Currency | InferredCurrency>();
 
     private constructor() {
-        for (const { className, hash, stage, group } of currencyData.normal) {
-            this.register(className, hash, stage, group);
+        for (const { className, hash, stage, group, important } of currencyData.normal) {
+            this.register(className, hash, stage, group, important);
         }
 
         Energy.initialize(this);
@@ -23,20 +23,20 @@ export class CurrencyHandler {
         return new CurrencyHandler();
     }
 
-    public register(className: string, hash: string, stage: string, group: string) {
+    public register(className: string, hash: string, stage: string, group: string, important: boolean = false) {
         if (this.currencyMap.has(hash)) {
             Logger.warning("Currencies", `"${hash}" already registered`);
             return;
         }
-        this.currencyMap.set(hash, { className, amount: new Decimal(0), hash, stage, group, callbacks: [], inferred: false });
+        this.currencyMap.set(hash, { className, amount: new Decimal(0), hash, stage, group, important, callbacks: [], inferred: false });
     }
 
-    public registerInferred(hash: string, handler: InferredCurrencyClass, stage: string, group: string) {
+    public registerInferred(hash: string, handler: InferredCurrencyClass, stage: string, group: string, important: boolean = false) {
         if (this.currencyMap.has(hash)) {
             Logger.warning("Currencies", `"${hash}" already registered`);
             return;
         }
-        this.currencyMap.set(hash, { hash, handler, stage, group, inferred: true });
+        this.currencyMap.set(hash, { hash, handler, stage, group, important, inferred: true });
     }
 
     public registerCallback(callback: CurrencyCallback | InferredCurrencyCallback, hash: string) {

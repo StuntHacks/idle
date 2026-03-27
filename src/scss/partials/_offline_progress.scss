@@ -209,6 +209,10 @@
 
     #offline-results {
         transition: opacity 250ms;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
 
         &:not(:has(.gain)) {
             display: none;
@@ -272,6 +276,16 @@
 
                 .energy {
                     @include energy-text;
+                }
+            }
+
+            &:has(.particles:empty) {
+                .particles {
+                    display: none;
+                }
+
+                .inferred {
+                    margin-bottom: 0;
                 }
             }
         }
