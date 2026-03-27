@@ -67,6 +67,10 @@ particle-converter {
         &::before {
             opacity: 1;
         }
+
+        &::after {
+            opacity: 0;
+        }
     }
 
     &:hover {
@@ -97,7 +101,7 @@ particle-converter {
         }
     }
 
-    &[disabled]::after {
+    &[disabled]:not([locked])::after {
         opacity: 1;
     }
 

@@ -55,6 +55,10 @@ export class ConverterElement extends HTMLElement {
         }
     }
 
+    public setProgress(progress: number) {
+        
+    }
+
     public setInterval(interval: number) {
         const text = interval >= 1000 ? `${(interval / 1000).toFixed(2)}s` : `${interval.toFixed(0)}ms`;
         this.intervalElement.textContent = text;
