@@ -5,7 +5,11 @@
     width: 100%;
     padding: 15px 0;
     display: flex;
-    justify-content: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
     z-index: 10002;
     background: linear-gradient(180deg, black 0%, transparent 100%);
     transition: background 250ms;
@@ -16,11 +20,11 @@
 
     &::before {
         content: "";
-        top: 0;
+        top: 90px;
         left: 0;
         width: 100%;
-        height: 100%;
-        position: absolute;
+        height: 56px;
+        position: fixed;
         background: linear-gradient(0deg, transparent 0%, #000 50%);
         opacity: 0;
         transition: opacity var(--timing-tab-transition);
@@ -30,6 +34,17 @@
         margin: 0 30px;
         cursor: pointer;
         position: relative;
+        white-space: nowrap;
+
+        &:first-of-type {
+            margin-left: auto;
+            padding-left: 1rem;
+        }
+
+        &:last-of-type {
+            margin-right: auto;
+            padding-right: 1rem;
+        }
 
         &:not(.disabled):hover > translated-string {
             opacity: 0.8;

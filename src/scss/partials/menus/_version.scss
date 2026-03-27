@@ -56,6 +56,7 @@
         top: 0;
         z-index: 10;
         padding-bottom: 2rem;
+        background: linear-gradient(180deg, black 80%, transparent 100%);
 
         &.shadow {
             background: linear-gradient(#000 80%, transparent);
