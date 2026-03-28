@@ -17,6 +17,7 @@ export class ConverterElement extends HTMLElement {
     private intervalElement: HTMLSpanElement;
     private labelElement: HTMLSpanElement;
     private toggleCallback: ToggleCallback;
+    private intervalText: string = "";
 
     private circleAnim: Animation | null = null;
     private iconAnims: Animation[] = [];
@@ -56,12 +57,14 @@ export class ConverterElement extends HTMLElement {
     }
 
     public setProgress(progress: number) {
-        
+        void progress;
     }
 
     public setInterval(interval: number) {
         const text = interval >= 1000 ? `${(interval / 1000).toFixed(2)}s` : `${interval.toFixed(0)}ms`;
+        if (text === this.intervalText) return;
         this.intervalElement.textContent = text;
+        this.intervalText = text;
         this.updateSpinSpeed(interval);
     }
 

@@ -27,9 +27,7 @@ export class ToolTip extends HTMLElement {
         activeTooltip = this;
         this.hovering = true;
 
-        // Measure dimensions here — element is in DOM and has had time to lay out
         if (this.tipWidth === 0) {
-            // Briefly make it layout-visible but opacity-hidden to force measurement
             this.style.opacity = "0";
             this.style.visibility = "hidden";
             this.classList.add("visible");
@@ -200,22 +198,6 @@ export class ToolTip extends HTMLElement {
             case "left":  return rect.left;
             case "right": return rect.right - tooltipWidth;
             default:      return rect.left + rect.width / 2 - tooltipWidth / 2;
-        }
-    }
-
-    private getTransformTop(align: string | null): string {
-        switch (align) {
-            case "left": return "translateY(-100%)";
-            case "right": return "translate(-100%, -100%)";
-            default: return "translate(-50%, -100%)";
-        }
-    }
-
-    private getTransformBottom(align: string | null): string {
-        switch (align) {
-            case "left": return "none";
-            case "right": return "translateX(-100%)";
-            default: return "translateX(-50%)";
         }
     }
 }

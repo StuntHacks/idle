@@ -11,12 +11,14 @@ export interface SaveFile {
         inferred: SaveCurrency[];
     };
     upgrades: SavedUpgrade[];
-    flags: Flags,
+    continuousUpgrades: SavedContinuousUpgrade[];
+    flags: Flags;
 }
 
 type Flags = {[key: string]: boolean | Flags};
 
 export type UpgradeType = "flag" | "additive" | "multiplicative" | "additive_multiplicative";
+
 export interface UpgradeDef {
     id: string;
     title: string;
@@ -28,12 +30,33 @@ export interface UpgradeDef {
     costScaling?: number;
     levels?: number;
     currency: string;
+    continuous?: false;
 }
+
+export interface ContinuousUpgradeDef {
+    id: string;
+    title: string;
+    effect?: string;
+    target: string;
+    type: Exclude<UpgradeType, "flag">;
+    amount?: number;
+    continuous: true;
+    curve: string;
+    scale: number;
+}
+
+export type AnyUpgradeDef = UpgradeDef | ContinuousUpgradeDef;
 
 export interface SavedUpgrade {
     id: string;
     accessor: string;
     levels: number;
+}
+
+export interface SavedContinuousUpgrade {
+    id: string;
+    accessor: string;
+    spent: Decimal;
 }
 
 export interface SaveCurrency {

@@ -73,6 +73,10 @@ export class QuantumStage implements Stage {
         for (const fluctuator of this.fluctuators) {
             fluctuator.update(tickLength, catchingUp);
         }
+
+        for (const converter of this.converters) {
+            converter.update(tickLength, catchingUp);
+        }
     }
 }
 

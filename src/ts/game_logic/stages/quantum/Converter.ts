@@ -1,9 +1,11 @@
 import { useSaveHandler } from "SaveHandler/SaveHandler";
 import { useSettings } from "utils/SettingsHandler";
 import { ConverterElement } from "ui/elements/quantum/ConverterElement";
+import { useStatHandler } from "game_logic/StatHandler";
+import Decimal from "break_eternity.js";
 
 export class ParticleConverter {
-    private baseInterval: number = 500;
+    private baseInterval: number = 5000;
     private enabled: boolean = false;
     private locked: boolean = true;
     private element: ConverterElement;
@@ -23,7 +25,8 @@ export class ParticleConverter {
     }
 
     private getInterval() {
-        return this.baseInterval;
+        console.log(useStatHandler().get("conversion_speed")?.total);
+        return Math.max(50, new Decimal(this.baseInterval).multiply(useStatHandler().get("conversion_speed")?.total ?? 1).toNumber());
     }
 
     public update(tickLength: number, catchingUp: boolean) {
@@ -33,6 +36,8 @@ export class ParticleConverter {
         const interval = this.getInterval();
 
         if (this.acc >= interval) {
+            console.log(interval)
+            useStatHandler().feed("quantum.energy.converters", "conversion_speed", new Decimal(1));
             const num = Math.floor(this.acc / interval);
             this.acc -= num * interval;
 
@@ -50,6 +55,7 @@ export class ParticleConverter {
         if (!element) return;
         this.element = element;
         this.element.setToggleCallback(this.toggle.bind(this));
+        this.baseInterval = parseInt(this.element.getAttribute("interval") ?? "5000");
         this.element.setInterval(this.getInterval());
         this.index = index;
         
@@ -59,5 +65,12 @@ export class ParticleConverter {
         useSaveHandler().registerFlagCallback(this.getFlagString(), (flag: string, value: unknown) => {
             this.toggleLock(!value);
         });
+
+        const updateInterval = () => {
+            window.requestAnimationFrame(updateInterval);
+            this.element.setInterval(this.getInterval());
+        }
+
+        window.requestAnimationFrame(updateInterval);
     }
 }

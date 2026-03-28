@@ -215,6 +215,7 @@
             "accessor": "quantum.energy.upgrades"
         }
     ],
+    "continuousUpgrades": [],
     "flags": {
         "tutorial": {},
         "quantum": {

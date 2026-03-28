@@ -1,4 +1,4 @@
-import { SaveFile, SavedUpgrade } from "types/SaveFile";
+import { SaveFile, SavedUpgrade, SavedContinuousUpgrade } from "types/SaveFile";
 import { UI } from "ui/UI";
 import { Logger } from "utils/Logger";
 import mock from "./mock.json"
@@ -41,8 +41,6 @@ export class SaveHandler {
             this.save = parsed;
         }
 
-        // todo: move currency loading here instead of in Currency class
-
         return true;
     }
 
@@ -53,7 +51,7 @@ export class SaveHandler {
             this.lastSave = now;
             this.saveData();
         }
-        window.requestAnimationFrame(this.autoSave)
+        window.requestAnimationFrame(this.autoSave);
     }
 
     public saveCurrencies() {
@@ -106,6 +104,10 @@ export class SaveHandler {
         return this.save.upgrades;
     }
 
+    public getContinuousUpgrades(): SavedContinuousUpgrade[] {
+        return this.save.continuousUpgrades;
+    }
+
     public registerFlagCallback(flag: string, callback: FlagCallback) {
         if (this.flagCallbacks[flag]) {
             this.flagCallbacks[flag].push(callback);
@@ -119,7 +121,6 @@ export class SaveHandler {
         if (typeof f === "boolean") {
             return f;
         }
-
         return false;
     }
 

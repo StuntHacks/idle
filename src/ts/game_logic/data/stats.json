@@ -19,8 +19,12 @@
         "base": 1,
         "title": "stats.quantum.fieldGain"
     },
-    "converter_speed": {
+    "conversion_speed": {
         "base": 1,
-        "title": "stats.quantum.converterSpeed"
+        "title": "stats.quantum.conversionSpeed"
+    },
+    "max_converters": {
+        "base": 1,
+        "title": "stats.quantum.maxConverters"
     }
 }

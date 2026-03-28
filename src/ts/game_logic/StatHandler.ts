@@ -1,19 +1,20 @@
 import statsData from "./data/stats.json";
 import upgradesData from "game_logic/data/upgrades.json";
-import { UpgradeDef, SavedUpgrade } from "types/SaveFile";
+import { AnyUpgradeDef, ContinuousUpgradeDef, UpgradeDef, SavedUpgrade, SavedContinuousUpgrade } from "types/SaveFile";
 import Decimal from "break_eternity.js";
 import _ from "lodash";
 import { useSaveHandler } from "SaveHandler/SaveHandler";
 import { Logger } from "utils/Logger";
 import { useCurrencyHandler } from "./currencies/Currencies";
+import { curves } from "./CurveFunctions";
 
 const stats = statsData as StatData;
 
 class StatHandler {
     private stats: Stats = {};
 
-    private getUpgradeDef(saved: SavedUpgrade): UpgradeDef | null {
-        const list: UpgradeDef[] | undefined = _.get(upgradesData, saved.accessor);
+    private getUpgradeDef(saved: SavedUpgrade | SavedContinuousUpgrade): AnyUpgradeDef | null {
+        const list: AnyUpgradeDef[] | undefined = _.get(upgradesData, saved.accessor);
         if (!Array.isArray(list)) return null;
         return list.find((u) => u.id === saved.id) ?? null;
     }
@@ -24,15 +25,26 @@ class StatHandler {
             return;
         }
 
-        const savedUpgrades = useSaveHandler().getUpgrades();
+        const save = useSaveHandler();
+        const savedUpgrades = save.getUpgrades();
+        const savedContinuous = save.getContinuousUpgrades();
+
         const relevant = savedUpgrades.flatMap((saved) => {
             const def = this.getUpgradeDef(saved);
-            return def?.target === stat ? [{ saved, def }] : [];
+            return def?.target === stat && !def.continuous ? [{ saved, def: def as UpgradeDef }] : [];
+        });
+
+        const relevantContinuous = savedContinuous.flatMap((saved) => {
+            const def = this.getUpgradeDef(saved);
+            return def?.target === stat && def.continuous ? [{ saved: saved as SavedContinuousUpgrade, def: def as ContinuousUpgradeDef }] : [];
         });
 
         let additive = new Decimal(0);
         let multiplicative = new Decimal(1);
         let additiveMultiplicativeSum = new Decimal(0);
+        let continuousAdditive = new Decimal(0);
+        let continuousMultiplicative = new Decimal(1);
+        let continuousAdditiveMultiplicativeSum = new Decimal(0);
 
         for (const { saved, def } of relevant) {
             if (def.amount == null) {
@@ -44,32 +56,53 @@ class StatHandler {
                 case "additive":
                     additive = additive.plus(def.amount * saved.levels);
                     break;
-
                 case "multiplicative":
-                    multiplicative = multiplicative.multiply(
-                        new Decimal(def.amount).pow(saved.levels)
-                    );
+                    multiplicative = multiplicative.multiply(new Decimal(def.amount).pow(saved.levels));
                     break;
-
                 case "additive_multiplicative":
-                    additiveMultiplicativeSum = additiveMultiplicativeSum.plus(
-                        def.amount * saved.levels
-                    );
+                    additiveMultiplicativeSum = additiveMultiplicativeSum.plus(def.amount * saved.levels);
+                    break;
+            }
+        }
+
+        for (const { saved, def } of relevantContinuous) {
+            const curveFn = curves[def.curve];
+            if (!curveFn) {
+                Logger.warning("StatHandler", `Unknown curve "${def.curve}" on "${def.id}"`);
+                continue;
+            }
+
+            const bonus = curveFn(new Decimal(saved.spent), def.scale);
+
+            switch (def.type) {
+                case "additive":
+                    continuousAdditive = continuousAdditive.plus(bonus);
+                    break;
+                case "multiplicative":
+                    continuousMultiplicative = continuousMultiplicative.multiply(bonus);
+                    break;
+                case "additive_multiplicative":
+                    continuousAdditiveMultiplicativeSum = continuousAdditiveMultiplicativeSum.plus(bonus.minus(1));
                     break;
             }
         }
 
         const additiveMultiplicative = new Decimal(1).plus(additiveMultiplicativeSum);
+        const continuousAdditiveMultiplicative = new Decimal(1).plus(continuousAdditiveMultiplicativeSum);
 
         this.stats[stat] = {
             ...this.stats[stat],
             additive,
             multiplicative,
             additiveMultiplicative,
+            continuousMultiplicative,
             total: new Decimal(this.stats[stat].base)
                 .plus(additive)
+                .plus(continuousAdditive)
                 .multiply(multiplicative)
-                .multiply(additiveMultiplicative),
+                .multiply(additiveMultiplicative)
+                .multiply(continuousMultiplicative)
+                .multiply(continuousAdditiveMultiplicative),
         };
     }
 
@@ -90,16 +123,51 @@ class StatHandler {
         switch (def.type) {
             case "additive":
                 return new Decimal(def.amount * currentLevel);
-
             case "multiplicative":
                 return new Decimal(def.amount).pow(currentLevel);
-
             case "additive_multiplicative":
                 return new Decimal(1).plus(def.amount * currentLevel);
-
             case "flag":
                 return null;
         }
+    }
+
+    public feed(namespace: string, id: string, amount: Decimal): void {
+        const defList: AnyUpgradeDef[] | undefined = _.get(upgradesData, namespace);
+        if (!Array.isArray(defList)) {
+            Logger.error("StatHandler", `Invalid namespace "${namespace}"`);
+            return;
+        }
+
+        const def = defList.find((u) => u.id === id);
+        if (!def?.continuous) {
+            Logger.error("StatHandler", `"${id}" is not a continuous upgrade`);
+            return;
+        }
+
+        const saved = useSaveHandler().getContinuousUpgrades();
+        const index = saved.findIndex((u) => u.id === id);
+
+        if (index === -1) {
+            saved.push({ id, accessor: namespace, spent: amount });
+        } else {
+            saved[index].spent = new Decimal(saved[index].spent).plus(amount);
+        }
+
+        this.update(def.target);
+    }
+
+    public getContinuousEffect(namespace: string, id: string): Decimal | null {
+        const defList: AnyUpgradeDef[] | undefined = _.get(upgradesData, namespace);
+        const def = defList?.find((u) => u.id === id) as ContinuousUpgradeDef | undefined;
+        if (!def?.continuous) return null;
+
+        const curveFn = curves[def.curve];
+        if (!curveFn) return null;
+
+        const saved = useSaveHandler().getContinuousUpgrades().find((u) => u.id === id);
+        const spent = saved ? new Decimal(saved.spent) : new Decimal(0);
+        return curveFn(spent, def.scale);
     }
 
     public gainUpgrade(
@@ -108,7 +176,7 @@ class StatHandler {
         purchase: boolean = false,
         amount: number = 1
     ): boolean {
-        const defList: UpgradeDef[] | undefined = _.get(upgradesData, namespace);
+        const defList: AnyUpgradeDef[] | undefined = _.get(upgradesData, namespace);
         if (!Array.isArray(defList)) {
             Logger.error("StatHandler", `Invalid namespace "${namespace}"`);
             return false;
@@ -120,11 +188,18 @@ class StatHandler {
             return false;
         }
 
-        if (def.type === "flag") {
-            if (purchase && !useCurrencyHandler().spend(def.currency, new Decimal(def.cost))) {
+        if (def.continuous) {
+            Logger.error("StatHandler", `"${id}" is continuous - use feed() instead`);
+            return false;
+        }
+
+        const normalDef = def as UpgradeDef;
+
+        if (normalDef.type === "flag") {
+            if (purchase && !useCurrencyHandler().spend(normalDef.currency, new Decimal(normalDef.cost))) {
                 return false;
             }
-            useSaveHandler().setFlag(def.target, true);
+            useSaveHandler().setFlag(normalDef.target, true);
             return true;
         }
 
@@ -133,36 +208,25 @@ class StatHandler {
         const index = savedUpgrades.findIndex((u) => u.id === id);
         const existing = index > -1 ? savedUpgrades[index] : null;
 
-        if (existing && !def.levels) {
-            return false;
-        }
+        if (existing && !normalDef.levels) return false;
 
         const currentLevel = existing ? existing.levels : 0;
 
-        if (def.levels && currentLevel >= def.levels) {
-            return false;
-        }
+        if (normalDef.levels && currentLevel >= normalDef.levels) return false;
 
-        const levelsRemaining = def.levels ? def.levels - currentLevel : amount;
+        const levelsRemaining = normalDef.levels ? normalDef.levels - currentLevel : amount;
         const actualAmount = Math.min(amount, levelsRemaining);
+        const cost = this.calculateCost(normalDef, currentLevel, actualAmount);
 
-        const cost = this.calculateCost(def, currentLevel, actualAmount);
-
-        if (purchase && !useCurrencyHandler().spend(def.currency, cost)) {
-            return false;
-        }
+        if (purchase && !useCurrencyHandler().spend(normalDef.currency, cost)) return false;
 
         if (!existing) {
-            savedUpgrades.push({
-                id: def.id,
-                accessor: namespace,
-                levels: actualAmount,
-            });
+            savedUpgrades.push({ id: normalDef.id, accessor: namespace, levels: actualAmount });
         } else {
             savedUpgrades[index].levels = currentLevel + actualAmount;
         }
 
-        this.update(def.target);
+        this.update(normalDef.target);
         return true;
     }
 
@@ -175,6 +239,7 @@ class StatHandler {
                 additive: new Decimal(0),
                 multiplicative: new Decimal(1),
                 additiveMultiplicative: new Decimal(1),
+                continuousMultiplicative: new Decimal(1),
                 total: new Decimal(data.base),
             };
             this.update(stat);
@@ -209,6 +274,7 @@ export interface Stat {
     additive: Decimal;
     multiplicative: Decimal;
     additiveMultiplicative: Decimal;
+    continuousMultiplicative: Decimal;
     total: Decimal;
     title: string;
 }

@@ -132,6 +132,44 @@
                     "levels": 18,
                     "currency": "energy"
                 }
+            ],
+            "converters": [
+                {
+                    "id": "field_gain",
+                    "title": "stats.quantum.fieldGain",
+                    "target": "field_gain",
+                    "type": "multiplicative",
+                    "continuous": true,
+                    "curve": "power",
+                    "scale": 1.1
+                },
+                {
+                    "id": "energy_gain",
+                    "title": "stats.quantum.energyGain",
+                    "target": "energy_gain",
+                    "type": "multiplicative",
+                    "continuous": true,
+                    "curve": "power",
+                    "scale": 1.1
+                },
+                {
+                    "id": "field_gain",
+                    "title": "stats.quantum.fieldGain",
+                    "target": "field_gain",
+                    "type": "multiplicative",
+                    "continuous": true,
+                    "curve": "power",
+                    "scale": 1.1
+                },
+                {
+                    "id": "conversion_speed",
+                    "title": "stats.quantum.conversionSpeed",
+                    "target": "conversion_speed",
+                    "type": "multiplicative",
+                    "continuous": true,
+                    "curve": "reverse_log",
+                    "scale": 0.3
+                }
             ]
         }
     }

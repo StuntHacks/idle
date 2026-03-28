@@ -9,21 +9,7 @@
         </span>
     </div>
     <div class="converters">
-        <particle-converter class="rgb">
-            <div class="input">
-                <div class="circle">
-                    <div class="resource particle quark main rgb"></div>
-                    <div class="resource particle quark main rgb"></div>
-                    <div class="resource particle quark main rgb"></div>
-                </div>
-            </div>
-            <div class="arrow">
-                <span class="interval"></span> / 
-                <translated-string>stages.quantum.energy.conversion.perConversion</translated-string>
-            </div>
-            <div class="output"></div>
-        </particle-converter>
-        <particle-converter class="red">
+        <particle-converter class="red" interval="5000">
             <div class="input">
                 <div class="circle">
                     <div class="resource particle quark main red"></div>
@@ -37,7 +23,7 @@
             </div>
             <div class="output"></div>
         </particle-converter>
-        <particle-converter class="green">
+        <particle-converter class="green" interval="5000">
             <div class="input">
                 <div class="circle">
                     <div class="resource particle quark main green"></div>
@@ -51,12 +37,26 @@
             </div>
             <div class="output"></div>
         </particle-converter>
-        <particle-converter class="blue">
+        <particle-converter class="blue" interval="5000">
             <div class="input">
                 <div class="circle">
                     <div class="resource particle quark main blue"></div>
                     <div class="resource particle quark main blue"></div>
                     <div class="resource particle quark main blue"></div>
+                </div>
+            </div>
+            <div class="arrow">
+                <span class="interval"></span> / 
+                <translated-string>stages.quantum.energy.conversion.perConversion</translated-string>
+            </div>
+            <div class="output"></div>
+        </particle-converter>
+        <particle-converter class="rgb" interval="20000">
+            <div class="input">
+                <div class="circle">
+                    <div class="resource particle quark main rgb"></div>
+                    <div class="resource particle quark main rgb"></div>
+                    <div class="resource particle quark main rgb"></div>
                 </div>
             </div>
             <div class="arrow">

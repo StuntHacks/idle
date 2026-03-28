@@ -254,9 +254,10 @@
       "electronGain": "Electron Gain",
       "quarkGain": "Quark Gain",
       "gluonGain": "Gluon Gain",
-      "fieldGain": "All Field Gain",
+      "fieldGain": "Field Particle Gain",
       "energyGain": "Energy Gain",
-      "converterSpeed": "Quark Converter Speed"
+      "conversionSpeed": "Quark Conversion Speed",
+      "maxConverters": "Max Active Quark Converters"
     }
   },
   "upgrades": {
