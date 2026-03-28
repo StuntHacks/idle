@@ -95,6 +95,15 @@ export class QuantumFieldElement extends HTMLElement {
                     wave.setHovered(false);
                 }
             });
+            this.surface.addEventListener("touchcancel", (e: TouchEvent) => {
+                e.preventDefault();
+                const touch = e.changedTouches[0];
+                if (touch) {
+                    UI.mouseDown = true;
+                    UI.mouseX = touch.clientX;
+                    UI.mouseY = touch.clientY;
+                }
+            }, { passive: false });
 
             window.requestAnimationFrame(this.handleClick);
         }

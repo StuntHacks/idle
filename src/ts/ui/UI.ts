@@ -32,7 +32,6 @@ export class UI {
         window.addEventListener("touchstart", UI.updateTouchState, { passive: true });
         window.addEventListener("touchmove", UI.updateTouchState, { passive: true });
         window.addEventListener("touchend", UI.updateTouchState, { passive: true });
-        window.addEventListener("touchcancel", UI.updateTouchState, { passive: true });
 
         const sidescrollers = document.getElementsByClassName("js-sidescroll");
         for (let i = 0; i < sidescrollers.length; i++) {
