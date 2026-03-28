@@ -97,6 +97,11 @@ export class ConverterElement extends HTMLElement {
     }
 
     private setSpinning(spinning: boolean): void {
+        if (this.tweenRaf !== null) {
+            cancelAnimationFrame(this.tweenRaf);
+            this.tweenRaf = null;
+        }
+
         if (spinning) {
             this.setPlaybackRate(this.currentRate);
             this.allAnimations.forEach(a => a.play());
