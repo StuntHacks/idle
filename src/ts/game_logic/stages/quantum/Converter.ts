@@ -25,7 +25,6 @@ export class ParticleConverter {
     }
 
     private getInterval() {
-        console.log(useStatHandler().get("conversion_speed")?.total);
         return Math.max(50, new Decimal(this.baseInterval).multiply(useStatHandler().get("conversion_speed")?.total ?? 1).toNumber());
     }
 
@@ -36,10 +35,9 @@ export class ParticleConverter {
         const interval = this.getInterval();
 
         if (this.acc >= interval) {
-            console.log(interval)
-            useStatHandler().feed("quantum.energy.converters", "conversion_speed", new Decimal(1));
             const num = Math.floor(this.acc / interval);
             this.acc -= num * interval;
+            useStatHandler().feed("quantum.energy.converters", "conversion_speed", new Decimal(num));
 
             if (!catchingUp) {
 
