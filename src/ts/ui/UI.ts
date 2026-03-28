@@ -197,7 +197,8 @@ export class UI {
     }
 
     public static selectStartingTab() {
-        if (Utils.compareVersions(useSave().gameVersion, Utils.getVersionString()) < 0) {
+        const version = useSave().gameVersion;
+        if (version && Utils.compareVersions(version, Utils.getVersionString()) < 0) {
             document.getElementById("tab-version").classList.add("updated");
             UI.switchStageTab("version");
         } else {

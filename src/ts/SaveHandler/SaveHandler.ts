@@ -92,7 +92,8 @@ export class SaveHandler {
             this.saveCurrencies();
         }
 
-        localStorage.setItem(`${SAVE_FILE_NAME}_bak`, localStorage.getItem(SAVE_FILE_NAME));
+        const last = localStorage.getItem(SAVE_FILE_NAME);
+        if (last) localStorage.setItem(`${SAVE_FILE_NAME}_bak`, last);
         localStorage.setItem(SAVE_FILE_NAME, data);
         UI.flashSaveIndicator();
     }
