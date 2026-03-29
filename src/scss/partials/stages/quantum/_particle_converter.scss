@@ -100,6 +100,10 @@ particle-converter {
             .particle {
                 opacity: 0;
             }
+
+            stat-info {
+                opacity: 0;
+            }
         }
 
         .output {
@@ -214,6 +218,7 @@ particle-converter {
             font-weight: bold;
             font-size: 2.5rem;
             text-shadow: 0 0 10px white;
+            transition: opacity 150ms;
         }
     }
 
