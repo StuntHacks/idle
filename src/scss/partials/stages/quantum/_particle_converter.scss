@@ -204,6 +204,17 @@ particle-converter {
                 transition: opacity 150ms;
             }
         }
+
+        stat-info {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin-top: -2px;
+            font-weight: bold;
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px white;
+        }
     }
 
     .arrow {

@@ -40,7 +40,7 @@ export class ParticleConverter {
         if (this.acc >= interval) {
             const num = Math.floor(this.acc / interval);
             this.acc -= num * interval;
-            useStatHandler().feed("quantum.energy.converters", this.target, new Decimal(num));
+            useStatHandler().feed("quantum.energy.converters", this.target, new Decimal(num).multiply(useStatHandler().get("conversion_input")?.total ?? 1));
         }
 
         if (!catchingUp) {
