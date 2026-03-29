@@ -1,7 +1,7 @@
 import { useSaveHandler } from "SaveHandler/SaveHandler";
 import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
 import { QuantumField } from "./Field";
-import { useSettings } from "utils/SettingsHandler";
+import { useSetting, useSettings } from "utils/SettingsHandler";
 
 export class QuantumFluctuator {
     private baseInterval: number = 1000;
@@ -27,7 +27,7 @@ export class QuantumFluctuator {
         this.acc = 0;
         this.enabled = typeof force === "boolean" ? force : !this.enabled;
         this.element?.setEnabled(this.enabled);
-        useSettings().internal.settings.quantum.fluctuators[this.index] = this.enabled;
+        useSetting("internal", (s) => s.quantum.fluctuators[this.index] = this.enabled);
     }
 
     public tryUpgrade() {

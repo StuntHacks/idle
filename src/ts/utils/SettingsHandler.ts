@@ -90,6 +90,16 @@ class SettingsHandler {
         this.save();
     }
 
+    public mutate<C extends keyof Omit<Settings, "version">>(
+        cat: C,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        fn: (settings: Settings[C]["settings"]) => any
+    ) {
+        const ret = fn(this.get()[cat].settings);
+        this.save();
+        return ret;
+    }
+
     public save(): void {
         localStorage.setItem(SETTINGS_NAME, JSON.stringify(SettingsHandler.extractSaved(this.settings)));
     }
@@ -101,6 +111,14 @@ class SettingsHandler {
 }
 
 let _instance: SettingsHandler;
+export const useSetting = <C extends keyof Omit<Settings, "version">>(
+    accessor: C,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    fn: (settings: Settings[C]["settings"]) => any
+) => {
+    if (!_instance) throw new Error("Call initSettings() first");
+    return _instance.mutate(accessor, fn);
+}
 export const useSettings = (): Settings => {
     if (!_instance) throw new Error("Call initSettings() first");
     return _instance.get();
