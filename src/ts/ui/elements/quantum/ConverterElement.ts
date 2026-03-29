@@ -14,10 +14,12 @@ const ICON_KEYFRAMES: Keyframe[][] = [
 ];
 
 export class ConverterElement extends HTMLElement {
-    private intervalElement: HTMLSpanElement;
-    private labelElement: HTMLSpanElement;
+    private intervalElement: HTMLElement;
+    private labelElement: HTMLElement;
+    private effectElement: HTMLElement;
     private toggleCallback: ToggleCallback;
     private intervalText: string = "";
+    private effectText: string = "";
 
     private circleAnim: Animation | null = null;
     private iconAnims: Animation[] = [];
@@ -60,6 +62,12 @@ export class ConverterElement extends HTMLElement {
         void progress;
     }
 
+    public setEffectText(text: string) {
+        if (text === this.effectText) return;
+        this.effectText = text;
+        this.effectElement.innerHTML = `<span>${text}</span>`;
+    }
+
     public setInterval(interval: number) {
         const text = interval >= 1000 ? `${(interval / 1000).toFixed(2)}s` : `${interval.toFixed(0)}ms`;
         if (text === this.intervalText) return;
@@ -75,6 +83,7 @@ export class ConverterElement extends HTMLElement {
     connectedCallback() {
         this.intervalElement = this.querySelector(".interval");
         this.labelElement = this.querySelector(".toggle-label");
+        this.effectElement = this.querySelector(".output");
         this.initAnimations();
     }
 

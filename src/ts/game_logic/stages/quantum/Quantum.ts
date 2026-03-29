@@ -6,7 +6,7 @@ import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { QuantumField } from "./Field";
 import { FIELD_DATA } from "./field_data";
 import { useSetting, useSettings } from "utils/SettingsHandler";
-import { useSaveHandler } from "SaveHandler/SaveHandler";
+import { useFlag } from "SaveHandler/SaveHandler";
 import { useStat } from "game_logic/StatHandler";
 import { ConverterElement } from "ui/elements/quantum/ConverterElement";
 import { ParticleConverter } from "./Converter";
@@ -31,7 +31,7 @@ export class QuantumStage implements Stage {
             );
         }
 
-        this.activeConverters = useSetting("internal", (s) => s.quantum.converters) ?? [];
+        this.activeConverters = useFlag("quantum.converters.c0") ? useSetting("internal", (s) => s.quantum.converters) ?? [] : [];
         this.updateConverters();
     }
 
@@ -44,7 +44,7 @@ export class QuantumStage implements Stage {
 
             // todo: figure out a better location for this
             if (key === "electroweak" && field.multi) {
-                field.multi = { ...field.multi, chance: useSaveHandler().getFlag("quantum.fields.weak_bosons") ? 0.25 : 1 };
+                field.multi = { ...field.multi, chance: useFlag("quantum.fields.weak_bosons") ? 0.25 : 1 };
             }
 
             this.fields.push(
@@ -67,7 +67,6 @@ export class QuantumStage implements Stage {
         while (this.activeConverters.length > max) {
             this.activeConverters.shift();
         }
-        console.log(this.activeConverters);
 
         useSetting("internal", (s) => s.quantum.converters = this.activeConverters);
         this.updateConverters();

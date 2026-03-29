@@ -258,6 +258,7 @@
       "fieldGain": "Field Particle Gain",
       "energyGain": "Energy Gain",
       "conversionSpeed": "Quark Conversion Speed",
+      "conversionInput": "Quark Conversion Input",
       "maxConverters": "Max Active Quark Converters"
     }
   },

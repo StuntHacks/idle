@@ -23,6 +23,10 @@
         "base": 1,
         "title": "stats.quantum.conversionSpeed"
     },
+    "conversion_input": {
+        "base": 1,
+        "title": "stats.quantum.conversionInput"
+    },
     "max_converters": {
         "base": 1,
         "title": "stats.quantum.maxConverters"

@@ -10,7 +10,7 @@
         <translated-string class="section-title" id="active-converters"></translated-string>
     </div>
     <div class="converters">
-        <particle-converter class="red" interval="5000">
+        <particle-converter class="red" interval="5000" target="energy_gain">
             <div class="input">
                 <div class="circle">
                     <div class="resource particle quark main red"></div>
@@ -19,12 +19,11 @@
                 </div>
             </div>
             <div class="arrow">
-                <span class="interval"></span> / 
-                <translated-string>stages.quantum.energy.conversion.perConversion</translated-string>
+                <span class="interval"></span>
             </div>
             <div class="output"></div>
         </particle-converter>
-        <particle-converter class="green" interval="5000">
+        <particle-converter class="green" interval="5000" target="field_gain">
             <div class="input">
                 <div class="circle">
                     <div class="resource particle quark main green"></div>
@@ -33,12 +32,11 @@
                 </div>
             </div>
             <div class="arrow">
-                <span class="interval"></span> / 
-                <translated-string>stages.quantum.energy.conversion.perConversion</translated-string>
+                <span class="interval"></span>
             </div>
             <div class="output"></div>
         </particle-converter>
-        <particle-converter class="blue" interval="5000">
+        <particle-converter class="blue" interval="5000" target="quark_gain">
             <div class="input">
                 <div class="circle">
                     <div class="resource particle quark main blue"></div>
@@ -47,12 +45,11 @@
                 </div>
             </div>
             <div class="arrow">
-                <span class="interval"></span> / 
-                <translated-string>stages.quantum.energy.conversion.perConversion</translated-string>
+                <span class="interval"></span>
             </div>
             <div class="output"></div>
         </particle-converter>
-        <particle-converter class="rgb" interval="20000">
+        <particle-converter class="rgb" interval="60000" target="conversion_speed">
             <div class="input">
                 <div class="circle">
                     <div class="resource particle quark main rgb"></div>
@@ -61,8 +58,7 @@
                 </div>
             </div>
             <div class="arrow">
-                <span class="interval"></span> / 
-                <translated-string>stages.quantum.energy.conversion.perConversion</translated-string>
+                <span class="interval"></span>
             </div>
             <div class="output"></div>
         </particle-converter>

@@ -1,11 +1,9 @@
 @import "../../../settings/gradients.scss";
 
 particle-converter {
-    flex-grow: 0;
     display: flex;
     align-items: center;
     padding: 20px;
-    min-width: 520px;
     box-sizing: border-box;
     cursor: pointer;
     background-color: rgba(255, 255, 255, 0.05);
@@ -14,6 +12,10 @@ particle-converter {
     overflow: hidden;
     transition: background-color 150ms;
     justify-content: space-between;
+    gap: 0;
+    flex-grow: 1;
+    width: calc(50% - 0.5rem);
+    min-width: 480px;
 
     &::after,
     &::before {
@@ -99,6 +101,12 @@ particle-converter {
                 opacity: 0;
             }
         }
+
+        .output {
+            span {
+                opacity: 0;
+            }
+        }
     }
 
     &[disabled]:not([locked])::after {
@@ -137,6 +145,8 @@ particle-converter {
         border-radius: 100%;
         height: 150px;
         width: 150px;
+        min-width: 150px;
+        min-height: 150px;
         position: relative;
         overflow: hidden;
 
@@ -157,15 +167,15 @@ particle-converter {
                 0% {
                     filter: brightness(0.4) grayscale(0);
                 }
-            
+
                 5% {
                     filter: brightness(0.6) grayscale(0);
                 }
-            
+
                 50% {
                     filter: brightness(0.2) grayscale(0.3);
                 }
-            
+
                 100% {
                     filter: brightness(0.4) grayscale(0);
                 }
@@ -197,7 +207,7 @@ particle-converter {
     }
 
     .arrow {
-        margin: 0 40px;
+        margin: 0 20px;
         border: 4px solid #fff3;
         border-right: 0;
         border-left: 0;
@@ -210,6 +220,10 @@ particle-converter {
         gap: 0.3rem;
         color: #DDD;
         transition: color 150ms;
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        min-width: 112px;
 
         .interval {
             margin-top: 2px;
@@ -231,19 +245,62 @@ particle-converter {
         background-color: #fff1;
         padding: 10px 20px;
         border-radius: 10px;
+        text-align: center;
+        font-weight: bold;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        white-space: break-spaces;
+        width: 137px;
+        box-sizing: border-box;
+        max-width: 137px;
+        min-width: 137px;
+
+        span {
+            @include gradient-quark-rgb;
+            background: var(--gradient);
+            color: rgba(255, 255, 255, 0.2);
+            background-clip: text;
+            transition: opacity 150ms;
+        }
     }
 
-    &.red:not([locked]) .input::before {
-        @include gradient-quark-red;
-        opacity: 0.8;
+    &.red:not([locked]) {
+        .input, .output {
+            &::before,
+            span {
+                @include gradient-quark-red;
+            }
+
+            &::before {
+                opacity: 0.8;
+            }
+        }
     }
 
-    &.green:not([locked]) .input::before {
-        @include gradient-quark-green;
-        opacity: 0.8;
+    &.green:not([locked]) {
+        .input, .output {
+            &::before,
+            span {
+                @include gradient-quark-green;
+            }
+
+            &::before {
+                opacity: 0.8;
+            }
+        }
     }
 
-    &.blue:not([locked]) .input::before {
-        @include gradient-quark-blue;
+    &.blue:not([locked]) {
+        .input, .output {
+            &::before,
+            span {
+                @include gradient-quark-blue;
+            }
+        }
+    }
+
+    @media screen and (max-width: 1429px) {
+        
     }
 }

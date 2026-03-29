@@ -225,9 +225,15 @@
                     pointer-events: none;
                 }
 
-                &:not(:has(particle-converter[locked])) .info {
-                    opacity: 1;
-                    pointer-events: auto;
+                &:not(:has(particle-converter[locked])) {
+                    .info {
+                        opacity: 1;
+                        pointer-events: auto;
+                    }
+
+                    #active-converters {
+                        opacity: 1;
+                    }
                 }
 
                 .section {
@@ -243,6 +249,8 @@
                         flex-grow: 1;
                         text-align: right;
                         margin-right: 30px;
+                        transition: opacity 150ms;
+                        opacity: 0;
                     }
                 }
 
@@ -253,10 +261,6 @@
                     display: flex;
                     flex-wrap: wrap;
                     gap: 1rem;
-
-                    particle-converter {
-                        flex-grow: 1;
-                    }
                 }
             }
         }

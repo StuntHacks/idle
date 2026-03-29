@@ -140,8 +140,8 @@
                     "target": "field_gain",
                     "type": "multiplicative",
                     "continuous": true,
-                    "curve": "power",
-                    "scale": 1.1
+                    "curve": "logarithmic",
+                    "scale": 0.8
                 },
                 {
                     "id": "energy_gain",
@@ -149,17 +149,17 @@
                     "target": "energy_gain",
                     "type": "multiplicative",
                     "continuous": true,
-                    "curve": "power",
-                    "scale": 1.1
+                    "curve": "logarithmic",
+                    "scale": 1
                 },
                 {
-                    "id": "field_gain",
-                    "title": "stats.quantum.fieldGain",
-                    "target": "field_gain",
+                    "id": "conversion_input",
+                    "title": "stats.quantum.conversionInput",
+                    "target": "conversion_input",
                     "type": "multiplicative",
                     "continuous": true,
-                    "curve": "power",
-                    "scale": 1.1
+                    "curve": "logarithmic",
+                    "scale": 1.5
                 },
                 {
                     "id": "conversion_speed",

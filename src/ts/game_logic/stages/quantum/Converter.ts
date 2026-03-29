@@ -1,7 +1,9 @@
 import { useSaveHandler } from "SaveHandler/SaveHandler";
 import { ConverterElement } from "ui/elements/quantum/ConverterElement";
-import { useStatHandler } from "game_logic/StatHandler";
+import { useStat, useStatHandler } from "game_logic/StatHandler";
 import Decimal from "break_eternity.js";
+import { useTranslation } from "i18n/i18n";
+import { Numbers } from "numbers/numbers";
 
 export class ParticleConverter {
     private baseInterval: number = 5000;
@@ -10,6 +12,8 @@ export class ParticleConverter {
     private element: ConverterElement;
     private index: number = -1;
     private acc: number = 0;
+    private target: string;
+    private title: string = "";
     private callback: (index: number) => void;
 
     public toggleLock(force: boolean = undefined) {
@@ -36,12 +40,19 @@ export class ParticleConverter {
         if (this.acc >= interval) {
             const num = Math.floor(this.acc / interval);
             this.acc -= num * interval;
-            useStatHandler().feed("quantum.energy.converters", "conversion_speed", new Decimal(num));
-
-            if (!catchingUp) {
-
-            }
+            useStatHandler().feed("quantum.energy.converters", this.target, new Decimal(num));
         }
+
+        if (!catchingUp) {
+            this.updateEffect();
+        }
+    }
+
+    private updateEffect() {
+        const value = useStatHandler().getContinuousEffect("quantum.energy.converters", this.target);
+        if (!value) return;
+        const formatted = Numbers.getFormatted(value, 2);
+        this.element.setEffectText(`${this.title}<br />x${formatted}`);
     }
 
     private getFlagString() {
@@ -56,7 +67,10 @@ export class ParticleConverter {
         this.element.setInterval(this.getInterval());
         this.callback = callback;
         this.index = index;
+        this.target = this.element.getAttribute("target");
+        this.title = useTranslation(useStat(this.target).title);
         this.toggleLock(!useSaveHandler().getFlag(this.getFlagString()));
+        this.updateEffect();
 
         useSaveHandler().registerFlagCallback(this.getFlagString(), (flag: string, value: unknown) => {
             this.toggleLock(!value);

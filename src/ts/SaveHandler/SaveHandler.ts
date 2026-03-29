@@ -167,6 +167,10 @@ export const useSave = (): SaveFile => {
     if (!_instance) throw new Error("Call initSaveHandler() first");
     return _instance.getData();
 };
+export const useFlag = (flag: string): boolean => {
+    if (!_instance) throw new Error("Call initSaveHandler() first");
+    return _instance.getFlag(flag);
+};
 export const useSaveHandler = (): SaveHandler => {
     if (!_instance) throw new Error("Call initSaveHandler() first");
     return _instance;
