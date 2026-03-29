@@ -24,5 +24,12 @@
             "Implemented settings",
             "Implemented offline results screen"
         ]
+    },
+    {
+        "version": "0.0.14",
+        "date": "29.03.2026",
+        "changes": [
+            "Implemented quark conversion"
+        ]
     }
 ]
