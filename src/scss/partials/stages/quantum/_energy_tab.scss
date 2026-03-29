@@ -220,6 +220,14 @@
                 .info {
                     margin-left: 5px;
                     transform: translateY(1px);
+                    transition: opacity 150ms;
+                    opacity: 0;
+                    pointer-events: none;
+                }
+
+                &:not(:has(particle-converter[locked])) .info {
+                    opacity: 1;
+                    pointer-events: auto;
                 }
 
                 .section {

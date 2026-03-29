@@ -235,12 +235,12 @@ particle-converter {
 
     &.red:not([locked]) .input::before {
         @include gradient-quark-red;
-        opacity: 0.7;
+        opacity: 0.8;
     }
 
     &.green:not([locked]) .input::before {
         @include gradient-quark-green;
-        opacity: 0.7;
+        opacity: 0.8;
     }
 
     &.blue:not([locked]) .input::before {
