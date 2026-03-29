@@ -78,7 +78,7 @@ export const defaultSettings: SettingsDef = {
         settings: {
             quantum: {
                 fluctuators: [true, true, true, true, true, true],
-                converters: [false, false, false, false, false, false, false, false],
+                converters: [],
                 fields: [
                     { selected: "lepton" },
                     { selected: "quark" },

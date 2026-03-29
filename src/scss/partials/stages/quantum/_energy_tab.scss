@@ -238,6 +238,12 @@
                     translated-string {
                         flex-grow: 0;
                     }
+
+                    #active-converters {
+                        flex-grow: 1;
+                        text-align: right;
+                        margin-right: 30px;
+                    }
                 }
 
                 .converters {

@@ -232,6 +232,7 @@
           "enable": "Click to turn on",
           "disable": "Click to turn off",
           "locked": "Locked",
+          "active": "Active:",
           "upgrades": {}
         }
       }

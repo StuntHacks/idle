@@ -69,7 +69,7 @@ export interface QuantumFieldSettings {
 
 export interface QuantumSettings {
     fluctuators: [boolean, boolean, boolean, boolean, boolean, boolean];
-    converters: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean];
+    converters: number[];
     fields: [
         QuantumFieldSettings, QuantumFieldSettings, QuantumFieldSettings,
         QuantumFieldSettings, QuantumFieldSettings, QuantumFieldSettings

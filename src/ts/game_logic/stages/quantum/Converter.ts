@@ -1,5 +1,4 @@
 import { useSaveHandler } from "SaveHandler/SaveHandler";
-import { useSettings } from "utils/SettingsHandler";
 import { ConverterElement } from "ui/elements/quantum/ConverterElement";
 import { useStatHandler } from "game_logic/StatHandler";
 import Decimal from "break_eternity.js";
@@ -11,6 +10,7 @@ export class ParticleConverter {
     private element: ConverterElement;
     private index: number = -1;
     private acc: number = 0;
+    private callback: (index: number) => void;
 
     public toggleLock(force: boolean = undefined) {
         this.locked = typeof force === "boolean" ? force : !this.locked;
@@ -21,7 +21,6 @@ export class ParticleConverter {
         this.acc = 0;
         this.enabled = typeof force === "boolean" ? force : !this.enabled;
         this.element?.setEnabled(this.enabled);
-        useSettings().internal.settings.quantum.converters[this.index] = this.enabled;
     }
 
     private getInterval() {
@@ -49,15 +48,14 @@ export class ParticleConverter {
         return `quantum.converters.c${this.index < 4 ? 0 : 1}`;
     }
 
-    constructor(index: number, element: ConverterElement) {
+    constructor(index: number, element: ConverterElement, callback: (index: number) => void) {
         if (!element) return;
         this.element = element;
-        this.element.setToggleCallback(this.toggle.bind(this));
+        this.element.setToggleCallback(() => this.callback(this.index));
         this.baseInterval = parseInt(this.element.getAttribute("interval") ?? "5000");
         this.element.setInterval(this.getInterval());
+        this.callback = callback;
         this.index = index;
-        
-        this.toggle(useSettings().internal.settings.quantum.converters[this.index]);
         this.toggleLock(!useSaveHandler().getFlag(this.getFlagString()));
 
         useSaveHandler().registerFlagCallback(this.getFlagString(), (flag: string, value: unknown) => {
