@@ -1,4 +1,5 @@
 import { useTranslation } from "i18n/i18n";
+import { RenderClock } from "ui/RenderClock";
 
 type ToggleCallback = (force?: boolean) => void;
 
@@ -17,22 +18,33 @@ export class ConverterElement extends HTMLElement {
     private intervalElement: HTMLElement;
     private labelElement: HTMLElement;
     private effectElement: HTMLElement;
+    private progressElement: HTMLElement | null = null;
     private toggleCallback: ToggleCallback;
     private intervalText: string = "";
     private effectText: string = "";
+    private enabled: boolean = false;
+
+    private acc: number = 0;
+    private interval: number = 0;
+    private tickLength: number = 50;
+    private renderFrame: number | null = null;
 
     private circleAnim: Animation | null = null;
     private iconAnims: Animation[] = [];
-    private tweenRaf: number | null = null;
+    private tweenFrame: number | null = null;
     private currentRate: number = 1;
 
     public setEnabled(enabled: boolean) {
+        this.enabled = enabled;
         this.toggleAttribute("disabled", !enabled);
         if (this.labelElement) {
             this.labelElement.textContent = useTranslation(enabled ?
                 "stages.quantum.energy.conversion.disable" :
                 "stages.quantum.energy.conversion.enable"
             );
+        }
+        if (!enabled && this.progressElement) {
+            this.progressElement.style.clipPath = "xywh(0 -5px 0% calc(100% + 10px))";
         }
         this.setSpinning(enabled);
     }
@@ -58,8 +70,10 @@ export class ConverterElement extends HTMLElement {
         }
     }
 
-    public setProgress(progress: number) {
-        void progress;
+    public setProgress(acc: number, interval: number, tickLength: number) {
+        this.acc = acc;
+        this.interval = interval;
+        this.tickLength = tickLength;
     }
 
     public setEffectText(text: string) {
@@ -84,11 +98,29 @@ export class ConverterElement extends HTMLElement {
         this.intervalElement = this.querySelector(".interval");
         this.labelElement = this.querySelector(".toggle-label");
         this.effectElement = this.querySelector(".output");
+        this.progressElement = this.querySelector(".progress");
         this.initAnimations();
+        this.renderFrame = requestAnimationFrame(this.renderLoop);
     }
 
     disconnectedCallback() {
         this.stopAnimations();
+        if (this.renderFrame !== null) cancelAnimationFrame(this.renderFrame);
+    }
+
+    private renderLoop = () => {
+        this.renderFrame = requestAnimationFrame(this.renderLoop);
+        if (!this.progressElement || this.interval === 0) return;
+
+        let visual: number;
+        if (!this.enabled) {
+            visual = Math.min(this.acc / this.interval, 1);
+        } else {
+            const subTickAcc = this.acc + (this.tickLength * RenderClock.alpha);
+            visual = Math.min(subTickAcc / this.interval, 1);
+        }
+
+        this.progressElement.style.clipPath = `xywh(0 -5px ${visual * 100}% calc(100% + 10px))`;
     }
 
     private initAnimations(): void {
@@ -109,9 +141,9 @@ export class ConverterElement extends HTMLElement {
     }
 
     private setSpinning(spinning: boolean): void {
-        if (this.tweenRaf !== null) {
-            cancelAnimationFrame(this.tweenRaf);
-            this.tweenRaf = null;
+        if (this.tweenFrame !== null) {
+            cancelAnimationFrame(this.tweenFrame);
+            this.tweenFrame = null;
         }
 
         if (spinning) {
@@ -137,7 +169,7 @@ export class ConverterElement extends HTMLElement {
     }
 
     private tweenPlaybackRate(from: number, to: number, onDone?: () => void): void {
-        if (this.tweenRaf !== null) cancelAnimationFrame(this.tweenRaf);
+        if (this.tweenFrame !== null) cancelAnimationFrame(this.tweenFrame);
         const start = performance.now();
 
         const step = (now: number): void => {
@@ -145,17 +177,17 @@ export class ConverterElement extends HTMLElement {
             const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
             this.setPlaybackRate(from + (to - from) * eased);
             if (t < 1) {
-                this.tweenRaf = requestAnimationFrame(step);
+                this.tweenFrame = requestAnimationFrame(step);
             } else {
                 this.setPlaybackRate(to);
                 onDone?.();
             }
         };
-        this.tweenRaf = requestAnimationFrame(step);
+        this.tweenFrame = requestAnimationFrame(step);
     }
 
     private stopAnimations(): void {
-        if (this.tweenRaf !== null) cancelAnimationFrame(this.tweenRaf);
+        if (this.tweenFrame !== null) cancelAnimationFrame(this.tweenFrame);
         this.allAnimations.forEach(a => a.cancel());
     }
 }

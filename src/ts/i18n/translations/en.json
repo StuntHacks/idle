@@ -259,7 +259,8 @@
       "energyGain": "Energy Gain",
       "conversionSpeed": "Quark Conversion Speed",
       "conversionInput": "Quark Conversion Input",
-      "maxConverters": "Max Active Quark Converters"
+      "maxConverters": "Max Active Quark Converters",
+      "hadronGain": "Hadron Gain"
     }
   },
   "upgrades": {
@@ -286,7 +287,7 @@
         },
         "quarkConverters": {
           "title": "Quark Converters",
-          "effect": "Unlocks 4 quark converters"
+          "effect": "Unlocks quark conversion"
         }
       }
     }

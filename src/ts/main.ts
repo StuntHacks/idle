@@ -20,8 +20,8 @@ export const main = async () => {
         document.addEventListener("contextmenu", (e) => e.preventDefault());
     } catch {
         // todo: implement proper migration
-        localStorage.removeItem("idledynamics_saveFile");
-        localStorage.removeItem("idledynamics_settings");
-        location.reload();
+        // localStorage.removeItem("idledynamics_saveFile");
+        // localStorage.removeItem("idledynamics_settings");
+        // location.reload();
     }
 }

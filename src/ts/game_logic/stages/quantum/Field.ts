@@ -1,7 +1,7 @@
 import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { ParticleModel, ParticleType, QuantumStage } from "./Quantum";
 import { useSettings } from "utils/SettingsHandler";
-import { useSaveHandler } from "SaveHandler/SaveHandler";
+import { useFlag, useSaveHandler } from "SaveHandler/SaveHandler";
 import { useStat } from "game_logic/StatHandler";
 import { useCurrencyHandler } from "game_logic/currencies/Currencies";
 import { UI } from "ui/UI";
@@ -125,7 +125,7 @@ export class QuantumField {
         let subFields = [];
 
         for (const sub of field.subFields) {
-            if (!sub.requirement || useSaveHandler().getFlag(sub.requirement)) {
+            if (!sub.requirement || useFlag(sub.requirement)) {
                 this.particles.push({
                     type: sub.type,
                     flavor: sub.flavor,
@@ -146,7 +146,7 @@ export class QuantumField {
 
         if (key) this.fieldElement.id = `${key}-field`;
 
-        if (index > 1 && !useSaveHandler().getFlag(`quantum.fields.extra${index}`)) {
+        if (index > 1 && !useFlag(`quantum.fields.extra${index}`)) {
             this.fieldElement.classList.add("hidden");
             this.fieldElement.style.display = "none";
             this.locked = true;

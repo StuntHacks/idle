@@ -1,9 +1,11 @@
-import { useSaveHandler } from "SaveHandler/SaveHandler";
+import { useSave, useSaveHandler } from "SaveHandler/SaveHandler";
 import { ConverterElement } from "ui/elements/quantum/ConverterElement";
 import { useStat, useStatHandler } from "game_logic/StatHandler";
 import Decimal from "break_eternity.js";
 import { useTranslation } from "i18n/i18n";
 import { Numbers } from "numbers/numbers";
+import { RenderClock } from "ui/RenderClock";
+import { TICK_LENGTH } from "game_logic/Game";
 
 export class ParticleConverter {
     private baseInterval: number = 5000;
@@ -18,13 +20,15 @@ export class ParticleConverter {
 
     public toggleLock(force: boolean = undefined) {
         this.locked = typeof force === "boolean" ? force : !this.locked;
+        useSave((s) => s.stages.quantum.converters[this.index].locked = this.locked);
         this.element?.setLocked(this.locked);
     }
 
     public toggle(force: boolean = undefined) {
-        this.acc = 0;
         this.enabled = typeof force === "boolean" ? force : !this.enabled;
+        useSave((s) => s.stages.quantum.converters[this.index].enabled = this.enabled);
         this.element?.setEnabled(this.enabled);
+        this.element.setProgress(this.acc, this.getInterval(), TICK_LENGTH);
     }
 
     private getInterval() {
@@ -40,12 +44,29 @@ export class ParticleConverter {
         if (this.acc >= interval) {
             const num = Math.floor(this.acc / interval);
             this.acc -= num * interval;
-            useStatHandler().feed("quantum.energy.converters", this.target, new Decimal(num).multiply(useStatHandler().get("conversion_input")?.total ?? 1));
+            const input = new Decimal(num).multiply(useStatHandler().get("conversion_input")?.total ?? 1);
+
+            // useCurrencyHandler().spend("quarks", input)
+
+            useStatHandler().feed("quantum.energy.converters", this.target, new Decimal(num).multiply(input));
         }
 
+        useSave((s) => s.stages.quantum.converters[this.index].acc = this.acc);
+
         if (!catchingUp) {
+            if (interval < 250) {
+                this.element.setProgress(1, 1, tickLength);
+            } else {
+                this.element.setProgress(this.acc, interval, tickLength);
+            }
             this.updateEffect();
         }
+    }
+
+    public getVisualProgress(tickLength: number): number {
+        const interval = this.getInterval();
+        const subTick = this.acc + (tickLength * RenderClock.alpha);
+        return Math.min(subTick / interval, 1);
     }
 
     private updateEffect() {
@@ -59,12 +80,13 @@ export class ParticleConverter {
         return `quantum.converters.c${this.index < 4 ? 0 : 1}`;
     }
 
-    constructor(index: number, element: ConverterElement, callback: (index: number) => void) {
+    constructor(index: number, element: ConverterElement, callback: (index: number) => void, acc?: number) {
         if (!element) return;
         this.element = element;
         this.element.setToggleCallback(() => this.callback(this.index));
         this.baseInterval = parseInt(this.element.getAttribute("interval") ?? "5000");
         this.element.setInterval(this.getInterval());
+        this.acc = acc ?? 0;
         this.callback = callback;
         this.index = index;
         this.target = this.element.getAttribute("target");

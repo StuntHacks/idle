@@ -224,6 +224,32 @@
             }
         }
     },
+    "stages": {
+        "quantum": {
+            "converters": [
+                {
+                    "enabled": false,
+                    "locked": false,
+                    "acc": 0
+                },
+                {
+                    "enabled": false,
+                    "locked": false,
+                    "acc": 0
+                },
+                {
+                    "enabled": false,
+                    "locked": false,
+                    "acc": 0
+                },
+                {
+                    "enabled": false,
+                    "locked": false,
+                    "acc": 0
+                }
+            ]
+        }
+    },
     "startTime": 1774224539775,
     "version": 6,
     "timestamp": 1774221551827,

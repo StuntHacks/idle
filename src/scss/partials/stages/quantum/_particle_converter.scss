@@ -245,6 +245,43 @@ particle-converter {
             margin-top: 2px;
         }
 
+        .progress {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            clip-path: xywh(0 -5px 0% calc(100% + 10px));
+            left: 0;
+
+            &::before,
+            &::after {
+                content: "";
+                width: 100%;
+                height: 4px;
+                position: absolute;
+                bottom: 100%;
+                left: 0;
+                border-radius: 10px;
+                @include gradient-quark-rgb;
+                background: var(--gradient-repeating);
+                background-size: 400px 100%;
+                animation: converter-progress 3s linear infinite;
+
+                @keyframes converter-progress {
+                    from {
+                        background-position-x: 0px;
+                    }
+                    to {
+                        background-position-x: 800px;
+                    }
+                }
+            }
+
+            &::after {
+                top: 100%;
+                bottom: auto;
+            }
+        }
+
         &::before {
             content: "";
             position: absolute;
@@ -292,6 +329,13 @@ particle-converter {
                 opacity: 0.8;
             }
         }
+
+        .progress {
+            &::before,
+            &::after {
+                @include gradient-quark-red;
+            }
+        }
     }
 
     &.green:not([locked]) {
@@ -305,12 +349,26 @@ particle-converter {
                 opacity: 0.8;
             }
         }
+
+        .progress {
+            &::before,
+            &::after {
+                @include gradient-quark-green;
+            }
+        }
     }
 
     &.blue:not([locked]) {
         .input, .output {
             &::before,
             span {
+                @include gradient-quark-blue;
+            }
+        }
+
+        .progress {
+            &::before,
+            &::after {
                 @include gradient-quark-blue;
             }
         }

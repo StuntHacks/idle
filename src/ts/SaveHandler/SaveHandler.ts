@@ -2,11 +2,11 @@ import { SaveFile, SavedUpgrade, SavedContinuousUpgrade } from "types/SaveFile";
 import { UI } from "ui/UI";
 import { Logger } from "utils/Logger";
 import mock from "./mock.json"
-import _ from "lodash";
 import { Utils } from "utils/utils";
 import { defaultSave } from "./defaultSave";
 import { initSettings } from "utils/SettingsHandler";
 import { useCurrencyHandler } from "game_logic/currencies/Currencies";
+import _ from "lodash";
 
 export const SAVE_FILE_VERSION = 6;
 const SAVE_FILE_NAME = "idledynamics_saveFile";
@@ -84,12 +84,11 @@ export class SaveHandler {
     }
 
     public saveData(fresh: boolean = false): void {
-        let data = this.getEncoded();
-
         if (!fresh) {
             this.saveCurrencies();
         }
 
+        let data = this.getEncoded();
         const last = localStorage.getItem(SAVE_FILE_NAME);
         if (last) localStorage.setItem(`${SAVE_FILE_NAME}_bak`, last);
         localStorage.setItem(SAVE_FILE_NAME, data);
@@ -134,6 +133,10 @@ export class SaveHandler {
         _.set(this.save.flags, flag, value);
     }
 
+    public mutate<T>(fn: (save: SaveFile) => T): T {
+        return fn(this.save);
+    }
+
     public reset(useMock: boolean = false): SaveFile {
         Logger.log("SaveHandler", "Initializing new save file...");
         const save = useMock ? mock as unknown as SaveFile : defaultSave;
@@ -163,18 +166,31 @@ export class SaveHandler {
 export type FlagCallback = (flag: string, value: unknown) => void;
 
 let _instance: SaveHandler;
-export const useSave = (): SaveFile => {
+
+export function useSave(): SaveFile;
+export function useSave<T>(fn: (save: SaveFile) => T): T;
+export function useSave<T>(fn?: (save: SaveFile) => T): SaveFile | T {
     if (!_instance) throw new Error("Call initSaveHandler() first");
+    if (fn) return _instance.mutate(fn);
     return _instance.getData();
-};
-export const useFlag = (flag: string): boolean => {
+}
+
+export function useFlag(flag: string): boolean;
+export function useFlag(flag: string, value?: unknown): void;
+export function useFlag(flag: string, value?: unknown): boolean | void {
     if (!_instance) throw new Error("Call initSaveHandler() first");
-    return _instance.getFlag(flag);
+    if (value !== undefined) {
+        _instance.setFlag(flag, value);
+    } else {
+        return _instance.getFlag(flag);
+    }
 };
+
 export const useSaveHandler = (): SaveHandler => {
     if (!_instance) throw new Error("Call initSaveHandler() first");
     return _instance;
 };
+
 export const initSaveHandler = (): SaveHandler => {
     _instance = new SaveHandler();
     return _instance;

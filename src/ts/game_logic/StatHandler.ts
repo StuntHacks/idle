@@ -3,7 +3,7 @@ import upgradesData from "game_logic/data/upgrades.json";
 import { AnyUpgradeDef, ContinuousUpgradeDef, UpgradeDef, SavedUpgrade, SavedContinuousUpgrade } from "types/SaveFile";
 import Decimal from "break_eternity.js";
 import _ from "lodash";
-import { useSaveHandler } from "SaveHandler/SaveHandler";
+import { useFlag, useSaveHandler } from "SaveHandler/SaveHandler";
 import { Logger } from "utils/Logger";
 import { useCurrencyHandler } from "./currencies/Currencies";
 import { curves } from "./CurveFunctions";
@@ -199,7 +199,7 @@ class StatHandler {
             if (purchase && !useCurrencyHandler().spend(normalDef.currency, new Decimal(normalDef.cost))) {
                 return false;
             }
-            useSaveHandler().setFlag(normalDef.target, true);
+            useFlag(normalDef.target, true);
             return true;
         }
 

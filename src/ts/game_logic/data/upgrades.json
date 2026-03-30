@@ -135,9 +135,9 @@
             ],
             "converters": [
                 {
-                    "id": "field_gain",
-                    "title": "stats.quantum.fieldGain",
-                    "target": "field_gain",
+                    "id": "quark_gain",
+                    "title": "stats.quantum.quarkGain",
+                    "target": "quark_gain",
                     "type": "multiplicative",
                     "continuous": true,
                     "curve": "logarithmic",
@@ -153,9 +153,9 @@
                     "scale": 1
                 },
                 {
-                    "id": "conversion_input",
-                    "title": "stats.quantum.conversionInput",
-                    "target": "conversion_input",
+                    "id": "gluon_gain",
+                    "title": "stats.quantum.gluonGain",
+                    "target": "gluon_gain",
                     "type": "multiplicative",
                     "continuous": true,
                     "curve": "logarithmic",

@@ -9,6 +9,7 @@ import { initSaveHandler, useSave, useSaveHandler } from "SaveHandler/SaveHandle
 import { initStatHandler } from "./StatHandler";
 import { initCurrencyHandler, useCurrencyHandler } from "./currencies/Currencies";
 import Decimal from "break_eternity.js";
+import { RenderClock } from "ui/RenderClock";
 
 export interface Stage {
     update(tickLength: number, catchingUp: boolean): void;
@@ -16,7 +17,7 @@ export interface Stage {
 }
 
 const TICK_RATE = 20;
-const TICK_LENGTH = 1000 / TICK_RATE;
+export const TICK_LENGTH = 1000 / TICK_RATE;
 
 class Game {
     private lastTimestamp: number = undefined;
@@ -95,6 +96,8 @@ class Game {
             this.tick(TICK_LENGTH);
             this.delta -= TICK_LENGTH;
         }
+
+        RenderClock.alpha = this.delta / TICK_LENGTH;
     }
 
     private tick(tickLength: number) {

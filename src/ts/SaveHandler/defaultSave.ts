@@ -10,5 +10,31 @@ export const defaultSave: Omit<SaveFile, "version" | "startTime" | "timestamp"> 
     flags: {
         tutorial: {},
         quantum: {}
+    },
+    stages: {
+        quantum: {
+            converters: [
+                {
+                    enabled: false,
+                    locked: false,
+                    acc: 0,
+                },
+                {
+                    enabled: false,
+                    locked: false,
+                    acc: 0,
+                },
+                {
+                    enabled: false,
+                    locked: false,
+                    acc: 0,
+                },
+                {
+                    enabled: false,
+                    locked: false,
+                    acc: 0,
+                },
+            ]
+        }
     }
 }

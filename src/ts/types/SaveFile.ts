@@ -13,9 +13,18 @@ export interface SaveFile {
     upgrades: SavedUpgrade[];
     continuousUpgrades: SavedContinuousUpgrade[];
     flags: Flags;
+    stages: {
+        quantum: {
+            converters: {
+                enabled: boolean;
+                locked: boolean;
+                acc: number;
+            }[];
+        }
+    }
 }
 
-type Flags = {[key: string]: boolean | Flags};
+export type Flags = { [key: string]: boolean | Flags };
 
 export type UpgradeType = "flag" | "additive" | "multiplicative" | "additive_multiplicative";
 

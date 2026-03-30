@@ -6,7 +6,7 @@ import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { QuantumField } from "./Field";
 import { FIELD_DATA } from "./field_data";
 import { useSetting, useSettings } from "utils/SettingsHandler";
-import { useFlag } from "SaveHandler/SaveHandler";
+import { useFlag, useSave } from "SaveHandler/SaveHandler";
 import { useStat } from "game_logic/StatHandler";
 import { ConverterElement } from "ui/elements/quantum/ConverterElement";
 import { ParticleConverter } from "./Converter";
@@ -25,13 +25,15 @@ export class QuantumStage implements Stage {
         customElements.define("particle-converter", ConverterElement);
         this.initializeFields();
 
+        const converters = useSave((s) => s.stages.quantum.converters) ?? [];
         for (let i = 0; i < 4; i++) {
-            this.converters.push(
-                new ParticleConverter(i, document.querySelector(`particle-converter:nth-of-type(${i + 1})`), this.enableConverter)
-            );
+            const saved = converters[i] ?? { enabled: false, locked: true, acc: 0 };
+            const c = new ParticleConverter(i, document.querySelector(`particle-converter:nth-of-type(${i + 1})`), this.enableConverter, saved.acc);
+            c.toggleLock(saved.locked);
+            if (saved.enabled) this.activeConverters.push(i);
+            this.converters.push(c);
         }
 
-        this.activeConverters = useFlag("quantum.converters.c0") ? useSetting("internal", (s) => s.quantum.converters) ?? [] : [];
         this.updateConverters();
     }
 
