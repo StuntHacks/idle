@@ -72,7 +72,9 @@ export class ParticleConverter {
     private updateEffect() {
         const value = useStatHandler().getContinuousEffect("quantum.energy.converters", this.target);
         if (!value) return;
-        const formatted = Numbers.getFormatted(value, 2);
+        const formatted = Numbers.getFormatted(
+            this.target === "conversion_speed" ? new Decimal(1).div(value) : value, 2
+        );
         this.element.setEffectText(`${this.title}<br />x${formatted}`);
     }
 
