@@ -20,12 +20,17 @@ export interface SaveFile {
                 locked: boolean;
                 acc: number;
             }[];
+            fluctuators?: boolean[];
+            fields: {
+                selected: QuantumFieldType;
+                next?: QuantumFieldType;
+            }[];
         }
     }
 }
 
 export type Flags = { [key: string]: boolean | Flags };
-
+export type QuantumFieldType = "lepton" | "quark" | "gluon" | "higgs" | "electroweak" | "neutrino";
 export type UpgradeType = "flag" | "additive" | "multiplicative" | "additive_multiplicative";
 
 export interface UpgradeDef {

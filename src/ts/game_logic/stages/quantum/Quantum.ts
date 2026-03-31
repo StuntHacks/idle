@@ -5,7 +5,6 @@ import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
 import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { QuantumField } from "./Field";
 import { FIELD_DATA } from "./field_data";
-import { useSetting, useSettings } from "utils/SettingsHandler";
 import { useFlag, useSave } from "SaveHandler/SaveHandler";
 import { useStat } from "game_logic/StatHandler";
 import { ConverterElement } from "ui/elements/quantum/ConverterElement";
@@ -41,7 +40,7 @@ export class QuantumStage implements Stage {
         this.fields = [];
         this.fluctuators = [];
         for (let i = 0; i < 6; i++) {
-            const key = useSettings().internal.settings.quantum.fields[i].selected;
+            const key = useSave((s) => s.stages.quantum.fields[i]?.selected) ?? Object.keys(FIELD_DATA)[i];
             let field = FIELD_DATA[key];
 
             // todo: figure out a better location for this
@@ -70,7 +69,6 @@ export class QuantumStage implements Stage {
             this.activeConverters.shift();
         }
 
-        useSetting("internal", (s) => s.quantum.converters = this.activeConverters);
         this.updateConverters();
     }
 

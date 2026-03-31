@@ -20,9 +20,6 @@ export interface Settings {
         logging: Setting<boolean>;
         verbose: Setting<boolean>;
     }>;
-    internal: SettingCategory<{
-        quantum: QuantumSettings;
-    }>;
 }
 
 export type SettingsDef = {
@@ -60,18 +57,3 @@ export type SavedSettings = {
         };
     };
 };
-
-export type QuantumFieldType = "lepton" | "quark" | "gluon" | "higgs" | "electroweak" | "neutrino";
-export interface QuantumFieldSettings {
-    selected: QuantumFieldType;
-    next?: QuantumFieldType;
-}
-
-export interface QuantumSettings {
-    fluctuators: [boolean, boolean, boolean, boolean, boolean, boolean];
-    converters: number[];
-    fields: [
-        QuantumFieldSettings, QuantumFieldSettings, QuantumFieldSettings,
-        QuantumFieldSettings, QuantumFieldSettings, QuantumFieldSettings
-    ];
-}

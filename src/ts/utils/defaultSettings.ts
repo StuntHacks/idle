@@ -73,21 +73,4 @@ export const defaultSettings: SettingsDef = {
             },
         },
     },
-    internal: {
-        title: "Internal settings",
-        settings: {
-            quantum: {
-                fluctuators: [true, true, true, true, true, true],
-                converters: [],
-                fields: [
-                    { selected: "lepton" },
-                    { selected: "quark" },
-                    { selected: "gluon" },
-                    { selected: "higgs" },
-                    { selected: "electroweak" },
-                    { selected: "neutrino" },
-                ],
-            },
-        },
-    },
 };

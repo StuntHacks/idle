@@ -34,6 +34,15 @@ export const defaultSave: Omit<SaveFile, "version" | "startTime" | "timestamp"> 
                     locked: false,
                     acc: 0,
                 },
+            ],
+            fluctuators: [true, true, true, true, true, true],
+            fields: [
+                { selected: "lepton" },
+                { selected: "quark" },
+                { selected: "gluon" },
+                { selected: "higgs" },
+                { selected: "electroweak" },
+                { selected: "neutrino" },
             ]
         }
     }
