@@ -1,7 +1,7 @@
 import type { Setting, Settings, SavedSettings } from 'types/Settings';
 import { defaultSettings } from './defaultSettings';
 
-export const SETTINGS_VERSION = 1;
+export const SETTINGS_VERSION = 2;
 const SETTINGS_NAME = "idledynamics_settings";
 
 class SettingsHandler {

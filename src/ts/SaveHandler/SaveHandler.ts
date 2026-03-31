@@ -8,7 +8,7 @@ import { initSettings } from "utils/SettingsHandler";
 import { useCurrencyHandler } from "game_logic/currencies/Currencies";
 import _ from "lodash";
 
-export const SAVE_FILE_VERSION = 6;
+export const SAVE_FILE_VERSION = 7;
 const SAVE_FILE_NAME = "idledynamics_saveFile";
 
 export class SaveHandler {
