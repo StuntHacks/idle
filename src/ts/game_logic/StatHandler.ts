@@ -90,13 +90,15 @@ class StatHandler {
         const additiveMultiplicative = new Decimal(1).plus(additiveMultiplicativeSum);
         const continuousAdditiveMultiplicative = new Decimal(1).plus(continuousAdditiveMultiplicativeSum);
 
+        const def = stats[stat];
         this.stats[stat] = {
-            ...this.stats[stat],
+            base: def.base,
+            title: def.title,
             additive,
             multiplicative,
             additiveMultiplicative,
             continuousMultiplicative,
-            total: new Decimal(this.stats[stat].base)
+            total: new Decimal(def.base)
                 .plus(additive)
                 .plus(continuousAdditive)
                 .multiply(multiplicative)
@@ -232,15 +234,15 @@ class StatHandler {
 
     constructor() {
         for (const stat in stats) {
-            const data = stats[stat];
+            const def = stats[stat];
             this.stats[stat] = {
-                base: data.base,
-                title: data.title,
+                base: def.base,
+                title: def.title,
                 additive: new Decimal(0),
                 multiplicative: new Decimal(1),
                 additiveMultiplicative: new Decimal(1),
                 continuousMultiplicative: new Decimal(1),
-                total: new Decimal(data.base),
+                total: new Decimal(def.base),
             };
             this.update(stat);
         }
@@ -271,17 +273,19 @@ export interface Stats {
 
 export interface Stat {
     base: number;
+    title: string;
     additive: Decimal;
     multiplicative: Decimal;
     additiveMultiplicative: Decimal;
     continuousMultiplicative: Decimal;
     total: Decimal;
-    title: string;
 }
 
 interface StatData {
-    [key: string]: {
-        base: number;
-        title: string;
-    }
+    [key: string]: StatDef;
+}
+
+interface StatDef {
+    base: number;
+    title: string;
 }
