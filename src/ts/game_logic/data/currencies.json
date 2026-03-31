@@ -7,32 +7,26 @@
         { "className": "particle quark up red", "hash": "quarks-up-red", "stage": "quantum", "group": "particles" },
         { "className": "particle quark up green", "hash": "quarks-up-green", "stage": "quantum", "group": "particles" },
         { "className": "particle quark up blue", "hash": "quarks-up-blue", "stage": "quantum", "group": "particles" },
-        { "className": "particle quark up rgb", "hash": "quarks-up-rgb", "stage": "quantum", "group": "particles" },
 
         { "className": "particle quark down red", "hash": "quarks-down-red", "stage": "quantum", "group": "particles" },
         { "className": "particle quark down green", "hash": "quarks-down-green", "stage": "quantum", "group": "particles" },
         { "className": "particle quark down blue", "hash": "quarks-down-blue", "stage": "quantum", "group": "particles" },
-        { "className": "particle quark down rgb", "hash": "quarks-down-rgb", "stage": "quantum", "group": "particles" },
 
         { "className": "particle quark strange red", "hash": "quarks-strange-red", "stage": "quantum", "group": "particles" },
         { "className": "particle quark strange green", "hash": "quarks-strange-green", "stage": "quantum", "group": "particles" },
         { "className": "particle quark strange blue", "hash": "quarks-strange-blue", "stage": "quantum", "group": "particles" },
-        { "className": "particle quark strange rgb", "hash": "quarks-strange-rgb", "stage": "quantum", "group": "particles" },
 
         { "className": "particle quark charm red", "hash": "quarks-charm-red", "stage": "quantum", "group": "particles" },
         { "className": "particle quark charm green", "hash": "quarks-charm-green", "stage": "quantum", "group": "particles" },
         { "className": "particle quark charm blue", "hash": "quarks-charm-blue", "stage": "quantum", "group": "particles" },
-        { "className": "particle quark charm rgb", "hash": "quarks-charm-rgb", "stage": "quantum", "group": "particles" },
 
         { "className": "particle quark top red", "hash": "quarks-top-red", "stage": "quantum", "group": "particles" },
         { "className": "particle quark top green", "hash": "quarks-top-green", "stage": "quantum", "group": "particles" },
         { "className": "particle quark top blue", "hash": "quarks-top-blue", "stage": "quantum", "group": "particles" },
-        { "className": "particle quark top rgb", "hash": "quarks-top-rgb", "stage": "quantum", "group": "particles" },
 
         { "className": "particle quark bottom red", "hash": "quarks-bottom-red", "stage": "quantum", "group": "particles" },
         { "className": "particle quark bottom green", "hash": "quarks-bottom-green", "stage": "quantum", "group": "particles" },
         { "className": "particle quark bottom blue", "hash": "quarks-bottom-blue", "stage": "quantum", "group": "particles" },
-        { "className": "particle quark bottom rgb", "hash": "quarks-bottom-rgb", "stage": "quantum", "group": "particles" },
 
         { "className": "particle boson gluon", "hash": "bosons-gluon", "stage": "quantum", "group": "particles", "important": true },
         { "className": "particle boson photon", "hash": "bosons-photon", "stage": "quantum", "group": "particles", "important": true },
@@ -46,6 +40,21 @@
         { "className": "particle lepton tau neutrino", "hash": "leptons-tau-neutrino", "stage": "quantum", "group": "particles" }
     ],
     "inferred": [
-        { "hash": "energy", "stage": "quantum", "group": "inferred", "important": true }
-    ]
+        { "hash": "energy", "stage": "quantum", "group": "inferred", "important": true },
+
+        { "hash": "quarks-up", "stage": "quantum", "group": "quark-flavors" },
+        { "hash": "quarks-down", "stage": "quantum", "group": "quark-flavors" },
+        { "hash": "quarks-strange","stage": "quantum", "group": "quark-flavors" },
+        { "hash": "quarks-charm", "stage": "quantum", "group": "quark-flavors" },
+        { "hash": "quarks-top", "stage": "quantum", "group": "quark-flavors" },
+        { "hash": "quarks-bottom", "stage": "quantum", "group": "quark-flavors" },
+
+        { "hash": "quarks-red", "stage": "quantum", "group": "quark-colors" },
+        { "hash": "quarks-green", "stage": "quantum", "group": "quark-colors" },
+        { "hash": "quarks-blue", "stage": "quantum", "group": "quark-colors" },
+
+        { "hash": "quarks-rgb", "stage": "quantum", "group": "quark-colors" }
+    ],
+    "quarkFlavors": ["up", "down", "strange", "charm", "top", "bottom"],
+    "initialFlavors": ["up", "down"]
 }
