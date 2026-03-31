@@ -212,18 +212,24 @@ export class UI {
         amount: Decimal,
         x: number,
         y: number,
-        showRipple: boolean = false
+        showRipple: boolean = false,
+        className?: string
     ) {
-        const currency = useCurrency(hash) as Currency;
-        if (!currency || currency.inferred) {
-            Logger.error("spawnGainElement()", `"${hash}" is inferred`);
-            return;
+        let resolvedClass = className;
+
+        if (!resolvedClass) {
+            const currency = useCurrency(hash) as Currency;
+            if (!currency || currency.inferred) {
+                Logger.error("spawnGainElement()", `"${hash}" is inferred`);
+                return;
+            }
+            resolvedClass = currency.className;
         }
 
         const element = document.createElement("resource-gain");
         element.setAttribute("x", x + "");
         element.setAttribute("y", y + "");
-        element.setAttribute("data-class", currency.className);
+        element.setAttribute("data-class", resolvedClass);
         element.setAttribute("amount", Numbers.getFormatted(amount));
         if (showRipple) element.setAttribute("ripple", "true");
 

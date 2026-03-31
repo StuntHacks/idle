@@ -1,8 +1,7 @@
 import Decimal from "break_eternity.js";
 import { AggregateCurrency } from "../AggregateCurrency";
-import { useCurrencyHandler } from "../Currencies";
+import { useCurrencyHandler, InferredCurrency } from "../Currencies";
 import { QuarkColor } from "./QuarkColor";
-import { InferredCurrency } from "../InferredCurrency";
 
 const COLOR_HASHES = ["quarks-red", "quarks-green", "quarks-blue"] as const;
 
@@ -15,21 +14,19 @@ export class TotalQuarks extends AggregateCurrency {
         return [...COLOR_HASHES];
     }
 
+    private getColorHandler(hash: string): QuarkColor {
+        return (useCurrencyHandler().get(hash) as InferredCurrency).handler as unknown as QuarkColor;
+    }
+
     public getAmount(): Decimal {
         return COLOR_HASHES.reduce(
-            (min, hash) => {
-                const c = useCurrencyHandler().get(hash) as QuarkColor & { inferred: true };
-                return Decimal.min(min, c.getAmount());
-            },
+            (min, hash) => Decimal.min(min, this.getColorHandler(hash).getAmount()),
             new Decimal(Infinity)
         );
     }
 
     public canSpend(amount: Decimal): boolean {
-        return COLOR_HASHES.every(hash => {
-            const c = useCurrencyHandler().get(hash);
-            return c?.inferred && (c as any).handler.getAmount().gte(amount);
-        });
+        return COLOR_HASHES.every(hash => this.getColorHandler(hash).canSpend(amount));
     }
 
     public spend(amount: Decimal): boolean {
@@ -38,8 +35,7 @@ export class TotalQuarks extends AggregateCurrency {
         const before = this.getAmount();
 
         for (const hash of COLOR_HASHES) {
-            const c = useCurrencyHandler().get(hash);
-            (c as unknown as InferredCurrency).spend(amount);
+            this.getColorHandler(hash).spend(amount);
         }
 
         const total = this.getAmount();

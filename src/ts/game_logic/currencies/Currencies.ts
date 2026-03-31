@@ -206,6 +206,7 @@ export class CurrencyHandler {
             Logger.warning("Currencies", `Unknown or non-inferred hash "${hash}"`);
             return;
         }
+        if (!currency.handler.isPersisted) return;
         currency.handler.setAmount(amount);
     }
 

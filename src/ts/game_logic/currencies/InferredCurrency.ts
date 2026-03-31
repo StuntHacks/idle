@@ -2,6 +2,7 @@ import Decimal from "break_eternity.js";
 import { InferredCurrencyCallback } from "./Currencies";
 
 export abstract class InferredCurrency {
+    public readonly isPersisted: boolean = true;
     public abstract getFormatted(amount?: Decimal): string;
     public abstract getAmount(): Decimal;
     public abstract setAmount(amount: Decimal): void;

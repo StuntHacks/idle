@@ -5,6 +5,7 @@ import { Numbers } from "numbers/numbers";
 import { Logger } from "utils/Logger";
 
 export abstract class AggregateCurrency extends InferredCurrency {
+    public override readonly isPersisted: boolean = false;
     protected callbacks: InferredCurrencyCallback[] = [];
     protected hash: string;
 
