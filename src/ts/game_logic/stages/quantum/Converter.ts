@@ -6,6 +6,9 @@ import { useTranslation } from "i18n/i18n";
 import { Numbers } from "numbers/numbers";
 import { RenderClock } from "ui/RenderClock";
 import { TICK_LENGTH } from "game_logic/Game";
+import { useCurrency, useCurrencyHandler } from "game_logic/currencies/Currencies";
+import { AggregateCurrency } from "game_logic/currencies/AggregateCurrency";
+import { InferredCurrency } from "game_logic/currencies/InferredCurrency";
 
 export class ParticleConverter {
     private baseInterval: number = 5000;
@@ -15,6 +18,7 @@ export class ParticleConverter {
     private index: number = -1;
     private acc: number = 0;
     private target: string;
+    private color: string;
     private title: string = "";
     private callback: (index: number) => void;
 
@@ -43,10 +47,12 @@ export class ParticleConverter {
 
         if (this.acc >= interval) {
             const num = Math.floor(this.acc / interval);
-            this.acc -= num * interval;
+            const currency = useCurrency(`quarks-${this.color}`) as AggregateCurrency;
             const input = new Decimal(num).multiply(useStatHandler().get("conversion_input")?.total ?? 1);
+            if (!currency.canSpend(input)) return; // todo: implement UI state for insufficient currency
+            this.acc -= num * interval;
 
-            // useCurrencyHandler().spend("quarks", input)
+            currency.spend(input);
 
             useStatHandler().feed("quantum.energy.converters", this.target, new Decimal(num).multiply(input));
         }
@@ -92,6 +98,7 @@ export class ParticleConverter {
         this.callback = callback;
         this.index = index;
         this.target = this.element.getAttribute("target");
+        this.color = this.element.className;
         this.title = useTranslation(useStat(this.target).title);
         this.toggleLock(!useSaveHandler().getFlag(this.getFlagString()));
         this.updateEffect();
