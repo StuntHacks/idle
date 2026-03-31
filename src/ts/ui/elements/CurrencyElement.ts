@@ -34,13 +34,17 @@ export class CurrencyElement extends HTMLElement {
 
     private getValue(): string {
         if (this.inferred) {
-            return (useCurrency(this.currencies[0]) as InferredCurrency).handler.getFormatted();
+            const c = useCurrency(this.currencies[0]);
+            if (!c?.inferred) return "?";
+            return (c as InferredCurrency).handler.getFormatted();
         }
 
         let amount = new Decimal(0);
         for (const hash of this.currencies) {
-            const found = useCurrency(hash) as Currency | undefined;
-            if (found) amount = amount.plus(found.amount);
+            const found = useCurrency(hash);
+            if (found && !found.inferred) {
+                amount = amount.plus((found as Currency).amount);
+            }
         }
 
         let text = Numbers.getFormatted(amount);

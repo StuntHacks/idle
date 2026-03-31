@@ -35,7 +35,6 @@ export const FIELD_DATA: FieldData = {
         name: "stages.quantum.fields.quark.name",
         multi: {
             type: "quark",
-            color: "rgb",
             flavor: ["up", "down"]
         },
         subFields: [

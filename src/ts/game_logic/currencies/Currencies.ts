@@ -6,9 +6,16 @@ import currencyData from "../data/currencies.json";
 import { Logger } from "utils/Logger";
 import { OfflineResults } from "game_logic/Game";
 import { useSettings } from "utils/SettingsHandler";
+import { QuarkFlavor } from "./inferred/QuarkFlavor";
+import { QuarkColor } from "./inferred/QuarkColor";
+import { TotalQuarks } from "./inferred/TotalQuarks";
+
+const COLORS = ["red", "green", "blue"] as const;
+const FLAVORS = currencyData.quarkFlavors;
 
 export class CurrencyHandler {
     private currencyMap = new Map<string, Currency | InferredCurrency>();
+    private colorAggregates = new Map<string, QuarkColor>();
 
     private constructor() {
         for (const { className, hash, stage, group, important } of currencyData.normal) {
@@ -16,11 +23,50 @@ export class CurrencyHandler {
         }
 
         Energy.initialize(this);
+        this.initializeQuarks();
         this.loadFromSave();
     }
 
     public static create(): CurrencyHandler {
         return new CurrencyHandler();
+    }
+
+    private initializeQuarks() {
+        const initialFlavors = currencyData.initialFlavors;
+
+        for (const flavor of FLAVORS) {
+            const instance = new QuarkFlavor(flavor);
+            const entry = currencyData.inferred.find(c => c.hash === `quarks-${flavor}`);
+            if (entry) {
+                this.registerInferred(`quarks-${flavor}`, instance, entry.stage, entry.group, entry.important ?? false);
+            }
+        }
+
+        for (const color of COLORS) {
+            const instance = new QuarkColor(color, initialFlavors);
+            const entry = currencyData.inferred.find(c => c.hash === `quarks-${color}`);
+            if (entry) {
+                this.registerInferred(`quarks-${color}`, instance, entry.stage, entry.group, entry.important ?? false);
+                this.colorAggregates.set(color, instance);
+            }
+        }
+
+        const rgbEntry = currencyData.inferred.find(c => c.hash === "quarks-rgb");
+        if (rgbEntry) {
+            this.registerInferred("quarks-rgb", new TotalQuarks(), rgbEntry.stage, rgbEntry.group, rgbEntry.important ?? false);
+        }
+    }
+
+    public unlockQuarkFlavor(flavor: string) {
+        for (const aggregate of this.colorAggregates.values()) {
+            aggregate.unlockFlavor(flavor);
+        }
+    }
+
+    public lockQuarkFlavor(flavor: string) {
+        for (const aggregate of this.colorAggregates.values()) {
+            aggregate.lockFlavor(flavor);
+        }
     }
 
     public register(className: string, hash: string, stage: string, group: string, important: boolean = false) {
@@ -160,6 +206,7 @@ export class CurrencyHandler {
             Logger.warning("Currencies", `Unknown or non-inferred hash "${hash}"`);
             return;
         }
+        if (!currency.handler.isPersisted) return;
         currency.handler.setAmount(amount);
     }
 

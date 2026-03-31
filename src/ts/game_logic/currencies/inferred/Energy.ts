@@ -78,8 +78,12 @@ export class Energy extends InferredCurrency {
         this.amount = amount;
     }
 
+    public canSpend(amount: Decimal): boolean {
+        return this.amount.gte(amount);
+    }
+
     public spend(amount: Decimal): boolean {
-        if (!this.amount.greaterThanOrEqualTo(amount)) return false;
+        if (!this.canSpend(amount)) return false;
 
         const before = this.amount;
         const total = before.minus(amount);

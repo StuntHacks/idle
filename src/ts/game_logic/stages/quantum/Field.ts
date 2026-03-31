@@ -87,29 +87,41 @@ export class QuantumField {
         const [particle, index] = this.getParticle();
         const hash = this.getHashFromParticle(particle);
         const amount = QuantumStage.getParticleAmount(particle).multiply(useStat("field_gain").total);
+        const baseHash = index === -1 && particle.type === "quark" ? hash.replace("-rgb", "") : hash;
 
-        if (index === -1) { // multi
-            // todo: solve this with loop instead
+        if (index === -1) {
             if (particle.type === "quark") {
-                const hashRed = hash.replace("rgb", "red");
-                useCurrencyHandler().gain(hashRed, amount);
-                const hashGreen = hashRed.replace("red", "green");
-                useCurrencyHandler().gain(hashGreen, amount);
-                const hashBlue = hashRed.replace("red", "blue");
-                useCurrencyHandler().gain(hashBlue, amount);
+                const colors = ["red", "green", "blue"];
+                for (const color of colors) {
+                    useCurrencyHandler().gain(`${baseHash}-${color}`, amount);
+                }
+                if (!catchingUp) {
+                    UI.spawnGainElement(
+                        "quantum-resource-gain-container",
+                        hash,
+                        amount,
+                        position - (click ? 11 : 0),
+                        this.fieldPosition.y + (this.fieldPosition.height / 2) - 20,
+                        false,
+                        `particle quark ${baseHash.split("-")[1]} rgb`
+                    );
+                }
             } else {
                 useCurrencyHandler().gain(hash, amount);
+                if (!catchingUp) {
+                    UI.spawnGainElement("quantum-resource-gain-container", hash, amount, position - (click ? 11 : 0), this.fieldPosition.y + (this.fieldPosition.height / 2) - 20);
+                }
             }
         } else {
             useCurrencyHandler().gain(hash, amount);
+            if (!catchingUp) {
+                UI.spawnGainElement("quantum-resource-gain-container", hash, amount, position - (click ? 11 : 0), this.fieldPosition.y + (this.fieldPosition.height / 2) - 20);
+            }
         }
 
-        if (!catchingUp) {
-            UI.spawnGainElement("quantum-resource-gain-container", hash, amount, position - (click ? 11 : 0), this.fieldPosition.y + (this.fieldPosition.height / 2) - 20);
-            if (click || !useSettings().display.settings.stillFields.value) {
-                const down = hash.includes("down") || hash.includes("bottom") || hash.includes("minus");
-                this.fieldElement.ripple(position, index, down);
-            }
+        if (!catchingUp && (click || !useSettings().display.settings.stillFields.value)) {
+            const down = baseHash.includes("down") || baseHash.includes("bottom") || baseHash.includes("minus");
+            this.fieldElement.ripple(position, index, down);
         }
     }
 

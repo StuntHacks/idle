@@ -68,6 +68,7 @@ export class SaveHandler {
 
         this.save.currencies.inferred = [];
         for (const c of inferred) {
+            if (!c.handler.isPersisted) continue;
             this.save.currencies.inferred.push({
                 hash: c.hash,
                 amount: c.handler.getAmount(),
