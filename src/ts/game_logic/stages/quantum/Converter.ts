@@ -6,14 +6,14 @@ import { useTranslation } from "i18n/i18n";
 import { Numbers } from "numbers/numbers";
 import { RenderClock } from "ui/RenderClock";
 import { TICK_LENGTH } from "game_logic/Game";
-import { useCurrency, useCurrencyHandler } from "game_logic/currencies/Currencies";
-import { AggregateCurrency } from "game_logic/currencies/AggregateCurrency";
-import { InferredCurrency } from "game_logic/currencies/InferredCurrency";
+import { useInferredCurrency } from "game_logic/currencies/Currencies";
+import { QuarkColor } from "game_logic/currencies/inferred/QuarkColor";
 
 export class ParticleConverter {
     private baseInterval: number = 5000;
     private enabled: boolean = false;
     private locked: boolean = true;
+    private running: boolean = false;
     private element: ConverterElement;
     private index: number = -1;
     private acc: number = 0;
@@ -42,32 +42,57 @@ export class ParticleConverter {
     public update(tickLength: number, catchingUp: boolean) {
         if (!this.enabled || this.locked) return;
 
-        this.acc += tickLength;
         const interval = this.getInterval();
+        const currency = useInferredCurrency<QuarkColor>(`quarks-${this.color}`);
+        const input = new Decimal(this.color === "rgb" ? 1 : 3).multiply(useStatHandler().get("conversion_input")?.total ?? 1);
+        let amount = new Decimal(0);
 
-        if (this.acc >= interval) {
-            const num = Math.floor(this.acc / interval);
-            const currency = useCurrency(`quarks-${this.color}`) as AggregateCurrency;
-            const input = new Decimal(num).multiply(useStatHandler().get("conversion_input")?.total ?? 1);
-            if (!currency.canSpend(input)) return; // todo: implement UI state for insufficient currency
-            this.acc -= num * interval;
+        if (!this.running) {
+            if (currency.canSpend(input)) {
+                currency.spend(input);
+                this.running = true;
+            } else {
+                this.acc = 0;
+            }
+        }
 
-            currency.spend(input);
+        if (this.running) {
+            this.acc += tickLength;
 
-            useStatHandler().feed("quantum.energy.converters", this.target, new Decimal(num).multiply(input));
+            while (this.acc >= interval) {
+                this.acc -= interval;
+                amount = amount.plus(input);
+
+                if (currency.canSpend(input)) {
+                    currency.spend(input);
+                    this.running = true;
+                } else {
+                    this.running = false;
+                    break;
+                }
+            }
+        }
+
+        this.element.setRunning(this.running);
+
+        if (amount.gt(0)) {
+            useStatHandler().feed("quantum.energy.converters", this.target, amount);
         }
 
         useSave((s) => s.stages.quantum.converters[this.index].acc = this.acc);
 
         if (!catchingUp) {
-            if (interval < 250) {
+            if (!this.running) {
+                this.element.setProgress(0, 1, tickLength);
+            } else if (interval < 250) {
                 this.element.setProgress(1, 1, tickLength);
             } else {
                 this.element.setProgress(this.acc, interval, tickLength);
             }
+
             this.updateEffect();
         }
-    }
+}
 
     public getVisualProgress(tickLength: number): number {
         const interval = this.getInterval();

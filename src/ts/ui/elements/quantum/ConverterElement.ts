@@ -23,6 +23,8 @@ export class ConverterElement extends HTMLElement {
     private intervalText: string = "";
     private effectText: string = "";
     private enabled: boolean = false;
+    private running: boolean;
+    private spinningTarget: boolean = false;
 
     private acc: number = 0;
     private interval: number = 0;
@@ -46,7 +48,7 @@ export class ConverterElement extends HTMLElement {
         if (!enabled && this.progressElement) {
             this.progressElement.style.clipPath = "xywh(0 -5px 0% calc(100% + 10px))";
         }
-        this.setSpinning(enabled);
+        this.setSpinning(enabled && this.running);
     }
 
     public setLocked(locked: boolean) {
@@ -61,6 +63,14 @@ export class ConverterElement extends HTMLElement {
         setTimeout(() => {
             this.classList.toggle("unlocked", !locked);
         }, locked ? 0 : 150);
+    }
+
+    public setRunning(running: boolean) {
+        if (this.running === running) return;
+
+        this.running = running;
+        this.toggleAttribute("blocked", !running);
+        this.setSpinning(running);
     }
 
     public setToggleCallback(toggleCallback: ToggleCallback) {
@@ -120,6 +130,10 @@ export class ConverterElement extends HTMLElement {
             visual = Math.min(subTickAcc / this.interval, 1);
         }
 
+        if (!this.running) {
+            visual = 0;
+        }
+
         this.progressElement.style.clipPath = `xywh(0 -5px ${visual * 100}% calc(100% + 10px))`;
     }
 
@@ -141,17 +155,23 @@ export class ConverterElement extends HTMLElement {
     }
 
     private setSpinning(spinning: boolean): void {
+        this.spinningTarget = spinning;
+
         if (this.tweenFrame !== null) {
             cancelAnimationFrame(this.tweenFrame);
             this.tweenFrame = null;
         }
 
+        const current = this.allAnimations[0]?.playbackRate ?? this.currentRate;
+
         if (spinning) {
             this.setPlaybackRate(this.currentRate);
             this.allAnimations.forEach(a => a.play());
         } else {
-            this.tweenPlaybackRate(this.currentRate, 0, () => {
-                this.allAnimations.forEach(a => a.pause());
+            this.tweenPlaybackRate(current, 0, () => {
+                if (!this.spinningTarget) {
+                    this.allAnimations.forEach(a => a.pause());
+                }
             });
         }
     }
@@ -159,13 +179,15 @@ export class ConverterElement extends HTMLElement {
     private updateSpinSpeed(interval: number): void {
         const duration = Math.max(200, interval * 0.8);
         this.currentRate = 4000 / duration;
-        if (!this.hasAttribute("disabled")) {
-            this.tweenPlaybackRate(this.allAnimations[0]?.playbackRate ?? this.currentRate, this.currentRate);
+        if (this.running) {
+            const current = this.allAnimations[0]?.playbackRate ?? this.currentRate;
+            this.tweenPlaybackRate(current, this.currentRate);
         }
     }
 
     private setPlaybackRate(rate: number): void {
-        this.allAnimations.forEach(a => a.playbackRate = rate);
+        const finalRate = Math.abs(rate) < 0.001 ? 0 : rate;
+        this.allAnimations.forEach(a => a.playbackRate = finalRate);
     }
 
     private tweenPlaybackRate(from: number, to: number, onDone?: () => void): void {

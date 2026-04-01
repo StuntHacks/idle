@@ -142,6 +142,52 @@ particle-converter {
         .input::before {
             animation-play-state: running;
         }
+
+        &[blocked] {
+            background-color: rgba(255, 0, 0, 0.1);
+            animation: blocked-converter 3s infinite;
+            animation-delay: 150ms;
+
+            @keyframes blocked-converter {
+                0% {
+                    background-color: rgba(255, 0, 0, 0.1);
+                }
+                50% {
+                    background-color: rgba(255, 0, 0, 0.25);
+                }
+                100% {
+                    background-color: rgba(255, 0, 0, 0.1);
+                }
+            }
+
+            .input {
+                &::before {
+                    animation-play-state: paused;
+                }
+
+                currency-display {
+                    color: rgb(255, 91, 91);
+                    text-shadow: 0 0 10px rgb(255, 91, 91);
+                    animation: blocked-converter-text 3s infinite;
+                    animation-delay: 150ms;
+
+                    @keyframes blocked-converter-text {
+                        0% {
+                            color: rgb(255, 91, 91);
+                            text-shadow: 0 0 10px rgb(255, 91, 91);
+                        }
+                        50% {
+                            color: rgb(150, 18, 18);
+                            text-shadow: 0 0 10px rgb(150, 18, 18);
+                        }
+                        100% {
+                            color: rgb(255, 91, 91);
+                                text-shadow: 0 0 10px rgb(255, 91, 91);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     .input {
@@ -209,7 +255,7 @@ particle-converter {
             }
         }
 
-        stat-info {
+        currency-display {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -219,6 +265,8 @@ particle-converter {
             font-size: 2.5rem;
             text-shadow: 0 0 10px white;
             transition: opacity 150ms;
+            justify-content: center;
+            transition: color 150ms, text-shadow 150ms;
         }
     }
 
@@ -261,7 +309,7 @@ particle-converter {
                 bottom: 100%;
                 left: 0;
                 border-radius: 10px;
-                @include gradient-quark-rgb;
+                @include gradient-gluon;
                 background: var(--gradient-repeating);
                 background-size: 400px 100%;
                 animation: converter-progress 3s linear infinite;
@@ -310,7 +358,7 @@ particle-converter {
         min-width: 137px;
 
         span {
-            @include gradient-quark-rgb;
+            @include gradient-gluon;
             background: var(--gradient);
             color: rgba(255, 255, 255, 0.2);
             background-clip: text;

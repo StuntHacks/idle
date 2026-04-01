@@ -234,6 +234,14 @@ export class CurrencyHandler {
 }
 
 let _instance: CurrencyHandler;
+export const useInferredCurrency = <T extends InferredCurrencyClass>(hash: string): T => {
+    const wrapper = useCurrencyHandler().get(hash) as InferredCurrency;
+    if (!wrapper?.inferred) {
+        Logger.warning("Currencies", `"${hash}" is not an inferred currency`);
+        return undefined;
+    }
+    return wrapper.handler as unknown as T;
+};
 export const useCurrency = (hash: string): Currency | InferredCurrency => {
     if (!_instance) throw new Error("Call initCurrencyHandler() first");
     return _instance.get(hash);
