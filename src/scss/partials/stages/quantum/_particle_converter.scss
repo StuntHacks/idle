@@ -73,6 +73,10 @@ particle-converter {
         &::after {
             opacity: 0;
         }
+
+        .input currency-display {
+            opacity: 0;
+        }
     }
 
     &:hover {
@@ -266,7 +270,7 @@ particle-converter {
             text-shadow: 0 0 10px white;
             transition: opacity 150ms;
             justify-content: center;
-            transition: color 150ms, text-shadow 150ms;
+            transition: color 150ms, text-shadow 150ms, opacity 150ms;
         }
     }
 
