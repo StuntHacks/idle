@@ -62,7 +62,8 @@ export class CurrencyElement extends HTMLElement {
 
     connectedCallback() {
         const name = this.getAttribute("name");
-        this.element = this.querySelector(":scope > span");
+        this.element = document.createElement("span");
+        this.appendChild(this.element);
         this.inferred = this.hasAttribute("inferred");
 
         if (this.hasAttribute("counter")) {
