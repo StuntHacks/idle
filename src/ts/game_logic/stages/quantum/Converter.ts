@@ -65,9 +65,19 @@ export class ParticleConverter {
         if (this.running) {
             this.acc += tickLength;
 
-            while (this.acc >= interval) {
-                this.acc -= interval;
-                amount = amount.plus(input);
+            if (this.acc >= interval) {
+                const completedCycles = Math.floor(this.acc / interval);
+
+                const affordableCycles = Math.floor(
+                    Decimal.min(
+                        currency.getAmount().div(input),
+                        energy.getAmount().div(energyCost)
+                    ).toNumber()
+                ) + 1;
+
+                const cycles = Math.min(completedCycles, affordableCycles);
+                this.acc -= cycles * interval;
+                amount = input.multiply(cycles);
 
                 if (currency.canSpend(input) && energy.canSpend(energyCost)) {
                     currency.spend(input);
@@ -75,7 +85,6 @@ export class ParticleConverter {
                     this.running = true;
                 } else {
                     this.running = false;
-                    break;
                 }
             }
         }
