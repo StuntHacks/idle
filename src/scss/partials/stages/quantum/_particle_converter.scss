@@ -292,6 +292,7 @@ particle-converter {
         display: flex;
         justify-content: center;
         min-width: 112px;
+        font-weight: bold;
 
         .interval {
             margin-top: 2px;
@@ -343,6 +344,10 @@ particle-converter {
             border-top: 15px solid transparent;
             border-bottom: 15px solid transparent;
             border-left: 15px solid #fff3;
+        }
+
+        .particle {
+            margin-top: 3px;
         }
     }
 

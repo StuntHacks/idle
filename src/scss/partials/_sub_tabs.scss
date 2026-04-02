@@ -63,6 +63,7 @@
             box-shadow: 0 0 10px #ff3636;
             opacity: 0;
             transition: opacity 150ms;
+            -webkit-tap-highlight-color: transparent;
         }
 
         &.new::before {
