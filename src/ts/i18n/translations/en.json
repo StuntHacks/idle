@@ -228,7 +228,7 @@
         "conversion": {
           "title": "Quark Conversion",
           "information": "Here you can spend energy to convert combinations of quarks into continuously growing boosts",
-          "quarksUsed": "Quarks used per conversion",
+          "quarksUsed": "Base Quarks used per conversion",
           "energyUsed": "Energy used per conversion",
           "perConversion": "conversion",
           "enable": "Click to turn on",
