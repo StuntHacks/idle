@@ -251,6 +251,7 @@
                     "acc": 0
                 }
             ],
+            "conversionInput": "1",
             "fluctuators": [true, true, true, true, true, true],
             "fields": [
                 { "selected": "lepton" },

@@ -1,12 +1,30 @@
 <div class="particle-conversion">
     <div class="title">
-        <translated-string class="section-title">stages.quantum.energy.conversion.title</translated-string>
-        <span class="info">
-            <tool-tip orientation="right" class="particle-conversion">
-                <translated-string>stages.quantum.energy.conversion.information</translated-string>
-            </tool-tip>
-            <i class="material-symbols-outlined">help</i>
-        </span>
+        <div class="main-title">
+            <translated-string class="section-title">stages.quantum.energy.conversion.title</translated-string>
+            <span class="info">
+                <tool-tip class="particle-conversion">
+                    <translated-string>stages.quantum.energy.conversion.information</translated-string>
+                </tool-tip>
+                <i class="material-symbols-outlined">help</i>
+            </span>
+            <div id="quark-conversion-input">
+                <i id="conversion-decrease" class="material-symbols-outlined">remove</i>
+                <div class="input">
+                    <span></span>
+                    <tool-tip>
+                        <translated-string>stages.quantum.energy.conversion.quarksUsed</translated-string>
+                    </tool-tip>
+                </div>
+                <i id="conversion-increase" class="material-symbols-outlined">add</i>
+                <span class="energy-cost">
+                    <span>5MeV</span>
+                    <tool-tip>
+                        <translated-string>stages.quantum.energy.conversion.energyUsed</translated-string>
+                    </tool-tip>
+                </span>
+            </div>
+        </div>
         <translated-string class="section-title" id="active-converters"></translated-string>
     </div>
     <div class="converters">
@@ -17,7 +35,7 @@
                     <div class="resource particle quark main red"></div>
                     <div class="resource particle quark main red"></div>
                 </div>
-                <currency-display design="plain" name="quarks-red" inferred></currency-display>
+                <currency-display design="plain" name="quarks-red" inferred precision="0"></currency-display>
             </div>
             <div class="arrow">
                 <div class="progress"></div>
@@ -36,7 +54,7 @@
                     <div class="resource particle quark main green"></div>
                     <div class="resource particle quark main green"></div>
                 </div>
-                <currency-display design="plain" name="quarks-green" inferred></currency-display>
+                <currency-display design="plain" name="quarks-green" inferred precision="0"></currency-display>
             </div>
             <div class="arrow">
                 <div class="progress"></div>
@@ -55,7 +73,7 @@
                     <div class="resource particle quark main blue"></div>
                     <div class="resource particle quark main blue"></div>
                 </div>
-                <currency-display design="plain" name="quarks-blue" inferred></currency-display>
+                <currency-display design="plain" name="quarks-blue" inferred precision="0"></currency-display>
             </div>
             <div class="arrow">
                 <div class="progress"></div>
@@ -74,7 +92,7 @@
                     <div class="resource particle quark main green"></div>
                     <div class="resource particle quark main blue"></div>
                 </div>
-                <currency-display design="plain" name="quarks-rgb" inferred></currency-display>
+                <currency-display design="plain" name="quarks-rgb" inferred precision="0"></currency-display>
             </div>
             <div class="arrow">
                 <div class="progress"></div>

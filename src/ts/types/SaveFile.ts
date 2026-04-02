@@ -23,6 +23,7 @@ export interface SaveFile {
                 locked: boolean;
                 acc: number;
             }[];
+            conversionInput: Decimal;
             fluctuators?: boolean[];
             fields: {
                 selected: QuantumFieldType;

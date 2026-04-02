@@ -227,7 +227,9 @@
         },
         "conversion": {
           "title": "Quark Conversion",
-          "information": "Here you can convert combinations of quarks into small, exponentially scaling boosts",
+          "information": "Here you can spend energy to convert combinations of quarks into continuously growing boosts",
+          "quarksUsed": "Quarks used per conversion",
+          "energyUsed": "Energy used per conversion",
           "perConversion": "conversion",
           "enable": "Click to turn on",
           "disable": "Click to turn off",
@@ -259,6 +261,9 @@
       "energyGain": "Energy Gain",
       "conversionSpeed": "Quark Conversion Speed",
       "conversionInput": "Quark Conversion Input",
+      "conversionEnergyCost": "Base Quark Conversion Energy Cost",
+      "conversionEnergyScaling": "Quark Conversion Energy Cost Scaling",
+      "maxConversionInput": "Quark Conversion Input Max",
       "maxConverters": "Max Active Quark Converters",
       "hadronGain": "Hadron Gain"
     }

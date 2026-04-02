@@ -8,9 +8,12 @@ import { RenderClock } from "ui/RenderClock";
 import { TICK_LENGTH } from "game_logic/Game";
 import { useInferredCurrency } from "game_logic/currencies/Currencies";
 import { QuarkColor } from "game_logic/currencies/inferred/QuarkColor";
+import { Energy } from "game_logic/currencies/inferred/Energy";
 
 export class ParticleConverter {
     private baseInterval: number = 5000;
+    private input: Decimal = new Decimal(1);
+    private energyCost: Decimal = new Decimal(0);
     private enabled: boolean = false;
     private locked: boolean = true;
     private running: boolean = false;
@@ -44,12 +47,15 @@ export class ParticleConverter {
 
         const interval = this.getInterval();
         const currency = useInferredCurrency<QuarkColor>(`quarks-${this.color}`);
+        const energy = useInferredCurrency<Energy>("energy");
         const input = this.getCost();
+        const energyCost = this.energyCost;
         let amount = new Decimal(0);
 
         if (!this.running) {
-            if (currency.canSpend(input)) {
+            if (currency.canSpend(input) && energy.canSpend(energyCost)) {
                 currency.spend(input);
+                energy.spend(energyCost);
                 this.running = true;
             } else {
                 this.acc = 0;
@@ -63,8 +69,9 @@ export class ParticleConverter {
                 this.acc -= interval;
                 amount = amount.plus(input);
 
-                if (currency.canSpend(input)) {
+                if (currency.canSpend(input) && energy.canSpend(energyCost)) {
                     currency.spend(input);
+                    energy.spend(energyCost);
                     this.running = true;
                 } else {
                     this.running = false;
@@ -96,7 +103,13 @@ export class ParticleConverter {
     }
 
     private getCost(): Decimal {
-        return new Decimal(this.color === "rgb" ? 1 : 3).multiply(useStatHandler().get("conversion_input")?.total ?? 1);
+        return new Decimal(this.color === "rgb" ? 1 : 3).multiply(this.input);
+    }
+
+    public setInput(input: Decimal, energyCost: Decimal) {
+        this.input = input;
+        this.energyCost = energyCost;
+        this.updateCost();
     }
 
     public getVisualProgress(tickLength: number): number {
@@ -116,7 +129,7 @@ export class ParticleConverter {
 
     private updateCost() {
         const value = this.getCost();
-        this.element.setCostText(Numbers.getFormatted(value, 2));
+        this.element.setCostText(Numbers.getFormatted(value, 0, { upper: "1e4" }));
     }
 
     private getFlagString() {

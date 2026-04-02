@@ -27,6 +27,18 @@
         "base": 1,
         "title": "stats.quantum.conversionInput"
     },
+    "conversion_energy_cost": {
+        "base": 1e9,
+        "title": "stats.quantum.conversionEnergyCost"
+    },
+    "conversion_energy_scaling": {
+        "base": 20,
+        "title": "stats.quantum.conversionEnergyScaling"
+    },
+    "max_conversion_input": {
+        "base": 1e9,
+        "title": "stats.quantum.maxConversionInput"
+    },
     "max_converters": {
         "base": 1,
         "title": "stats.quantum.maxConverters"

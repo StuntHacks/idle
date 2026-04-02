@@ -10,6 +10,8 @@ import { useStat } from "game_logic/StatHandler";
 import { ConverterElement } from "ui/elements/quantum/ConverterElement";
 import { ParticleConverter } from "./Converter";
 import { QuantumUI } from "ui/stages/Quantum";
+import { Numbers } from "numbers/numbers";
+import { Energy } from "game_logic/currencies/inferred/Energy";
 
 export class QuantumStage implements Stage {
     public identifier = "quantum";
@@ -17,6 +19,9 @@ export class QuantumStage implements Stage {
     private fields: QuantumField[] = [];
     private converters: ParticleConverter[] = [];
     private activeConverters: number[] = [];
+    private conversionInput: Decimal = new Decimal(1);
+    private inputElement: HTMLElement;
+    private costElement: HTMLElement;
 
     constructor() {
         customElements.define("fluctuator-block", FluctuatorElement);
@@ -33,6 +38,19 @@ export class QuantumStage implements Stage {
             this.converters.push(c);
         }
 
+        this.conversionInput = new Decimal(useSave((s) => s.stages.quantum.conversionInput) ?? 1);
+        this.inputElement = document.querySelector("#quark-conversion-input .input > span");
+        this.costElement = document.querySelector("#quark-conversion-input .energy-cost > span");
+        document.getElementById("conversion-decrease").addEventListener("click", () => {
+            this.conversionInput = this.conversionInput.divide(10).clampMin(1);
+            this.updateConversionInput();
+        });
+        document.getElementById("conversion-increase").addEventListener("click", () => {
+            this.conversionInput = this.conversionInput.multiply(10).clampMax(useStat("max_conversion_input").total ?? 1e9);
+            this.updateConversionInput();
+        });
+
+        this.updateConversionInput();
         this.updateConverters();
     }
 
@@ -78,6 +96,19 @@ export class QuantumStage implements Stage {
         }
 
         QuantumUI.updateActiveConverters(this.activeConverters.length);
+    }
+
+    private updateConversionInput() {
+        useSave((s) => s.stages.quantum.conversionInput = this.conversionInput);
+        this.inputElement.textContent = Numbers.getFormatted(this.conversionInput, 0, { upper: "1e4" });
+        const cost = new Decimal(useStat("conversion_energy_cost").total).multiply(
+            useStat("conversion_energy_scaling").total.pow(this.conversionInput.log10())
+        );
+        this.costElement.textContent = Energy.getFormatted(cost);
+
+        for (const converter of this.converters) {
+            converter.setInput(this.conversionInput, cost);
+        }
     }
 
     public static getParticleAmount(particle: ParticleModel): Decimal {

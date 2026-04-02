@@ -1,3 +1,4 @@
+import Decimal from "break_eternity.js";
 import { SaveCurrency, SavedContinuousUpgrade, SavedUpgrade, SaveFile } from "types/SaveFile";
 
 export const defaultSave: Omit<SaveFile, "version" | "startTime" | "timestamp"> = {
@@ -38,6 +39,7 @@ export const defaultSave: Omit<SaveFile, "version" | "startTime" | "timestamp"> 
                     acc: 0,
                 },
             ],
+            conversionInput: new Decimal(1),
             fluctuators: [true, true, true, true, true, true],
             fields: [
                 { selected: "lepton" },

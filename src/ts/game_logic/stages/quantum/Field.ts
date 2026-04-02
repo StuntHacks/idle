@@ -86,7 +86,7 @@ export class QuantumField {
 
         const [particle, index] = this.getParticle();
         const hash = this.getHashFromParticle(particle);
-        const amount = QuantumStage.getParticleAmount(particle).multiply(useStat("field_gain").total);
+        const amount = QuantumStage.getParticleAmount(particle).multiply(useStat("field_gain").total).floor();
         const baseHash = index === -1 && particle.type === "quark" ? hash.replace("-rgb", "") : hash;
 
         if (index === -1) {

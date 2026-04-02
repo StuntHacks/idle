@@ -223,6 +223,60 @@
                     transition: opacity 150ms;
                     opacity: 0;
                     pointer-events: none;
+                    margin-right: 0.5rem;
+                }
+
+                .main-title {
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    flex-grow: 0;
+
+                    #quark-conversion-input {
+                        display: flex;
+                        align-items: center;
+                        margin-right: 0.5rem;
+                        opacity: 0;
+                        pointer-events: none;
+                        transition: opacity 150ms;
+
+                        .input {
+                            border-radius: 6px;
+                            background-color: hsla(0, 0%, 100%, .05);
+                            width: 60px;
+                            font-size: 1.3rem;
+                            text-align: center;
+                            border: none;
+                            position: relative;
+                            height: 2.5rem;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            span {
+                                font-weight: bold;
+                            }
+                        }
+
+                        .energy-cost {
+                            @include energy-text;
+                            font-weight: bold;
+                            margin-left: 0.5rem;
+                        }
+
+                        i {
+                            cursor: pointer;
+                            background-color: hsla(0, 0%, 100%, .05);
+                            border-radius: 100%;
+                            margin: 0 5px;
+                            text-align: center;
+                            transition: background-color 150ms;
+
+                            &:hover {
+                                background-color: hsla(0, 0%, 100%, .1);
+                            }
+                        }
+                    }
                 }
 
                 &:not(:has(particle-converter[locked])) {
@@ -233,6 +287,11 @@
 
                     #active-converters {
                         opacity: 1;
+                    }
+
+                    #quark-conversion-input {
+                        opacity: 1;
+                        pointer-events: auto;
                     }
                 }
 
@@ -251,6 +310,7 @@
                         margin-right: 30px;
                         transition: opacity 150ms;
                         opacity: 0;
+                        white-space: nowrap;
                     }
                 }
 

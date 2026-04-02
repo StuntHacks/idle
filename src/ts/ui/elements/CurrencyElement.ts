@@ -27,6 +27,7 @@ export class CurrencyElement extends HTMLElement {
     private max: string;
     private counter: boolean;
     private last: string;
+    private precision: number;
 
     constructor() {
         super();
@@ -47,7 +48,7 @@ export class CurrencyElement extends HTMLElement {
             }
         }
 
-        let text = Numbers.getFormatted(amount);
+        let text = Numbers.getFormatted(amount, this.precision);
         if (this.counter) text += `/${this.max}`;
         return text;
     }
@@ -65,6 +66,7 @@ export class CurrencyElement extends HTMLElement {
         this.element = document.createElement("span");
         this.appendChild(this.element);
         this.inferred = this.hasAttribute("inferred");
+        this.precision = parseInt(this.getAttribute("precision") || "2", 10);
 
         if (this.hasAttribute("counter")) {
             this.counter = true;

@@ -115,6 +115,10 @@ particle-converter {
                 opacity: 0;
             }
         }
+
+        .particle {
+            opacity: 0;
+        }
     }
 
     &[disabled]:not([locked])::after {
@@ -359,6 +363,7 @@ particle-converter {
 
         .particle {
             margin-top: 3px;
+            transition: opacity 150ms;
         }
     }
 
