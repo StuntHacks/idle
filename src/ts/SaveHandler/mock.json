@@ -1,5 +1,5 @@
 {
-    "currencies": {
+    "currencies": [{
         "normal": [
             {
                 "hash": "leptons-electron",
@@ -188,7 +188,7 @@
                 "amount": "116783338.86178161"
             }
         ]
-    },
+    }],
     "upgrades": [
         {
             "id": "more_electrons_1",
@@ -264,7 +264,7 @@
         }
     },
     "startTime": 1774224539775,
-    "version": 6,
+    "version": 7,
     "timestamp": 1774221551827,
     "gameVersion": "0.0.13"
 }

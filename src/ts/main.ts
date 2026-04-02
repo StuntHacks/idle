@@ -20,8 +20,10 @@ export const main = async () => {
         document.addEventListener("contextmenu", (e) => e.preventDefault());
     } catch {
         // todo: implement proper migration
-        // localStorage.removeItem("idledynamics_saveFile");
-        // localStorage.removeItem("idledynamics_settings");
-        // location.reload();
+        if (window.confirm("Outdated save or settings file found! Proper migration hasn't been implemented yet. Click OK to reset & reload the game")) {
+            localStorage.removeItem("idledynamics_saveFile");
+            localStorage.removeItem("idledynamics_settings");
+            location.reload();
+        }
     }
 }
