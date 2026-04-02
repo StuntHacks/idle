@@ -16,11 +16,13 @@ const ICON_KEYFRAMES: Keyframe[][] = [
 
 export class ConverterElement extends HTMLElement {
     private intervalElement: HTMLElement;
+    private costElement: HTMLElement;
     private labelElement: HTMLElement;
     private effectElement: HTMLElement;
     private progressElement: HTMLElement | null = null;
     private toggleCallback: ToggleCallback;
     private intervalText: string = "";
+    private costText: string = "";
     private effectText: string = "";
     private enabled: boolean = false;
     private running: boolean;
@@ -92,6 +94,12 @@ export class ConverterElement extends HTMLElement {
         this.effectElement.innerHTML = `<span>${text}</span>`;
     }
 
+    public setCostText(text: string) {
+        if (text === this.costText) return;
+        this.costText = text;
+        this.costElement.textContent = text;
+    }
+
     public setInterval(interval: number) {
         const text = interval >= 1000 ? `${(interval / 1000).toFixed(2)}s` : `${interval.toFixed(0)}ms`;
         if (text === this.intervalText) return;
@@ -108,6 +116,7 @@ export class ConverterElement extends HTMLElement {
         this.intervalElement = this.querySelector(".interval");
         this.labelElement = this.querySelector(".toggle-label");
         this.effectElement = this.querySelector(".output");
+        this.costElement = this.querySelector(".cost > span");
         this.progressElement = this.querySelector(".progress");
         this.initAnimations();
         this.renderFrame = requestAnimationFrame(this.renderLoop);

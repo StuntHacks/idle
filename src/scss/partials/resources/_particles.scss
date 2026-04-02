@@ -2,16 +2,19 @@
 
 .resource.particle {
     --size: 25px;
+    --font-size: 18px;
     --glow: rgba(0, 0, 0, 0.75);
     width: var(--size);
     height: var(--size);
+    min-width: var(--size);
+    min-height: var(--size);
     box-shadow: 0 0 10px 0px var(--glow);
     position: relative;
 
     &::before,
     &::after {
         font-weight: bold;
-        font-size: 18px;
+        font-size: var(--font-size);
         position: absolute;
         top: 50%;
         left: 50%;
@@ -60,7 +63,7 @@
         &::after {
             content: "⁻";
             font-weight: bold;
-            font-size: 18px;
+            font-size: var(--font-size);
             position: absolute;
             top: 50%;
             left: 50%;

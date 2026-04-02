@@ -294,8 +294,19 @@ particle-converter {
         min-width: 112px;
         font-weight: bold;
 
+        .cost {
+            position: absolute;
+            bottom: 100%;
+            display: flex;
+            margin-bottom: 0.75rem;
+            align-items: center;
+            gap: 5px;
+        }
+
         .interval {
-            margin-top: 2px;
+            position: absolute;
+            top: 100%;
+            margin-top: 0.75rem;
         }
 
         .progress {

@@ -44,7 +44,7 @@ export class ParticleConverter {
 
         const interval = this.getInterval();
         const currency = useInferredCurrency<QuarkColor>(`quarks-${this.color}`);
-        const input = new Decimal(this.color === "rgb" ? 1 : 3).multiply(useStatHandler().get("conversion_input")?.total ?? 1);
+        const input = this.getCost();
         let amount = new Decimal(0);
 
         if (!this.running) {
@@ -91,8 +91,13 @@ export class ParticleConverter {
             }
 
             this.updateEffect();
+            this.updateCost();
         }
-}
+    }
+
+    private getCost(): Decimal {
+        return new Decimal(this.color === "rgb" ? 1 : 3).multiply(useStatHandler().get("conversion_input")?.total ?? 1);
+    }
 
     public getVisualProgress(tickLength: number): number {
         const interval = this.getInterval();
@@ -107,6 +112,11 @@ export class ParticleConverter {
             this.target === "conversion_speed" ? new Decimal(1).div(value) : value, 2
         );
         this.element.setEffectText(`${this.title}<br />x${formatted}`);
+    }
+
+    private updateCost() {
+        const value = this.getCost();
+        this.element.setCostText(Numbers.getFormatted(value, 2));
     }
 
     private getFlagString() {
@@ -127,6 +137,7 @@ export class ParticleConverter {
         this.title = useTranslation(useStat(this.target).title);
         this.toggleLock(!useSaveHandler().getFlag(this.getFlagString()));
         this.updateEffect();
+        this.updateCost();
 
         useSaveHandler().registerFlagCallback(this.getFlagString(), (flag: string, value: unknown) => {
             this.toggleLock(!value);
