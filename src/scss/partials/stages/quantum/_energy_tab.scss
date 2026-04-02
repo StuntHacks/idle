@@ -197,7 +197,7 @@
                     animation-name: none;
                 }
 
-                .title:has(#quantum-energy-hide-complete:checked) + .section {
+                .title:has(#quantum-energy-hide-completed:checked) + .section {
                     stat-upgrade.completed {
                         display: none;
                     }

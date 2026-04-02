@@ -1,5 +1,5 @@
 import upgrades from "game_logic/data/upgrades.json";
-import { useSaveHandler } from "SaveHandler/SaveHandler";
+import { useSave, useSaveHandler } from "SaveHandler/SaveHandler";
 
 export class EnergyUI {
     private static energyUpgradesElement: HTMLDivElement;
@@ -10,6 +10,14 @@ export class EnergyUI {
     public static initialize() {
         this.energyUpgradesElement = document.getElementById("quantum-energy-upgrades") as HTMLDivElement;
         this.populateUpgrades();
+
+        const hideCheckbox = document.getElementById("quantum-energy-hide-completed") as HTMLInputElement;
+        hideCheckbox.checked = useSave((s) => s.stages.quantum.hideCompletedUpgrades.energy);
+        hideCheckbox.addEventListener("change", (e) => {
+            useSave((s) => {
+                s.stages.quantum.hideCompletedUpgrades.energy = (e.target as HTMLInputElement).checked;
+            });
+        });
 
         this.subtabContent = document.querySelector('.tab[data-tab="energy"]');
         this.subtab = document.getElementById("quantum-tab-energy");

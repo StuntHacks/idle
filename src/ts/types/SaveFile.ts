@@ -15,6 +15,9 @@ export interface SaveFile {
     flags: Flags;
     stages: {
         quantum: {
+            hideCompletedUpgrades: {
+                energy: boolean;
+            },
             converters: {
                 enabled: boolean;
                 locked: boolean;

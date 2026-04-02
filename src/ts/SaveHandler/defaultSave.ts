@@ -13,6 +13,9 @@ export const defaultSave: Omit<SaveFile, "version" | "startTime" | "timestamp"> 
     },
     stages: {
         quantum: {
+            hideCompletedUpgrades: {
+                energy: true,
+            },
             converters: [
                 {
                     enabled: false,
