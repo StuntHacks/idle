@@ -6,7 +6,8 @@ import { Utils } from "utils/utils";
 import { defaultSave } from "./defaultSave";
 import { initSettings } from "utils/SettingsHandler";
 import { useCurrencyHandler } from "game_logic/currencies/Currencies";
-import _ from "lodash";
+import _, { mergeWith } from "lodash";
+import Decimal from "break_eternity.js";
 
 export const SAVE_FILE_VERSION = 7;
 const SAVE_FILE_NAME = "idledynamics_saveFile";
@@ -23,6 +24,20 @@ export class SaveHandler {
         }
     }
 
+    private mergeSaves(loaded: Partial<SaveFile>): SaveFile {
+        return mergeWith(
+            {},
+            defaultSave,
+            { version: SAVE_FILE_VERSION, startTime: Date.now(), timestamp: Date.now() },
+            loaded,
+            (objVal: unknown, srcVal: unknown) => {
+                if (srcVal instanceof Decimal) return srcVal;
+                if (Array.isArray(srcVal)) return srcVal;
+                return undefined;
+            }
+        );
+    }
+
     public loadData(): boolean {
         Logger.log("SaveHandler", "Loading save file...");
         let data = localStorage.getItem(SAVE_FILE_NAME);
@@ -34,11 +49,10 @@ export class SaveHandler {
 
         let parsed = JSON.parse(this.decode(data));
         if (parsed.version === undefined || parsed.version < SAVE_FILE_VERSION) {
-            // todo: implement proper migration
             Logger.log("SaveHandler", "Outdated save file, resetting...");
             this.reset();
         } else {
-            this.save = parsed;
+            this.save = this.mergeSaves(parsed);
         }
 
         return true;
