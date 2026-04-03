@@ -28,6 +28,8 @@ export class CurrencyElement extends HTMLElement {
     private counter: boolean;
     private last: string;
     private precision: number;
+    private cutoffUpper: string;
+    private cutoffLower: string;
 
     constructor() {
         super();
@@ -39,7 +41,7 @@ export class CurrencyElement extends HTMLElement {
         if (this.inferred) {
             const c = useCurrency(this.currencies[0]);
             if (!c?.inferred) return "?";
-            text = (c as InferredCurrency).handler.getFormatted();
+            text = (c as InferredCurrency).handler.getFormatted(undefined, this.precision, { upper: this.cutoffUpper, lower: this.cutoffLower });
         } else {
             let amount = new Decimal(0);
             for (const hash of this.currencies) {
@@ -49,7 +51,7 @@ export class CurrencyElement extends HTMLElement {
                 }
             }
 
-            text = Numbers.getFormatted(amount, this.precision);
+            text = Numbers.getFormatted(amount, this.precision, { upper: this.cutoffUpper, lower: this.cutoffLower });
         }
 
         if (this.counter) text += `/${this.max}`;
@@ -70,6 +72,8 @@ export class CurrencyElement extends HTMLElement {
         this.appendChild(this.element);
         this.inferred = this.hasAttribute("inferred");
         this.precision = parseInt(this.getAttribute("precision") || "2", 10);
+        this.cutoffLower = this.getAttribute("cutoff-lower");
+        this.cutoffUpper = this.getAttribute("cutoff-upper");
 
         if (this.hasAttribute("counter")) {
             this.counter = true;

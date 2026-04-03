@@ -1,6 +1,6 @@
 import Decimal from "break_eternity.js";
 
-type CutoffType = { upper?: string, lower?: string };
+export type CutoffType = { upper?: string, lower?: string };
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Numbers {
     export const getFormatted = (num: Decimal, maxPrecision: number = 2, cutoff: CutoffType = { upper: "1e6", lower: "1e-6" }): string => {

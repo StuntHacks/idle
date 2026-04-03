@@ -1,7 +1,7 @@
 import Decimal from "break_eternity.js";
 import { InferredCurrency } from "./InferredCurrency";
 import { InferredCurrencyCallback, Currency, useCurrencyHandler } from "./Currencies";
-import { Numbers } from "numbers/numbers";
+import { CutoffType, Numbers } from "numbers/numbers";
 import { Logger } from "utils/Logger";
 
 export abstract class AggregateCurrency extends InferredCurrency {
@@ -63,8 +63,8 @@ export abstract class AggregateCurrency extends InferredCurrency {
         void _amount;
     }
 
-    public getFormatted(amount?: Decimal): string {
-        return Numbers.getFormatted(amount ?? this.getAmount());
+    public getFormatted(amount?: Decimal, maxPrecision: number = 2, cutoff: CutoffType = { upper: "1e6", lower: "1e-6" }): string {
+        return Numbers.getFormatted(amount ?? this.getAmount(), maxPrecision, cutoff);
     }
 
     public registerCallback(callback: InferredCurrencyCallback): void {

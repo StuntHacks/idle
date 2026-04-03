@@ -36,11 +36,11 @@ export class Energy extends InferredCurrency {
         handler.registerCallback(electronCallback, "leptons-electron");
     }
 
-    public static getFormatted(amount?: Decimal, precision: number = 1): string {
-        return this.instance.getFormatted(amount, precision);
+    public static getFormatted(amount?: Decimal, maxPrecision?: number): string {
+        return this.instance.getFormatted(amount, maxPrecision ?? 1);
     }
 
-    public getFormatted(amount?: Decimal, precision: number = 1): string {
+    public getFormatted(amount?: Decimal, maxPrecision: number = 1): string {
         const value = amount ?? this.amount;
 
         let suffix = "";
@@ -64,10 +64,10 @@ export class Energy extends InferredCurrency {
             suffix = "ZeV";
             divisor = 1e15;
         } else {
-            return Numbers.getFormatted(value) + " eV";
+            return Numbers.getFormatted(value, maxPrecision) + " eV";
         }
 
-        return value.dividedBy(1000000).dividedBy(divisor).toFixed(precision) + ` ${suffix}`;
+        return value.dividedBy(1000000).dividedBy(divisor).toFixed(maxPrecision) + ` ${suffix}`;
     }
 
     public getAmount(): Decimal {
