@@ -58,7 +58,8 @@ particle-converter {
     }
 
     &::before {
-        content: "lock";
+        // content: "lock";
+        content: "";
     }
 
     &::after {
@@ -116,8 +117,38 @@ particle-converter {
             }
         }
 
-        .particle {
+        .arrow .particle {
             opacity: 0;
+        }
+
+        .unlocked-text {
+            opacity: 1;
+        }
+    }
+
+    .unlocked-text {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        transition: opacity 150ms;
+        opacity: 0;
+
+        translated-string {
+            color: #ccc;
+        }
+
+        translated-string:not(:first-of-type) {
+            font-weight: bold;
+        }
+
+        .particle {
+            margin: 0 5px;
         }
     }
 

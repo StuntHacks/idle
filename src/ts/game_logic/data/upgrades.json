@@ -65,15 +65,6 @@
                     "costScaling": 100,
                     "levels": 3,
                     "currency": "energy"
-                },
-                {
-                    "id": "quark_converters",
-                    "title": "upgrades.quantum.energy.quarkConverters.title",
-                    "effect": "upgrades.quantum.energy.quarkConverters.effect",
-                    "target": "quantum.converters.c0",
-                    "type": "flag",
-                    "cost": 1e5,
-                    "currency": "energy"
                 }
             ],
             "fluctuators": [

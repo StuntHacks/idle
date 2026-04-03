@@ -1,4 +1,4 @@
-import { useSave, useSaveHandler } from "SaveHandler/SaveHandler";
+import { useSave } from "SaveHandler/SaveHandler";
 import { ConverterElement } from "ui/elements/quantum/ConverterElement";
 import { useStat, useStatHandler } from "game_logic/StatHandler";
 import Decimal from "break_eternity.js";
@@ -9,6 +9,7 @@ import { TICK_LENGTH } from "game_logic/Game";
 import { useInferredCurrency } from "game_logic/currencies/Currencies";
 import { QuarkColor } from "game_logic/currencies/inferred/QuarkColor";
 import { Energy } from "game_logic/currencies/inferred/Energy";
+import { TotalQuarks } from "game_logic/currencies/inferred/TotalQuarks";
 
 export class ParticleConverter {
     private baseInterval: number = 5000;
@@ -23,6 +24,7 @@ export class ParticleConverter {
     private target: string;
     private color: string;
     private title: string = "";
+    private required: Decimal;
     private callback: (index: number) => void;
 
     public toggleLock(force: boolean = undefined) {
@@ -43,10 +45,17 @@ export class ParticleConverter {
     }
 
     public update(tickLength: number, catchingUp: boolean) {
-        if (!this.enabled || this.locked) return;
+        if (this.locked) {
+            const unlocked = useInferredCurrency<TotalQuarks>("quarks-rgb").getAmount().gte(this.required);
+            if (unlocked) this.toggleLock(false);
+            if (this.locked) return;
+        }
+        if (!this.enabled) return;
 
         const interval = this.getInterval();
-        const currency = useInferredCurrency<QuarkColor>(`quarks-${this.color}`);
+        const currency = this.color === "rgb" ?
+            useInferredCurrency<TotalQuarks>("quarks-rgb") :
+            useInferredCurrency<QuarkColor>(`quarks-${this.color}`);
         const energy = useInferredCurrency<Energy>("energy");
         const input = this.getCost();
         const energyCost = this.energyCost;
@@ -68,12 +77,19 @@ export class ParticleConverter {
             if (this.acc >= interval) {
                 const completedCycles = Math.floor(this.acc / interval);
 
-                const affordableCycles = Math.floor(
-                    Decimal.min(
-                        currency.getAmount().div(input),
+                const getAffordableCycles = (currency: QuarkColor | TotalQuarks, input: Decimal): number => {
+                    const available = currency instanceof TotalQuarks ?
+                        currency.getMinAmount() :
+                        currency.getAmount();
+                    return Math.floor(available.div(input).toNumber()) + 1;
+                }
+
+                const affordableCycles = energyCost.gt(0) ?
+                    Math.floor(Decimal.min(
+                        getAffordableCycles(currency, input),
                         energy.getAmount().div(energyCost)
-                    ).toNumber()
-                ) + 1;
+                    ).toNumber()) + 1 :
+                    getAffordableCycles(currency, input);
 
                 const cycles = Math.min(completedCycles, affordableCycles);
                 this.acc -= cycles * interval;
@@ -141,29 +157,32 @@ export class ParticleConverter {
         this.element.setCostText(Numbers.getFormatted(value, 0, { upper: "1e4" }));
     }
 
-    private getFlagString() {
-        return `quantum.converters.c${this.index < 4 ? 0 : 1}`;
-    }
-
     constructor(index: number, element: ConverterElement, callback: (index: number) => void, acc?: number) {
         if (!element) return;
         this.element = element;
         this.element.setToggleCallback(() => this.callback(this.index));
         this.baseInterval = parseInt(this.element.getAttribute("interval") ?? "5000");
+        this.target = this.element.getAttribute("target");
+        this.required = new Decimal(this.element.getAttribute("required") ?? 300);
         this.element.setInterval(this.getInterval());
+
         this.acc = acc ?? 0;
         this.callback = callback;
         this.index = index;
-        this.target = this.element.getAttribute("target");
+        this.element.setProgress(this.acc, this.getInterval(), TICK_LENGTH);
+
         this.color = this.element.className;
         this.title = useTranslation(useStat(this.target).title);
-        this.toggleLock(!useSaveHandler().getFlag(this.getFlagString()));
         this.updateEffect();
         this.updateCost();
 
-        useSaveHandler().registerFlagCallback(this.getFlagString(), (flag: string, value: unknown) => {
-            this.toggleLock(!value);
-        });
+        const unlocked = (
+            !useSave((s) => s.stages.quantum.converters[this.index].locked) ||
+            useInferredCurrency<TotalQuarks>(`quarks-rgb`).getAmount().gte(this.required)
+        );
+        this.toggleLock(!unlocked);
+        this.running = (this.acc > 0) && !this.locked;
+        this.element.setRunning(this.running);
 
         const updateInterval = () => {
             window.requestAnimationFrame(updateInterval);

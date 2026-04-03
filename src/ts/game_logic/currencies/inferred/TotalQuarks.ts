@@ -2,6 +2,7 @@ import Decimal from "break_eternity.js";
 import { AggregateCurrency } from "../AggregateCurrency";
 import { useCurrencyHandler, InferredCurrency } from "../Currencies";
 import { QuarkColor } from "./QuarkColor";
+import currencyData from "../../data/currencies.json";
 
 const COLOR_HASHES = ["quarks-red", "quarks-green", "quarks-blue"] as const;
 
@@ -19,6 +20,15 @@ export class TotalQuarks extends AggregateCurrency {
     }
 
     public getAmount(): Decimal {
+        return currencyData.quarkFlavors.reduce(
+            (sum, flavor) => sum.plus(
+                (useCurrencyHandler().get(`quarks-${flavor}`) as InferredCurrency).handler.getAmount()
+            ),
+            new Decimal(0)
+        );
+    }
+
+    public getMinAmount(): Decimal {
         return COLOR_HASHES.reduce(
             (min, hash) => Decimal.min(min, this.getColorHandler(hash).getAmount()),
             new Decimal(Infinity)

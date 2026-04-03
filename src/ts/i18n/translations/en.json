@@ -15,6 +15,8 @@
     "ok": "Ok",
     "unlocks": {
       "quantum": {
+        "converters": "300 total Quarks",
+        "rgbConverter": "1.00e6 total Quarks",
         "forces": "1.00e6 total Quarks"
       }
     },
@@ -226,9 +228,9 @@
           "upgrades": {}
         },
         "conversion": {
-          "title": "Quark Conversion",
-          "information": "Here you can spend energy to convert combinations of quarks into continuously growing boosts",
-          "quarksUsed": "Base Quarks used per conversion",
+          "title": "Particle Conversion",
+          "information": "Here you can spend energy to convert combinations of particles into continuously growing boosts",
+          "quarksUsed": "Base particles used per conversion",
           "energyUsed": "Energy used per conversion",
           "perConversion": "conversion",
           "enable": "Click to turn on",
@@ -259,12 +261,12 @@
       "gluonGain": "Gluon Gain",
       "fieldGain": "Field Particle Gain",
       "energyGain": "Energy Gain",
-      "conversionSpeed": "Quark Conversion Speed",
-      "conversionInput": "Quark Conversion Input",
-      "conversionEnergyCost": "Base Quark Conversion Energy Cost",
-      "conversionEnergyScaling": "Quark Conversion Energy Cost Scaling",
-      "maxConversionInput": "Quark Conversion Input Max",
-      "maxConverters": "Max Active Quark Converters",
+      "conversionSpeed": "Particle Conversion Speed",
+      "conversionInput": "Particle Conversion Input",
+      "conversionEnergyCost": "Base Particle Conversion Energy Cost",
+      "conversionEnergyScaling": "Particle Conversion Energy Cost Scaling",
+      "maxConversionInput": "Particle Conversion Input Max",
+      "maxConverters": "Max Active Particle Converters",
       "hadronGain": "Hadron Gain"
     }
   },
@@ -290,9 +292,9 @@
         "fluctuatorSpeed": {
           "title": "Fluctuator Speed"
         },
-        "quarkConverters": {
-          "title": "Quark Converters",
-          "effect": "Unlocks quark conversion"
+        "particleConverters": {
+          "title": "Particle Converters",
+          "effect": "Unlocks particle conversion"
         }
       }
     }

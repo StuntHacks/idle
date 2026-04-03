@@ -51,9 +51,9 @@ export class CurrencyHandler {
             }
         }
 
-        const rgbEntry = currencyData.inferred.find(c => c.hash === "quarks-rgb");
-        if (rgbEntry) {
-            this.registerInferred("quarks-rgb", new TotalQuarks(), rgbEntry.stage, rgbEntry.group, rgbEntry.important ?? false);
+        const rgb = currencyData.inferred.find(c => c.hash === "quarks-rgb");
+        if (rgb) {
+            this.registerInferred("quarks-rgb", new TotalQuarks(), rgb.stage, rgb.group, rgb.important ?? false);
         }
     }
 

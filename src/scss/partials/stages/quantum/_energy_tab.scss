@@ -279,7 +279,7 @@
                     }
                 }
 
-                &:not(:has(particle-converter[locked])) {
+                &:has(particle-converter:not([locked])) {
                     .info {
                         opacity: 1;
                         pointer-events: auto;

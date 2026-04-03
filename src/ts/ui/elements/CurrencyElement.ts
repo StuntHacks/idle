@@ -34,21 +34,24 @@ export class CurrencyElement extends HTMLElement {
     }
 
     private getValue(): string {
+        let text;
+
         if (this.inferred) {
             const c = useCurrency(this.currencies[0]);
             if (!c?.inferred) return "?";
-            return (c as InferredCurrency).handler.getFormatted();
-        }
-
-        let amount = new Decimal(0);
-        for (const hash of this.currencies) {
-            const found = useCurrency(hash);
-            if (found && !found.inferred) {
-                amount = amount.plus((found as Currency).amount);
+            text = (c as InferredCurrency).handler.getFormatted();
+        } else {
+            let amount = new Decimal(0);
+            for (const hash of this.currencies) {
+                const found = useCurrency(hash);
+                if (found && !found.inferred) {
+                    amount = amount.plus((found as Currency).amount);
+                }
             }
+
+            text = Numbers.getFormatted(amount, this.precision);
         }
 
-        let text = Numbers.getFormatted(amount, this.precision);
         if (this.counter) text += `/${this.max}`;
         return text;
     }

@@ -29,6 +29,11 @@
     </div>
     <div class="converters">
         <particle-converter class="red" interval="5000" target="energy_gain">
+            <div class="unlocked-text">
+                <translated-string>misc.unlockedAt</translated-string>
+                <div class="resource particle quark main rgb"></div>
+                <translated-string>misc.unlocks.quantum.converters</translated-string>
+            </div>
             <div class="input">
                 <div class="circle">
                     <div class="resource particle quark main red"></div>
@@ -48,6 +53,11 @@
             <div class="output"></div>
         </particle-converter>
         <particle-converter class="green" interval="10000" target="quark_gain">
+            <div class="unlocked-text">
+                <translated-string>misc.unlockedAt</translated-string>
+                <div class="resource particle quark main rgb"></div>
+                <translated-string>misc.unlocks.quantum.converters</translated-string>
+            </div>
             <div class="input">
                 <div class="circle">
                     <div class="resource particle quark main green"></div>
@@ -67,6 +77,11 @@
             <div class="output"></div>
         </particle-converter>
         <particle-converter class="blue" interval="30000" target="conversion_speed">
+            <div class="unlocked-text">
+                <translated-string>misc.unlockedAt</translated-string>
+                <div class="resource particle quark main rgb"></div>
+                <translated-string>misc.unlocks.quantum.converters</translated-string>
+            </div>
             <div class="input">
                 <div class="circle">
                     <div class="resource particle quark main blue"></div>
@@ -85,7 +100,12 @@
             </div>
             <div class="output"></div>
         </particle-converter>
-        <particle-converter class="rgb" interval="60000" target="gluon_gain">
+        <particle-converter class="rgb" interval="60000" target="gluon_gain" required="1e6">
+            <div class="unlocked-text">
+                <translated-string>misc.unlockedAt</translated-string>
+                <div class="resource particle quark main rgb"></div>
+                <translated-string>misc.unlocks.quantum.rgbConverter</translated-string>
+            </div>
             <div class="input">
                 <div class="circle">
                     <div class="resource particle quark main red"></div>

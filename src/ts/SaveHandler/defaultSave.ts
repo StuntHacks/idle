@@ -20,22 +20,22 @@ export const defaultSave: Omit<SaveFile, "version" | "startTime" | "timestamp"> 
             converters: [
                 {
                     enabled: false,
-                    locked: false,
+                    locked: true,
                     acc: 0,
                 },
                 {
                     enabled: false,
-                    locked: false,
+                    locked: true,
                     acc: 0,
                 },
                 {
                     enabled: false,
-                    locked: false,
+                    locked: true,
                     acc: 0,
                 },
                 {
                     enabled: false,
-                    locked: false,
+                    locked: true,
                     acc: 0,
                 },
             ],
