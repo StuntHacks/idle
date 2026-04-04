@@ -3,7 +3,7 @@
     top: 90px;
     left: 0;
     width: 100%;
-    padding: 15px 0;
+    padding: 15px 1rem;
     display: flex;
     overflow-x: auto;
     scrollbar-width: none;
@@ -38,12 +38,10 @@
 
         &:first-of-type {
             margin-left: auto;
-            padding-left: 1rem;
         }
 
         &:last-of-type {
             margin-right: auto;
-            padding-right: 1rem;
         }
 
         &:not(.disabled):hover > translated-string {

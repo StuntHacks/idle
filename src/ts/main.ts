@@ -18,7 +18,8 @@ export const main = async () => {
         game.start();
         UI.openSubTab("quantum-tab-energy");
         document.addEventListener("contextmenu", (e) => e.preventDefault());
-    } catch {
+    } catch (e) {
+        console.error(e);
         // todo: implement proper migration
         if (window.confirm("Outdated save or settings file found! Proper migration hasn't been implemented yet. Click OK to reset & reload the game")) {
             localStorage.removeItem("idledynamics_saveFile");

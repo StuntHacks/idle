@@ -126,7 +126,7 @@
             ],
             "converters": [
                 {
-                    "id": "particle_gain",
+                    "id": "field_gain",
                     "title": "stats.quantum.fieldGain",
                     "target": "field_gain",
                     "type": "multiplicative",
@@ -144,15 +144,6 @@
                     "scale": 1
                 },
                 {
-                    "id": "gluon_gain",
-                    "title": "stats.quantum.gluonGain",
-                    "target": "gluon_gain",
-                    "type": "multiplicative",
-                    "continuous": true,
-                    "curve": "logarithmic",
-                    "scale": 1.5
-                },
-                {
                     "id": "conversion_speed",
                     "title": "stats.quantum.conversionSpeed",
                     "target": "conversion_speed",
@@ -160,6 +151,15 @@
                     "continuous": true,
                     "curve": "reverse_log",
                     "scale": 0.3
+                },
+                {
+                    "id": "conversion_energy_scaling",
+                    "title": "stats.quantum.conversionEnergyScaling",
+                    "target": "conversion_energy_scaling",
+                    "type": "multiplicative",
+                    "continuous": true,
+                    "curve": "reverse_log",
+                    "scale": 0.8
                 }
             ]
         }

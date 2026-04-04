@@ -266,7 +266,7 @@
       "conversionSpeed": "Particle Conversion Speed",
       "conversionInput": "Particle Conversion Input",
       "conversionEnergyCost": "Base Particle Conversion Energy Cost",
-      "conversionEnergyScaling": "Particle Conversion Energy Cost Scaling",
+      "conversionEnergyScaling": "Conversion Energy Cost Scaling",
       "maxConversionInput": "Particle Conversion Input Max",
       "maxConverters": "Max Active Particle Converters",
       "hadronGain": "Hadron Gain"

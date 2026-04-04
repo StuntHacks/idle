@@ -32,7 +32,7 @@
         "title": "stats.quantum.conversionEnergyCost"
     },
     "conversion_energy_scaling": {
-        "base": 20,
+        "base": 200,
         "title": "stats.quantum.conversionEnergyScaling"
     },
     "max_conversion_input": {

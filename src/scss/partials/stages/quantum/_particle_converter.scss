@@ -414,7 +414,7 @@ particle-converter {
         min-width: 137px;
 
         span {
-            @include gradient-gluon;
+            @include gradient-quark-rgb;
             background: var(--gradient);
             color: rgba(255, 255, 255, 0.2);
             background-clip: text;

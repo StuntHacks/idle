@@ -22,6 +22,7 @@ export class QuantumStage implements Stage {
     private conversionInput: Decimal = new Decimal(1);
     private inputElement: HTMLElement;
     private costElement: HTMLElement;
+    private energyCostText: string = "";
 
     constructor() {
         customElements.define("fluctuator-block", FluctuatorElement);
@@ -98,17 +99,26 @@ export class QuantumStage implements Stage {
         QuantumUI.updateActiveConverters(this.activeConverters.length);
     }
 
+    private getEnergyCost(): Decimal {
+        return new Decimal(useStat("conversion_energy_cost").total).multiply(
+            useStat("conversion_energy_scaling").total.pow(this.conversionInput.log10())
+        );
+    }
+
     private updateConversionInput() {
         useSave((s) => s.stages.quantum.conversionInput = this.conversionInput);
         this.inputElement.textContent = Numbers.getFormatted(this.conversionInput, 0, { upper: "1e4" });
-        const cost = new Decimal(useStat("conversion_energy_cost").total).multiply(
-            useStat("conversion_energy_scaling").total.pow(this.conversionInput.log10())
-        );
-        this.costElement.textContent = Energy.getFormatted(cost);
 
         for (const converter of this.converters) {
-            converter.setInput(this.conversionInput, cost);
+            converter.setInput(this.conversionInput, this.getEnergyCost());
         }
+    }
+
+    private updateEnergyCost() {
+        const text = Energy.getFormatted(this.getEnergyCost());
+        if (text === this.energyCostText) return;
+        this.costElement.textContent = text;
+        this.energyCostText = text;
     }
 
     public static getParticleAmount(particle: ParticleModel): Decimal {
@@ -130,6 +140,7 @@ export class QuantumStage implements Stage {
     }
 
     public update(tickLength: number, catchingUp: boolean) {
+        this.updateEnergyCost();
         for (const fluctuator of this.fluctuators) {
             fluctuator.update(tickLength, catchingUp);
         }
