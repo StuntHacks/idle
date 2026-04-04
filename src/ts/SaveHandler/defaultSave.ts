@@ -22,21 +22,25 @@ export const defaultSave: Omit<SaveFile, "version" | "startTime" | "timestamp"> 
                     enabled: false,
                     locked: true,
                     acc: 0,
+                    committed: new Decimal(0)
                 },
                 {
                     enabled: false,
                     locked: true,
                     acc: 0,
+                    committed: new Decimal(0)
                 },
                 {
                     enabled: false,
                     locked: true,
                     acc: 0,
+                    committed: new Decimal(0)
                 },
                 {
                     enabled: false,
                     locked: true,
                     acc: 0,
+                    committed: new Decimal(0)
                 },
             ],
             conversionInput: new Decimal(1),

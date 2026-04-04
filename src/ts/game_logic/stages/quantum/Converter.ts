@@ -14,6 +14,7 @@ import { TotalQuarks } from "game_logic/currencies/inferred/TotalQuarks";
 export class ParticleConverter {
     private baseInterval: number = 5000;
     private input: Decimal = new Decimal(1);
+    private committed: Decimal = new Decimal(0);
     private energyCost: Decimal = new Decimal(0);
     private enabled: boolean = false;
     private locked: boolean = true;
@@ -50,6 +51,12 @@ export class ParticleConverter {
             if (unlocked) this.toggleLock(false);
             if (this.locked) return;
         }
+
+        if (!catchingUp) {
+            this.updateEffect();
+            this.updateCost();
+        }
+
         if (!this.enabled) return;
 
         const interval = this.getInterval();
@@ -65,6 +72,7 @@ export class ParticleConverter {
             if (currency.canSpend(input) && energy.canSpend(energyCost)) {
                 currency.spend(input);
                 energy.spend(energyCost);
+                this.committed = input;
                 this.running = true;
             } else {
                 this.acc = 0;
@@ -86,18 +94,19 @@ export class ParticleConverter {
 
                 const affordableCycles = energyCost.gt(0) ?
                     Math.floor(Decimal.min(
-                        getAffordableCycles(currency, input),
+                        getAffordableCycles(currency, this.committed),
                         energy.getAmount().div(energyCost)
                     ).toNumber()) + 1 :
-                    getAffordableCycles(currency, input);
+                    getAffordableCycles(currency, this.committed);
 
                 const cycles = Math.min(completedCycles, affordableCycles);
                 this.acc -= cycles * interval;
-                amount = input.multiply(cycles);
+                amount = this.committed.multiply(cycles);
 
                 if (currency.canSpend(input) && energy.canSpend(energyCost)) {
                     currency.spend(input);
                     energy.spend(energyCost);
+                    this.committed = input;
                     this.running = true;
                 } else {
                     this.running = false;
@@ -111,7 +120,10 @@ export class ParticleConverter {
             useStatHandler().feed("quantum.energy.converters", this.target, amount);
         }
 
-        useSave((s) => s.stages.quantum.converters[this.index].acc = this.acc);
+        useSave((s) => {
+            s.stages.quantum.converters[this.index].acc = this.acc;
+            s.stages.quantum.converters[this.index].committed = this.committed;
+        });
 
         if (!catchingUp) {
             if (!this.running) {
@@ -121,9 +133,6 @@ export class ParticleConverter {
             } else {
                 this.element.setProgress(this.acc, interval, tickLength);
             }
-
-            this.updateEffect();
-            this.updateCost();
         }
     }
 
@@ -144,16 +153,26 @@ export class ParticleConverter {
     }
 
     private updateEffect() {
-        const value = useStatHandler().getContinuousEffect("quantum.energy.converters", this.target);
-        if (!value) return;
-        const formatted = Numbers.getFormatted(
+        const current = useStatHandler().getContinuousEffect("quantum.energy.converters", this.target);
+        const simulated = useStatHandler().getContinuousEffect("quantum.energy.converters", this.target, this.committed);
+        const previewInput = this.running ? this.getCost().add(this.committed) : this.getCost();
+        const preview = useStatHandler().getContinuousEffect("quantum.energy.converters", this.target, previewInput);
+        if (!current || !simulated) return;
+
+        const format = (value: Decimal) => Numbers.getFormatted(
             this.target === "conversion_speed" ? new Decimal(1).div(value) : value, 2
         );
-        this.element.setEffectText(`${this.title}<br />x${formatted}`);
+        this.element.setEffectText(
+            `${this.title}<br />` +
+            `<span class="effect">x${format(current)} ➜ x${format(simulated)}</span><br />` +
+            `<span class="preview">` +
+                `➜ x${format(preview)}` +
+            `</span>`
+        );
     }
 
     private updateCost() {
-        const value = this.getCost();
+        const value = this.running ? this.committed : this.getCost();
         this.element.setCostText(Numbers.getFormatted(value, 0, { upper: "1e4" }));
     }
 
@@ -173,16 +192,19 @@ export class ParticleConverter {
 
         this.color = this.element.className;
         this.title = useTranslation(useStat(this.target).title);
-        this.updateEffect();
-        this.updateCost();
 
+        const saved = useSave((s) => s.stages.quantum.converters[this.index]);
         const unlocked = (
-            !useSave((s) => s.stages.quantum.converters[this.index].locked) ||
+            !saved.locked ||
             useInferredCurrency<TotalQuarks>(`quarks-rgb`).getAmount().gte(this.required)
         );
         this.toggleLock(!unlocked);
         this.running = (this.acc > 0) && !this.locked;
+        if (this.running) this.committed = new Decimal(saved.committed ?? this.getCost());
         this.element.setRunning(this.running);
+
+        this.updateEffect();
+        this.updateCost();
 
         const updateInterval = () => {
             window.requestAnimationFrame(updateInterval);

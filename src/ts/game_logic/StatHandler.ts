@@ -159,7 +159,7 @@ class StatHandler {
         this.update(def.target);
     }
 
-    public getContinuousEffect(namespace: string, id: string): Decimal | null {
+    public getContinuousEffect(namespace: string, id: string, additional: Decimal = new Decimal(0)): Decimal | null {
         const defList: AnyUpgradeDef[] | undefined = _.get(upgradesData, namespace);
         const def = defList?.find((u) => u.id === id) as ContinuousUpgradeDef | undefined;
         if (!def?.continuous) return null;
@@ -169,7 +169,7 @@ class StatHandler {
 
         const saved = useSaveHandler().getContinuousUpgrades().find((u) => u.id === id);
         const spent = saved ? new Decimal(saved.spent) : new Decimal(0);
-        return curveFn(spent, def.scale);
+        return curveFn(spent.plus(additional), def.scale);
     }
 
     public gainUpgrade(

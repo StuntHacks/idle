@@ -22,6 +22,7 @@ export interface SaveFile {
                 enabled: boolean;
                 locked: boolean;
                 acc: number;
+                committed: Decimal;
             }[];
             conversionInput: Decimal;
             fluctuators?: boolean[];

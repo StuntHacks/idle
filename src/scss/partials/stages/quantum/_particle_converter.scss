@@ -412,6 +412,7 @@ particle-converter {
         box-sizing: border-box;
         max-width: 137px;
         min-width: 137px;
+        justify-content: center;
 
         span {
             @include gradient-quark-rgb;
@@ -419,6 +420,15 @@ particle-converter {
             color: rgba(255, 255, 255, 0.2);
             background-clip: text;
             transition: opacity 150ms;
+
+            .effect {
+                white-space: nowrap;
+            }
+
+            .preview {
+                opacity: 0.7;
+                filter: grayscale(0.5);
+            }
         }
     }
 
