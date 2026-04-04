@@ -162,13 +162,20 @@ export class ParticleConverter {
         const format = (value: Decimal) => Numbers.getFormatted(
             this.target === "conversion_speed" ? new Decimal(1).div(value) : value, 2
         );
-        this.element.setEffectText(
-            `${this.title}<br />` +
-            `<span class="effect">x${format(current)} ➜ x${format(simulated)}</span><br />` +
-            `<span class="preview">` +
-                `➜ x${format(preview)}` +
-            `</span>`
-        );
+        if (this.getInterval() < 250) {
+            this.element.setEffectText(
+                `${this.title}<br />` +
+                `<span class="effect">x${format(current)}</span><br />`
+            );
+        } else {
+            this.element.setEffectText(
+                `${this.title}<br />` +
+                `<span class="effect">x${format(current)} ➜ x${format(simulated)}</span><br />` +
+                `<span class="preview">` +
+                    `➜ x${format(preview)}` +
+                `</span>`
+            );
+        }
     }
 
     private updateCost() {
