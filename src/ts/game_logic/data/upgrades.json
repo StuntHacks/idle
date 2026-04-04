@@ -39,8 +39,8 @@
                     "target": "quark_gain",
                     "type": "additive",
                     "amount": 2,
-                    "cost": 2e9,
-                    "costScaling": 1.5,
+                    "cost": 1.5e9,
+                    "costScaling": 1.2,
                     "levels": 10,
                     "currency": "energy"
                 },
