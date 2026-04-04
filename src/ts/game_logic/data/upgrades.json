@@ -141,16 +141,16 @@
                     "type": "multiplicative",
                     "continuous": true,
                     "curve": "logarithmic",
-                    "scale": 1
+                    "scale": 1.1
                 },
                 {
-                    "id": "conversion_speed",
-                    "title": "stats.quantum.conversionSpeed",
-                    "target": "conversion_speed",
+                    "id": "quark_gain",
+                    "title": "stats.quantum.quarkGain",
+                    "target": "quark_gain",
                     "type": "multiplicative",
                     "continuous": true,
-                    "curve": "reverse_log",
-                    "scale": 0.3
+                    "curve": "logarithmic",
+                    "scale": 0.8
                 },
                 {
                     "id": "conversion_energy_scaling",
@@ -159,7 +159,7 @@
                     "type": "multiplicative",
                     "continuous": true,
                     "curve": "reverse_log",
-                    "scale": 0.8
+                    "scale": 0.25
                 }
             ]
         }
