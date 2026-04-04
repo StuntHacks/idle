@@ -1,0 +1,16 @@
+<div id="error-screen">
+    <div class="top-section">
+        <h1>An error has occured</h1>
+        <p>
+            The game encountered an unexpected error and crashed. Please include the stack trace below when reporting this issue
+            (it includes your save file as well). You can try reloading the page, or resetting your save file. RESETTING IS
+            IRREVERSIBLE, SO COPY IT FIRST!
+        </p>
+        <div class="buttons">
+            <button class="button" onclick="location.reload()">Refresh</button>
+            <button class="button" id="error-screen-copy-button">Copy to clipboard</button>
+            <button class="button danger" id="error-screen-reset-button">Reset save file</button>
+        </div>
+    </div>
+    <pre id="stack-trace"></pre>
+</div>

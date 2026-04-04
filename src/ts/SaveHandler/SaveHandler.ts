@@ -10,7 +10,7 @@ import _, { mergeWith } from "lodash";
 import Decimal from "break_eternity.js";
 
 export const SAVE_FILE_VERSION = 7;
-const SAVE_FILE_NAME = "idledynamics_saveFile";
+export const SAVE_FILE_NAME = "idledynamics_saveFile";
 
 export class SaveHandler {
     private save: SaveFile;

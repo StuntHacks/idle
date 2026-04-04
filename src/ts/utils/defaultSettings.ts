@@ -64,7 +64,7 @@ export const defaultSettings: SettingsDef = {
         title: "settings.debug.title",
         settings: {
             logging: {
-                default: true,
+                default: false,
                 name: "settings.debug.logging.name",
             },
             verbose: {
