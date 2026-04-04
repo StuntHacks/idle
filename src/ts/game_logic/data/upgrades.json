@@ -126,9 +126,9 @@
             ],
             "converters": [
                 {
-                    "id": "quark_gain",
-                    "title": "stats.quantum.quarkGain",
-                    "target": "quark_gain",
+                    "id": "particle_gain",
+                    "title": "stats.quantum.fieldGain",
+                    "target": "field_gain",
                     "type": "multiplicative",
                     "continuous": true,
                     "curve": "logarithmic",
