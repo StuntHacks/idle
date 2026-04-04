@@ -35,6 +35,7 @@
                 .amount {
                     display: inline-block;
                     width: 100%;
+                    margin-top: 1rem;
 
                     currency-display {
                         @include energy-text;
@@ -51,7 +52,7 @@
 
             .fluctuators {
                 width: 100%;
-                margin-top: 15px;
+                margin-top: 1rem;
                 transition: margin-bottom 250ms;
 
                 &[data-hidden="1"] {
