@@ -62,7 +62,7 @@
                     "type": "multiplicative",
                     "amount": 4,
                     "cost": 1e11,
-                    "costScaling": 100,
+                    "costScaling": 50,
                     "levels": 3,
                     "currency": "energy"
                 }
