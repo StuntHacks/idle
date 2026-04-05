@@ -34,13 +34,6 @@ export class ParticleConverter {
         if (force === this.locked && !this.locked) return;
         this.locked = typeof force === "boolean" ? force : !this.locked;
         useSave((s) => s.stages.quantum.converters[this.index].locked = this.locked);
-        if (!this.locked) {
-            useNotif({
-                title: useTranslation(`notifications.quantum.unlocks.converters.${this.color}`),
-                icon: "lock_open",
-                onClick: () => UI.openSubTab("quantum-tab-energy")
-            });
-        }
         this.element?.setLocked(this.locked);
     }
 
@@ -70,7 +63,14 @@ export class ParticleConverter {
     public update(tickLength: number, catchingUp: boolean) {
         if (this.locked) {
             const unlocked = useInferredCurrency<TotalQuarks>("quarks-rgb").getAmount().gte(this.required);
-            if (unlocked) this.toggleLock(false);
+            if (unlocked) {
+                this.toggleLock(false);
+                useNotif({
+                    title: useTranslation(`notifications.quantum.unlocks.converters.${this.color}`),
+                    icon: "lock_open",
+                    onClick: () => UI.openSubTab("quantum-tab-energy")
+                });
+            }
             if (this.locked) return;
         }
 

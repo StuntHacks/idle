@@ -178,11 +178,13 @@ export class QuantumStage implements Stage {
         const saved = useSave((s) => s.stages.quantum.unlocks);
         if (!this.unlocks.forces) {
             if (saved.forces || useInferredCurrency<TotalQuarks>("quarks-rgb").getAmount().gte(1e6)) {
-                useNotif({
-                    title: useTranslation("notifications.quantum.unlocks.forces"),
-                    icon: "lock_open",
-                    onClick: () => UI.openSubTab("quantum-tab-forces")
-                });
+                if (!saved.forces) {
+                    useNotif({
+                        title: useTranslation("notifications.quantum.unlocks.forces"),
+                        icon: "lock_open",
+                        onClick: () => UI.openSubTab("quantum-tab-forces")
+                    });
+                }
                 this.unlocks.forces = true;
                 useSave((s) => s.stages.quantum.unlocks.forces = true);
                 document.getElementById("quantum-tab-forces").classList.remove("disabled");
