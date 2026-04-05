@@ -28,6 +28,19 @@
     "copied": "Copied!",
     "noEffect": "No effect"
   },
+  "notifications": {
+    "quantum": {
+      "unlocks": {
+        "forces": "Unlocked the forces sub-tab!",
+        "converters": {
+          "red": "Unlocked the first particle converter!",
+          "green": "Unlocked the second particle converter!",
+          "blue": "Unlocked the third particle converter!",
+          "rgb": "Unlocked the fourth particle converter!"
+        }
+      }
+    }
+  },
   "about": {
     "tabs": {
       "stats": "Stats",

@@ -6,7 +6,6 @@ export const main = async () => {
     window.addEventListener("unhandledrejection", (event) => handleError(event.reason));
     window.onerror = (_message, _source, _lineno, _colno, error) => {
         handleError(error);
-        return true;
     };
     try {
         const game = initGame();

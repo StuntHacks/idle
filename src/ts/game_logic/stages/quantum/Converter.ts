@@ -10,6 +10,8 @@ import { useInferredCurrency } from "game_logic/currencies/Currencies";
 import { QuarkColor } from "game_logic/currencies/inferred/QuarkColor";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { TotalQuarks } from "game_logic/currencies/inferred/TotalQuarks";
+import { useNotif } from "ui/NotificationManager";
+import { UI } from "ui/UI";
 
 export class ParticleConverter {
     private baseInterval: number = 5000;
@@ -29,8 +31,16 @@ export class ParticleConverter {
     private callback: (index: number) => void;
 
     public toggleLock(force: boolean = undefined) {
+        if (force === this.locked && !this.locked) return;
         this.locked = typeof force === "boolean" ? force : !this.locked;
         useSave((s) => s.stages.quantum.converters[this.index].locked = this.locked);
+        if (!this.locked) {
+            useNotif({
+                title: useTranslation(`notifications.quantum.unlocks.converters.${this.color}`),
+                icon: "lock_open",
+                onClick: () => UI.openSubTab("quantum-tab-energy")
+            });
+        }
         this.element?.setLocked(this.locked);
     }
 
@@ -39,6 +49,18 @@ export class ParticleConverter {
         useSave((s) => s.stages.quantum.converters[this.index].enabled = this.enabled);
         this.element?.setEnabled(this.enabled);
         this.element.setProgress(this.acc, this.getInterval(), TICK_LENGTH);
+    }
+
+    public isLocked(): boolean {
+        return this.locked;
+    }
+
+    public isEnabled(): boolean {
+        return this.enabled;
+    }
+
+    public isBlocked(): boolean {
+        return this.enabled && !this.running;
     }
 
     private getInterval() {

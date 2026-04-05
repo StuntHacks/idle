@@ -1,5 +1,6 @@
 import { SAVE_FILE_VERSION } from "SaveHandler/SaveHandler";
 import Decimal from "break_eternity.js";
+import { QuantumStageUnlocks } from "game_logic/stages/quantum/Quantum";
 
 export interface SaveFile {
     version: typeof SAVE_FILE_VERSION;
@@ -18,6 +19,7 @@ export interface SaveFile {
             hideCompletedUpgrades: {
                 energy: boolean;
             },
+            unlocks: QuantumStageUnlocks,
             converters: {
                 enabled: boolean;
                 locked: boolean;

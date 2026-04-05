@@ -12,6 +12,25 @@ import { ParticleConverter } from "./Converter";
 import { QuantumUI } from "ui/stages/Quantum";
 import { Numbers } from "numbers/numbers";
 import { Energy } from "game_logic/currencies/inferred/Energy";
+import { useInferredCurrency } from "game_logic/currencies/Currencies";
+import { TotalQuarks } from "game_logic/currencies/inferred/TotalQuarks";
+import { UpgradeElement } from "ui/elements/UpgradeElement";
+import { useNotif } from "ui/NotificationManager";
+import { useTranslation } from "i18n/i18n";
+import { UI } from "ui/UI";
+
+export interface QuantumStageUnlocks {
+    forces: boolean;
+    hadrons: boolean;
+    mass: boolean;
+}
+
+interface NewDots {
+    energy: boolean;
+    forces: boolean;
+    hadrons: boolean;
+    mass: boolean;
+}
 
 export class QuantumStage implements Stage {
     public identifier = "quantum";
@@ -23,6 +42,19 @@ export class QuantumStage implements Stage {
     private inputElement: HTMLElement;
     private costElement: HTMLElement;
     private energyCostText: string = "";
+    private unlocks: QuantumStageUnlocks = {
+        forces: false,
+        hadrons: false,
+        mass: false,
+    };
+    private newDots: NewDots = {
+        energy: false,
+        forces: false,
+        hadrons: false,
+        mass: false,
+    };
+
+    private energyUpgrades: UpgradeElement[];
 
     constructor() {
         customElements.define("fluctuator-block", FluctuatorElement);
@@ -51,6 +83,7 @@ export class QuantumStage implements Stage {
             this.updateConversionInput();
         });
 
+        this.energyUpgrades = Array.from(document.querySelectorAll("#quantum-energy-upgrades stat-upgrade")).map(e => e as UpgradeElement);
         this.updateConversionInput();
         this.updateConverters();
     }
@@ -139,8 +172,65 @@ export class QuantumStage implements Stage {
         return new Decimal(0);
     }
 
+    private updateUnlocks() {
+        if (this.unlocks.forces && this.unlocks.hadrons && this.unlocks.mass) return;
+
+        const saved = useSave((s) => s.stages.quantum.unlocks);
+        if (!this.unlocks.forces) {
+            if (saved.forces || useInferredCurrency<TotalQuarks>("quarks-rgb").getAmount().gte(1e6)) {
+                useNotif({
+                    title: useTranslation("notifications.quantum.unlocks.forces"),
+                    icon: "lock_open",
+                    onClick: () => UI.openSubTab("quantum-tab-forces")
+                });
+                this.unlocks.forces = true;
+                useSave((s) => s.stages.quantum.unlocks.forces = true);
+                document.getElementById("quantum-tab-forces").classList.remove("disabled");
+                document.getElementById("forces-subtab-tooltip").remove();
+            }
+        }
+    }
+
+    private updateNewDots() {
+        let energy = false;
+        for (const upgrade of this.energyUpgrades) {
+            if (upgrade.canAfford() && !upgrade.isCompleted()) {
+                energy = true;
+                break;
+            }
+        }
+
+        let unlockedConverters = false;
+        for (const converter of this.converters) {
+            // if (converter.isBlocked()) {
+            //     energy = true;
+            //     break;
+            // }
+            if (!converter.isLocked()) {
+                unlockedConverters = true;
+                break;
+            }
+        }
+
+        if (unlockedConverters && this.activeConverters.length < useStat("max_converters").total.toNumber()) {
+            energy = true;
+        }
+
+        if (energy !== this.newDots.energy) {
+            this.newDots.energy = energy;
+            document.getElementById("quantum-tab-energy").classList.toggle("new", energy);
+        }
+
+        if (this.unlocks.forces) {
+
+        }
+    }
+
     public update(tickLength: number, catchingUp: boolean) {
+        this.updateUnlocks();
+        this.updateNewDots();
         this.updateEnergyCost();
+
         for (const fluctuator of this.fluctuators) {
             fluctuator.update(tickLength, catchingUp);
         }

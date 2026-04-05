@@ -7,8 +7,8 @@
             </tool-tip>
             <translated-string>stages.quantum.tabs.energy</translated-string>
         </span>
-        <span data-tab="forces" class="disabled">
-            <tool-tip center orientation="bottom" class="forces-subtab">
+        <span data-tab="forces" id="quantum-tab-forces" class="disabled">
+            <tool-tip center orientation="bottom" class="forces-subtab" id="forces-subtab-tooltip">
                 <span class="flavor-text locked">
                     <translated-string>misc.unlockedAt</translated-string>
                     <translated-string>misc.unlocks.quantum.forces</translated-string>
@@ -35,6 +35,9 @@
     <section class="tab-background"></section>
     <section class="tab" data-tab="energy">
         @include('./quantum/energy_tab.html')
+    </section>
+    <section class="tab" data-tab="forces">
+        @include('./quantum/forces_tab.html')
     </section>
     <section class="tab" data-tab="fields">
         @include('./quantum/fields_tab.html')

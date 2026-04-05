@@ -11,6 +11,7 @@ import { Currency, useCurrency } from "game_logic/currencies/Currencies";
 import { Logger } from "utils/Logger";
 import { Numbers } from "numbers/numbers";
 import { initPopoverManager } from "./PopoverManager";
+import { initNotifications } from "./NotificationManager";
 
 export class UI {
     private static saveIndicator: HTMLElement;
@@ -57,6 +58,7 @@ export class UI {
         QuantumUI.initialize();
         SettingsUI.initialize();
         initPopoverManager();
+        initNotifications();
         this.initializeBottomBar();
         this.updateDarkMode();
     }

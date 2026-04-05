@@ -12,6 +12,7 @@ import { useStat, useStatHandler } from "game_logic/StatHandler";
 export class UpgradeElement extends HTMLElement {
     private def: UpgradeDef;
     private namespace: string;
+    private affordable: boolean = false;
 
     private detailsElement: HTMLDivElement;
     private costElement: HTMLSpanElement;
@@ -28,11 +29,15 @@ export class UpgradeElement extends HTMLElement {
         return saved ? saved.levels : 0;
     }
 
-    private isCompleted(): boolean {
+    public isCompleted(): boolean {
         if (this.def.type === "flag") {
             return useFlag(this.def.target);
         }
         return this.def.levels != null && this.getCurrentLevel() >= this.def.levels;
+    }
+
+    public canAfford(): boolean {
+        return this.affordable;
     }
 
     private getCost(): Decimal {
@@ -158,7 +163,8 @@ export class UpgradeElement extends HTMLElement {
                 const c = useCurrency(this.def.currency);
                 total = c.inferred ? c.handler.getAmount() : (c as Currency).amount;
             }
-            this.classList.toggle("disabled", !total.greaterThanOrEqualTo(this.getCost()));
+            this.affordable = total.greaterThanOrEqualTo(this.getCost());
+            this.classList.toggle("disabled", !this.affordable);
         };
 
         const currencyCallback: InferredCurrencyCallback = (_hash, _type, _amount, _before, total) => {

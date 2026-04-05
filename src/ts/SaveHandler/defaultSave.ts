@@ -17,6 +17,11 @@ export const defaultSave: Omit<SaveFile, "version" | "startTime" | "timestamp"> 
             hideCompletedUpgrades: {
                 energy: true,
             },
+            unlocks: {
+                forces: false,
+                hadrons: false,
+                mass: false,
+            },
             converters: [
                 {
                     enabled: false,
