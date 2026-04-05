@@ -259,6 +259,17 @@
           "active": "Active:",
           "upgrades": {}
         }
+      },
+      "forces": {
+        "strong": {
+          "name": "Strong Nuclear"
+        },
+        "electromagnetic": {
+          "name": "Electromagnetic"
+        },
+        "weak": {
+          "name": "Weak Nuclear"
+        }
       }
     },
     "stellar": {
