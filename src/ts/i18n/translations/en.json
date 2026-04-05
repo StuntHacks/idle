@@ -67,6 +67,9 @@
       "language": {
         "name": "Language",
         "description": ""
+      },
+      "autoSave": {
+        "name": "Auto-save"
       }
     },
     "gameplay": {

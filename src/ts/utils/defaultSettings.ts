@@ -18,7 +18,11 @@ export const defaultSettings: SettingsDef = {
                 default: false,
                 name: "settings.general.noTabHistory.name",
                 description: "settings.general.noTabHistory.description",
-            }
+            },
+            autoSave: {
+                default: true,
+                name: "settings.general.autoSave.name",
+            },
         },
     },
     gameplay: {

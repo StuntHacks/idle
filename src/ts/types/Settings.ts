@@ -5,6 +5,7 @@ export interface Settings {
     general: SettingCategory<{
         language: Setting<"en" | "de">;
         noTabHistory: Setting<boolean>;
+        autoSave: Setting<boolean>;
     }>;
     gameplay: SettingCategory<{
         noOfflineTime: Setting<boolean>;

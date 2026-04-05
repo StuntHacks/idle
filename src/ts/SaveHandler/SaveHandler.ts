@@ -4,7 +4,7 @@ import { Logger } from "utils/Logger";
 import mock from "./mock.json"
 import { Utils } from "utils/utils";
 import { defaultSave } from "./defaultSave";
-import { initSettings } from "utils/SettingsHandler";
+import { initSettings, useSettings } from "utils/SettingsHandler";
 import { useCurrencyHandler } from "game_logic/currencies/Currencies";
 import _, { mergeWith } from "lodash";
 import Decimal from "break_eternity.js";
@@ -59,9 +59,8 @@ export class SaveHandler {
     }
 
     public autoSave = () => {
-        const now = performance.now();
-        const elapsed = now - this.lastSave;
-        if (elapsed >= 30000) {
+        const now = Date.now();
+        if (useSettings().general.settings.autoSave.value && now - this.lastSave > 30000) {
             this.lastSave = now;
             this.saveData();
         }
