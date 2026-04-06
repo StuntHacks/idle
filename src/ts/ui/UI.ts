@@ -45,7 +45,7 @@ export class UI {
             }, { passive: false });
         }
 
-        document.querySelector("#tab-version").addEventListener("scroll", (e: MouseEvent) => {
+        document.querySelector("#tab-version .stage-main-content").addEventListener("scroll", (e: MouseEvent) => {
             const target = e.target as HTMLElement;
             if (target.scrollTop > 0) {
                 target.querySelector(".headlines").classList.add("shadow");
