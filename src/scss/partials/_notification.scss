@@ -16,6 +16,9 @@
     overflow: auto;
     scrollbar-width: none;
     -webkit-scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     .notification {
         background-color: #000b;

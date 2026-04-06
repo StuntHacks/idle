@@ -8,6 +8,7 @@
     display: flex;
     overflow-x: auto;
     scrollbar-width: none;
+    -webkit-scrollbar-width: none;
     &::-webkit-scrollbar {
         display: none;
     }

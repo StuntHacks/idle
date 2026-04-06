@@ -184,6 +184,9 @@
                         overflow-x: scroll;
                         scrollbar-width: none;
                         -webkit-scrollbar-width: none;
+                        &::-webkit-scrollbar {
+                            display: none;
+                        }
                         mask-image: linear-gradient(to right, transparent 0%, #000 3%, #000 97%, transparent 100%);
                         padding-left: 20px;
                         padding-right: 20px;
