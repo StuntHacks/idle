@@ -10,6 +10,7 @@ export class ToolTip extends HTMLElement {
     private frameId: number | null = null;
     private lastRect: DOMRect | null = null;
     private hovering: boolean = false;
+    private onScreen: boolean = true;
     private visible: boolean = false;
 
     constructor() {
@@ -97,6 +98,12 @@ export class ToolTip extends HTMLElement {
         let MARGIN_X = 5;
         let MARGIN_Y = 5;
 
+        this.onScreen = this.host.checkVisibility();
+        if (!this.onScreen) {
+            this.setVisibility(false);
+            return;
+        }
+
         if (this.hasAttribute("margin")) {
             if (this.getAttribute("margin").includes(",")) {
                 const parts = this.getAttribute("margin").split(",");
@@ -171,7 +178,7 @@ export class ToolTip extends HTMLElement {
                     this.syncPosition();
                 }
 
-                if (this.hovering) {
+                if (this.hovering && this.onScreen) {
                     this.setVisibility(true);
                 }
             }
