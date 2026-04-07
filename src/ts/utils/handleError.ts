@@ -5,8 +5,8 @@ export const handleError = (e: unknown) => {
     document.body.classList.add("error");
     const stackTrace = document.getElementById("stack-trace");
     stackTrace.textContent = e instanceof Error ? e.stack : String(e);
-    stackTrace.textContent += `\n\n ======== CONSOLE LOGS ======== \n\n` + Logger.getHistory();
-    stackTrace.textContent += `\n\n ======== SAVE FILE ======== \n\n` + localStorage.getItem(SAVE_FILE_NAME);
+    stackTrace.textContent += `\n\n ======== LOGS ======== \n\n` + Logger.getHistory();
+    stackTrace.textContent += `\n\n ======== SAVE ======== \n\n` + localStorage.getItem(SAVE_FILE_NAME);
     const copyButton = document.getElementById("error-screen-copy-button");
     copyButton.addEventListener("click", function () {
         copyButton.textContent = "Copied!";
