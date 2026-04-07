@@ -1,5 +1,6 @@
 import { PopoverElement } from "./elements/PopoverElement";
 import { ExportPopover } from "./popovers/ExportPopover";
+import { ImportPopover } from "./popovers/ImportPopover";
 
 class PopoverManager {
     private container: HTMLElement;
@@ -8,6 +9,7 @@ class PopoverManager {
     private initPopovers() {
         customElements.define("pop-over", PopoverElement);
         customElements.define("export-pop-over", ExportPopover);
+        customElements.define("import-pop-over", ImportPopover);
     }
 
     constructor() {

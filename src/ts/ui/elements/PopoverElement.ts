@@ -9,14 +9,15 @@ export interface PopoverButton {
 
 export class PopoverElement extends HTMLElement {
     private container: HTMLElement;
-    private callback: () => void;
+    private callback: () => boolean | void;
     protected buttons: PopoverButton[] = [];
     private popoverTitle: string;
     private content: string;
     private noDismiss: boolean;
 
-    constructor(title: string, content: string, noDismiss: boolean = false, buttons?: PopoverButton[], callback?: () => void) {
+    constructor(title: string, content: string, noDismiss: boolean = false, buttons?: PopoverButton[], callback?: () => boolean | void) {
         super();
+        this.setAttribute('data-popover', '');
         this.callback = callback ?? (() => {});
         this.popoverTitle = title;
         this.content = content;

@@ -24,6 +24,9 @@
     },
     "exportSave": "Export save",
     "importSave": "Import save",
+    "import": "Import",
+    "clipboardImport": "Import from clipboard",
+    "importPlaceholder": "Paste save data here...",
     "copy": "Copy to clipboard",
     "copied": "Copied!",
     "noEffect": "No effect"

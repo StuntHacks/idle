@@ -10,8 +10,9 @@ import Decimal from "break_eternity.js";
 import { Currency, useCurrency } from "game_logic/currencies/Currencies";
 import { Logger } from "utils/Logger";
 import { Numbers } from "numbers/numbers";
-import { initPopoverManager } from "./PopoverManager";
+import { initPopoverManager, usePopover } from "./PopoverManager";
 import { initNotifications } from "./NotificationManager";
+import { ImportPopover } from "./popovers/ImportPopover";
 
 export class UI {
     private static saveIndicator: HTMLElement;
@@ -80,6 +81,10 @@ export class UI {
     private static initializeBottomBar() {
         document.getElementById("save-button").addEventListener("click", () => {
             useSaveHandler().saveData();
+        });
+
+        document.getElementById("load-button").addEventListener("click", () => {
+            usePopover(new ImportPopover());
         });
 
         document.getElementById("settings-button").addEventListener("click", () => {

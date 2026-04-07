@@ -38,9 +38,9 @@ export class SaveHandler {
         );
     }
 
-    public loadData(): boolean {
+    public loadData(encoded?: string): boolean {
         Logger.log("SaveHandler", "Loading save file...");
-        let data = localStorage.getItem(SAVE_FILE_NAME);
+        let data = encoded || localStorage.getItem(SAVE_FILE_NAME);
         if (data === null) {
             Logger.log("SaveHandler", "No save data found!");
             this.reset();
@@ -90,6 +90,7 @@ export class SaveHandler {
     }
 
     public getEncoded(): string {
+        debugger;
         return this.encode(JSON.stringify({
             ...this.save,
             timestamp: Date.now(),
@@ -102,6 +103,7 @@ export class SaveHandler {
             this.saveCurrencies();
         }
 
+        debugger;
         let data = this.getEncoded();
         const last = localStorage.getItem(SAVE_FILE_NAME);
         if (last) localStorage.setItem(`${SAVE_FILE_NAME}_bak`, last);
