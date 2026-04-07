@@ -56,6 +56,7 @@ stage-tab {
     .tab-background {
         background-color: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         will-change: opacity;
     }
 

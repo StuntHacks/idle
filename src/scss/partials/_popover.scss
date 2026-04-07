@@ -44,6 +44,7 @@
         border-radius: 20px;
         padding: 20px 30px;
         backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         min-width: 300px;
         max-width: 80vw;
         max-height: 80vh;
