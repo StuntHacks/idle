@@ -296,6 +296,8 @@
       "electronGain": "Electron Gain",
       "quarkGain": "Quark Gain",
       "gluonGain": "Gluon Gain",
+      "fermionGain": "Fermion Gain",
+      "bosonGain": "Boson Gain",
       "fieldGain": "Field Particle Gain",
       "energyGain": "Energy Gain",
       "conversionSpeed": "Particle Conversion Speed",
@@ -316,6 +318,9 @@
         },
         "strongerFields": {
           "title": "Stronger Fields"
+        },
+        "fermionBoost": {
+          "title": "Fermion Boost"
         },
         "moreElectrons": {
           "title": "More Electrons"

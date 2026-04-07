@@ -56,9 +56,9 @@
                     "currency": "energy"
                 },
                 {
-                    "id": "stronger_fields_1",
-                    "title": "upgrades.quantum.energy.strongerFields.title",
-                    "target": "field_gain",
+                    "id": "fermion_boost_1",
+                    "title": "upgrades.quantum.energy.fermionBoost.title",
+                    "target": "fermion_gain",
                     "type": "multiplicative",
                     "amount": 4,
                     "cost": 1e11,
@@ -126,9 +126,9 @@
             ],
             "converters": [
                 {
-                    "id": "field_gain",
-                    "title": "stats.quantum.fieldGain",
-                    "target": "field_gain",
+                    "id": "fermion_gain",
+                    "title": "stats.quantum.fermionGain",
+                    "target": "fermion_gain",
                     "type": "multiplicative",
                     "continuous": true,
                     "curve": "logarithmic",

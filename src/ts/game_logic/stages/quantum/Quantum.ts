@@ -156,16 +156,19 @@ export class QuantumStage implements Stage {
 
     public static getParticleAmount(particle: ParticleModel): Decimal {
         if (particle.type === "quark") {
-            return useStat("quark_gain").total;
+            return useStat("quark_gain").total
+                    .multiply(useStat("fermion_gain").total);
         } else if (particle.type === "boson") {
             switch (particle.flavor) {
                 case "gluon":
-                    return useStat("gluon_gain").total;
+                    return useStat("gluon_gain").total
+                        .multiply(useStat("boson_gain").total);
             }
         } else if (particle.type === "lepton") {
             switch (particle.flavor) {
                 case "electron":
-                    return useStat("electron_gain").total;
+                    return useStat("electron_gain").total
+                        .multiply(useStat("fermion_gain").total);
             }
         }
 

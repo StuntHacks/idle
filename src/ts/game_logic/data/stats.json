@@ -15,6 +15,14 @@
         "base": 511000,
         "title": "stats.quantum.energyGain"
     },
+    "fermion_gain": {
+        "base": 1,
+        "title": "stats.quantum.fermionGain"
+    },
+    "boson_gain": {
+        "base": 1,
+        "title": "stats.quantum.bosonGain"
+    },
     "field_gain": {
         "base": 1,
         "title": "stats.quantum.fieldGain"
