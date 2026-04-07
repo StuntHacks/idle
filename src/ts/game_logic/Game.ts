@@ -10,7 +10,6 @@ import { initStatHandler } from "./StatHandler";
 import { initCurrencyHandler, useCurrencyHandler } from "./currencies/Currencies";
 import Decimal from "break_eternity.js";
 import { RenderClock } from "ui/RenderClock";
-import { handleError } from "utils/handleError";
 
 export interface Stage {
     update(tickLength: number, catchingUp: boolean): void;
@@ -25,6 +24,7 @@ class Game {
     private delta: number = 0;
     private stages: Stage[];
     private catchingUp: boolean = false;
+    private stopped: boolean = false;
 
     constructor() {
         initSaveHandler();
@@ -63,46 +63,47 @@ class Game {
         window.requestAnimationFrame(this.loop);
     }
 
+    public stop() {
+        this.stopped = true;
+    }
+
     private loop = (timestamp: number) => {
+        if (this.stopped) return;
         window.requestAnimationFrame(this.loop);
 
-        try {
-            if (this.lastTimestamp === undefined) {
-                this.lastTimestamp = timestamp;
-                this.delta = 0;
-                return;
-            }
-
-            if (this.catchingUp) {
-                this.lastTimestamp = timestamp;
-                return;
-            }
-
-            const elapsed = timestamp - this.lastTimestamp;
+        if (this.lastTimestamp === undefined) {
             this.lastTimestamp = timestamp;
-
-            if (elapsed > 5000) {
-                this.delta = 0;
-                this.calculateOfflineProgress(elapsed, true).then(() => {
-                    this.lastTimestamp = undefined;
-                });
-                return;
-            }
-
-            this.delta += elapsed;
-            if (this.delta > TICK_LENGTH * 10) {
-                Logger.debug("Game", `High delta: ${this.delta.toFixed(1)}ms (${(this.delta / TICK_LENGTH).toFixed(1)} ticks)`);
-            }
-
-            while (this.delta >= TICK_LENGTH) {
-                this.tick(TICK_LENGTH);
-                this.delta -= TICK_LENGTH;
-            }
-
-            RenderClock.alpha = this.delta / TICK_LENGTH;
-        } catch (e) {
-            handleError(e);
+            this.delta = 0;
+            return;
         }
+
+        if (this.catchingUp) {
+            this.lastTimestamp = timestamp;
+            return;
+        }
+
+        const elapsed = timestamp - this.lastTimestamp;
+        this.lastTimestamp = timestamp;
+
+        if (elapsed > 5000) {
+            this.delta = 0;
+            this.calculateOfflineProgress(elapsed, true).then(() => {
+                this.lastTimestamp = undefined;
+            });
+            return;
+        }
+
+        this.delta += elapsed;
+        if (this.delta > TICK_LENGTH * 10) {
+            Logger.debug("Game", `High delta: ${this.delta.toFixed(1)}ms (${(this.delta / TICK_LENGTH).toFixed(1)} ticks)`);
+        }
+
+        while (this.delta >= TICK_LENGTH) {
+            this.tick(TICK_LENGTH);
+            this.delta -= TICK_LENGTH;
+        }
+
+        RenderClock.alpha = this.delta / TICK_LENGTH;
     }
 
     private tick(tickLength: number) {

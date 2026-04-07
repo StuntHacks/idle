@@ -1,12 +1,43 @@
 import { handleError } from "utils/handleError";
-import { initGame } from "./game_logic/Game";
+import { initGame, useGame } from "./game_logic/Game";
 import { CustomElements } from "ui/CustomElements";
 import { UI } from "ui/UI";
 
 export const main = async () => {
-    window.addEventListener("unhandledrejection", (event) => handleError(event.reason));
-    window.onerror = (_message, _source, _lineno, _colno, error) => {
-        handleError(error);
+    // error handling
+    const nativeRaf = window.requestAnimationFrame.bind(window);
+    window.requestAnimationFrame = (callback: FrameRequestCallback): number => {
+        return nativeRaf((time: DOMHighResTimeStamp) => {
+            try {
+                callback(time);
+            } catch (e) {
+                handleError(e);
+                useGame().stop();
+            }
+        });
+    };
+    const nativeAddEventListener = EventTarget.prototype.addEventListener;
+    EventTarget.prototype.addEventListener = function(type, listener, options) {
+        if (typeof listener !== "function") {
+            return nativeAddEventListener.call(this, type, listener, options);
+        }
+        const wrapped = function(this: unknown, ...args: Parameters<typeof listener>) {
+            try {
+                return (listener as EventListener).apply(this, args);
+            } catch (e) {
+                handleError(e);
+                useGame().stop();
+            }
+        };
+        return nativeAddEventListener.call(this, type, wrapped, options);
+    };
+    window.addEventListener("unhandledrejection", (event) => {
+        handleError(event.reason);
+        useGame().stop();
+    });
+    window.onerror = (message, source, lineno, colno, error) => {
+        handleError(error ?? new Error(`${message} (${source}:${lineno}:${colno})`));
+        useGame().stop();
     };
     try {
         const game = initGame();
@@ -21,5 +52,6 @@ export const main = async () => {
         document.addEventListener("contextmenu", (e) => e.preventDefault());
     } catch (e) {
         handleError(e);
+        useGame().stop();
     }
 }
