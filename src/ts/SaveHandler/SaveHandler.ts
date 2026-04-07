@@ -90,7 +90,6 @@ export class SaveHandler {
     }
 
     public getEncoded(): string {
-        debugger;
         return this.encode(JSON.stringify({
             ...this.save,
             timestamp: Date.now(),
@@ -103,7 +102,6 @@ export class SaveHandler {
             this.saveCurrencies();
         }
 
-        debugger;
         let data = this.getEncoded();
         const last = localStorage.getItem(SAVE_FILE_NAME);
         if (last) localStorage.setItem(`${SAVE_FILE_NAME}_bak`, last);

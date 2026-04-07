@@ -19,13 +19,13 @@ export class ImportPopover extends PopoverElement {
 
         if (textarea.value) {
             useSaveHandler().loadData(textarea.value);
-            useSaveHandler().saveData();
+            useSaveHandler().saveData(true);
             location.reload();
         } else {
             navigator.clipboard.readText()
                 .then(text => {
                     useSaveHandler().loadData(text);
-                    useSaveHandler().saveData();
+                    useSaveHandler().saveData(true);
                     location.reload();
                 })
                 .catch(() => {});
