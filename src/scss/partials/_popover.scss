@@ -22,24 +22,21 @@
         transition: opacity 150ms;
     }
 
-    &:has(pop-over:not(.dismissed)),
-    &:has(export-pop-over:not(.dismissed)) {
+    &:has([data-popover]:not(.dismissed)) {
         pointer-events: all;
 
         &::before {
             opacity: 1;
         }
 
-        pop-over,
-        export-pop-over {
+        [data-popover] {
             &:not(.hidden) {
                 opacity: 1;
             }
         }
     }
 
-    pop-over,
-    export-pop-over {
+    [data-popover] {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -81,12 +78,41 @@
         }
     }
 
-    export-pop-over {
-        pre {
+    export-pop-overm,
+    import-pop-over {
+        pre,
+        textarea {
             white-space: normal;
             word-break: break-all;
             max-height: 200px;
             overflow-y: auto;
+        }
+    }
+
+    import-pop-over {
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            background-color: #0003;
+            border: none;
+            border-radius: 15px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: none;
+            height: 150px;
+            width: 600px;
+            max-width: 100%;
+
+            &:focus {
+                outline: none;
+            }
+
+            &::placeholder,
+            &::-webkit-input-placeholder {
+                user-select: none;
+            }
         }
     }
 }

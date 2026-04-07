@@ -38,10 +38,22 @@
                 flex-grow: 1;
                 width: 400px;
                 max-width: 100%;
-                min-height: 500px;
                 position: relative;
                 overflow-x: hidden;
                 overflow-y: auto;
+                flex-direction: column-reverse;
+                padding: 2rem 3rem;
+                max-height: 60vh;
+                display: flex;
+                flex-direction: column-reverse;
+                align-items: center;
+                gap: 3rem;
+                box-sizing: border-box;
+                scrollbar-width: none;
+                -webkit-scrollbar-width: none;
+                &::-webkit-scrollbar {
+                    display: none;
+                }
 
                 &::before {
                     content: "lock";
@@ -78,35 +90,58 @@
                     pointer-events: none;
                 }
 
+                .row {
+                    display: flex;
+                    justify-content: space-evenly;
+                    width: 100%;
+
+                    &:has(> :nth-child(3)) {
+                        justify-content: space-between;
+                    }
+                }
+
+                .spacer {
+                    width: 75px;
+                    height: 75px;
+                }
+
                 .node {
-                    position: absolute;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    cursor: pointer;
-                    border: 7px solid #fff3;
-                    background-color: #fff2;
+                    position: relative;
+                    border: 7px solid #9992;
+                    background-color: #9991;
+                    opacity: 0.7;
                     border-radius: 10px;
+                    // filter: blur(5px);
+                    // pointer-events: none;
                     width: 75px;
                     height: 75px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     overflow: hidden;
-                    transition-property: background-color, border-color, border-width, width, height;
+                    transition-property: background-color, border-color, border-width, width, height, opacity, filter;
                     transition-duration: 150ms;
                     box-sizing: border-box;
 
                     svg path {
-                        fill: #fff6;
+                        fill: #5556;
                         transition: fill 150ms;
                     }
 
-                    &.affordable {
+                    &.affordable,
+                    &.bought {
+                        cursor: pointer;
+                        border: 7px solid #fff3;
+                        background-color: #fff2;
+                        opacity: 1;
+                        filter: blur(0);
+                        pointer-events: auto;
+
                         svg path {
                             fill: #fffa;
                         }
 
-                        &:hover {
+                        &:not(.bought):hover {
                             svg path {
                                 fill: #fff;
                             }
@@ -133,6 +168,7 @@
                     &.bought {
                         border-width: 0;
                         background-color: transparent;
+                        cursor: default;
 
                         svg path {
                             fill: #fff;

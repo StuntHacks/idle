@@ -1,6 +1,7 @@
 import { handleError } from "utils/handleError";
 import { initGame } from "./game_logic/Game";
 import { CustomElements } from "ui/CustomElements";
+import { UI } from "ui/UI";
 
 export const main = async () => {
     window.addEventListener("unhandledrejection", (event) => handleError(event.reason));
@@ -16,6 +17,7 @@ export const main = async () => {
         });
 
         game.start();
+        UI.openSubTab("quantum-tab-forces");
         document.addEventListener("contextmenu", (e) => e.preventDefault());
     } catch (e) {
         handleError(e);
