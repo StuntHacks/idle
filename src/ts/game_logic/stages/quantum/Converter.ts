@@ -68,7 +68,7 @@ export class ParticleConverter {
                 useNotif({
                     title: useTranslation(`notifications.quantum.unlocks.converters.${this.color}`),
                     icon: "lock_open",
-                    onClick: () => UI.openSubTab("quantum-tab-energy")
+                    onClick: () => UI.switchSubTab("quantum-tab-energy")
                 });
             }
             if (this.locked) return;
@@ -123,7 +123,9 @@ export class ParticleConverter {
 
                 const cycles = Math.min(completedCycles, affordableCycles);
                 this.acc -= cycles * interval;
-                amount = this.committed.multiply(cycles);
+                amount = this.committed
+                    .multiply(useStat("converter_efficiency").total)
+                    .multiply(cycles);
 
                 if (currency.canSpend(input) && energy.canSpend(energyCost)) {
                     currency.spend(input);

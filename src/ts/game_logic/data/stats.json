@@ -43,6 +43,10 @@
         "base": 75,
         "title": "stats.quantum.conversionEnergyScaling"
     },
+    "converter_efficiency": {
+        "base": 75,
+        "title": "stats.quantum.converterEfficiency"
+    },
     "max_conversion_input": {
         "base": 1e9,
         "title": "stats.quantum.maxConversionInput"
