@@ -1,8 +1,10 @@
 const path = require("path");
 
+const isProduction = process.env.SOURCEMAP === "false";
+
 module.exports = {
-  mode: process.env.SOURCEMAP !== "false" ? "development" : "production",
-  devtool: process.env.SOURCEMAP === "false" ? false : "source-map",
+  mode: isProduction ? "production" : "development",
+  devtool: isProduction ? false : "inline-source-map",
   entry: {
     main: "./src/ts/index.ts",
   },
