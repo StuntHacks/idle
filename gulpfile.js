@@ -72,7 +72,7 @@ gulp.task("watch", function () {
   gulp.watch("src/html/**/*.html", gulp.series("html"));
   gulp.watch("package.json", gulp.series("html"));
   gulp.watch(
-    "src/assets/icons/**/*.svg",
+    ["src/assets/icons/**/*.svg", "!src/assets/icons/_sprite.svg"],
     { events: ["add", "unlink"] },
     gulp.series("build-svg-sprite", "html"),
   );
