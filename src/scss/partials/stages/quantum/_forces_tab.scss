@@ -123,8 +123,8 @@
                     transition-duration: 150ms;
                     box-sizing: border-box;
 
-                    svg path {
-                        fill: #5556;
+                    svg {
+                        color: #5556;
                         transition: fill 150ms;
                     }
 
@@ -136,13 +136,13 @@
                         opacity: 1;
                         filter: blur(0);
 
-                        svg path {
-                            fill: #fffa;
+                        svg {
+                            color: #fffa;
                         }
 
                         &:not(.bought):hover {
-                            svg path {
-                                fill: #fff;
+                            svg {
+                                color: #fff;
                             }
 
                             background-color: #fff5;
@@ -169,8 +169,8 @@
                         background-color: transparent;
                         cursor: default;
 
-                        svg path {
-                            fill: #fff;
+                        svg {
+                            color: #fff;
                         }
 
                         &::after {

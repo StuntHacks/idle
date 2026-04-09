@@ -1,6 +1,5 @@
 import { handleError } from "utils/handleError";
 import { initGame, useGame } from "./game_logic/Game";
-import { CustomElements } from "ui/CustomElements";
 import { UI } from "ui/UI";
 
 export const main = async () => {
@@ -41,7 +40,6 @@ export const main = async () => {
     };
     try {
         const game = initGame();
-        CustomElements.initialize();
 
         document.getElementById("magic-button").addEventListener("click", () => {
             game.timeskip(3 * 3600);

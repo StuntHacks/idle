@@ -10,6 +10,7 @@ import { initStatHandler } from "./StatHandler";
 import { initCurrencyHandler, useCurrencyHandler } from "./currencies/Currencies";
 import Decimal from "break_eternity.js";
 import { RenderClock } from "ui/RenderClock";
+import { CustomElements } from "ui/CustomElements";
 
 export interface Stage {
     update(tickLength: number, catchingUp: boolean): void;
@@ -34,6 +35,7 @@ class Game {
         UI.initialize();
 
         this.stages = [new QuantumStage()];
+        CustomElements.initialize();
 
         // todo: implement better close-handling (this can overwrite offline time with a fresh save on mobile)
         // window.addEventListener("beforeunload", () => {

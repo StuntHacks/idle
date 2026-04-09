@@ -97,7 +97,7 @@ nav.main-nav {
             animation: flash 300ms ease-out 1;
         }
 
-        path {
+        svg use {
             transition: filter 150ms;
         }
 
@@ -112,8 +112,10 @@ nav.main-nav {
         &.active {
             color: var(--color-navigation-active);
 
-            path {
-                filter: drop-shadow(3px 3px 24px rgba(0, 0, 0, .7));
+            svg {
+                use {
+                    filter: drop-shadow(0 0 3px rgba(0, 0, 0, .6));
+                }
             }
         }
 

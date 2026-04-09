@@ -1,15 +1,12 @@
-svg {
+svg-icon {
     --icon-color: currentcolor;
     --size: 50px;
 
-    width: var(--size);
-    height: var(--size);
-
-    & > path {
-        display: none;
-    }
-
-    path, g {
-        fill: var(--icon-color);
+    &,
+    svg {
+        overflow: visible;
+        width: var(--size);
+        height: var(--size);
+        color: var(--icon-color);
     }
 }

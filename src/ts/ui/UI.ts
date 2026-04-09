@@ -250,4 +250,12 @@ export class UI {
             }
         }
     }
+
+    public static createIcon(name: string): SVGElement {
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+        use.setAttribute("href", `#${name}`);
+        svg.appendChild(use);
+        return svg;
+    }
 }

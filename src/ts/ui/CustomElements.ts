@@ -6,6 +6,7 @@ import { StatInfoElement } from "./elements/StatInfoElement";
 import { StageTabElement } from "./elements/StageTabElement";
 import { ToolTip } from "./elements/ToolTip";
 import { UpgradeElement } from "./elements/UpgradeElement";
+import { IconElement } from "./elements/IconElement";
 
 export class CustomElements {
     public static initialize() {
@@ -17,5 +18,6 @@ export class CustomElements {
         customElements.define("stat-info", StatInfoElement);
         customElements.define("game-time", GameTimeElement);
         customElements.define("change-log", ChangeLogElement);
+        customElements.define("svg-icon", IconElement);
     }
 }
