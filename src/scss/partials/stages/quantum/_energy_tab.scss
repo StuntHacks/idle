@@ -5,6 +5,7 @@
         display: flex;
         padding: 76px 30px;
         gap: 50px;
+        padding-bottom: 50px;
 
         .info {
             cursor: pointer;
@@ -24,6 +25,7 @@
             position: sticky;
             top: 0;
             min-width: 370px;
+            margin-bottom: 26px;
 
             .energy-amount {
                 display: flex;
