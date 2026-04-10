@@ -246,6 +246,11 @@
                         pointer-events: none;
                         transition: opacity 150ms;
 
+                        .input-section {
+                            display: flex;
+                            align-items: center;
+                        }
+
                         .input {
                             border-radius: 6px;
                             background-color: hsla(0, 0%, 100%, .05);

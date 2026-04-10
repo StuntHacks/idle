@@ -33,6 +33,11 @@
         "base": 1,
         "title": "stats.quantum.fieldGain"
     },
+    "manual_excitation_interval_divisor": {
+        "base": 1,
+        "title": "stats.quantum.manualExcitationIntervalDivisor",
+        "icon": "stat-manual_excitation"
+    },
     "conversion_speed": {
         "base": 1,
         "title": "stats.quantum.conversionSpeed",
