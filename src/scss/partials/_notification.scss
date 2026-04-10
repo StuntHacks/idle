@@ -36,6 +36,22 @@
         cursor: pointer;
         transition: transform 300ms, opacity 300ms, background-color 150ms, margin-bottom 300ms;
         animation: notif-slide-in 150ms ease-out;
+        display: flex;
+        gap: 1rem;
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            &:has(p) {
+                align-items: flex-start;
+            }
+        }
+
+        &:has(svg-icon) {
+            max-width: 366px;
+        }
 
         &.dismissed {
             animation: none;

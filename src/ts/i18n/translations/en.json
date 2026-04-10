@@ -339,6 +339,18 @@
           "title": "Particle Converters",
           "effect": "Unlocks particle conversion"
         }
+      },
+      "forces": {
+        "strong": {
+          "atomicGlue": {
+            "title": "Atomic Glue",
+            "effect": "Unlocks the gluon field"
+          },
+          "preconfinement": {
+            "title": "Preconfinement",
+            "effect": "Gluons multiply converter efficiency by $0"
+          }
+        }
       }
     }
   },

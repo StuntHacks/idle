@@ -38,6 +38,8 @@ export const main = async () => {
         handleError(error ?? new Error(`${message} (${source}:${lineno}:${colno})`));
         useGame().stop();
     };
+
+    // start game
     try {
         const game = initGame();
 

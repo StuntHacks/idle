@@ -2,7 +2,6 @@ import { useSave, useSaveHandler } from "SaveHandler/SaveHandler";
 import { OfflineProgressUI } from "./OfflineProgress";
 import { QuantumUI } from "./stages/Quantum";
 import { Utils } from "utils/utils";
-import { TranslatedElement } from "./elements/TranslatedElement";
 import { StageTabElement } from "./elements/StageTabElement";
 import { SettingsUI } from "./Settings";
 import { useSettings } from "utils/SettingsHandler";
@@ -13,6 +12,7 @@ import { Numbers } from "numbers/numbers";
 import { initPopoverManager, usePopover } from "./PopoverManager";
 import { initNotifications } from "./NotificationManager";
 import { ImportPopover } from "./popovers/ImportPopover";
+import { CustomElements } from "./CustomElements";
 
 export class UI {
     private static saveIndicator: HTMLElement;
@@ -23,7 +23,7 @@ export class UI {
     private static currencyContainerMap = new Map<string, HTMLElement>();
 
     public static initialize() {
-        customElements.define("translated-string", TranslatedElement);
+        CustomElements.initialize();
         this.saveIndicator = document.getElementById("save-notif");
         window.requestAnimationFrame(UI.animate);
 
@@ -39,10 +39,18 @@ export class UI {
         for (let i = 0; i < sidescrollers.length; i++) {
             const element = sidescrollers[i];
             element.addEventListener('wheel', (event: WheelEvent) => {
-                if (event.deltaY !== 0) {
-                    event.preventDefault();
-                    element.scrollLeft += event.deltaY / 2;
+                if (event.deltaY === 0) return;
+
+                const exceptions = `
+                    force-tree .section
+                `;
+                const inner = (event.target as HTMLElement).closest(exceptions);
+                if (inner && inner !== element) {
+                    return;
                 }
+
+                event.preventDefault();
+                element.scrollLeft += event.deltaY * 0.75;
             }, { passive: false });
         }
 

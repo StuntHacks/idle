@@ -1,27 +1,33 @@
 {
     "electron_gain": {
         "base": 1,
-        "title": "stats.quantum.electronGain"
+        "title": "stats.quantum.electronGain",
+        "icon": "resource-electron"
     },
     "quark_gain": {
         "base": 1,
-        "title": "stats.quantum.quarkGain"
+        "title": "stats.quantum.quarkGain",
+        "icon": "resource-quark"
     },
     "gluon_gain": {
         "base": 1,
-        "title": "stats.quantum.gluonGain"
+        "title": "stats.quantum.gluonGain",
+        "icon": "resource-gluon"
     },
     "energy_gain": {
         "base": 511000,
-        "title": "stats.quantum.energyGain"
+        "title": "stats.quantum.energyGain",
+        "icon": "resource-energy"
     },
     "fermion_gain": {
         "base": 1,
-        "title": "stats.quantum.fermionGain"
+        "title": "stats.quantum.fermionGain",
+        "icon": "resource-fermion"
     },
     "boson_gain": {
         "base": 1,
-        "title": "stats.quantum.bosonGain"
+        "title": "stats.quantum.bosonGain",
+        "icon": "resource-boson"
     },
     "field_gain": {
         "base": 1,
@@ -29,27 +35,32 @@
     },
     "conversion_speed": {
         "base": 1,
-        "title": "stats.quantum.conversionSpeed"
+        "title": "stats.quantum.conversionSpeed",
+        "icon": "stat-conversion_speed"
     },
     "conversion_input": {
         "base": 1,
-        "title": "stats.quantum.conversionInput"
+        "title": "stats.quantum.conversionInput",
+        "icon": "stat-conversion_input"
     },
     "conversion_energy_cost": {
         "base": 1e9,
-        "title": "stats.quantum.conversionEnergyCost"
+        "title": "stats.quantum.conversionEnergyCost",
+        "icon": "stat-energy_cost"
     },
     "conversion_energy_scaling": {
         "base": 75,
-        "title": "stats.quantum.conversionEnergyScaling"
+        "title": "stats.quantum.conversionEnergyScaling",
+        "icon": "stat-energy_cost"
     },
     "converter_efficiency": {
         "base": 75,
         "title": "stats.quantum.converterEfficiency"
     },
     "max_conversion_input": {
-        "base": 1e9,
-        "title": "stats.quantum.maxConversionInput"
+        "base": 1e4,
+        "title": "stats.quantum.maxConversionInput",
+        "icon": "stat-conversion_input"
     },
     "max_converters": {
         "base": 1,

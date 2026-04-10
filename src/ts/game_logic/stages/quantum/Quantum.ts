@@ -18,6 +18,8 @@ import { UpgradeElement } from "ui/elements/UpgradeElement";
 import { useNotif } from "ui/NotificationManager";
 import { useTranslation } from "i18n/i18n";
 import { UI } from "ui/UI";
+import { ForceTreeElement } from "ui/elements/quantum/ForceTreeElement";
+import { UpgradeNodeElement } from "ui/elements/quantum/UpgradeNodeElement";
 
 export interface QuantumStageUnlocks {
     forces: boolean;
@@ -60,6 +62,8 @@ export class QuantumStage implements Stage {
         customElements.define("fluctuator-block", FluctuatorElement);
         customElements.define("quantum-field", QuantumFieldElement);
         customElements.define("particle-converter", ConverterElement);
+        customElements.define("upgrade-node", UpgradeNodeElement);
+        customElements.define("force-tree", ForceTreeElement);
         this.initializeFields();
 
         const converters = useSave((s) => s.stages.quantum.converters) ?? [];

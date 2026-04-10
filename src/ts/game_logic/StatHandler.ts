@@ -105,6 +105,7 @@ class StatHandler {
                 .multiply(additiveMultiplicative)
                 .multiply(continuousMultiplicative)
                 .multiply(continuousAdditiveMultiplicative),
+            icon: def.icon,
         };
     }
 
@@ -243,6 +244,7 @@ class StatHandler {
                 additiveMultiplicative: new Decimal(1),
                 continuousMultiplicative: new Decimal(1),
                 total: new Decimal(def.base),
+                icon: def.icon,
             };
             this.update(stat);
         }
@@ -279,6 +281,7 @@ export interface Stat {
     additiveMultiplicative: Decimal;
     continuousMultiplicative: Decimal;
     total: Decimal;
+    icon?: string;
 }
 
 interface StatData {
@@ -288,4 +291,5 @@ interface StatData {
 interface StatDef {
     base: number;
     title: string;
+    icon?: string;
 }

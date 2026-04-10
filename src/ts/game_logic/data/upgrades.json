@@ -162,6 +162,114 @@
                     "scale": 0.25
                 }
             ]
+        },
+        "forces": {
+            "strong": {
+                "upgrades": [
+                    {
+                        "id": "atomic_glue",
+                        "title": "upgrades.quantum.forces.strong.atomicGlue.title",
+                        "effect": "upgrades.quantum.forces.strong.atomicGlue.effect",
+                        "target": "quantum.gluons_unlocked",
+                        "type": "flag",
+                        "cost": 3.33e5,
+                        "currency": "quarks-red,quarks-green,quarks-blue",
+                        "icon": "resource-gluon"
+                    },
+                    {
+                        "id": "fermion_gain_1",
+                        "title": "stats.quantum.fermionGain",
+                        "target": "fermion_gain",
+                        "type": "multiplicative",
+                        "amount": 1.2,
+                        "cost": 100,
+                        "costScaling": 1.1,
+                        "levels": 10,
+                        "currency": "bosons-gluon",
+                        "requirements": ["atomic_glue"]
+                    },
+                    {
+                        "id": "boson_gain_1",
+                        "title": "stats.quantum.bosonGain",
+                        "target": "boson_gain",
+                        "type": "additive",
+                        "amount": 1,
+                        "cost": 10,
+                        "costScaling": 1.1,
+                        "levels": 10,
+                        "currency": "bosons-gluon",
+                        "requirements": ["atomic_glue"]
+                    },
+                    {
+                        "id": "conversion_energy_scaling_1",
+                        "title": "stats.quantum.conversionEnergyScaling",
+                        "target": "conversion_energy_scaling",
+                        "type": "multiplicative",
+                        "cost": 1000,
+                        "amount": 0.95,
+                        "costScaling": 1.1,
+                        "levels": 10,
+                        "currency": "bosons-gluon",
+                        "requirements": ["fermion_gain_1", "boson_gain_1"]
+                    },
+                    {
+                        "id": "conversion_speed_1",
+                        "title": "stats.quantum.conversionSpeed",
+                        "target": "conversion_speed",
+                        "type": "multiplicative",
+                        "cost": 2000,
+                        "amount": 0.975,
+                        "costScaling": 1.1,
+                        "levels": 10,
+                        "currency": "bosons-gluon",
+                        "requirements": ["conversion_energy_scaling_1"]
+                    },
+                    {
+                        "id": "max_conversion_input_1",
+                        "title": "stats.quantum.maxConversionInput",
+                        "target": "max_conversion_input",
+                        "type": "multiplicative",
+                        "cost": 1500,
+                        "amount": 10,
+                        "costScaling": 10,
+                        "levels": 3,
+                        "currency": "bosons-gluon",
+                        "requirements": ["conversion_energy_scaling_1"]
+                    },
+                    {
+                        "id": "preconfinement",
+                        "title": "upgrades.quantum.forces.strong.preconfinement.title",
+                        "effect": "upgrades.quantum.forces.strong.preconfinement.effect",
+                        "target": "quantum.preconfinement",
+                        "type": "flag",
+                        "cost": 3.33e5,
+                        "currency": "quarks-red,quarks-green,quarks-blue",
+                        "requirements": ["max_conversion_input_1", "conversion_speed_1"],
+                        "icon": "stat-conversion_efficiency"
+                    }
+                ],
+                "layout": [
+                    ["atomic_glue"],
+                    ["fermion_gain_1", "boson_gain_1"],
+                    ["conversion_speed_1", "conversion_energy_scaling_1", "max_conversion_input_1"],
+                    ["preconfinement"],
+                    ["", ""],
+                    ["", ""],
+                    ["", null, ""],
+                    [""],
+                    ["", ""],
+                    ["", null, ""],
+                    [""]
+                ]
+            },
+            "weak": {
+                "upgrades": [],
+                "layout": []
+            },
+            "electromagnetic": {
+                "upgrades": [],
+                "layout": []
+            }
         }
     }
 }

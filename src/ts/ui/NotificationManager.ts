@@ -1,7 +1,10 @@
+import { IconElement } from "./elements/IconElement";
+
 export interface NotificationModel {
     title: string;
     content?: string;
     icon?: string;
+    svg?: string;
     onClick?: () => void;
 }
 
@@ -15,6 +18,8 @@ class NotificationManager {
     public show(notification: NotificationModel) {
         const element = document.createElement("div");
         element.className = "notification";
+        const content = document.createElement("div");
+        content.className = "content";
 
         const title = document.createElement("span");
         title.classList.add("title");
@@ -27,13 +32,20 @@ class NotificationManager {
             title.prepend(icon);
         }
 
-        element.appendChild(title);
+        content.appendChild(title);
+        
+        if (notification.svg) {
+            const icon = new IconElement(notification.svg);
+            element.prepend(icon);
+        }
 
         if (notification.content) {
-            const content = document.createElement("p");
-            content.textContent = notification.content;
-            element.appendChild(content);
+            const paragraph = document.createElement("p");
+            paragraph.textContent = notification.content;
+            content.appendChild(paragraph);
         }
+
+        element.appendChild(content);
 
         const dismiss = () => {
             element.classList.add("dismissed");

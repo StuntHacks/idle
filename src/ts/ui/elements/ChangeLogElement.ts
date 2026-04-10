@@ -1,4 +1,4 @@
-import changelog from "../../game_logic/data/changelog.json";
+import changelog from "game_logic/data/changelog.json";
 
 interface ChangeLogEntry {
     version: string;

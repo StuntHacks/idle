@@ -27,6 +27,7 @@ gulp.task("build-svg-sprite", function () {
             .replace(/style="[^"]*"/g, "")
             .replace(/\sfill="[^"]*"/g, "")
             .replace(/\sfill-opacity="[^"]*"/g, "")
+            .replace("font- ", "")
             .replace('<path d="M0 0h512v512H0z"></path>', "")
             .replace(/<path/g, '<path fill="currentColor"')
             .replace(

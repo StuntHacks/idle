@@ -1,6 +1,6 @@
 import { FieldsTabUI } from "ui/stages/quantum/FieldsTab";
-import { UI } from "../../UI";
-import { Wave } from "../../stages/quantum/Wave";
+import { UI } from "ui/UI";
+import { Wave } from "ui/stages/quantum/Wave";
 import { FieldModel } from "game_logic/stages/quantum/Field";
 import { TranslatedElement } from "../TranslatedElement";
 import { usePopoverManager } from "ui/PopoverManager";

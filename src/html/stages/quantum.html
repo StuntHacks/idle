@@ -33,14 +33,8 @@
         </span>
     </nav>
     <section class="tab-background"></section>
-    <section class="tab" data-tab="energy">
-        @include('./quantum/energy_tab.html')
-    </section>
-    <section class="tab" data-tab="forces">
-        @include('./quantum/forces_tab.html')
-    </section>
-    <section class="tab" data-tab="fields">
-        @include('./quantum/fields_tab.html')
-    </section>
+    @include('./quantum/energy_tab.html')
+    @include('./quantum/forces_tab.html')
+    @include('./quantum/fields_tab.html')
     <div class="fields stage-main-content" id="quantum-fields-container"></div>
 </stage-tab>

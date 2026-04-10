@@ -17,17 +17,23 @@
         display: flex;
         padding: 76px 30px;
         gap: 50px;
-        justify-content: center;
         padding-right: 2rem;
         padding-left: 2rem;
-        flex-wrap: wrap;
 
-        .tree {
+        force-tree {
             flex-basis: 25%;
             flex-grow: 0;
             display: flex;
             flex-direction: column;
             max-width: 400px;
+
+            &:first-of-type {
+                margin-left: auto;
+            }
+
+            &:last-of-type {
+                margin-right: auto;
+            }
 
             .title {
                 text-align: center;
@@ -105,14 +111,21 @@
                     height: 75px;
                 }
 
-                .node {
+                .connections {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: -1;
+                    opacity: 0.5;
+                }
+
+                upgrade-node {
                     position: relative;
-                    border: 7px solid #9992;
                     background-color: #9991;
                     opacity: 0.7;
                     border-radius: 10px;
-                    // filter: blur(5px);
-                    // pointer-events: none;
                     width: 75px;
                     height: 75px;
                     display: flex;
@@ -125,13 +138,12 @@
 
                     svg {
                         color: #5556;
-                        transition: fill 150ms;
+                        transition: color 150ms;
                     }
 
                     &.affordable,
                     &.bought {
                         cursor: pointer;
-                        border: 7px solid #fff3;
                         background-color: #fff2;
                         opacity: 1;
                         filter: blur(0);
@@ -145,7 +157,7 @@
                                 color: #fff;
                             }
 
-                            background-color: #fff5;
+                            background-color: #fff4;
                         }
                     }
 
@@ -174,13 +186,13 @@
                         }
 
                         &::after {
-                            --radial-fade-fade: 300%;
+                            --radial-fade-fade: 500%;
                         }
                     }
                 }
             }
 
-            &.locked {
+            &[locked] {
                 .section {
                     overflow-y: hidden;
                     pointer-events: none;
@@ -191,31 +203,46 @@
                 }
             }
 
-            &.strong .node::after {
+            &.strong upgrade-node::after {
                 @include gradient-gluon;
             }
 
-            &.electromagnetic .node::after {
+            &.electromagnetic upgrade-node::after {
                 @include gradient-photon;
             }
 
-            &.weak .node::after {
+            &.weak upgrade-node::after {
                 @include gradient-weak;
             }
         }
 
-        @media screen and (max-width: 535px) {
+        @media screen and (max-width: 499px) {
+            flex-direction: column;
             padding-right: 0;
             padding-left: 0;
 
-            .tree {
+            force-tree {
                 width: 100%;
                 flex-basis: 100%;
+                max-width: 100%;
+                &:first-of-type {
+                    margin-left: 0;
+                }
+
+                &:last-of-type {
+                    margin-right: 0;
+                }
 
                 .section {
                     width: 100%;
                     border-radius: 0;
                 }
+            }
+        }
+
+        @media screen and (max-width: 379px) {
+            force-tree .section {
+                padding: 1.5rem;
             }
         }
     }

@@ -52,6 +52,8 @@ export interface UpgradeDef {
     levels?: number;
     currency: string;
     continuous?: false;
+    icon?: string;
+    requirements?: string[];
 }
 
 export interface ContinuousUpgradeDef {
@@ -64,6 +66,8 @@ export interface ContinuousUpgradeDef {
     continuous: true;
     curve: string;
     scale: number;
+    icon?: string;
+    requirements?: string[];
 }
 
 export type AnyUpgradeDef = UpgradeDef | ContinuousUpgradeDef;

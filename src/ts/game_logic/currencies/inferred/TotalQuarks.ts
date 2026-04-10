@@ -2,7 +2,7 @@ import Decimal from "break_eternity.js";
 import { AggregateCurrency } from "../AggregateCurrency";
 import { useCurrencyHandler, InferredCurrency } from "../Currencies";
 import { QuarkColor } from "./QuarkColor";
-import currencyData from "../../data/currencies.json";
+import currencyData from "game_logic/data/currencies.json";
 
 const COLOR_HASHES = ["quarks-red", "quarks-green", "quarks-blue"] as const;
 

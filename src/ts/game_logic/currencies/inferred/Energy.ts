@@ -3,7 +3,7 @@ import { CurrencyHandler, CurrencyCallback, InferredCurrencyCallback } from "../
 import { InferredCurrency } from "../InferredCurrency";
 import Decimal from "break_eternity.js";
 import { useStat } from "game_logic/StatHandler";
-import currencyData from "../../data/currencies.json";
+import currencyData from "game_logic/data/currencies.json";
 
 export class Energy extends InferredCurrency {
     private amount = new Decimal(0);
