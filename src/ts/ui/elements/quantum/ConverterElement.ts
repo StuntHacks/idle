@@ -9,9 +9,9 @@ const SPIN_KEYFRAMES: Keyframe[] = [
 ];
 
 const ICON_KEYFRAMES: Keyframe[][] = [
-    [{ transform: 'rotate(-45deg) translateY(-40px) rotate(0deg)' }, { transform: 'rotate(-45deg) translateY(-40px) rotate(-360deg)' }],
-    [{ transform: 'rotate(-45deg) rotate(120deg) translateY(-40px) rotate(-120deg)' }, { transform: 'rotate(-45deg) rotate(120deg) translateY(-40px) rotate(-480deg)' }],
-    [{ transform: 'rotate(-45deg) rotate(240deg) translateY(-40px) rotate(-240deg)' }, { transform: 'rotate(-45deg) rotate(240deg) translateY(-40px) rotate(-600deg)' }],
+    [{ transform: 'rotate(-45deg) translateY(-35px) rotate(0deg)' }, { transform: 'rotate(-45deg) translateY(-35px) rotate(-360deg)' }],
+    [{ transform: 'rotate(-45deg) rotate(120deg) translateY(-35px) rotate(-120deg)' }, { transform: 'rotate(-45deg) rotate(120deg) translateY(-35px) rotate(-480deg)' }],
+    [{ transform: 'rotate(-45deg) rotate(240deg) translateY(-35px) rotate(-240deg)' }, { transform: 'rotate(-45deg) rotate(240deg) translateY(-35px) rotate(-600deg)' }],
 ];
 
 export class ConverterElement extends HTMLElement {
