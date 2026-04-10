@@ -138,7 +138,7 @@
 
                     svg {
                         color: #5556;
-                        transition: color 150ms;
+                        transition: color 150ms, opacity 150ms;
                     }
 
                     &.affordable,
@@ -199,6 +199,18 @@
 
                     &::before {
                         opacity: 1;
+                    }
+
+                    .connections {
+                        opacity: 0.075;
+                    }
+
+                    upgrade-node {
+                        opacity: 0.4;
+
+                        svg {
+                            opacity: 0;
+                        }
                     }
                 }
             }
