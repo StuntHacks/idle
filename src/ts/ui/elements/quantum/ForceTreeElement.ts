@@ -7,6 +7,7 @@ export class ForceTreeElement extends HTMLElement {
     private sectionElement: HTMLElement;
     private upgrades: UpgradeDef[];
     private layout: (string | null)[][];
+    private resizeObserver: ResizeObserver;
 
     constructor() {
         super();
@@ -94,5 +95,12 @@ export class ForceTreeElement extends HTMLElement {
         this.layout = data?.layout;
         this.populateUpgrades();
         this.drawConnections();
+
+        this.resizeObserver = new ResizeObserver(() => this.drawConnections());
+        this.resizeObserver.observe(this.sectionElement);
+    }
+
+    disconnectedCallback() {
+        this.resizeObserver?.disconnect();
     }
 }
