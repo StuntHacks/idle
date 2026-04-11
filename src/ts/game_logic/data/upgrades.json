@@ -8,7 +8,7 @@
                     "target": "electron_gain",
                     "type": "additive",
                     "amount": 2,
-                    "cost": 5e6,
+                    "cost": 5000000,
                     "costScaling": 1.2,
                     "levels": 10,
                     "currency": "energy"
@@ -19,7 +19,7 @@
                     "target": "energy_gain",
                     "type": "multiplicative",
                     "amount": 1.2,
-                    "cost": 6e6,
+                    "cost": 6000000,
                     "costScaling": 1.5,
                     "levels": 10,
                     "currency": "energy"
@@ -30,7 +30,7 @@
                     "effect": "upgrades.quantum.energy.quantumFluctuations.effect",
                     "target": "quantum.fluctuators.f0",
                     "type": "flag",
-                    "cost": 1e9,
+                    "cost": 1000000000,
                     "currency": "energy"
                 },
                 {
@@ -39,7 +39,7 @@
                     "target": "quark_gain",
                     "type": "additive",
                     "amount": 2,
-                    "cost": 1.5e9,
+                    "cost": 1500000000,
                     "costScaling": 1.2,
                     "levels": 10,
                     "currency": "energy"
@@ -50,7 +50,7 @@
                     "target": "electron_gain",
                     "type": "multiplicative",
                     "amount": 1.5,
-                    "cost": 2e9,
+                    "cost": 2000000000,
                     "costScaling": 1.5,
                     "levels": 10,
                     "currency": "energy"
@@ -61,7 +61,7 @@
                     "target": "fermion_gain",
                     "type": "multiplicative",
                     "amount": 4,
-                    "cost": 1e11,
+                    "cost": 100000000000,
                     "costScaling": 50,
                     "levels": 3,
                     "currency": "energy"
@@ -74,7 +74,7 @@
                     "target": "fluctuator_speed_1",
                     "type": "additive",
                     "amount": 1,
-                    "cost": 1e9,
+                    "cost": 1000000000,
                     "costScaling": 4,
                     "levels": 18,
                     "currency": "energy"
@@ -85,7 +85,7 @@
                     "target": "fluctuator_speed_2",
                     "type": "additive",
                     "amount": 1,
-                    "cost": 1e9,
+                    "cost": 1000000000,
                     "costScaling": 4,
                     "levels": 18,
                     "currency": "energy"
@@ -96,7 +96,7 @@
                     "target": "fluctuator_speed_3",
                     "type": "additive",
                     "amount": 1,
-                    "cost": 1e9,
+                    "cost": 1000000000,
                     "costScaling": 4,
                     "levels": 18,
                     "currency": "energy"
@@ -107,7 +107,7 @@
                     "target": "fluctuator_speed_4",
                     "type": "additive",
                     "amount": 1,
-                    "cost": 1e9,
+                    "cost": 1000000000,
                     "costScaling": 4,
                     "levels": 18,
                     "currency": "energy"
@@ -118,7 +118,7 @@
                     "target": "fluctuator_speed_5",
                     "type": "additive",
                     "amount": 1,
-                    "cost": 1e9,
+                    "cost": 1000000000,
                     "costScaling": 4,
                     "levels": 18,
                     "currency": "energy"
@@ -172,7 +172,7 @@
                         "effect": "upgrades.quantum.forces.strong.atomicGlue.effect",
                         "target": "quantum.gluons_unlocked",
                         "type": "flag",
-                        "cost": 3.33e5,
+                        "cost": 333000,
                         "currency": "quarks-red,quarks-green,quarks-blue",
                         "icon": "resource-gluon"
                     },
@@ -186,7 +186,9 @@
                         "costScaling": 1.1,
                         "levels": 10,
                         "currency": "bosons-gluon",
-                        "requirements": ["atomic_glue"]
+                        "requirements": [
+                            "atomic_glue"
+                        ]
                     },
                     {
                         "id": "boson_gain_1",
@@ -198,7 +200,9 @@
                         "costScaling": 1.1,
                         "levels": 10,
                         "currency": "bosons-gluon",
-                        "requirements": ["atomic_glue"]
+                        "requirements": [
+                            "atomic_glue"
+                        ]
                     },
                     {
                         "id": "conversion_energy_scaling_1",
@@ -210,7 +214,10 @@
                         "costScaling": 1.1,
                         "levels": 10,
                         "currency": "bosons-gluon",
-                        "requirements": ["fermion_gain_1", "boson_gain_1"]
+                        "requirements": [
+                            "fermion_gain_1",
+                            "boson_gain_1"
+                        ]
                     },
                     {
                         "id": "conversion_speed_1",
@@ -222,7 +229,9 @@
                         "costScaling": 1.1,
                         "levels": 10,
                         "currency": "bosons-gluon",
-                        "requirements": ["conversion_energy_scaling_1"]
+                        "requirements": [
+                            "conversion_energy_scaling_1"
+                        ]
                     },
                     {
                         "id": "max_conversion_input_1",
@@ -234,7 +243,9 @@
                         "costScaling": 10,
                         "levels": 3,
                         "currency": "bosons-gluon",
-                        "requirements": ["conversion_energy_scaling_1"]
+                        "requirements": [
+                            "conversion_energy_scaling_1"
+                        ]
                     },
                     {
                         "id": "preconfinement",
@@ -242,24 +253,59 @@
                         "effect": "upgrades.quantum.forces.strong.preconfinement.effect",
                         "target": "quantum.preconfinement",
                         "type": "flag",
-                        "cost": 3.33e5,
+                        "cost": 333000,
                         "currency": "quarks-red,quarks-green,quarks-blue",
-                        "requirements": ["max_conversion_input_1", "conversion_speed_1"],
+                        "requirements": [
+                            "max_conversion_input_1",
+                            "conversion_speed_1"
+                        ],
                         "icon": "stat-conversion_efficiency"
                     }
                 ],
                 "layout": [
-                    ["atomic_glue"],
-                    ["fermion_gain_1", "boson_gain_1"],
-                    ["conversion_speed_1", "conversion_energy_scaling_1", "max_conversion_input_1"],
-                    ["preconfinement"],
-                    ["", ""],
-                    ["", ""],
-                    ["", null, ""],
-                    [""],
-                    ["", ""],
-                    ["", null, ""],
-                    [""]
+                    [
+                        "atomic_glue"
+                    ],
+                    [
+                        "fermion_gain_1",
+                        "boson_gain_1"
+                    ],
+                    [
+                        "conversion_speed_1",
+                        "conversion_energy_scaling_1",
+                        "max_conversion_input_1"
+                    ],
+                    [
+                        "preconfinement"
+                    ],
+                    [
+                        "",
+                        ""
+                    ],
+                    [
+                        "",
+                        ""
+                    ],
+                    [
+                        "",
+                        null,
+                        ""
+                    ],
+                    [
+                        ""
+                    ],
+                    [
+                        "",
+                        ""
+                    ],
+                    [
+                        "",
+                        null,
+                        ""
+                    ],
+                    [
+                        ""
+                    ]
                 ]
             },
             "weak": {
