@@ -16,6 +16,7 @@ particle-converter {
     flex-grow: 1;
     width: calc(50% - 0.5rem);
     min-width: 450px;
+    max-height: 160px;
 
     &::after,
     &::before {
@@ -76,6 +77,10 @@ particle-converter {
         }
 
         .input currency-display {
+            opacity: 0;
+        }
+
+        .arrow::before {
             opacity: 0;
         }
     }
@@ -394,6 +399,7 @@ particle-converter {
             border-top: 15px solid transparent;
             border-bottom: 15px solid transparent;
             border-left: 15px solid #fff3;
+            transition: opacity 150ms;
         }
 
         .particle {
