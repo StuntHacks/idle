@@ -209,21 +209,21 @@ export class QuantumStage implements Stage {
             }
         }
 
-        let unlockedConverters = false;
+        // let unlockedConverters = false;
         for (const converter of this.converters) {
-            // if (converter.isBlocked()) {
-            //     energy = true;
-            //     break;
-            // }
-            if (!converter.isLocked()) {
-                unlockedConverters = true;
+            if (converter.isBlocked()) {
+                energy = true;
                 break;
             }
+            // if (!converter.isLocked()) {
+            //     unlockedConverters = true;
+            //     break;
+            // }
         }
 
-        if (unlockedConverters && this.activeConverters.length < useStat("max_converters").total.toNumber()) {
-            energy = true;
-        }
+        // if (unlockedConverters && this.activeConverters.length < useStat("max_converters").total.toNumber()) {
+        //     energy = true;
+        // }
 
         if (energy !== this.newDots.energy) {
             this.newDots.energy = energy;
@@ -237,8 +237,10 @@ export class QuantumStage implements Stage {
 
     public update(tickLength: number, catchingUp: boolean) {
         this.updateUnlocks();
-        this.updateNewDots();
-        this.updateEnergyCost();
+        if (!catchingUp) {
+            this.updateEnergyCost();
+            this.updateNewDots();
+        }
 
         for (const fluctuator of this.fluctuators) {
             fluctuator.update(tickLength, catchingUp);
