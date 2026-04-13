@@ -303,7 +303,7 @@
       "conversionSpeed": "Particle Conversion Speed",
       "conversionInput": "Particle Conversion Input",
       "conversionEnergyCost": "Base Particle Conversion Energy Cost",
-      "conversionEnergyScaling": "Conversion Energy Cost Scaling",
+      "conversionEnergyScaling": "Conversion Energy Scaling",
       "converterEfficiency": "Converter Efficiency",
       "maxConversionInput": "Particle Conversion Input Max",
       "maxConverters": "Max Active Particle Converters",
