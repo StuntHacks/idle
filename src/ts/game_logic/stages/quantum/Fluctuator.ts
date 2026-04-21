@@ -40,27 +40,27 @@ export class QuantumFluctuator {
 
     private getRandomPosition() {
         const width = Math.max(this.field.getPosition().width - 110, 100);
-        let bestPosition = Math.random() * width;
-        let bestMinDist = 0;
+        let position = Math.random() * width;
+        let bestDist = 0;
 
         for (let attempt = 0; attempt < 10; attempt++) {
             const candidate = Math.random() * width;
-            const minDist = this.positionsBuffer.reduce(
+            const dist = this.positionsBuffer.reduce(
                 (min, p) => Math.min(min, Math.abs(candidate - p)),
                 Infinity,
             );
-            if (minDist > bestMinDist) {
-                bestMinDist = minDist;
-                bestPosition = candidate;
+            if (dist > bestDist) {
+                bestDist = dist;
+                position = candidate;
             }
         }
 
-        this.positionsBuffer.push(bestPosition);
+        this.positionsBuffer.push(position);
         if (this.positionsBuffer.length > 5) {
             this.positionsBuffer.shift();
         }
 
-        return Math.floor(bestPosition + 10);
+        return Math.floor(position + 10);
     }
 
     public update(tickLength: number, catchingUp: boolean) {

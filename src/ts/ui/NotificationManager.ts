@@ -6,6 +6,7 @@ export interface NotificationModel {
     icon?: string;
     svg?: string;
     onClick?: () => void;
+    timeout?: number;
 }
 
 class NotificationManager {
@@ -54,9 +55,9 @@ class NotificationManager {
             }, 300);
         }
 
-        const timeout = setTimeout(dismiss, 5000);
+        const timeout = setTimeout(dismiss, notification.timeout ?? 5000);
         element.addEventListener("mouseenter", () => clearTimeout(timeout));
-        element.addEventListener("mouseleave", () => setTimeout(dismiss, 2000));
+        element.addEventListener("mouseleave", () => setTimeout(dismiss, (notification.timeout ?? 5000) / 2));
         element.addEventListener("click", () => { if (notification.onClick) notification.onClick(); dismiss(); });
 
         const closeButton = document.createElement("i");
