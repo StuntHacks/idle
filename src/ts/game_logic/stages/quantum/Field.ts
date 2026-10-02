@@ -130,31 +130,27 @@ export class QuantumField {
         this.fieldElement.updatePosition();
     }
 
+    private updateSubFields() {
+        const subFields = this.data.subFields.filter((sub) => !sub.requirement || useFlag(sub.requirement));
+        this.particles = subFields.map((sub) => ({
+            type: sub.type,
+            flavor: sub.flavor,
+            color: sub.color
+        }));
+        this.fieldElement.setSubFields(subFields);
+    }
+
     public initialize(field: FieldModel, index: number, key?: string) {
         this.index = index;
         this.data = field;
         this.clickDelay = field.clickDelay;
-        let subFields = [];
-
-        for (const sub of field.subFields) {
-            if (!sub.requirement || useFlag(sub.requirement)) {
-                this.particles.push({
-                    type: sub.type,
-                    flavor: sub.flavor,
-                    color: sub.color
-                });
-                subFields.push(sub);
-            }
-            
-            if (sub.requirement) {
-                useSaveHandler().registerFlagCallback(sub.requirement, () => {
-                    this.initialize(this.data, this.index);
-                });
-            }
-        }
-
-        field.subFields = subFields;
         this.fieldElement = new QuantumFieldElement(field);
+        this.updateSubFields();
+
+        const requirements = new Set(field.subFields.map((sub) => sub.requirement).filter(Boolean));
+        for (const requirement of requirements) {
+            useSaveHandler().registerFlagCallback(requirement, () => this.updateSubFields());
+        }
 
         if (key) this.fieldElement.id = `${key}-field`;
 

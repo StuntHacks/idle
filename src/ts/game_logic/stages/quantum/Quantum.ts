@@ -97,7 +97,7 @@ export class QuantumStage implements Stage {
         this.fluctuators = [];
         for (let i = 0; i < 6; i++) {
             const key = useSave((s) => s.stages.quantum.fields[i]?.selected) ?? Object.keys(FIELD_DATA)[i];
-            let field = FIELD_DATA[key];
+            const field = { ...FIELD_DATA[key] };
 
             // todo: figure out a better location for this
             if (key === "electroweak" && field.multi) {

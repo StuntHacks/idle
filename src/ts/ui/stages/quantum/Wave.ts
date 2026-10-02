@@ -21,6 +21,9 @@ export class Wave {
     private shadowEnabled: boolean = true;
     private rippleGain: number = 1;
     private pointInfluence: Float32Array = new Float32Array(0);
+    private stopped: boolean = false;
+    private onResize = () => this.handleResize();
+    private onVisibilityChange = () => this.handleVisibilityChange();
 
     constructor(
         element: HTMLCanvasElement,
@@ -38,8 +41,8 @@ export class Wave {
         this.config.offset ??= this.config.height / 2;
 
         this.handleResize();
-        addEventListener('resize', this.handleResize.bind(this));
-        document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
+        addEventListener('resize', this.onResize);
+        document.addEventListener('visibilitychange', this.onVisibilityChange);
 
         this.initialize();
 
@@ -49,6 +52,7 @@ export class Wave {
     }
 
     public handleResize() {
+        if (this.stopped) return;
         const parent = this.canvas.parentElement as QuantumFieldElement;
         this.canvas.width = parent.clientWidth;
         this.canvas.height = parent.parentElement.clientHeight;
@@ -57,6 +61,7 @@ export class Wave {
     }
 
     private handleVisibilityChange() {
+        if (this.stopped) return;
         if (document.hidden) {
             if (this.rafHandle !== null) {
                 window.cancelAnimationFrame(this.rafHandle);
@@ -106,6 +111,16 @@ export class Wave {
         };
 
         this.rafHandle = window.requestAnimationFrame(animate);
+    }
+
+    public stop() {
+        this.stopped = true;
+        if (this.rafHandle !== null) {
+            window.cancelAnimationFrame(this.rafHandle);
+            this.rafHandle = null;
+        }
+        removeEventListener('resize', this.onResize);
+        document.removeEventListener('visibilitychange', this.onVisibilityChange);
     }
 
     private initialize() {

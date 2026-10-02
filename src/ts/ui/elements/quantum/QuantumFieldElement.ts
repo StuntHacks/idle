@@ -9,6 +9,7 @@ export class QuantumFieldElement extends HTMLElement {
     private waves: Wave[] = [];
     private offset: number = 0;
     private data: FieldModel;
+    private subFields: FieldModel["subFields"] = [];
     private clickCallback: (position: number) => void;
     
     private canvases: HTMLCanvasElement[] = [];
@@ -24,6 +25,13 @@ export class QuantumFieldElement extends HTMLElement {
 
     public setClickCallback(callback: (position: number) => void) {
         this.clickCallback = callback;
+    }
+
+    public setSubFields(subFields: FieldModel["subFields"]) {
+        this.subFields = subFields;
+        if (this.isConnected) {
+            this.createWaves();
+        }
     }
 
     public ripplePassive(x: number) {
@@ -110,11 +118,24 @@ export class QuantumFieldElement extends HTMLElement {
         this.appendChild(this.surface);
 
         this.tabContainer = this.closest("stage-tab") as HTMLElement;
+        this.createWaves();
+    }
+
+    private createWaves() {
+        for (const wave of this.waves) {
+            wave.stop();
+        }
+        for (const canvas of this.canvases) {
+            canvas.remove();
+        }
+        this.waves = [];
+        this.canvases = [];
+
         const width = this.data.thick ? 12 : 3;
         const copies = this.data.triple ? 3 : 1;
         const contained = this.hasAttribute("contained");
 
-        for (const field of this.data.subFields) {
+        for (const field of this.subFields) {
             for (let i = 0; i < copies; i++) {
                 const canvas = document.createElement("canvas");
                 this.canvases.push(canvas);
