@@ -168,13 +168,13 @@ export class SaveHandler {
     }
 
     public setFlag(flag: string, value: unknown) {
+        _.set(this.save.flags, flag, value);
         const callbacks = this.flagCallbacks[flag];
         if (callbacks) {
             for (const callback of callbacks) {
                 callback(flag, value);
             }
         }
-        _.set(this.save.flags, flag, value);
     }
 
     public mutate<T>(fn: (save: SaveFile) => T): T {
