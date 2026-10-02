@@ -38,9 +38,9 @@ export class SaveHandler {
         );
     }
 
-    public loadData(encoded?: string): boolean {
+    public loadData(): boolean {
         Logger.log("SaveHandler", "Loading save file...");
-        let data = encoded || localStorage.getItem(SAVE_FILE_NAME);
+        let data = localStorage.getItem(SAVE_FILE_NAME);
         if (data === null) {
             Logger.log("SaveHandler", "No save data found!");
             this.reset();
@@ -56,6 +56,36 @@ export class SaveHandler {
         }
 
         return true;
+    }
+
+    public importData(encoded: string): ImportResult {
+        Logger.log("SaveHandler", "Importing save file...");
+        let parsed: Partial<SaveFile>;
+        try {
+            parsed = JSON.parse(this.decode(encoded.trim()));
+        } catch (e) {
+            Logger.warning("SaveHandler", "Error parsing save data", e);
+            return "invalid";
+        }
+
+        if (typeof parsed?.version !== "number") {
+            Logger.warning("SaveHandler", "Invalid save version");
+            return "invalid";
+        }
+
+        if (parsed.version < SAVE_FILE_VERSION) {
+            Logger.warning("SaveHandler", `Outdated save file (${parsed.version} < ${SAVE_FILE_VERSION})`);
+            return "outdated";
+        }
+
+        this.save = this.mergeSaves(parsed);
+        this.saveData(true);
+        return "ok";
+    }
+
+    public exportData(): string {
+        this.saveCurrencies();
+        return this.getEncoded();
     }
 
     public autoSave = () => {
@@ -178,6 +208,7 @@ export class SaveHandler {
 }
 
 export type FlagCallback = (flag: string, value: unknown) => void;
+export type ImportResult = "ok" | "invalid" | "outdated";
 
 let _instance: SaveHandler;
 

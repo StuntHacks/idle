@@ -1,6 +1,5 @@
 import { handleError } from "utils/handleError";
 import { initGame, useGame } from "./game_logic/Game";
-import { UI } from "ui/UI";
 
 export const main = async () => {
     // error handling
@@ -48,7 +47,6 @@ export const main = async () => {
         });
 
         game.start();
-        UI.openSubTab("quantum-tab-forces");
         document.addEventListener("contextmenu", (e) => e.preventDefault());
     } catch (e) {
         handleError(e);

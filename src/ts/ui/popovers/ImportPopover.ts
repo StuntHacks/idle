@@ -1,11 +1,12 @@
 import { useTranslation } from "i18n/i18n";
-import { useSaveHandler } from "SaveHandler/SaveHandler";
+import { ImportResult, useSaveHandler } from "SaveHandler/SaveHandler";
 import { PopoverElement } from "ui/elements/PopoverElement";
 
 export class ImportPopover extends PopoverElement {
     constructor() {
         super("misc.importSave", `
             <textarea name="import-save" placeholder="${useTranslation("misc.importPlaceholder")}" autofocus></textarea>
+            <p class="error hidden"></p>
         `, false);
 
         this.buttons = [{
@@ -18,20 +19,35 @@ export class ImportPopover extends PopoverElement {
         const textarea = this.querySelector("textarea");
 
         if (textarea.value) {
-            useSaveHandler().loadData(textarea.value);
-            useSaveHandler().saveData(true);
-            location.reload();
+            this.applyImport(textarea.value);
         } else {
             navigator.clipboard.readText()
-                .then(text => {
-                    useSaveHandler().loadData(text);
-                    useSaveHandler().saveData(true);
-                    location.reload();
-                })
-                .catch(() => {});
+                .then(text => this.applyImport(text))
+                .catch(() => this.showError("misc.importClipboardFailed"));
         }
 
         return false;
+    }
+
+    private applyImport(data: string) {
+        const result: ImportResult = useSaveHandler().importData(data);
+        switch (result) {
+            case "ok":
+                location.reload();
+                break;
+            case "invalid":
+                this.showError("misc.importInvalid");
+                break;
+            case "outdated":
+                this.showError("misc.importOutdated");
+                break;
+        }
+    }
+
+    private showError(textId: string) {
+        const error = this.querySelector(".error");
+        error.textContent = useTranslation(textId);
+        error.classList.remove("hidden");
     }
 
     connectedCallback() {
@@ -41,8 +57,10 @@ export class ImportPopover extends PopoverElement {
         textarea.focus();
 
         const button = this.querySelector("button");
+        const error = this.querySelector(".error");
         textarea.addEventListener("input", () => {
             button.textContent = textarea.value ? useTranslation("misc.import") : useTranslation("misc.clipboardImport");
+            error.classList.add("hidden");
         });
     }
 }

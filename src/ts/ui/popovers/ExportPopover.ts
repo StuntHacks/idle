@@ -5,7 +5,7 @@ import { PopoverElement } from "ui/elements/PopoverElement";
 export class ExportPopover extends PopoverElement {
     constructor() {
         super("misc.exportSave", `
-            <pre>${useSaveHandler().getEncoded()}</pre>
+            <pre>${useSaveHandler().exportData()}</pre>
         `, false);
 
         this.buttons = [{

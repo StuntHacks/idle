@@ -114,5 +114,14 @@
                 user-select: none;
             }
         }
+
+        .error {
+            margin: 0.5rem 0 0;
+            color: #f66;
+
+            &.hidden {
+                display: none;
+            }
+        }
     }
 }

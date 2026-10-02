@@ -27,6 +27,9 @@
     "import": "Import",
     "clipboardImport": "Import from clipboard",
     "importPlaceholder": "Paste save data here...",
+    "importInvalid": "Invalid or corrupted save file",
+    "importOutdated": "Outdated save file",
+    "importClipboardFailed": "Error reading from clipboard",
     "copy": "Copy to clipboard",
     "copied": "Copied!",
     "noEffect": "No effect"
