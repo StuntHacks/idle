@@ -1,41 +1,16 @@
 import { handleError } from "utils/handleError";
-import { initGame, useGame } from "./game_logic/Game";
+import { initGame, stopGame } from "./game_logic/Game";
+
+const crash = (e: unknown) => {
+    stopGame();
+    handleError(e);
+};
 
 export const main = async () => {
     // error handling
-    const nativeRaf = window.requestAnimationFrame.bind(window);
-    window.requestAnimationFrame = (callback: FrameRequestCallback): number => {
-        return nativeRaf((time: DOMHighResTimeStamp) => {
-            try {
-                callback(time);
-            } catch (e) {
-                handleError(e);
-                useGame().stop();
-            }
-        });
-    };
-    const nativeAddEventListener = EventTarget.prototype.addEventListener;
-    EventTarget.prototype.addEventListener = function(type, listener, options) {
-        if (typeof listener !== "function") {
-            return nativeAddEventListener.call(this, type, listener, options);
-        }
-        const wrapped = function(this: unknown, ...args: Parameters<typeof listener>) {
-            try {
-                return (listener as EventListener).apply(this, args);
-            } catch (e) {
-                handleError(e);
-                useGame().stop();
-            }
-        };
-        return nativeAddEventListener.call(this, type, wrapped, options);
-    };
-    window.addEventListener("unhandledrejection", (event) => {
-        handleError(event.reason);
-        useGame().stop();
-    });
+    window.addEventListener("unhandledrejection", (event) => crash(event.reason));
     window.onerror = (message, source, lineno, colno, error) => {
-        handleError(error ?? new Error(`${message} (${source}:${lineno}:${colno})`));
-        useGame().stop();
+        crash(error ?? new Error(`${message} (${source}:${lineno}:${colno})`));
     };
 
     // start game
@@ -49,7 +24,6 @@ export const main = async () => {
         game.start();
         document.addEventListener("contextmenu", (e) => e.preventDefault());
     } catch (e) {
-        handleError(e);
-        useGame().stop();
+        crash(e);
     }
 }

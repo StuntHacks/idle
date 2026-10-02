@@ -174,6 +174,9 @@ export const useGame = (): Game => {
     if (!_instance) throw new Error("Call initGame() first");
     return _instance;
 };
+export const stopGame = () => {
+    _instance?.stop();
+};
 export const initGame = (): Game => {
     _instance = new Game();
     return _instance;

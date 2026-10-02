@@ -1,7 +1,15 @@
 import { SAVE_FILE_NAME } from "SaveHandler/SaveHandler";
 import { Logger } from "./Logger";
 
+let crashed = false;
+
 export const handleError = (e: unknown) => {
+    if (crashed) {
+        console.error("Additional error after crash:", e);
+        return;
+    }
+    crashed = true;
+
     document.body.classList.add("error");
     const stackTrace = document.getElementById("stack-trace");
     stackTrace.textContent = e instanceof Error ? e.stack : String(e);
