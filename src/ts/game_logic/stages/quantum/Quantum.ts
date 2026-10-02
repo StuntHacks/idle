@@ -5,7 +5,7 @@ import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
 import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { QuantumField } from "./Field";
 import { FIELD_DATA } from "./field_data";
-import { useFlag, useSave } from "SaveHandler/SaveHandler";
+import { useSave } from "SaveHandler/SaveHandler";
 import { useStat } from "game_logic/StatHandler";
 import { ConverterElement } from "ui/elements/quantum/ConverterElement";
 import { ParticleConverter } from "./Converter";
@@ -97,15 +97,8 @@ export class QuantumStage implements Stage {
         this.fluctuators = [];
         for (let i = 0; i < 6; i++) {
             const key = useSave((s) => s.stages.quantum.fields[i]?.selected) ?? Object.keys(FIELD_DATA)[i];
-            const field = { ...FIELD_DATA[key] };
-
-            // todo: figure out a better location for this
-            if (key === "electroweak" && field.multi) {
-                field.multi = { ...field.multi, chance: useFlag("quantum.fields.weak_bosons") ? 0.25 : 1 };
-            }
-
             this.fields.push(
-                new QuantumField(field, i, key)
+                new QuantumField(FIELD_DATA[key], i, key)
             );
             this.fluctuators.push(
                 new QuantumFluctuator(i, document.querySelector(`fluctuator-block:nth-of-type(${i + 1})`), this.fields[i])

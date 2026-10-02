@@ -91,6 +91,11 @@ export const FIELD_DATA: FieldData = {
         multi: {
             type: "boson",
             flavor: "photon",
+            chance: 1,
+            chanceOverride: {
+                requirement: "quantum.fields.weak_bosons",
+                chance: 0.25,
+            },
         },
         subFields: [
             {

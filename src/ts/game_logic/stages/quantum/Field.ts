@@ -23,6 +23,10 @@ export interface FieldModel {
         flavor?: string | string[];
         color?: string;
         chance?: number;
+        chanceOverride?: {
+            requirement: string;
+            chance: number;
+        };
     };
     subFields: {
         type: ParticleType;
@@ -140,6 +144,13 @@ export class QuantumField {
         this.fieldElement.setSubFields(subFields);
     }
 
+    private updateMultiChance() {
+        const multi = this.data.multi;
+        if (!multi) return;
+        const override = multi.chanceOverride;
+        this.multiChance = override && useFlag(override.requirement) ? override.chance : (multi.chance ?? 0.1);
+    }
+
     public initialize(field: FieldModel, index: number, key?: string) {
         this.index = index;
         this.data = field;
@@ -161,12 +172,16 @@ export class QuantumField {
         }
 
         if (field.multi) {
-            this.multiChance = field.multi.chance ?? 0.1;
             this.multiParticle = {
                 type: field.multi.type,
                 flavor: field.multi.flavor,
                 color: field.multi.color
             };
+            this.updateMultiChance();
+
+            if (field.multi.chanceOverride) {
+                useSaveHandler().registerFlagCallback(field.multi.chanceOverride.requirement, () => this.updateMultiChance());
+            }
         }
 
         this.fieldElement.setClickCallback((position: number) => {
