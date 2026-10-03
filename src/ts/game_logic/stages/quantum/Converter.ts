@@ -87,53 +87,32 @@ export class ParticleConverter {
             useInferredCurrency<QuarkColor>(`quarks-${this.color}`);
         const energy = useInferredCurrency<Energy>("energy");
         const input = this.getCost();
-        const energyCost = this.energyCost;
         let amount = new Decimal(0);
 
+        const start = (): boolean => {
+            if (!currency.canSpend(input) || !energy.canSpend(this.energyCost)) return false;
+            currency.spend(input);
+            energy.spend(this.energyCost);
+            this.committed = input;
+            return true;
+        };
+
         if (!this.running) {
-            if (currency.canSpend(input) && energy.canSpend(energyCost)) {
-                currency.spend(input);
-                energy.spend(energyCost);
-                this.committed = input;
-                this.running = true;
-            } else {
-                this.acc = 0;
-            }
+            this.running = start();
+            if (!this.running) this.acc = 0;
         }
 
         if (this.running) {
             this.acc += tickLength;
 
-            if (this.acc >= interval) {
-                const completedCycles = Math.floor(this.acc / interval);
+            while (this.acc >= interval) {
+                this.acc -= interval;
+                amount = amount.plus(this.committed.multiply(useStat("converter_efficiency").total));
 
-                const getAffordableCycles = (currency: QuarkColor | TotalQuarks, input: Decimal): number => {
-                    const available = currency instanceof TotalQuarks ?
-                        currency.getMinAmount() :
-                        currency.getAmount();
-                    return Math.floor(available.div(input).toNumber()) + 1;
-                }
-
-                const affordableCycles = energyCost.gt(0) ?
-                    Math.floor(Decimal.min(
-                        getAffordableCycles(currency, this.committed),
-                        energy.getAmount().div(energyCost)
-                    ).toNumber()) + 1 :
-                    getAffordableCycles(currency, this.committed);
-
-                const cycles = Math.min(completedCycles, affordableCycles);
-                this.acc -= cycles * interval;
-                amount = this.committed
-                    .multiply(useStat("converter_efficiency").total)
-                    .multiply(cycles);
-
-                if (currency.canSpend(input) && energy.canSpend(energyCost)) {
-                    currency.spend(input);
-                    energy.spend(energyCost);
-                    this.committed = input;
-                    this.running = true;
-                } else {
+                if (!start()) {
                     this.running = false;
+                    this.acc = 0;
+                    break;
                 }
             }
         }

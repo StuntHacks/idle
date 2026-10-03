@@ -28,13 +28,6 @@ export class TotalQuarks extends AggregateCurrency {
         );
     }
 
-    public getMinAmount(): Decimal {
-        return COLOR_HASHES.reduce(
-            (min, hash) => Decimal.min(min, this.getColorHandler(hash).getAmount()),
-            new Decimal(Infinity)
-        );
-    }
-
     public canSpend(amount: Decimal): boolean {
         return COLOR_HASHES.every(hash => this.getColorHandler(hash).canSpend(amount));
     }
