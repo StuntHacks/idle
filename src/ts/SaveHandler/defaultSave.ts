@@ -1,7 +1,7 @@
 import Decimal from "break_eternity.js";
 import { SaveCurrency, SavedContinuousUpgrade, SavedUpgrade, SaveFile } from "types/SaveFile";
 
-export const defaultSave: Omit<SaveFile, "version" | "startTime" | "timestamp"> = {
+export const getDefaultSave = (): Omit<SaveFile, "version" | "startTime" | "timestamp"> => ({
     currencies: {
         normal: [] as SaveCurrency[],
         inferred: [] as SaveCurrency[],
@@ -60,4 +60,4 @@ export const defaultSave: Omit<SaveFile, "version" | "startTime" | "timestamp"> 
             ]
         }
     }
-}
+});

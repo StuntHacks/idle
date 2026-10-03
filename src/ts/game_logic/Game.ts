@@ -18,6 +18,7 @@ export interface Stage {
 
 const TICK_RATE = 20;
 export const TICK_LENGTH = 1000 / TICK_RATE;
+const AUTOSAVE_INTERVAL = 30000;
 
 class Game {
     private lastTimestamp: number = undefined;
@@ -34,11 +35,12 @@ class Game {
         UI.initialize();
 
         this.stages = [new QuantumStage()];
+    }
 
-        // todo: implement better close-handling (this can overwrite offline time with a fresh save on mobile)
-        // window.addEventListener("beforeunload", () => {
-        //     SaveHandler.saveData();
-        // });
+    private autoSave = () => {
+        if (this.catchingUp || this.stopped) return;
+        if (!useSettings().general.settings.autoSave.value) return;
+        useSaveHandler().saveData();
     }
 
     public timeskip(seconds: number) {
@@ -46,7 +48,6 @@ class Game {
     }
 
     public async start() {
-        useSaveHandler().autoSave();
         const now = Date.now();
         let savedTimestamp = useSave().timestamp ?? now;
         if (useSettings().gameplay.settings.noOfflineTime?.value) {
@@ -59,6 +60,12 @@ class Game {
         } else {
             OfflineProgressUI.dismiss();
         }
+
+        this.autoSave();
+        setInterval(this.autoSave, AUTOSAVE_INTERVAL);
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) this.autoSave();
+        });
 
         window.requestAnimationFrame(this.loop);
     }

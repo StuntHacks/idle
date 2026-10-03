@@ -3,31 +3,28 @@ import { UI } from "ui/UI";
 import { Logger } from "utils/Logger";
 import mock from "./mock.json"
 import { Utils } from "utils/utils";
-import { defaultSave } from "./defaultSave";
-import { initSettings, useSettings } from "utils/SettingsHandler";
+import { getDefaultSave } from "./defaultSave";
+import { initSettings } from "utils/SettingsHandler";
 import { useCurrencyHandler } from "game_logic/currencies/Currencies";
 import _, { mergeWith } from "lodash";
-import Decimal from "break_eternity.js";
+import Decimal, { DecimalSource } from "break_eternity.js";
 
 export const SAVE_FILE_VERSION = 7;
 export const SAVE_FILE_NAME = "idledynamics_saveFile";
 
 export class SaveHandler {
     private save: SaveFile;
-    private lastSave: number = 0;
     private flagCallbacks: { [key: string]: FlagCallback[] } = {};
 
     constructor() {
         initSettings();
-        if (!this.loadData()) {
-            this.reset();
-        }
+        this.loadData();
     }
 
     private mergeSaves(loaded: Partial<SaveFile>): SaveFile {
-        return mergeWith(
+        const merged: SaveFile = mergeWith(
             {},
-            defaultSave,
+            getDefaultSave(),
             { version: SAVE_FILE_VERSION, startTime: Date.now(), timestamp: Date.now() },
             loaded,
             (objVal: unknown, srcVal: unknown) => {
@@ -36,26 +33,38 @@ export class SaveHandler {
                 return undefined;
             }
         );
+        SaveHandler.parseDecimals(merged);
+        return merged;
     }
 
-    public loadData(): boolean {
+    private static parseDecimals(save: SaveFile) {
+        const toDecimal = (value: DecimalSource) => new Decimal(value ?? 0);
+
+        for (const c of save.currencies.normal) c.amount = toDecimal(c.amount);
+        for (const c of save.currencies.inferred) c.amount = toDecimal(c.amount);
+        for (const u of save.continuousUpgrades) u.spent = toDecimal(u.spent);
+
+        const quantum = save.stages.quantum;
+        quantum.conversionInput = toDecimal(quantum.conversionInput ?? 1);
+        for (const converter of quantum.converters) converter.committed = toDecimal(converter.committed);
+    }
+
+    public loadData() {
         Logger.log("SaveHandler", "Loading save file...");
-        let data = localStorage.getItem(SAVE_FILE_NAME);
+        const data = localStorage.getItem(SAVE_FILE_NAME);
         if (data === null) {
             Logger.log("SaveHandler", "No save data found!");
             this.reset();
-            return true;
+            return;
         }
 
-        let parsed = JSON.parse(this.decode(data));
+        const parsed = JSON.parse(this.decode(data));
         if (parsed.version === undefined || parsed.version < SAVE_FILE_VERSION) {
             Logger.log("SaveHandler", "Outdated save file, resetting...");
             this.reset();
         } else {
             this.save = this.mergeSaves(parsed);
         }
-
-        return true;
     }
 
     public importData(encoded: string): ImportResult {
@@ -86,15 +95,6 @@ export class SaveHandler {
     public exportData(): string {
         this.saveCurrencies();
         return this.getEncoded();
-    }
-
-    public autoSave = () => {
-        const now = Date.now();
-        if (useSettings().general.settings.autoSave.value && now - this.lastSave > 30000) {
-            this.lastSave = now;
-            this.saveData();
-        }
-        window.requestAnimationFrame(this.autoSave);
     }
 
     public saveCurrencies() {
@@ -183,13 +183,14 @@ export class SaveHandler {
 
     public reset(useMock: boolean = false): SaveFile {
         Logger.log("SaveHandler", "Initializing new save file...");
-        const save = useMock ? mock as unknown as SaveFile : defaultSave;
+        const save = useMock ? structuredClone(mock) as unknown as SaveFile : getDefaultSave();
         this.save = {
             ...save,
             startTime: Date.now(),
             version: SAVE_FILE_VERSION,
             timestamp: Date.now(),
         }
+        SaveHandler.parseDecimals(this.save);
         this.saveData(true);
         return this.save;
     }
