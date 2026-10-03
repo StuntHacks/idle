@@ -1,4 +1,4 @@
-import { Numbers } from "numbers/numbers";
+import { CutoffType, Numbers, Rounding } from "numbers/numbers";
 import { CurrencyHandler, CurrencyCallback, InferredCurrencyCallback } from "../Currencies";
 import { InferredCurrency } from "../InferredCurrency";
 import Decimal from "break_eternity.js";
@@ -24,11 +24,12 @@ export class Energy extends InferredCurrency {
         const electronCallback: CurrencyCallback = (hash, type, amount) => {
             if (type === "gain") {
                 const before = this.instance.amount;
-                const total = before.plus(amount.multiply(useStat("energy_gain").total));
+                const gained = amount.multiply(useStat("energy_gain").total);
+                const total = before.plus(gained);
                 this.instance.amount = total;
 
                 for (const callback of this.instance.callbacks) {
-                    callback("energy", "gain", amount, before, total);
+                    callback("energy", "gain", gained, before, total);
                 }
             }
         };
@@ -36,11 +37,11 @@ export class Energy extends InferredCurrency {
         handler.registerCallback(electronCallback, "leptons-electron");
     }
 
-    public static getFormatted(amount?: Decimal, maxPrecision?: number): string {
-        return this.instance.getFormatted(amount, maxPrecision ?? 1);
+    public static getFormatted(amount?: Decimal, maxPrecision?: number, rounding?: Rounding): string {
+        return this.instance.getFormatted(amount, maxPrecision ?? 1, undefined, rounding);
     }
 
-    public getFormatted(amount?: Decimal, maxPrecision: number = 1): string {
+    public getFormatted(amount?: Decimal, maxPrecision: number = 1, _cutoff?: CutoffType, rounding: Rounding = "floor"): string {
         const value = amount ?? this.amount;
 
         let suffix = "";
@@ -64,10 +65,11 @@ export class Energy extends InferredCurrency {
             suffix = "ZeV";
             divisor = 1e15;
         } else {
-            return Numbers.getFormatted(value, maxPrecision) + " eV";
+            return Numbers.getFormatted(value, maxPrecision, undefined, rounding) + " eV";
         }
 
-        return value.dividedBy(1000000).dividedBy(divisor).toFixed(maxPrecision) + ` ${suffix}`;
+        const scaled = value.dividedBy(1000000).dividedBy(divisor).toNumber();
+        return Numbers.round(scaled, maxPrecision, rounding).toFixed(maxPrecision) + ` ${suffix}`;
     }
 
     public getAmount(): Decimal {

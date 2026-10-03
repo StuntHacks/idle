@@ -145,7 +145,7 @@ export class QuantumStage implements Stage {
     }
 
     private updateEnergyCost() {
-        const text = Energy.getFormatted(this.getEnergyCost());
+        const text = Energy.getFormatted(this.getEnergyCost(), undefined, "ceil");
         if (text === this.energyCostText) return;
         this.costElement.textContent = text;
         this.energyCostText = text;

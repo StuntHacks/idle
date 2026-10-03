@@ -110,14 +110,16 @@ class StatHandler {
     }
 
     public calculateCost(def: UpgradeDef, currentLevel: number, amount: number): Decimal {
-        const scaling = def.costScaling ?? 1;
-        if (scaling === 1) {
-            return new Decimal(def.cost * amount);
+        const cost = new Decimal(def.cost);
+        const scaling = new Decimal(def.costScaling ?? 1);
+        if (scaling.eq(1)) {
+            return cost.multiply(amount);
         }
-        return new Decimal(def.cost)
-            .multiply(scaling ** currentLevel)
-            .multiply(1 - scaling ** amount)
-            .divide(1 - scaling);
+
+        return cost
+            .multiply(scaling.pow(currentLevel))
+            .multiply(scaling.pow(amount).minus(1))
+            .divide(scaling.minus(1));
     }
 
     public getUpgradeEffect(def: UpgradeDef, currentLevel: number): Decimal | null {

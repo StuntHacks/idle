@@ -48,10 +48,10 @@ export class UpgradeElement extends HTMLElement {
         const cost = this.getCost();
         switch (this.def.currency) {
             case "energy":
-                this.costElement.innerText = Energy.getFormatted(cost);
+                this.costElement.innerText = Energy.getFormatted(cost, undefined, "ceil");
                 break;
             default:
-                this.costElement.innerText = Numbers.getFormatted(cost);
+                this.costElement.innerText = Numbers.getFormatted(cost, undefined, undefined, "ceil");
                 break;
         }
     }
