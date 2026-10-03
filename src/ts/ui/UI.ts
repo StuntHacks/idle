@@ -161,17 +161,20 @@ export class UI {
     public static closeSubTab(tab: string | HTMLElement) {
         const target = typeof tab === "string" ? document.getElementById(tab) : tab;
         if (!target) return;
-        const content = document.querySelector("stage-tab .tab.active");
-        const bg = target.closest("stage-tab").querySelector(".tab-background");
-        target?.classList.remove("active");
+        const stage = target.closest("stage-tab");
+        const content = stage.querySelector(".tab.active");
+        const bg = stage.querySelector(".tab-background");
+        target.classList.remove("active");
         content?.classList.remove("active");
         bg?.classList.remove("active");
     }
 
     public static switchSubTab(tab: string | HTMLElement) {
-        const active = document.querySelector(".sub-tabs .active") as HTMLElement;
+        const target = typeof tab === "string" ? document.getElementById(tab) : tab;
+        if (!target) return;
+        const active = target.closest("stage-tab").querySelector(".sub-tabs .active") as HTMLElement;
         if (active) this.closeSubTab(active);
-        this.openSubTab(tab);
+        this.openSubTab(target);
     }
 
     private static updateMouseState(e: MouseEvent) {

@@ -56,7 +56,9 @@ export class ToolTip extends HTMLElement {
         if (this.parentElement !== this.container) {
             this.host = this.parentElement!;
             this.container.appendChild(this);
+            return;
         }
+        if (!this.host) return;
         this.syncPosition();
 
         this.onMouseEnter = () => this.show();

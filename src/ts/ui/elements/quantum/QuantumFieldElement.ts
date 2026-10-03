@@ -48,18 +48,25 @@ export class QuantumFieldElement extends HTMLElement {
         }
     }
 
+    private canClick(y: number): boolean {
+        const rect = this.surface.getBoundingClientRect();
+        return y >= rect.y && y <= rect.bottom &&
+            this.tabContainer.querySelector(".tab.active") === null &&
+            this.tabContainer.classList.contains("active") &&
+            !usePopoverManager().isActive();
+    }
+
     private handleClick = () => {
         window.requestAnimationFrame(this.handleClick);
-        let rect = this.surface.getBoundingClientRect();
+        if (UI.mouseDown && this.canClick(UI.mouseY)) {
+            this.clickCallback(UI.mouseX);
+        }
+    }
 
-        if ((UI.mouseDown && UI.mouseY >= rect.y && UI.mouseY <= rect.bottom)) {
-            if (
-                this.tabContainer.querySelector(".tab.active") === null &&
-                this.tabContainer.classList.contains("active") &&
-                !usePopoverManager().isActive()
-            ) {
-                this.clickCallback(UI.mouseX);
-            }
+    private handlePress = (e: PointerEvent) => {
+        if (e.button !== 0) return;
+        if (this.canClick(e.clientY)) {
+            this.clickCallback(e.clientX);
         }
     }
 
@@ -83,7 +90,6 @@ export class QuantumFieldElement extends HTMLElement {
         this.labelElement.classList.add("field-label", this.data.gradient);
         this.appendChild(this.labelElement);
 
-        this.handleClick = this.handleClick.bind(this);
         this.surface = document.createElement("div");
         this.surface.classList.add("field-surface");
         if (this.surface) {
@@ -113,6 +119,7 @@ export class QuantumFieldElement extends HTMLElement {
                 }
             }, { passive: false });
 
+            this.addEventListener("pointerdown", this.handlePress);
             window.requestAnimationFrame(this.handleClick);
         }
         this.appendChild(this.surface);

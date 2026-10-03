@@ -48,16 +48,24 @@ class NotificationManager {
 
         element.appendChild(content);
 
+        let dismissed = false;
         const dismiss = () => {
+            if (dismissed) return;
+            dismissed = true;
+            clearTimeout(timeout);
             element.classList.add("dismissed");
             setTimeout(() => {
                 element.remove();
             }, 300);
         }
 
-        const timeout = setTimeout(dismiss, notification.timeout ?? 5000);
+        const duration = notification.timeout ?? 5000;
+        let timeout = setTimeout(dismiss, duration);
         element.addEventListener("mouseenter", () => clearTimeout(timeout));
-        element.addEventListener("mouseleave", () => setTimeout(dismiss, (notification.timeout ?? 5000) / 2));
+        element.addEventListener("mouseleave", () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(dismiss, duration / 2);
+        });
         element.addEventListener("click", () => { if (notification.onClick) notification.onClick(); dismiss(); });
 
         const closeButton = document.createElement("i");
