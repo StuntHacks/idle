@@ -73,6 +73,7 @@ export class ParticleConverter {
         if (!catchingUp) {
             this.updateEffect();
             this.updateCost();
+            this.element.setInterval(this.getInterval());
         }
 
         if (!this.enabled) return;
@@ -204,12 +205,5 @@ export class ParticleConverter {
 
         this.updateEffect();
         this.updateCost();
-
-        const updateInterval = () => {
-            window.requestAnimationFrame(updateInterval);
-            this.element.setInterval(this.getInterval());
-        }
-
-        window.requestAnimationFrame(updateInterval);
     }
 }

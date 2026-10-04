@@ -21,6 +21,10 @@ export class Wave {
     private shadowEnabled: boolean = true;
     private rippleGain: number = 1;
     private pointInfluence: Float32Array = new Float32Array(0);
+    private rippleOffsets: Float32Array = new Float32Array(0);
+    private blurBuffer: Float32Array = new Float32Array(0);
+    private glowShadow: string = "";
+    private hoverShadow: string = "";
     private stopped: boolean = false;
     private onResize = () => this.handleResize();
     private onVisibilityChange = () => this.handleVisibilityChange();
@@ -128,6 +132,16 @@ export class Wave {
     private initialize() {
         this.offsets = Array.from({ length: this.config.pointCount + 1 }, () => Math.random() * 1000);
         this.pointInfluence = new Float32Array(this.config.pointCount + 1);
+        this.rippleOffsets = new Float32Array(this.config.pointCount + 1);
+        this.blurBuffer = new Float32Array(this.config.pointCount + 1);
+        this.glowShadow = Utils.hexToRGB(this.config.color.glow);
+        this.hoverShadow = Utils.hexToRGB(this.config.color.hover);
+    }
+
+    private computeRippleOffsets(now: number) {
+        for (let i = 0; i <= this.config.pointCount; i++) {
+            this.rippleOffsets[i] = this.ripples.length > 0 ? this.getRippleOffset(i, now) : 0;
+        }
     }
 
     private getRippleOffset(i: number, now: number): number {
@@ -146,17 +160,17 @@ export class Wave {
         return total;
     }
 
-    private updatePointInfluence(now: number) {
+    private updatePointInfluence() {
         const n = this.config.pointCount;
         const lerpRate = 0.08;
 
         for (let i = 0; i <= n; i++) {
-            const raw = this.getRippleOffset(i, now);
+            const raw = this.rippleOffsets[i];
             this.pointInfluence[i] += (raw - this.pointInfluence[i]) * lerpRate;
         }
 
         const radius = Math.floor(n * 0.12);
-        const blurred = new Float32Array(n + 1);
+        const blurred = this.blurBuffer;
         for (let i = 0; i <= n; i++) {
             let sum = 0;
             let count = 0;
@@ -166,6 +180,8 @@ export class Wave {
             }
             blurred[i] = sum / count;
         }
+
+        this.blurBuffer = this.pointInfluence;
         this.pointInfluence = blurred;
     }
 
@@ -185,7 +201,7 @@ export class Wave {
         });
     }
 
-    private updateRippleGain(now: number) {
+    private updateRippleGain() {
         const limit = this.config.maxRippleAmplitude;
 
         if (limit === undefined || this.ripples.length === 0) {
@@ -195,7 +211,7 @@ export class Wave {
 
         let peak = 0;
         for (let i = 0; i < this.config.pointCount; i++) {
-            const abs = Math.abs(this.getRippleOffset(i, now));
+            const abs = Math.abs(this.rippleOffsets[i]);
             if (abs > peak) peak = abs;
         }
 
@@ -212,8 +228,9 @@ export class Wave {
         const now = performance.now();
         const ctx = this.ctx;
 
-        this.updateRippleGain(now);
-        this.updatePointInfluence(now);
+        this.computeRippleOffsets(now);
+        this.updateRippleGain();
+        this.updatePointInfluence();
 
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -224,7 +241,7 @@ export class Wave {
         }
 
         if (this.shadowEnabled) {
-            ctx.shadowColor = Utils.hexToRGB(this.hover ? this.config.color.hover : this.config.color.glow);
+            ctx.shadowColor = this.hover ? this.hoverShadow : this.glowShadow;
             ctx.shadowBlur = 10;
             ctx.shadowOffsetX = 0;
             ctx.shadowOffsetY = 0;
@@ -243,7 +260,7 @@ export class Wave {
             const pointOffset = this.offsets[i];
             const noise = Math.sin((pointOffset + time) * frequency) * 0.6 +
                           Math.sin((pointOffset * 0.5 + time * 0.8) * frequency) * 0.4;
-            const ripple = this.getRippleOffset(i, now) * this.rippleGain;
+            const ripple = this.rippleOffsets[i] * this.rippleGain;
             const influence = this.pointInfluence[i] * 0.4;
             return (offset ?? 0) + noise * amplitude + ripple + influence;
         };

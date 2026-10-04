@@ -33,6 +33,7 @@ export class ConverterElement extends HTMLElement {
     private interval: number = 0;
     private tickLength: number = 50;
     private renderFrame: number | null = null;
+    private lastVisual: number = -1;
 
     private circleAnim: Animation | null = null;
     private iconAnims: Animation[] = [];
@@ -50,6 +51,7 @@ export class ConverterElement extends HTMLElement {
         }
         if (!enabled && this.progressElement) {
             this.progressElement.style.clipPath = "xywh(0 -5px 0% calc(100% + 10px))";
+            this.lastVisual = 0;
         }
         this.setSpinning(enabled && !!this.running);
     }
@@ -144,6 +146,8 @@ export class ConverterElement extends HTMLElement {
             visual = 0;
         }
 
+        if (visual === this.lastVisual) return;
+        this.lastVisual = visual;
         this.progressElement.style.clipPath = `xywh(0 -5px ${visual * 100}% calc(100% + 10px))`;
     }
 

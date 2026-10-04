@@ -2,16 +2,22 @@ import { useSave } from "SaveHandler/SaveHandler";
 import { Utils } from "utils/utils";
 
 export class GameTimeElement extends HTMLElement {
+    private lastSecond: number = -1;
+
     constructor() {
         super();
     }
 
     connectedCallback() {
-        const self = this;
-        function update() {
-            self.textContent = Utils.getTimeString(Date.now() - useSave().startTime);
+        const update = () => {
+            const elapsed = Date.now() - useSave().startTime;
+            const second = Math.floor(elapsed / 1000);
+            if (second !== this.lastSecond) {
+                this.lastSecond = second;
+                this.textContent = Utils.getTimeString(elapsed);
+            }
             window.requestAnimationFrame(update);
-        }
+        };
 
         window.requestAnimationFrame(update);
     }
