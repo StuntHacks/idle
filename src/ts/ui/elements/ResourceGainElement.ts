@@ -7,10 +7,10 @@ export class ResourceGainElement extends HTMLElement {
         this.style.left = this.getAttribute("x") + "px";
         this.style.top = this.getAttribute("y") + "px";
 
-        let className = this.getAttribute("data-class");
+        let className = this.getAttribute("data-class") ?? "";
         let particle = document.createElement("div");
         particle.classList.add("resource");
-        particle.classList.add(...className.split(" "));
+        particle.classList.add(...className.split(" ").filter(Boolean));
 
         this.addEventListener("animationend", () => {
             this.remove();

@@ -50,7 +50,7 @@ export class QuantumField {
 
     private particles: ParticleModel[] = []
     private multiParticle?: ParticleModel;
-    private multiChance: number;
+    private multiChance: number = 0;
     private multiCounter: number = 0;
 
     private getParticle(): [ParticleModel, index: number] {
@@ -131,7 +131,7 @@ export class QuantumField {
     }
 
     private updatePosition() {
-        this.fieldPosition = this.fieldElement?.getBoundingClientRect();
+        this.fieldPosition = this.fieldElement.getBoundingClientRect();
         this.fieldElement.updatePosition();
     }
 
@@ -152,14 +152,14 @@ export class QuantumField {
         this.multiChance = override && useFlag(override.requirement) ? override.chance : (multi.chance ?? 0.1);
     }
 
-    public initialize(field: FieldModel, index: number, key?: string) {
+    constructor(field: FieldModel, index: number, key?: string) {
         this.index = index;
         this.data = field;
         this.clickDelay = field.clickDelay;
         this.fieldElement = new QuantumFieldElement(field);
         this.updateSubFields();
 
-        const requirements = new Set(field.subFields.map((sub) => sub.requirement).filter(Boolean));
+        const requirements = new Set(field.subFields.map((sub) => sub.requirement).filter((r): r is string => !!r));
         for (const requirement of requirements) {
             useSaveHandler().registerFlagCallback(requirement, () => this.updateSubFields());
         }
@@ -196,9 +196,5 @@ export class QuantumField {
         requireElement("quantum-fields-container").appendChild(this.fieldElement);
         window.addEventListener("resize", this.updatePosition.bind(this));
         setTimeout(this.updatePosition.bind(this), 100);
-    }
-
-    constructor(field: FieldModel, index: number, key?: string) {
-        this.initialize(field, index, key);
     }
 }

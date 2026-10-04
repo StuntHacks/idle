@@ -67,7 +67,7 @@ export class QuantumStage implements Stage {
         customElements.define("force-tree", ForceTreeElement);
         this.initializeFields();
 
-        const converters = useSave((s) => s.stages.quantum.converters) ?? [];
+        const converters = useSave((s) => s.stages.quantum.converters);
         for (let i = 0; i < 4; i++) {
             const saved = converters[i] ?? { enabled: false, locked: true, acc: 0 };
             const element = requireChild<ConverterElement>(document, `particle-converter:nth-of-type(${i + 1})`);
@@ -102,9 +102,10 @@ export class QuantumStage implements Stage {
             this.fields.push(
                 new QuantumField(FIELD_DATA[key], i, key)
             );
-            this.fluctuators.push(
-                new QuantumFluctuator(i, document.querySelector(`fluctuator-block:nth-of-type(${i + 1})`), this.fields[i])
-            );
+            const element = document.querySelector<FluctuatorElement>(`fluctuator-block:nth-of-type(${i + 1})`);
+            if (element) {
+                this.fluctuators.push(new QuantumFluctuator(i, element, this.fields[i]));
+            }
         }
     }
 
@@ -190,7 +191,7 @@ export class QuantumStage implements Stage {
                 this.unlocks.forces = true;
                 useSave((s) => s.stages.quantum.unlocks.forces = true);
                 requireElement("quantum-tab-forces").classList.remove("disabled");
-                document.getElementById("forces-subtab-tooltip").remove();
+                document.getElementById("forces-subtab-tooltip")?.remove();
             }
         }
     }

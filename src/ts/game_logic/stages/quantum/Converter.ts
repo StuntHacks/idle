@@ -30,17 +30,17 @@ export class ParticleConverter {
     private required: Decimal;
     private callback: (index: number) => void;
 
-    public toggleLock(force: boolean = undefined) {
+    public toggleLock(force?: boolean) {
         if (force === this.locked && !this.locked) return;
         this.locked = typeof force === "boolean" ? force : !this.locked;
         useSave((s) => s.stages.quantum.converters[this.index].locked = this.locked);
-        this.element?.setLocked(this.locked);
+        this.element.setLocked(this.locked);
     }
 
-    public toggle(force: boolean = undefined) {
+    public toggle(force?: boolean) {
         this.enabled = typeof force === "boolean" ? force : !this.enabled;
         useSave((s) => s.stages.quantum.converters[this.index].enabled = this.enabled);
-        this.element?.setEnabled(this.enabled);
+        this.element.setEnabled(this.enabled);
         this.element.setProgress(this.acc, this.getInterval(), TICK_LENGTH);
     }
 
@@ -150,7 +150,7 @@ export class ParticleConverter {
         const simulated = useStatHandler().getContinuousEffect("quantum.energy.converters", this.target, this.committed);
         const previewInput = this.running ? this.getCost().add(this.committed) : this.getCost();
         const preview = useStatHandler().getContinuousEffect("quantum.energy.converters", this.target, previewInput);
-        if (!current || !simulated) return;
+        if (!current || !simulated || !preview) return;
 
         const format = (value: Decimal) => Numbers.getFormatted(
             this.target === "conversion_speed" ? new Decimal(1).div(value) : value, 2
@@ -177,7 +177,6 @@ export class ParticleConverter {
     }
 
     constructor(index: number, element: ConverterElement, callback: (index: number) => void, acc?: number) {
-        if (!element) return;
         this.element = element;
         this.element.setToggleCallback(() => this.callback(this.index));
         this.baseInterval = parseInt(this.element.getAttribute("interval") ?? "5000");

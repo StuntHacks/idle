@@ -210,7 +210,7 @@ export class CurrencyHandler {
         currency.handler.setAmount(amount);
     }
 
-    public get(hash: string): Currency | InferredCurrency {
+    public get(hash: string): Currency | InferredCurrency | undefined {
         const currency = this.currencyMap.get(hash);
         if (!currency) {
             Logger.warning("Currencies", `Unknown hash "${hash}"`);
@@ -235,14 +235,13 @@ export class CurrencyHandler {
 
 let _instance: CurrencyHandler;
 export const useInferredCurrency = <T extends InferredCurrencyClass>(hash: string): T => {
-    const wrapper = useCurrencyHandler().get(hash) as InferredCurrency;
+    const wrapper = useCurrencyHandler().get(hash);
     if (!wrapper?.inferred) {
-        Logger.warning("Currencies", `"${hash}" is not an inferred currency`);
-        return undefined;
+        throw new Error(`"${hash}" is not an inferred currency`);
     }
     return wrapper.handler as unknown as T;
 };
-export const useCurrency = (hash: string): Currency | InferredCurrency => {
+export const useCurrency = (hash: string): Currency | InferredCurrency | undefined => {
     if (!_instance) throw new Error("Call initCurrencyHandler() first");
     return _instance.get(hash);
 };

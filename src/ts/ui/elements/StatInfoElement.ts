@@ -5,8 +5,8 @@ import { Numbers } from "numbers/numbers";
 import { requireAttribute } from "utils/dom";
 
 export class StatInfoElement extends HTMLElement {
-    private stat: string;
-    private content: string;
+    private stat!: string;
+    private content?: string;
 
     constructor() {
         super();

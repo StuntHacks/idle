@@ -4,22 +4,22 @@ import { useTranslation } from "i18n/i18n";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { UpgradeDef } from "types/SaveFile";
 import Decimal from "break_eternity.js";
-import { Currency, InferredCurrencyCallback, useCurrency, useCurrencyHandler } from "game_logic/currencies/Currencies";
+import { InferredCurrencyCallback, useCurrency, useCurrencyHandler } from "game_logic/currencies/Currencies";
 import { Numbers } from "numbers/numbers";
 import { useFlag, useSaveHandler } from "SaveHandler/SaveHandler";
 import { useStat, useStatHandler } from "game_logic/StatHandler";
 import { requireAttribute } from "utils/dom";
 
 export class UpgradeElement extends HTMLElement {
-    private def: UpgradeDef;
-    private namespace: string;
+    private def!: UpgradeDef;
+    private namespace!: string;
     private affordable: boolean = false;
 
-    private detailsElement: HTMLDivElement;
-    private costElement: HTMLSpanElement;
-    private levelsElement: HTMLSpanElement;
-    private currentEffectElement: HTMLSpanElement;
-    private tooltip: HTMLElement;
+    private detailsElement!: HTMLDivElement;
+    private costElement!: HTMLSpanElement;
+    private levelsElement?: HTMLSpanElement;
+    private currentEffectElement?: HTMLSpanElement;
+    private tooltip?: HTMLElement;
 
     constructor() {
         super();
@@ -58,7 +58,7 @@ export class UpgradeElement extends HTMLElement {
     }
 
     private updateCurrentEffect() {
-        if (!this.currentEffectElement) return;
+        if (!this.currentEffectElement || !this.tooltip) return;
         this.tooltip.hidden = this.getCurrentLevel() === 0;
 
         const level = this.getCurrentLevel();
@@ -159,12 +159,14 @@ export class UpgradeElement extends HTMLElement {
             this.classList.add("completed");
         }
 
-        const checkCost = (total?: Decimal) => {
-            if (total == null) {
-                const c = useCurrency(this.def.currency);
-                total = c.inferred ? c.handler.getAmount() : (c as Currency).amount;
-            }
-            this.affordable = total.greaterThanOrEqualTo(this.getCost());
+        const getOwned = (): Decimal | undefined => {
+            const c = useCurrency(this.def.currency);
+            if (!c) return undefined;
+            return c.inferred ? c.handler.getAmount() : c.amount;
+        };
+
+        const checkCost = (total: Decimal | undefined = getOwned()) => {
+            this.affordable = total !== undefined && total?.greaterThanOrEqualTo(this.getCost());
             this.classList.toggle("disabled", !this.affordable);
         };
 

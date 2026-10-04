@@ -3,9 +3,9 @@ import { requireChild } from "utils/dom";
 
 export class StageTabElement extends HTMLElement {
     private activeSubTab?: HTMLElement;
-    private navElement: HTMLElement;
-    private bgElement: HTMLElement;
-    private subTabs: HTMLElement;
+    private navElement: HTMLElement | null = null;
+    private bgElement!: HTMLElement;
+    private subTabs: HTMLElement | null = null;
     private radioStyle: boolean = false;
 
     constructor() {
@@ -21,13 +21,14 @@ export class StageTabElement extends HTMLElement {
             UI.switchSubTab(this.activeSubTab);
         }
 
-        if (this.radioStyle) {
-            UI.switchSubTab(this.subTabs.querySelector("span"));
+        const firstSubTab = this.subTabs?.querySelector("span");
+        if (this.radioStyle && firstSubTab) {
+            UI.switchSubTab(firstSubTab);
         }
     }
 
     public close() {
-        UI.closeSubTab(this.activeSubTab);
+        if (this.activeSubTab) UI.closeSubTab(this.activeSubTab);
         this.classList.remove("active");
         this.bgElement.classList.remove("active");
         this.navElement?.classList.remove("active");;
@@ -35,32 +36,34 @@ export class StageTabElement extends HTMLElement {
 
     connectedCallback() {
         const name = this.id.split("-")[1];
-        this.navElement = document.querySelector(`.main-nav .nav-entry[data-stage="${name}"]`);
+        const nav = document.querySelector<HTMLElement>(`.main-nav .nav-entry[data-stage="${name}"]`);
+        this.navElement = nav;
 
-        this.navElement?.addEventListener("click", () => {
-            if (this.navElement.classList.contains("disabled")) return;
-            if (this.navElement.classList.contains("locked")) {
-                this.navElement.classList.remove("flash");
-                void this.navElement.offsetWidth;
-                this.navElement.classList.add("flash");
+        nav?.addEventListener("click", () => {
+            if (nav.classList.contains("disabled")) return;
+            if (nav.classList.contains("locked")) {
+                nav.classList.remove("flash");
+                void nav.offsetWidth;
+                nav.classList.add("flash");
                 return;
             }
-            UI.switchStageTab(this.navElement.dataset.stage);
+            if (nav.dataset.stage) UI.switchStageTab(nav.dataset.stage);
         });
 
         this.bgElement = requireChild(document, `.stage-background.${name}`);
-        this.subTabs = this.querySelector("nav.sub-tabs");
+        const subTabs = this.querySelector<HTMLElement>("nav.sub-tabs");
+        this.subTabs = subTabs;
 
-        if (!this.subTabs) return;
-        this.radioStyle = this.subTabs.classList.contains("radio-style");
+        if (!subTabs) return;
+        this.radioStyle = subTabs.classList.contains("radio-style");
 
-        const tabs = this.subTabs.getElementsByTagName("span");
+        const tabs = subTabs.getElementsByTagName("span");
         for (const tab of Array.from(tabs)) {
             tab.addEventListener("click", (e: MouseEvent) => {
                 const target = (e.target as HTMLElement).closest("nav.sub-tabs span") as HTMLSpanElement;
                 if (!target.classList.contains("disabled")) {
                     if (target.classList.contains("active")) {
-                        if (this.subTabs.classList.contains("radio-style")) return;
+                        if (this.radioStyle) return;
                         UI.closeSubTab(target);
                         this.activeSubTab = undefined;
                     } else {

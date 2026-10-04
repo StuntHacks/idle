@@ -9,7 +9,7 @@ export interface PopoverButton {
 };
 
 export class PopoverElement extends HTMLElement {
-    private container: HTMLElement;
+    private container!: HTMLElement;
     private callback: () => boolean | void;
     protected buttons: PopoverButton[] = [];
     private popoverTitle: string;

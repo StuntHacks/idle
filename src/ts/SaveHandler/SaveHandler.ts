@@ -14,7 +14,7 @@ export const SAVE_FILE_VERSION = 7;
 export const SAVE_FILE_NAME = "idledynamics_saveFile";
 
 export class SaveHandler {
-    private save: SaveFile;
+    private save!: SaveFile;
     private flagCallbacks: { [key: string]: FlagCallback[] } = {};
 
     constructor() {

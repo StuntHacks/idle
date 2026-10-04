@@ -35,7 +35,9 @@ export class Wave {
         this.canvas = element;
         this.config = config;
         this.contained = contained;
-        this.ctx = this.canvas.getContext('2d');
+        const ctx = this.canvas.getContext('2d');
+        if (!ctx) throw new Error("2d context not available");
+        this.ctx = ctx;
 
         this.config.height ??= container.clientHeight;
         this.config.offset ??= this.config.height / 2;
@@ -55,7 +57,7 @@ export class Wave {
         if (this.stopped) return;
         const parent = this.canvas.parentElement as QuantumFieldElement;
         this.canvas.width = parent.clientWidth;
-        this.canvas.height = parent.parentElement.clientHeight;
+        this.canvas.height = parent.parentElement?.clientHeight ?? parent.clientHeight;
         this.config.offset = this.contained ? parent.clientHeight / 2 : parent.getWaveOffset();
         this.cachedGradient = null;
     }
@@ -243,7 +245,7 @@ export class Wave {
                           Math.sin((pointOffset * 0.5 + time * 0.8) * frequency) * 0.4;
             const ripple = this.getRippleOffset(i, now) * this.rippleGain;
             const influence = this.pointInfluence[i] * 0.4;
-            return offset + noise * amplitude + ripple + influence;
+            return (offset ?? 0) + noise * amplitude + ripple + influence;
         };
 
         let prevX = 0;

@@ -5,7 +5,7 @@ export const SETTINGS_VERSION = 2;
 const SETTINGS_NAME = "idledynamics_settings";
 
 class SettingsHandler {
-    private settings: Settings;
+    private settings!: Settings;
 
     constructor() {
         const data = localStorage.getItem(SETTINGS_NAME);

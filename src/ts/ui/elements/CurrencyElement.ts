@@ -22,14 +22,14 @@ export class CurrencyElement extends HTMLElement {
     }
 
     private currencies: string[] = [];
-    private element: HTMLSpanElement;
-    private inferred: boolean;
-    private max: string;
-    private counter: boolean;
-    private last: string;
-    private precision: number;
-    private cutoffUpper: string;
-    private cutoffLower: string;
+    private element!: HTMLSpanElement;
+    private inferred: boolean = false;
+    private max?: string;
+    private counter: boolean = false;
+    private last?: string;
+    private precision: number = 2;
+    private cutoffUpper?: string;
+    private cutoffLower?: string;
 
     constructor() {
         super();
@@ -72,12 +72,12 @@ export class CurrencyElement extends HTMLElement {
         this.appendChild(this.element);
         this.inferred = this.hasAttribute("inferred");
         this.precision = parseInt(this.getAttribute("precision") || "2", 10);
-        this.cutoffLower = this.getAttribute("cutoff-lower");
-        this.cutoffUpper = this.getAttribute("cutoff-upper");
+        this.cutoffLower = this.getAttribute("cutoff-lower") ?? undefined;
+        this.cutoffUpper = this.getAttribute("cutoff-upper") ?? undefined;
 
         if (this.hasAttribute("counter")) {
             this.counter = true;
-            this.max = this.getAttribute("max");
+            this.max = this.getAttribute("max") ?? undefined;
         }
 
         const fieldId = this.getAttribute("field-id");

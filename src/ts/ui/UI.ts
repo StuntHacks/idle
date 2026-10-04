@@ -35,9 +35,7 @@ export class UI {
         window.addEventListener("touchmove", UI.updateTouchState, { passive: true });
         window.addEventListener("touchend", UI.updateTouchState, { passive: true });
 
-        const sidescrollers = document.getElementsByClassName("js-sidescroll");
-        for (let i = 0; i < sidescrollers.length; i++) {
-            const element = sidescrollers[i];
+        for (const element of Array.from(document.querySelectorAll<HTMLElement>(".js-sidescroll"))) {
             element.addEventListener('wheel', (event: WheelEvent) => {
                 if (event.deltaY === 0) return;
 
@@ -54,13 +52,9 @@ export class UI {
             }, { passive: false });
         }
 
-        requireChild(document, "#tab-version .stage-main-content").addEventListener("scroll", (e: MouseEvent) => {
+        requireChild(document, "#tab-version .stage-main-content").addEventListener("scroll", (e: Event) => {
             const target = e.target as HTMLElement;
-            if (target.scrollTop > 0) {
-                target.querySelector(".headlines").classList.add("shadow");
-            } else {
-                target.querySelector(".headlines").classList.remove("shadow");
-            }
+            target.querySelector(".headlines")?.classList.toggle("shadow", target.scrollTop > 0);
         });
 
         OfflineProgressUI.initialize();
@@ -150,18 +144,19 @@ export class UI {
 
     public static openSubTab(tab: string | HTMLElement) {
         const target = typeof tab === "string" ? document.getElementById(tab) : tab;
-        if (!target) return;
-        const content = target.closest("stage-tab").querySelector(`.tab[data-tab="${target.dataset.tab}"]`);
-        const bg = target.closest("stage-tab").querySelector(".tab-background");
+        const stage = target?.closest("stage-tab");
+        if (!target || !stage) return;
+        const content = stage.querySelector(`.tab[data-tab="${target.dataset.tab}"]`);
+        const bg = stage.querySelector(".tab-background");
         target.classList.add("active");
-        content.classList.add("active");
+        content?.classList.add("active");
         bg?.classList.add("active");
     }
 
     public static closeSubTab(tab: string | HTMLElement) {
         const target = typeof tab === "string" ? document.getElementById(tab) : tab;
-        if (!target) return;
-        const stage = target.closest("stage-tab");
+        const stage = target?.closest("stage-tab");
+        if (!target || !stage) return;
         const content = stage.querySelector(".tab.active");
         const bg = stage.querySelector(".tab-background");
         target.classList.remove("active");
@@ -172,7 +167,7 @@ export class UI {
     public static switchSubTab(tab: string | HTMLElement) {
         const target = typeof tab === "string" ? document.getElementById(tab) : tab;
         if (!target) return;
-        const active = target.closest("stage-tab").querySelector(".sub-tabs .active") as HTMLElement;
+        const active = target.closest("stage-tab")?.querySelector<HTMLElement>(".sub-tabs .active");
         if (active) this.closeSubTab(active);
         this.openSubTab(target);
     }
@@ -245,14 +240,10 @@ export class UI {
         element.setAttribute("amount", Numbers.getFormatted(amount));
         if (showRipple) element.setAttribute("ripple", "true");
 
-        if (UI.currencyContainerMap.has(container)) {
-            UI.currencyContainerMap.get(container).appendChild(element);
-        } else {
-            const containerElement = document.getElementById(container);
-            if (containerElement) {
-                containerElement.appendChild(element);
-                UI.currencyContainerMap.set(container, containerElement);
-            }
+        const containerElement = UI.currencyContainerMap.get(container) ?? document.getElementById(container);
+        if (containerElement) {
+            containerElement.appendChild(element);
+            UI.currencyContainerMap.set(container, containerElement);
         }
     }
 

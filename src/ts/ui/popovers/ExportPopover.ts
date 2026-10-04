@@ -18,7 +18,7 @@ export class ExportPopover extends PopoverElement {
     private copy = () => {
         const button = requireChild(this, "button");
         button.textContent = useTranslation("misc.copied");
-        navigator.clipboard.writeText(requireChild(this, "pre").textContent);
+        navigator.clipboard.writeText(requireChild(this, "pre").textContent ?? "");
         setTimeout(() => button.textContent = useTranslation("misc.copy"), 1000);
         return false;
     }

@@ -27,7 +27,7 @@ export interface SaveFile {
                 committed: Decimal;
             }[];
             conversionInput: Decimal;
-            fluctuators?: boolean[];
+            fluctuators: boolean[];
             fields: {
                 selected: QuantumFieldType;
                 next?: QuantumFieldType;

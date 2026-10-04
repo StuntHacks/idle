@@ -21,7 +21,7 @@ export const TICK_LENGTH = 1000 / TICK_RATE;
 const AUTOSAVE_INTERVAL = 30000;
 
 class Game {
-    private lastTimestamp: number = undefined;
+    private lastTimestamp: number | undefined = undefined;
     private delta: number = 0;
     private stages: Stage[];
     private catchingUp: boolean = false;
@@ -45,6 +45,7 @@ class Game {
     }
 
     public timeskip(seconds: number) {
+        if (this.lastTimestamp === undefined) return;
         this.lastTimestamp -= seconds * 1000;
     }
 

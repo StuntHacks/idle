@@ -2,19 +2,21 @@ import upgradeData from "game_logic/data/upgrades.json";
 import { UpgradeDef } from "types/SaveFile";
 import { UpgradeNodeElement } from "./UpgradeNodeElement";
 import { requireChild } from "utils/dom";
+import { Logger } from "utils/Logger";
 
 export class ForceTreeElement extends HTMLElement {
-    private connectionElement: SVGElement;
-    private sectionElement: HTMLElement;
-    private upgrades: UpgradeDef[];
-    private layout: (string | null)[][];
-    private resizeObserver: ResizeObserver;
+    private connectionElement!: SVGElement;
+    private sectionElement!: HTMLElement;
+    private upgrades?: UpgradeDef[];
+    private layout?: (string | null)[][];
+    private resizeObserver?: ResizeObserver;
 
     constructor() {
         super();
     }
 
     private drawConnections() {
+        if (!this.upgrades) return;
         const sectionRect = this.sectionElement.getBoundingClientRect();
         this.connectionElement.innerHTML = '';
 
@@ -76,8 +78,12 @@ export class ForceTreeElement extends HTMLElement {
                     continue;
                 }
 
-                const upgradeElement = new UpgradeNodeElement(this.upgrades.find(u => u.id === entry));
-                rowElement.appendChild(upgradeElement);
+                const upgrade = this.upgrades.find(u => u.id === entry);
+                if (!upgrade) {
+                    Logger.warning("ForceTreeElement", `Unknown upgrade "${entry}"`);
+                    continue;
+                }
+                rowElement.appendChild(new UpgradeNodeElement(upgrade));
             }
 
             rows.push(rowElement);

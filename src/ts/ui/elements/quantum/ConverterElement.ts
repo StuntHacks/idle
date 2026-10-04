@@ -16,17 +16,17 @@ const ICON_KEYFRAMES: Keyframe[][] = [
 ];
 
 export class ConverterElement extends HTMLElement {
-    private intervalElement: HTMLElement;
-    private costElement: HTMLElement;
-    private labelElement: HTMLElement;
-    private effectElement: HTMLElement;
+    private intervalElement!: HTMLElement;
+    private costElement!: HTMLElement;
+    private labelElement: HTMLElement | null = null;
+    private effectElement!: HTMLElement;
     private progressElement: HTMLElement | null = null;
-    private toggleCallback: ToggleCallback;
+    private toggleCallback?: ToggleCallback;
     private intervalText: string = "";
     private costText: string = "";
     private effectText: string = "";
     private enabled: boolean = false;
-    private running: boolean;
+    private running?: boolean;
     private spinningTarget: boolean = false;
 
     private acc: number = 0;
@@ -51,7 +51,7 @@ export class ConverterElement extends HTMLElement {
         if (!enabled && this.progressElement) {
             this.progressElement.style.clipPath = "xywh(0 -5px 0% calc(100% + 10px))";
         }
-        this.setSpinning(enabled && this.running);
+        this.setSpinning(enabled && !!this.running);
     }
 
     public setLocked(locked: boolean) {
@@ -79,7 +79,7 @@ export class ConverterElement extends HTMLElement {
     public setToggleCallback(toggleCallback: ToggleCallback) {
         if (!this.toggleCallback) {
             this.toggleCallback = toggleCallback;
-            this.addEventListener("click", () => this.toggleCallback());
+            this.addEventListener("click", () => this.toggleCallback?.());
         }
     }
 

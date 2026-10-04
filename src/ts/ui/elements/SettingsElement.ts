@@ -7,7 +7,7 @@ import { UI } from "ui/UI";
 type ST = Omit<SettingsType, "version">;
 
 export class SettingsElement extends HTMLElement {
-    private category: keyof ST;
+    private category!: keyof ST;
 
     constructor() {
         super();
@@ -84,8 +84,8 @@ export class SettingsElement extends HTMLElement {
             case "updateLanguage":
                 // todo: update other elements that dont directly use translated-strings
                 // currently in: SettingsElement, ...
-                document.querySelectorAll("translated-string").forEach((el: TranslatedElement) => el.refresh());
-                document.querySelectorAll("settings-block").forEach((el: SettingsElement) => el.rebuild());
+                document.querySelectorAll<TranslatedElement>("translated-string").forEach((el) => el.refresh());
+                document.querySelectorAll<SettingsElement>("settings-block").forEach((el) => el.rebuild());
                 break;
             case "darkenNavigation":
                 UI.updateDarkMode();

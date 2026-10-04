@@ -12,26 +12,26 @@ export class QuantumFluctuator {
     private acc: number = 0;
     private positionsBuffer: number[] = [];
 
-    public toggleLock(force: boolean = undefined) {
+    public toggleLock(force?: boolean) {
         this.locked = typeof force === "boolean" ? force : !this.locked;
-        this.element?.setLocked(this.locked);
+        this.element.setLocked(this.locked);
 
-        if (!this.locked && this.index > 0) {
-            const container = this.element?.closest(".fluctuators") as HTMLElement;
-            container.dataset.hidden = `${(parseInt(container.dataset.hidden) - 1)}`;
+        const container = this.element.closest<HTMLElement>(".fluctuators");
+        if (!this.locked && this.index > 0 && container) {
+            container.dataset.hidden = `${parseInt(container.dataset.hidden ?? "0") - 1}`;
         }
     }
 
-    public toggle(force: boolean = undefined) {
+    public toggle(force?: boolean) {
         this.acc = 0;
         this.enabled = typeof force === "boolean" ? force : !this.enabled;
-        this.element?.setEnabled(this.enabled);
+        this.element.setEnabled(this.enabled);
         useSave((s) => s.stages.quantum.fluctuators[this.index] = this.enabled);
     }
 
     public tryUpgrade() {
         this.baseInterval *= 0.9;
-        this.element?.setInterval(this.baseInterval);
+        this.element.setInterval(this.baseInterval);
     }
 
     private getInterval() {
@@ -81,14 +81,13 @@ export class QuantumFluctuator {
     }
 
     constructor(index: number, element: FluctuatorElement, field: QuantumField) {
-        if (!element) return;
         this.element = element;
         this.element.setToggleCallback(this.toggle.bind(this));
         this.element.setUpgradeCallback(this.tryUpgrade.bind(this));
         this.index = index;
         this.field = field;
         
-        const saved = useSave((s) => s.stages.quantum.fluctuators) ?? []
+        const saved = useSave((s) => s.stages.quantum.fluctuators);
         this.toggle(saved[this.index] ?? true);
         this.toggleLock(!useFlag(this.getFlagString()));
 

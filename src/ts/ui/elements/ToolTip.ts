@@ -2,12 +2,12 @@ import { requireElement } from "utils/dom";
 let activeTooltip: ToolTip | null = null;
 
 export class ToolTip extends HTMLElement {
-    private host: HTMLElement;
-    private container: HTMLDivElement;
-    private onMouseEnter: () => void;
-    private onMouseLeave: () => void;
-    private onTouchStart: (e: TouchEvent) => void;
-    private onOutsideTouch: (e: TouchEvent) => void;
+    private host!: HTMLElement;
+    private container!: HTMLDivElement;
+    private onMouseEnter!: () => void;
+    private onMouseLeave!: () => void;
+    private onTouchStart!: (e: TouchEvent) => void;
+    private onOutsideTouch!: (e: TouchEvent) => void;
     private frameId: number | null = null;
     private lastRect: DOMRect | null = null;
     private hovering: boolean = false;
@@ -107,13 +107,14 @@ export class ToolTip extends HTMLElement {
             return;
         }
 
-        if (this.hasAttribute("margin")) {
-            if (this.getAttribute("margin").includes(",")) {
-                const parts = this.getAttribute("margin").split(",");
+        const margin = this.getAttribute("margin");
+        if (margin !== null) {
+            if (margin.includes(",")) {
+                const parts = margin.split(",");
                 MARGIN_X = parseInt(parts[0].trim());
                 MARGIN_Y = parseInt(parts[1].trim());
             } else {
-                MARGIN_X = MARGIN_Y = parseInt(this.getAttribute("margin"));
+                MARGIN_X = MARGIN_Y = parseInt(margin);
             }
         }
 

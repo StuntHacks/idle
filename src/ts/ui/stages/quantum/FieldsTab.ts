@@ -14,6 +14,6 @@ export class FieldsTabUI {
         requireChild(document, ".tab-background").classList.add("active");
         const tab = requireChild(document, ".tab[data-tab='fields']");
         tab.classList.add("active");
-        tab.dataset.field = (e.target as HTMLDivElement).closest(".field-label").getAttribute("data-field");
+        tab.dataset.field = (e.target as HTMLElement).closest(".field-label")?.getAttribute("data-field") ?? undefined;
     }
 }

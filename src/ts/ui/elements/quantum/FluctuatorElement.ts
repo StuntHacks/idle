@@ -2,11 +2,11 @@ import { requireChild } from "utils/dom";
 type ToggleCallback = (force?: boolean) => void;
 
 export class FluctuatorElement extends HTMLElement {
-    private disableButton: HTMLSpanElement;
-    private upgradeButton: HTMLElement;
-    private intervalElement: HTMLSpanElement;
-    private toggleCallback: ToggleCallback;
-    private upgradeCallback: () => void;
+    private disableButton!: HTMLSpanElement;
+    private upgradeButton!: HTMLElement;
+    private intervalElement!: HTMLSpanElement;
+    private toggleCallback?: ToggleCallback;
+    private upgradeCallback?: () => void;
 
     public setEnabled(enabled: boolean) {
         this.toggleAttribute("disabled", !enabled);
@@ -19,14 +19,14 @@ export class FluctuatorElement extends HTMLElement {
     public setUpgradeCallback(upgradeCallback: () => void) {
         if (!this.upgradeCallback) {
             this.upgradeCallback = upgradeCallback;
-            this.upgradeButton.addEventListener("click", () => this.upgradeCallback());
+            this.upgradeButton.addEventListener("click", () => this.upgradeCallback?.());
         }
     }
 
     public setToggleCallback(toggleCallback: ToggleCallback) {
         if (!this.toggleCallback) {
             this.toggleCallback = toggleCallback;
-            this.disableButton.addEventListener("click", () => this.toggleCallback());
+            this.disableButton.addEventListener("click", () => this.toggleCallback?.());
         }
     }
 

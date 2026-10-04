@@ -18,8 +18,9 @@ export class Energy extends InferredCurrency {
     public static initialize(handler: CurrencyHandler) {
         this.instance = new Energy();
 
-        const { stage, group, important } = currencyData.inferred.find(c => c.hash === "energy");
-        handler.registerInferred("energy", this.instance, stage, group, important);
+        const entry = currencyData.inferred.find(c => c.hash === "energy");
+        if (!entry) throw new Error(`Missing energy entry in currencies.json`);
+        handler.registerInferred("energy", this.instance, entry.stage, entry.group, entry.important);
 
         const electronCallback: CurrencyCallback = (hash, type, amount) => {
             if (type === "gain") {

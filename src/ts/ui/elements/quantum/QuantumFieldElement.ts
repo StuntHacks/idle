@@ -7,14 +7,14 @@ import { usePopoverManager } from "ui/PopoverManager";
 
 export class QuantumFieldElement extends HTMLElement {
     private waves: Wave[] = [];
-    private data: FieldModel;
+    private data!: FieldModel;
     private subFields: FieldModel["subFields"] = [];
-    private clickCallback: (position: number) => void;
+    private clickCallback?: (position: number) => void;
     
     private canvases: HTMLCanvasElement[] = [];
-    private surface: HTMLDivElement;
-    private tabContainer: HTMLElement;
-    private labelElement: HTMLDivElement;
+    private surface!: HTMLDivElement;
+    private tabContainer!: HTMLElement;
+    private labelElement!: HTMLDivElement;
 
     constructor(data: FieldModel) {
         super();
@@ -58,14 +58,14 @@ export class QuantumFieldElement extends HTMLElement {
     private handleClick = () => {
         window.requestAnimationFrame(this.handleClick);
         if (UI.mouseDown && this.canClick(UI.mouseY)) {
-            this.clickCallback(UI.mouseX);
+            this.clickCallback?.(UI.mouseX);
         }
     }
 
     private handlePress = (e: PointerEvent) => {
         if (e.button !== 0) return;
         if (this.canClick(e.clientY)) {
-            this.clickCallback(e.clientX);
+            this.clickCallback?.(e.clientX);
         }
     }
 
@@ -141,7 +141,7 @@ export class QuantumFieldElement extends HTMLElement {
                 const canvas = document.createElement("canvas");
                 this.canvases.push(canvas);
                 this.appendChild(canvas);
-                this.waves.push(new Wave(canvas, this.parentElement, {
+                this.waves.push(new Wave(canvas, this.parentElement ?? this, {
                     amplitude: 20,
                     frequency: 1,
                     speed: 0.02,
