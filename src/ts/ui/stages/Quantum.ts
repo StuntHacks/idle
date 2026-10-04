@@ -9,10 +9,6 @@ export class QuantumUI {
         FieldsTabUI.initialize();
     }
 
-    public static update(timestamp: number) {
-        EnergyUI.update(timestamp);
-    }
-
     public static updateActiveConverters(num: number) {
         const container = document.getElementById("active-converters");
         container.textContent = `${useTranslation("stages.quantum.energy.conversion.active")} ${num}/${useStat("max_converters").total.toNumber()}`;

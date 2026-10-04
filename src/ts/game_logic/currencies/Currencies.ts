@@ -102,11 +102,11 @@ export class CurrencyHandler {
         const currencies = useSave().currencies;
 
         for (const c of currencies.normal) {
-            this.set(c.hash, new Decimal(c.amount));
+            this.set(c.hash, c.amount);
         }
 
         for (const c of currencies.inferred) {
-            this.setInferred(c.hash, new Decimal(c.amount));
+            this.setInferred(c.hash, c.amount);
         }
     }
 

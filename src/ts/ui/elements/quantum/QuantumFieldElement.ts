@@ -7,7 +7,6 @@ import { usePopoverManager } from "ui/PopoverManager";
 
 export class QuantumFieldElement extends HTMLElement {
     private waves: Wave[] = [];
-    private offset: number = 0;
     private data: FieldModel;
     private subFields: FieldModel["subFields"] = [];
     private clickCallback: (position: number) => void;
@@ -92,37 +91,32 @@ export class QuantumFieldElement extends HTMLElement {
 
         this.surface = document.createElement("div");
         this.surface.classList.add("field-surface");
-        if (this.surface) {
-            let rect = this.surface.getBoundingClientRect();
-            this.offset = rect.y + (rect.height / 2) - 90;
-
-            this.surface.addEventListener("mouseenter", (e: MouseEvent) => {
-                for (let wave of this.waves) {
-                    if (!wave.isHovered()) {
-                        wave.setHovered(true);
-                        wave.ripple(e.clientX, 20, 6.5, 0.05);
-                    }
+        this.surface.addEventListener("mouseenter", (e: MouseEvent) => {
+            for (let wave of this.waves) {
+                if (!wave.isHovered()) {
+                    wave.setHovered(true);
+                    wave.ripple(e.clientX, 20, 6.5, 0.05);
                 }
-            });
-            this.surface.addEventListener("mouseleave", () => {
-                for (let wave of this.waves) {
-                    wave.setHovered(false);
-                }
-            });
-            this.surface.addEventListener("touchcancel", (e: TouchEvent) => {
-                e.preventDefault();
-                const touch = e.changedTouches[0];
-                if (touch) {
-                    UI.mouseDown = true;
-                    UI.mouseX = touch.clientX;
-                    UI.mouseY = touch.clientY;
-                }
-            }, { passive: false });
-
-            this.addEventListener("pointerdown", this.handlePress);
-            window.requestAnimationFrame(this.handleClick);
-        }
+            }
+        });
+        this.surface.addEventListener("mouseleave", () => {
+            for (let wave of this.waves) {
+                wave.setHovered(false);
+            }
+        });
+        this.surface.addEventListener("touchcancel", (e: TouchEvent) => {
+            e.preventDefault();
+            const touch = e.changedTouches[0];
+            if (touch) {
+                UI.mouseDown = true;
+                UI.mouseX = touch.clientX;
+                UI.mouseY = touch.clientY;
+            }
+        }, { passive: false });
         this.appendChild(this.surface);
+
+        this.addEventListener("pointerdown", this.handlePress);
+        window.requestAnimationFrame(this.handleClick);
 
         this.tabContainer = this.closest("stage-tab") as HTMLElement;
         this.createWaves();
@@ -159,7 +153,6 @@ export class QuantumFieldElement extends HTMLElement {
                         hover: "#ffffff",
                     },
                     pointCount: 10,
-                    offset: this.offset,
                     maxRippleAmplitude: 200,
                 }, contained));
             }

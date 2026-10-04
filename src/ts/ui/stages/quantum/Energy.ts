@@ -26,9 +26,4 @@ export class EnergyUI {
             this.energyUpgradesElement.appendChild(element);
         }
     }
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public static update(timestamp: number) {
-        
-    }
 }

@@ -75,7 +75,7 @@ export class QuantumStage implements Stage {
             this.converters.push(c);
         }
 
-        this.conversionInput = new Decimal(useSave((s) => s.stages.quantum.conversionInput) ?? 1);
+        this.conversionInput = useSave((s) => s.stages.quantum.conversionInput);
         this.inputElement = document.querySelector("#quark-conversion-input .input > span");
         this.costElement = document.querySelector("#quark-conversion-input .energy-cost > span");
         document.getElementById("conversion-decrease").addEventListener("click", () => {

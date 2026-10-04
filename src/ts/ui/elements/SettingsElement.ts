@@ -4,7 +4,7 @@ import { TranslatedElement } from "./TranslatedElement";
 import { useSettings, useSettingsHandler } from "utils/SettingsHandler";
 import { UI } from "ui/UI";
 
-type ST = Omit<SettingsType, "version" | "internal">;
+type ST = Omit<SettingsType, "version">;
 
 export class SettingsElement extends HTMLElement {
     private category: keyof ST;

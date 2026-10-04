@@ -51,13 +51,6 @@ export abstract class AggregateCurrency extends InferredCurrency {
         return true;
     }
 
-    public canSpendAtomic(amounts: { hash: string; amount: Decimal }[]): boolean {
-        return amounts.every(({ hash, amount }) => {
-            const c = useCurrencyHandler().get(hash);
-            return c && !c.inferred && (c as Currency).amount.gte(amount);
-        });
-    }
-
     public setAmount(_amount: Decimal): void {
         Logger.error("AggregateCurrency", "Cannot set amount of an aggregate currency")
         void _amount;

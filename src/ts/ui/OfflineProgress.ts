@@ -25,7 +25,6 @@ export class OfflineProgressUI {
     }
 
     public static renderProgress(progress: OfflineResults) {
-        void progress;
         if (useSettings().gameplay.settings.autoAcceptOfflineTime?.value) {
             OfflineProgressUI.dismiss();
         } else {

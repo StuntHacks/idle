@@ -25,7 +25,6 @@ export class UI {
     public static initialize() {
         CustomElements.initialize();
         this.saveIndicator = document.getElementById("save-notif");
-        window.requestAnimationFrame(UI.animate);
 
         window.addEventListener("mousedown", UI.updateMouseState);
         window.addEventListener("mousemove", UI.updateMouseState);
@@ -196,12 +195,6 @@ export class UI {
             UI.mouseX = touch.clientX;
             UI.mouseY = touch.clientY;
         }
-    }
-
-    public static animate(timestamp: number) {
-        QuantumUI.update(timestamp);
-
-        window.requestAnimationFrame(UI.animate);
     }
 
     public static flashSaveIndicator() {

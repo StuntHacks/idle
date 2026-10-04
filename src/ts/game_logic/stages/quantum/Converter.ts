@@ -4,7 +4,6 @@ import { useStat, useStatHandler } from "game_logic/StatHandler";
 import Decimal from "break_eternity.js";
 import { useTranslation } from "i18n/i18n";
 import { Numbers } from "numbers/numbers";
-import { RenderClock } from "ui/RenderClock";
 import { TICK_LENGTH } from "game_logic/Game";
 import { useInferredCurrency } from "game_logic/currencies/Currencies";
 import { QuarkColor } from "game_logic/currencies/inferred/QuarkColor";
@@ -46,10 +45,6 @@ export class ParticleConverter {
 
     public isLocked(): boolean {
         return this.locked;
-    }
-
-    public isEnabled(): boolean {
-        return this.enabled;
     }
 
     public isBlocked(): boolean {
@@ -149,12 +144,6 @@ export class ParticleConverter {
         this.updateCost();
     }
 
-    public getVisualProgress(tickLength: number): number {
-        const interval = this.getInterval();
-        const subTick = this.acc + (tickLength * RenderClock.alpha);
-        return Math.min(subTick / interval, 1);
-    }
-
     private updateEffect() {
         const current = useStatHandler().getContinuousEffect("quantum.energy.converters", this.target);
         const simulated = useStatHandler().getContinuousEffect("quantum.energy.converters", this.target, this.committed);
@@ -210,7 +199,7 @@ export class ParticleConverter {
         );
         this.toggleLock(!unlocked);
         this.running = (this.acc > 0) && !this.locked;
-        if (this.running) this.committed = new Decimal(saved.committed ?? this.getCost());
+        if (this.running) this.committed = saved.committed;
         this.element.setRunning(this.running);
 
         this.updateEffect();

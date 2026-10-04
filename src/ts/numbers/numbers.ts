@@ -39,8 +39,4 @@ export namespace Numbers {
         const str = round(num.toNumber(), maxPrecision, rounding).toFixed(maxPrecision);
         return str.includes(".") ? str.replace(/\.?0+$/, "") : str;
     };
-
-    export const getFormattedFromString = (num: string): string => {
-        return getFormatted(new Decimal(num));
-    };
 }
