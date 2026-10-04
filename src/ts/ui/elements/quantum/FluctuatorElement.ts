@@ -1,3 +1,4 @@
+import { requireChild } from "utils/dom";
 type ToggleCallback = (force?: boolean) => void;
 
 export class FluctuatorElement extends HTMLElement {
@@ -38,8 +39,8 @@ export class FluctuatorElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.intervalElement = this.querySelector(".interval") as HTMLSpanElement;
-        this.upgradeButton = this.querySelector(".upgrade-button") as HTMLElement;
-        this.disableButton = this.querySelector(".disable-button") as HTMLSpanElement;
+        this.intervalElement = requireChild(this, ".interval");
+        this.upgradeButton = requireChild(this, ".upgrade-button");
+        this.disableButton = requireChild(this, ".disable-button");
     }
 }

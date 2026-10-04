@@ -1,6 +1,7 @@
 import { useTranslation } from "i18n/i18n";
 import { ImportResult, useSaveHandler } from "SaveHandler/SaveHandler";
 import { PopoverElement } from "ui/elements/PopoverElement";
+import { requireChild } from "utils/dom";
 
 export class ImportPopover extends PopoverElement {
     constructor() {
@@ -16,7 +17,7 @@ export class ImportPopover extends PopoverElement {
     }
 
     private import = () => {
-        const textarea = this.querySelector("textarea");
+        const textarea = requireChild<HTMLTextAreaElement>(this, "textarea");
 
         if (textarea.value) {
             this.applyImport(textarea.value);
@@ -45,7 +46,7 @@ export class ImportPopover extends PopoverElement {
     }
 
     private showError(textId: string) {
-        const error = this.querySelector(".error");
+        const error = requireChild(this, ".error");
         error.textContent = useTranslation(textId);
         error.classList.remove("hidden");
     }
@@ -53,11 +54,11 @@ export class ImportPopover extends PopoverElement {
     connectedCallback() {
         super.connectedCallback();
 
-        const textarea = this.querySelector("textarea");
+        const textarea = requireChild<HTMLTextAreaElement>(this, "textarea");
         textarea.focus();
 
-        const button = this.querySelector("button");
-        const error = this.querySelector(".error");
+        const button = requireChild(this, "button");
+        const error = requireChild(this, ".error");
         textarea.addEventListener("input", () => {
             button.textContent = textarea.value ? useTranslation("misc.import") : useTranslation("misc.clipboardImport");
             error.classList.add("hidden");

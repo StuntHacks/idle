@@ -1,5 +1,6 @@
 import { useTranslation } from "i18n/i18n";
 import { RenderClock } from "ui/RenderClock";
+import { requireChild } from "utils/dom";
 
 type ToggleCallback = (force?: boolean) => void;
 
@@ -113,10 +114,10 @@ export class ConverterElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.intervalElement = this.querySelector(".interval");
+        this.intervalElement = requireChild(this, ".interval");
         this.labelElement = this.querySelector(".toggle-label");
-        this.effectElement = this.querySelector(".output");
-        this.costElement = this.querySelector(".cost > span");
+        this.effectElement = requireChild(this, ".output");
+        this.costElement = requireChild(this, ".cost > span");
         this.progressElement = this.querySelector(".progress");
         this.initAnimations();
         this.renderFrame = requestAnimationFrame(this.renderLoop);

@@ -1,6 +1,7 @@
 import { PopoverElement } from "./elements/PopoverElement";
 import { ExportPopover } from "./popovers/ExportPopover";
 import { ImportPopover } from "./popovers/ImportPopover";
+import { requireElement } from "utils/dom";
 
 class PopoverManager {
     private container: HTMLElement;
@@ -14,7 +15,7 @@ class PopoverManager {
 
     constructor() {
         this.initPopovers();
-        this.container = document.getElementById("popover-container");
+        this.container = requireElement("popover-container");
     }
 
     public add(popover: PopoverElement) {

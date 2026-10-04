@@ -1,3 +1,4 @@
+import { requireElement } from "utils/dom";
 let activeTooltip: ToolTip | null = null;
 
 export class ToolTip extends HTMLElement {
@@ -52,7 +53,7 @@ export class ToolTip extends HTMLElement {
     }
 
     connectedCallback() {
-        this.container = document.getElementById("tooltip-container") as HTMLDivElement;
+        this.container = requireElement<HTMLDivElement>("tooltip-container");
         if (this.parentElement !== this.container) {
             this.host = this.parentElement!;
             this.container.appendChild(this);

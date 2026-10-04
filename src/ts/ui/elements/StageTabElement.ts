@@ -1,4 +1,5 @@
 import { UI } from "ui/UI";
+import { requireChild } from "utils/dom";
 
 export class StageTabElement extends HTMLElement {
     private activeSubTab?: HTMLElement;
@@ -47,7 +48,7 @@ export class StageTabElement extends HTMLElement {
             UI.switchStageTab(this.navElement.dataset.stage);
         });
 
-        this.bgElement = this.parentElement.querySelector(`.stage-background.${name}`);
+        this.bgElement = requireChild(document, `.stage-background.${name}`);
         this.subTabs = this.querySelector("nav.sub-tabs");
 
         if (!this.subTabs) return;

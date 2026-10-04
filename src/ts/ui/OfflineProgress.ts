@@ -5,36 +5,37 @@ import { useSettings } from "utils/SettingsHandler";
 import { Numbers } from "numbers/numbers";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { Currency, useCurrency } from "game_logic/currencies/Currencies";
+import { requireElement } from "utils/dom";
 
 export class OfflineProgressUI {
     public static prepare() {
-        document.getElementById("offline-progress").classList.add("calculating");
+        requireElement("offline-progress").classList.add("calculating");
     }
 
     public static initialize() {
-        document.getElementById("offline-progress-button").addEventListener("click", () => OfflineProgressUI.dismiss());
+        requireElement("offline-progress-button").addEventListener("click", () => OfflineProgressUI.dismiss());
     }
 
     public static dismiss() {
         UI.selectStartingTab();
-        document.getElementById("offline-progress").classList.add("dismissed");
+        requireElement("offline-progress").classList.add("dismissed");
     }
 
     public static setDuration(duration: string) {
-        document.getElementById("offline-duration").textContent = duration;
+        requireElement("offline-duration").textContent = duration;
     }
 
     public static renderProgress(progress: OfflineResults) {
         if (useSettings().gameplay.settings.autoAcceptOfflineTime?.value) {
             OfflineProgressUI.dismiss();
         } else {
-            const screen = document.getElementById("offline-progress");
+            const screen = requireElement("offline-progress");
             screen.classList.remove("calculating");
             screen.classList.add("displaying");
-            const title = document.getElementById("offline-progress-title") as TranslatedElement;
+            const title = requireElement<TranslatedElement>("offline-progress-title");
             title.refresh("misc.offlineProgress");
 
-            const results = document.getElementById("offline-results");
+            const results = requireElement("offline-results");
             results.classList.remove("hidden");
 
             for (const stage in progress) {

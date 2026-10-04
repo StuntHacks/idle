@@ -13,6 +13,7 @@ import { initPopoverManager, usePopover } from "./PopoverManager";
 import { initNotifications } from "./NotificationManager";
 import { ImportPopover } from "./popovers/ImportPopover";
 import { CustomElements } from "./CustomElements";
+import { requireChild, requireElement } from "utils/dom";
 
 export class UI {
     private static saveIndicator: HTMLElement;
@@ -24,7 +25,7 @@ export class UI {
 
     public static initialize() {
         CustomElements.initialize();
-        this.saveIndicator = document.getElementById("save-notif");
+        this.saveIndicator = requireElement("save-notif");
 
         window.addEventListener("mousedown", UI.updateMouseState);
         window.addEventListener("mousemove", UI.updateMouseState);
@@ -53,7 +54,7 @@ export class UI {
             }, { passive: false });
         }
 
-        document.querySelector("#tab-version .stage-main-content").addEventListener("scroll", (e: MouseEvent) => {
+        requireChild(document, "#tab-version .stage-main-content").addEventListener("scroll", (e: MouseEvent) => {
             const target = e.target as HTMLElement;
             if (target.scrollTop > 0) {
                 target.querySelector(".headlines").classList.add("shadow");
@@ -86,34 +87,34 @@ export class UI {
     }
 
     private static initializeBottomBar() {
-        document.getElementById("save-button").addEventListener("click", () => {
+        requireElement("save-button").addEventListener("click", () => {
             useSaveHandler().saveData();
         });
 
-        document.getElementById("load-button").addEventListener("click", () => {
+        requireElement("load-button").addEventListener("click", () => {
             usePopover(new ImportPopover());
         });
 
-        document.getElementById("settings-button").addEventListener("click", () => {
+        requireElement("settings-button").addEventListener("click", () => {
             UI.handleMenuTabs("settings");
         });
 
-        document.getElementById("about-button").addEventListener("click", () => {
+        requireElement("about-button").addEventListener("click", () => {
             if (UI.handleMenuTabs("about")) {
-                document.getElementById("tab-about").classList.add("slide-in");
+                requireElement("tab-about").classList.add("slide-in");
             }
         });
 
-        document.getElementById("version-number").addEventListener("click", () => {
+        requireElement("version-number").addEventListener("click", () => {
             UI.handleMenuTabs("version");
         });
 
-        document.getElementById("reset-button").addEventListener("auxclick", () => {
+        requireElement("reset-button").addEventListener("auxclick", () => {
             useSaveHandler().reset(true);
             location.reload();
         });
 
-        document.getElementById("reset-button").addEventListener("click", () => {
+        requireElement("reset-button").addEventListener("click", () => {
             useSaveHandler().reset();
             location.reload();
         });
@@ -126,7 +127,7 @@ export class UI {
     }
 
     public static updateBottomBar() {
-        const bottomBar = document.getElementById("bottom-bar");
+        const bottomBar = requireElement("bottom-bar");
         bottomBar.classList.toggle("reverse", useSettings().display.settings.reverseBottomBar.value);
     }
 
@@ -210,7 +211,7 @@ export class UI {
     public static selectStartingTab() {
         const version = useSave().gameVersion;
         if (version && Utils.compareVersions(version, Utils.getVersionString()) < 0) {
-            document.getElementById("tab-version").classList.add("updated");
+            requireElement("tab-version").classList.add("updated");
             UI.switchStageTab("version");
         } else {
             UI.switchStageTab("quantum");

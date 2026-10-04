@@ -1,5 +1,6 @@
 import { handleError } from "utils/handleError";
 import { initGame, stopGame } from "./game_logic/Game";
+import { requireElement } from "utils/dom";
 
 const crash = (e: unknown) => {
     stopGame();
@@ -17,7 +18,7 @@ export const main = async () => {
     try {
         const game = initGame();
 
-        document.getElementById("magic-button").addEventListener("click", () => {
+        requireElement("magic-button").addEventListener("click", () => {
             game.timeskip(3 * 3600);
         });
 

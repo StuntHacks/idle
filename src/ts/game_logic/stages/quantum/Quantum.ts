@@ -20,6 +20,7 @@ import { useTranslation } from "i18n/i18n";
 import { UI } from "ui/UI";
 import { ForceTreeElement } from "ui/elements/quantum/ForceTreeElement";
 import { UpgradeNodeElement } from "ui/elements/quantum/UpgradeNodeElement";
+import { requireChild, requireElement } from "utils/dom";
 
 export interface QuantumStageUnlocks {
     forces: boolean;
@@ -69,20 +70,21 @@ export class QuantumStage implements Stage {
         const converters = useSave((s) => s.stages.quantum.converters) ?? [];
         for (let i = 0; i < 4; i++) {
             const saved = converters[i] ?? { enabled: false, locked: true, acc: 0 };
-            const c = new ParticleConverter(i, document.querySelector(`particle-converter:nth-of-type(${i + 1})`), this.enableConverter, saved.acc);
+            const element = requireChild<ConverterElement>(document, `particle-converter:nth-of-type(${i + 1})`);
+            const c = new ParticleConverter(i, element, this.enableConverter, saved.acc);
             c.toggleLock(saved.locked);
             if (saved.enabled) this.activeConverters.push(i);
             this.converters.push(c);
         }
 
         this.conversionInput = useSave((s) => s.stages.quantum.conversionInput);
-        this.inputElement = document.querySelector("#quark-conversion-input .input > span");
-        this.costElement = document.querySelector("#quark-conversion-input .energy-cost > span");
-        document.getElementById("conversion-decrease").addEventListener("click", () => {
+        this.inputElement = requireChild(document, "#quark-conversion-input .input > span");
+        this.costElement = requireChild(document, "#quark-conversion-input .energy-cost > span");
+        requireElement("conversion-decrease").addEventListener("click", () => {
             this.conversionInput = this.conversionInput.divide(10).clampMin(1);
             this.updateConversionInput();
         });
-        document.getElementById("conversion-increase").addEventListener("click", () => {
+        requireElement("conversion-increase").addEventListener("click", () => {
             this.conversionInput = this.conversionInput.multiply(10).clampMax(useStat("max_conversion_input").total ?? 1e9);
             this.updateConversionInput();
         });
@@ -187,7 +189,7 @@ export class QuantumStage implements Stage {
                 }
                 this.unlocks.forces = true;
                 useSave((s) => s.stages.quantum.unlocks.forces = true);
-                document.getElementById("quantum-tab-forces").classList.remove("disabled");
+                requireElement("quantum-tab-forces").classList.remove("disabled");
                 document.getElementById("forces-subtab-tooltip").remove();
             }
         }
@@ -220,7 +222,7 @@ export class QuantumStage implements Stage {
 
         if (energy !== this.newDots.energy) {
             this.newDots.energy = energy;
-            document.getElementById("quantum-tab-energy").classList.toggle("new", energy);
+            requireElement("quantum-tab-energy").classList.toggle("new", energy);
         }
 
         if (this.unlocks.forces) {

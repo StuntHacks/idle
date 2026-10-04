@@ -1,14 +1,15 @@
 import upgrades from "game_logic/data/upgrades.json";
 import { useSave, useSaveHandler } from "SaveHandler/SaveHandler";
+import { requireElement } from "utils/dom";
 
 export class EnergyUI {
     private static energyUpgradesElement: HTMLDivElement;
 
     public static initialize() {
-        this.energyUpgradesElement = document.getElementById("quantum-energy-upgrades") as HTMLDivElement;
+        this.energyUpgradesElement = requireElement<HTMLDivElement>("quantum-energy-upgrades");
         this.populateUpgrades();
 
-        const hideCheckbox = document.getElementById("quantum-energy-hide-completed") as HTMLInputElement;
+        const hideCheckbox = requireElement<HTMLInputElement>("quantum-energy-hide-completed");
         hideCheckbox.checked = useSave((s) => s.stages.quantum.hideCompletedUpgrades.energy);
         hideCheckbox.addEventListener("change", (e) => {
             useSave((s) => {

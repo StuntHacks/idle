@@ -1,5 +1,6 @@
 import { useTranslation } from "i18n/i18n";
 import { usePopoverManager } from "ui/PopoverManager";
+import { requireElement } from "utils/dom";
 
 export interface PopoverButton {
     label: string;
@@ -47,7 +48,7 @@ export class PopoverElement extends HTMLElement {
 
     connectedCallback() {
         this.classList.add("hidden");
-        this.container = document.getElementById("popover-container");
+        this.container = requireElement("popover-container");
         if (!this.noDismiss) {
             this.container.addEventListener("click", this.handleOverlayClick);
             document.addEventListener("keydown", this.handleEscapePress);

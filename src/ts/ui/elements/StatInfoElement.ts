@@ -2,6 +2,7 @@ import Decimal from "break_eternity.js";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { useStat } from "game_logic/StatHandler";
 import { Numbers } from "numbers/numbers";
+import { requireAttribute } from "utils/dom";
 
 export class StatInfoElement extends HTMLElement {
     private stat: string;
@@ -34,7 +35,7 @@ export class StatInfoElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.stat = this.getAttribute("name");
+        this.stat = requireAttribute(this, "name");
         this.refresh();
     }
 }

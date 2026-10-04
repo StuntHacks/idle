@@ -1,17 +1,18 @@
+import { requireChild } from "utils/dom";
 export class FieldsTabUI {
     public static initialize() {
-        const tab = document.querySelector(".tab[data-tab='fields']") as HTMLDivElement;
+        const tab = requireChild(document, ".tab[data-tab='fields']");
         tab.querySelectorAll(".field-label").forEach((label) => {
             label.addEventListener("click", () => {
                 tab.classList.remove("active");
-                document.querySelector(".tab-background").classList.remove("active");
+                requireChild(document, ".tab-background").classList.remove("active");
             });
         });
     }
 
     public static open(e: MouseEvent) {
-        document.querySelector(".tab-background").classList.add("active");
-        const tab = document.querySelector(".tab[data-tab='fields']") as HTMLDivElement;
+        requireChild(document, ".tab-background").classList.add("active");
+        const tab = requireChild(document, ".tab[data-tab='fields']");
         tab.classList.add("active");
         tab.dataset.field = (e.target as HTMLDivElement).closest(".field-label").getAttribute("data-field");
     }

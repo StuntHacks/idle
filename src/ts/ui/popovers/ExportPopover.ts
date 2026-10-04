@@ -1,6 +1,7 @@
 import { useTranslation } from "i18n/i18n";
 import { useSaveHandler } from "SaveHandler/SaveHandler";
 import { PopoverElement } from "ui/elements/PopoverElement";
+import { requireChild } from "utils/dom";
 
 export class ExportPopover extends PopoverElement {
     constructor() {
@@ -15,9 +16,9 @@ export class ExportPopover extends PopoverElement {
     }
 
     private copy = () => {
-        const button = this.querySelector("button");
+        const button = requireChild(this, "button");
         button.textContent = useTranslation("misc.copied");
-        navigator.clipboard.writeText(this.querySelector("pre").textContent);
+        navigator.clipboard.writeText(requireChild(this, "pre").textContent);
         setTimeout(() => button.textContent = useTranslation("misc.copy"), 1000);
         return false;
     }

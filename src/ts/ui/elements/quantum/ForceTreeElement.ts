@@ -1,6 +1,7 @@
 import upgradeData from "game_logic/data/upgrades.json";
 import { UpgradeDef } from "types/SaveFile";
 import { UpgradeNodeElement } from "./UpgradeNodeElement";
+import { requireChild } from "utils/dom";
 
 export class ForceTreeElement extends HTMLElement {
     private connectionElement: SVGElement;
@@ -88,8 +89,8 @@ export class ForceTreeElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.sectionElement = this.querySelector(".section");
-        this.connectionElement = this.querySelector("svg.connections");
+        this.sectionElement = requireChild(this, ".section");
+        this.connectionElement = requireChild<SVGElement>(this, "svg.connections");
         const data = upgradeData.quantum.forces[this.className as "strong" | "weak" | "electromagnetic"];
         this.upgrades = data?.upgrades as UpgradeDef[];
         this.layout = data?.layout;

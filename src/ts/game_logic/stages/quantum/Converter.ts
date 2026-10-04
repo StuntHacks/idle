@@ -11,6 +11,7 @@ import { Energy } from "game_logic/currencies/inferred/Energy";
 import { TotalQuarks } from "game_logic/currencies/inferred/TotalQuarks";
 import { useNotif } from "ui/NotificationManager";
 import { UI } from "ui/UI";
+import { requireAttribute } from "utils/dom";
 
 export class ParticleConverter {
     private baseInterval: number = 5000;
@@ -180,7 +181,7 @@ export class ParticleConverter {
         this.element = element;
         this.element.setToggleCallback(() => this.callback(this.index));
         this.baseInterval = parseInt(this.element.getAttribute("interval") ?? "5000");
-        this.target = this.element.getAttribute("target");
+        this.target = requireAttribute(this.element, "target");
         this.required = new Decimal(this.element.getAttribute("required") ?? 300);
         this.element.setInterval(this.getInterval());
 

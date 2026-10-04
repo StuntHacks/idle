@@ -1,4 +1,5 @@
 import { IconElement } from "./elements/IconElement";
+import { requireElement } from "utils/dom";
 
 export interface NotificationModel {
     title: string;
@@ -13,7 +14,7 @@ class NotificationManager {
     private container: HTMLElement;
 
     constructor() {
-        this.container = document.getElementById("notification-container");
+        this.container = requireElement("notification-container");
     }
 
     public show(notification: NotificationModel) {

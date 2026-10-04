@@ -5,6 +5,7 @@ import { useFlag, useSaveHandler } from "SaveHandler/SaveHandler";
 import { useStat } from "game_logic/StatHandler";
 import { useCurrencyHandler } from "game_logic/currencies/Currencies";
 import { UI } from "ui/UI";
+import { requireElement } from "utils/dom";
 
 interface FieldColor {
     start: string;
@@ -192,7 +193,7 @@ export class QuantumField {
             this.gainParticle(position, false, true);
         });
 
-        document.getElementById("quantum-fields-container").appendChild(this.fieldElement);
+        requireElement("quantum-fields-container").appendChild(this.fieldElement);
         window.addEventListener("resize", this.updatePosition.bind(this));
         setTimeout(this.updatePosition.bind(this), 100);
     }

@@ -8,6 +8,7 @@ import { Currency, InferredCurrencyCallback, useCurrency, useCurrencyHandler } f
 import { Numbers } from "numbers/numbers";
 import { useFlag, useSaveHandler } from "SaveHandler/SaveHandler";
 import { useStat, useStatHandler } from "game_logic/StatHandler";
+import { requireAttribute } from "utils/dom";
 
 export class UpgradeElement extends HTMLElement {
     private def: UpgradeDef;
@@ -88,7 +89,7 @@ export class UpgradeElement extends HTMLElement {
 
     connectedCallback() {
         const id = this.getAttribute("upgrade");
-        this.namespace = this.getAttribute("namespace");
+        this.namespace = requireAttribute(this, "namespace");
         this.def = get(upgrades, this.namespace).find((u: UpgradeDef) => u.id === id) as UpgradeDef;
 
         this.detailsElement = document.createElement("div");
