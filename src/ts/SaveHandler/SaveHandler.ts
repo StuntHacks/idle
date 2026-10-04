@@ -4,9 +4,10 @@ import { Logger } from "utils/Logger";
 import mock from "./mock.json"
 import { Utils } from "utils/utils";
 import { getDefaultSave } from "./defaultSave";
-import { initSettings } from "utils/SettingsHandler";
 import { useCurrencyHandler } from "game_logic/currencies/Currencies";
-import _, { mergeWith } from "lodash";
+import get from "lodash/get";
+import set from "lodash/set";
+import mergeWith from "lodash/mergeWith";
 import Decimal, { DecimalSource } from "break_eternity.js";
 
 export const SAVE_FILE_VERSION = 7;
@@ -17,7 +18,6 @@ export class SaveHandler {
     private flagCallbacks: { [key: string]: FlagCallback[] } = {};
 
     constructor() {
-        initSettings();
         this.loadData();
     }
 
@@ -160,7 +160,7 @@ export class SaveHandler {
     }
 
     public getFlag(flag: string): boolean {
-        const f = _.get(this.save.flags, flag);
+        const f = get(this.save.flags, flag);
         if (typeof f === "boolean") {
             return f;
         }
@@ -168,7 +168,7 @@ export class SaveHandler {
     }
 
     public setFlag(flag: string, value: unknown) {
-        _.set(this.save.flags, flag, value);
+        set(this.save.flags, flag, value);
         const callbacks = this.flagCallbacks[flag];
         if (callbacks) {
             for (const callback of callbacks) {

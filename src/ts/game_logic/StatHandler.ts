@@ -2,7 +2,7 @@ import statsData from "./data/stats.json";
 import upgradesData from "game_logic/data/upgrades.json";
 import { AnyUpgradeDef, ContinuousUpgradeDef, UpgradeDef, SavedUpgrade, SavedContinuousUpgrade } from "types/SaveFile";
 import Decimal from "break_eternity.js";
-import _ from "lodash";
+import get from "lodash/get";
 import { useFlag, useSaveHandler } from "SaveHandler/SaveHandler";
 import { Logger } from "utils/Logger";
 import { useCurrencyHandler } from "./currencies/Currencies";
@@ -14,7 +14,7 @@ class StatHandler {
     private stats: Stats = {};
 
     private getUpgradeDef(saved: SavedUpgrade | SavedContinuousUpgrade): AnyUpgradeDef | null {
-        const list: AnyUpgradeDef[] | undefined = _.get(upgradesData, saved.accessor);
+        const list: AnyUpgradeDef[] | undefined = get(upgradesData, saved.accessor);
         if (!Array.isArray(list)) return null;
         return list.find((u) => u.id === saved.id) ?? null;
     }
@@ -72,7 +72,7 @@ class StatHandler {
                 continue;
             }
 
-            const bonus = curveFn(new Decimal(saved.spent), def.scale);
+            const bonus = curveFn(saved.spent, def.scale);
 
             switch (def.type) {
                 case "additive":
@@ -138,7 +138,7 @@ class StatHandler {
     }
 
     public feed(namespace: string, id: string, amount: Decimal): void {
-        const defList: AnyUpgradeDef[] | undefined = _.get(upgradesData, namespace);
+        const defList: AnyUpgradeDef[] | undefined = get(upgradesData, namespace);
         if (!Array.isArray(defList)) {
             Logger.error("StatHandler", `Invalid namespace "${namespace}"`);
             return;
@@ -156,14 +156,14 @@ class StatHandler {
         if (index === -1) {
             saved.push({ id, accessor: namespace, spent: amount });
         } else {
-            saved[index].spent = new Decimal(saved[index].spent).plus(amount);
+            saved[index].spent = saved[index].spent.plus(amount);
         }
 
         this.update(def.target);
     }
 
     public getContinuousEffect(namespace: string, id: string, additional: Decimal = new Decimal(0)): Decimal | null {
-        const defList: AnyUpgradeDef[] | undefined = _.get(upgradesData, namespace);
+        const defList: AnyUpgradeDef[] | undefined = get(upgradesData, namespace);
         const def = defList?.find((u) => u.id === id) as ContinuousUpgradeDef | undefined;
         if (!def?.continuous) return null;
 
@@ -171,7 +171,7 @@ class StatHandler {
         if (!curveFn) return null;
 
         const saved = useSaveHandler().getContinuousUpgrades().find((u) => u.id === id);
-        const spent = saved ? new Decimal(saved.spent) : new Decimal(0);
+        const spent = saved?.spent ?? new Decimal(0);
         return curveFn(spent.plus(additional), def.scale);
     }
 
@@ -181,7 +181,7 @@ class StatHandler {
         purchase: boolean = false,
         amount: number = 1
     ): boolean {
-        const defList: AnyUpgradeDef[] | undefined = _.get(upgradesData, namespace);
+        const defList: AnyUpgradeDef[] | undefined = get(upgradesData, namespace);
         if (!Array.isArray(defList)) {
             Logger.error("StatHandler", `Invalid namespace "${namespace}"`);
             return false;

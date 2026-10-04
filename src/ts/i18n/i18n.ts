@@ -1,17 +1,17 @@
 import { useSettings } from "utils/SettingsHandler";
 import en from "./translations/en.json";
 import de from "./translations/de.json";
-import _ from "lodash";
+import get from "lodash/get";
 
 class Translator {
     public translations: TranslationMap = {};
 
     public getTranslation(id: string, lang?: string): string {
         if (!lang) lang = useSettings().general.settings.language.value;
-        let result = _.get(this.translations[lang], id);
+        let result = get(this.translations[lang], id);
 
         if (!result) {
-            result = _.get(this.translations["en"], id);
+            result = get(this.translations["en"], id);
         }
 
         return result ?? id;

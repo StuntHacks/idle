@@ -4,7 +4,7 @@ import { Utils } from "utils/utils";
 import { Logger } from "utils/Logger";
 import { initTranslator } from "i18n/i18n";
 import { UI } from "ui/UI";
-import { useSettings } from "utils/SettingsHandler";
+import { initSettings, useSettings } from "utils/SettingsHandler";
 import { initSaveHandler, useSave, useSaveHandler } from "SaveHandler/SaveHandler";
 import { initStatHandler } from "./StatHandler";
 import { initCurrencyHandler, useCurrencyHandler } from "./currencies/Currencies";
@@ -28,6 +28,7 @@ class Game {
     private stopped: boolean = false;
 
     constructor() {
+        initSettings();
         initSaveHandler();
         initCurrencyHandler();
         initStatHandler();

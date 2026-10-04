@@ -1,5 +1,5 @@
 import upgrades from "game_logic/data/upgrades.json";
-import _ from "lodash";
+import get from "lodash/get";
 import { useTranslation } from "i18n/i18n";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { UpgradeDef } from "types/SaveFile";
@@ -89,7 +89,7 @@ export class UpgradeElement extends HTMLElement {
     connectedCallback() {
         const id = this.getAttribute("upgrade");
         this.namespace = this.getAttribute("namespace");
-        this.def = _.get(upgrades, this.namespace).find((u: UpgradeDef) => u.id === id) as UpgradeDef;
+        this.def = get(upgrades, this.namespace).find((u: UpgradeDef) => u.id === id) as UpgradeDef;
 
         this.detailsElement = document.createElement("div");
         this.detailsElement.classList.add("details");
