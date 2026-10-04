@@ -1,4 +1,6 @@
 const path = require("path");
+const webpack = require("webpack");
+const pkg = require("./package.json");
 
 const isProduction = process.env.SOURCEMAP === "false";
 
@@ -19,6 +21,11 @@ module.exports = {
       path.join(__dirname, "./node_modules"),
     ],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      __VERSION__: JSON.stringify(pkg.version),
+    }),
+  ],
   module: {
     rules: [
       {

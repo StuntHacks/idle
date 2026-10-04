@@ -13,16 +13,6 @@ export namespace Utils {
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    export const callFunctionByName = (name: string, context: any, ...args: any[]) => {
-        const namespaces = name.split(".");
-        const func = namespaces.pop();
-        for (let i = 0; i < namespaces.length; i++) {
-            context = context[namespaces[i]];
-        }
-        return context[func].apply(context, args);
-    }
-
     export const getTimeString = (timestamp: number): string => {
         const secondsInYear = 365 * 24 * 60 * 60;
         const secondsInDay = 24 * 60 * 60;
@@ -47,7 +37,7 @@ export namespace Utils {
     }
 
     export const getVersionString = (): string => {
-        return document.getElementById("version-number").textContent.replace("v", "");
+        return __VERSION__;
     }
 
     export const compareVersions = (a: string, b: string): -1 | 0 | 1 => {
