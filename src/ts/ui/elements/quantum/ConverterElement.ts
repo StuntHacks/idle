@@ -1,5 +1,6 @@
 import { useTranslation } from "i18n/i18n";
 import { RenderClock } from "ui/RenderClock";
+import { RenderLoop } from "ui/RenderLoop";
 import { requireChild } from "utils/dom";
 
 type ToggleCallback = (force?: boolean) => void;
@@ -32,7 +33,6 @@ export class ConverterElement extends HTMLElement {
     private acc: number = 0;
     private interval: number = 0;
     private tickLength: number = 50;
-    private renderFrame: number | null = null;
     private lastVisual: number = -1;
 
     private circleAnim: Animation | null = null;
@@ -122,16 +122,15 @@ export class ConverterElement extends HTMLElement {
         this.costElement = requireChild(this, ".cost > span");
         this.progressElement = this.querySelector(".progress");
         this.initAnimations();
-        this.renderFrame = requestAnimationFrame(this.renderLoop);
+        RenderLoop.subscribe(this.renderProgress);
     }
 
     disconnectedCallback() {
         this.stopAnimations();
-        if (this.renderFrame !== null) cancelAnimationFrame(this.renderFrame);
+        RenderLoop.unsubscribe(this.renderProgress);
     }
 
-    private renderLoop = () => {
-        this.renderFrame = requestAnimationFrame(this.renderLoop);
+    private renderProgress = () => {
         if (!this.progressElement || this.interval === 0) return;
 
         let visual: number;

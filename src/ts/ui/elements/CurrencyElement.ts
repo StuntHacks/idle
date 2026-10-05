@@ -2,25 +2,9 @@ import { Currency, InferredCurrency, useCurrency } from "game_logic/currencies/C
 import { Numbers } from "numbers/numbers";
 import { QuantumFieldElement } from "./quantum/QuantumFieldElement";
 import Decimal from "break_eternity.js";
+import { RenderLoop } from "ui/RenderLoop";
 
 export class CurrencyElement extends HTMLElement {
-    private static subscribers = new Set<CurrencyElement>();
-    private static tickerRunning = false;
-
-    private static startTicker() {
-        if (this.tickerRunning) return;
-        this.tickerRunning = true;
-
-        const tick = () => {
-            for (const el of this.subscribers) {
-                el.tick();
-            }
-            window.requestAnimationFrame(tick);
-        };
-
-        window.requestAnimationFrame(tick);
-    }
-
     private currencies: string[] = [];
     private element!: HTMLSpanElement;
     private inferred: boolean = false;
@@ -58,7 +42,7 @@ export class CurrencyElement extends HTMLElement {
         return text;
     }
 
-    private tick() {
+    private tick = () => {
         const value = this.getValue();
         if (value !== this.last) {
             this.last = value;
@@ -92,12 +76,11 @@ export class CurrencyElement extends HTMLElement {
 
         if (name) {
             this.currencies = name.split(",");
-            CurrencyElement.subscribers.add(this);
-            CurrencyElement.startTicker();
+            RenderLoop.subscribe(this.tick);
         }
     }
 
     disconnectedCallback() {
-        CurrencyElement.subscribers.delete(this);
+        RenderLoop.unsubscribe(this.tick);
     }
 }

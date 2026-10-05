@@ -1,5 +1,6 @@
 import { QuantumFieldElement } from "ui/elements/quantum/QuantumFieldElement";
 import { Utils } from "utils/utils";
+import { RenderLoop } from "ui/RenderLoop";
 
 const FPS_SAMPLE_COUNT = 30;
 const FPS_SHADOW_THRESHOLD = 40;
@@ -11,7 +12,8 @@ export class Wave {
     private ctx: CanvasRenderingContext2D;
     private offsets: number[] = [];
     private ripples: Ripple[] = [];
-    private rafHandle: number | null = null;
+    private running: boolean = false;
+    private startTime: number = 0;
     private time: number = 0;
     private hover: boolean = false;
     private contained: boolean = false;
@@ -27,7 +29,6 @@ export class Wave {
     private hoverShadow: string = "";
     private stopped: boolean = false;
     private onResize = () => this.handleResize();
-    private onVisibilityChange = () => this.handleVisibilityChange();
 
     constructor(
         element: HTMLCanvasElement,
@@ -48,7 +49,6 @@ export class Wave {
 
         this.handleResize();
         addEventListener('resize', this.onResize);
-        document.addEventListener('visibilitychange', this.onVisibilityChange);
 
         this.initialize();
 
@@ -66,21 +66,10 @@ export class Wave {
         this.cachedGradient = null;
     }
 
-    private handleVisibilityChange() {
-        if (this.stopped) return;
-        if (document.hidden) {
-            if (this.rafHandle !== null) {
-                window.cancelAnimationFrame(this.rafHandle);
-                this.rafHandle = null;
-            }
-        } else if (this.rafHandle === null) {
-            this.start();
-        }
-    }
-
     private updateFpsAndShadow(timestamp: number) {
-        if (this.lastFrameTimestamp !== 0) {
-            this.frameDeltaSamples.push(timestamp - this.lastFrameTimestamp);
+        const delta = timestamp - this.lastFrameTimestamp;
+        if (this.lastFrameTimestamp !== 0 && delta < 1000) {
+            this.frameDeltaSamples.push(delta);
 
             if (this.frameDeltaSamples.length > FPS_SAMPLE_COUNT) {
                 this.frameDeltaSamples.shift();
@@ -103,30 +92,27 @@ export class Wave {
     }
 
     public start() {
-        const startTime = performance.now();
+        if (this.running || this.stopped) return;
+        this.running = true;
+        this.startTime = performance.now();
         this.handleResize();
-        const animate = (timestamp: number) => {
-            this.updateFpsAndShadow(timestamp);
+        RenderLoop.subscribe(this.animate);
+    }
 
-            if (this.canvas.checkVisibility({ opacityProperty: true })) {
-                this.time = this.config.speed * ((timestamp - startTime) / 10);
-                this.draw(this.time);
-            }
+    private animate = (timestamp: number) => {
+        this.updateFpsAndShadow(timestamp);
 
-            this.rafHandle = window.requestAnimationFrame(animate);
-        };
-
-        this.rafHandle = window.requestAnimationFrame(animate);
+        if (this.canvas.checkVisibility({ opacityProperty: true })) {
+            this.time = this.config.speed * ((timestamp - this.startTime) / 10);
+            this.draw(this.time);
+        }
     }
 
     public stop() {
         this.stopped = true;
-        if (this.rafHandle !== null) {
-            window.cancelAnimationFrame(this.rafHandle);
-            this.rafHandle = null;
-        }
+        this.running = false;
+        RenderLoop.unsubscribe(this.animate);
         removeEventListener('resize', this.onResize);
-        document.removeEventListener('visibilitychange', this.onVisibilityChange);
     }
 
     private initialize() {

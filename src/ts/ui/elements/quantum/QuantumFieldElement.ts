@@ -4,6 +4,7 @@ import { Wave } from "ui/stages/quantum/Wave";
 import { FieldModel } from "game_logic/stages/quantum/Field";
 import { TranslatedElement } from "../TranslatedElement";
 import { usePopoverManager } from "ui/PopoverManager";
+import { RenderLoop } from "ui/RenderLoop";
 
 export class QuantumFieldElement extends HTMLElement {
     private waves: Wave[] = [];
@@ -55,8 +56,7 @@ export class QuantumFieldElement extends HTMLElement {
             !usePopoverManager().isActive();
     }
 
-    private handleClick = () => {
-        window.requestAnimationFrame(this.handleClick);
+    private handleMouseDown = () => {
         if (UI.mouseDown && this.canClick(UI.mouseY)) {
             this.clickCallback?.(UI.mouseX);
         }
@@ -116,10 +116,17 @@ export class QuantumFieldElement extends HTMLElement {
         this.appendChild(this.surface);
 
         this.addEventListener("pointerdown", this.handlePress);
-        window.requestAnimationFrame(this.handleClick);
+        RenderLoop.subscribe(this.handleMouseDown);
 
         this.tabContainer = this.closest("stage-tab") as HTMLElement;
         this.createWaves();
+    }
+
+    disconnectedCallback() {
+        RenderLoop.unsubscribe(this.handleMouseDown);
+        for (const wave of this.waves) {
+            wave.stop();
+        }
     }
 
     private createWaves() {

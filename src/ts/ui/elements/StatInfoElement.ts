@@ -3,6 +3,7 @@ import { Energy } from "game_logic/currencies/inferred/Energy";
 import { useStat } from "game_logic/StatHandler";
 import { Numbers } from "numbers/numbers";
 import { requireAttribute } from "utils/dom";
+import { RenderLoop } from "ui/RenderLoop";
 
 export class StatInfoElement extends HTMLElement {
     private stat!: string;
@@ -30,12 +31,15 @@ export class StatInfoElement extends HTMLElement {
             this.content = content;
             this.textContent = content;
         }
-
-        window.requestAnimationFrame(this.refresh);
     }
 
     connectedCallback() {
         this.stat = requireAttribute(this, "name");
         this.refresh();
+        RenderLoop.subscribe(this.refresh);
+    }
+
+    disconnectedCallback() {
+        RenderLoop.unsubscribe(this.refresh);
     }
 }
