@@ -105,12 +105,12 @@ export class UI {
 
         requireElement("reset-button").addEventListener("auxclick", () => {
             useSaveHandler().reset(true);
-            location.reload();
+            useSaveHandler().reloadWithoutSaving();
         });
 
         requireElement("reset-button").addEventListener("click", () => {
             useSaveHandler().reset();
-            location.reload();
+            useSaveHandler().reloadWithoutSaving();
         });
 
         this.updateBottomBar();

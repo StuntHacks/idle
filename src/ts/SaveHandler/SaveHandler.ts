@@ -16,6 +16,7 @@ export const SAVE_FILE_NAME = "idledynamics_saveFile";
 export class SaveHandler {
     private save!: SaveFile;
     private flagCallbacks: { [key: string]: FlagCallback[] } = {};
+    private reloading: boolean = false;
 
     constructor() {
         this.loadData();
@@ -128,6 +129,8 @@ export class SaveHandler {
     }
 
     public saveData(fresh: boolean = false): void {
+        if (this.reloading) return;
+
         if (!fresh) {
             this.saveCurrencies();
         }
@@ -137,6 +140,11 @@ export class SaveHandler {
         if (last) localStorage.setItem(`${SAVE_FILE_NAME}_bak`, last);
         localStorage.setItem(SAVE_FILE_NAME, data);
         UI.flashSaveIndicator();
+    }
+
+    public reloadWithoutSaving() {
+        this.reloading = true;
+        location.reload();
     }
 
     public getData(): SaveFile {

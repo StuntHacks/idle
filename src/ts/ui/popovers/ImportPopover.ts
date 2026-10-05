@@ -34,7 +34,7 @@ export class ImportPopover extends PopoverElement {
         const result: ImportResult = useSaveHandler().importData(data);
         switch (result) {
             case "ok":
-                location.reload();
+                useSaveHandler().reloadWithoutSaving();
                 break;
             case "invalid":
                 this.showError("misc.importInvalid");
