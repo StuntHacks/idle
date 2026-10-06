@@ -8,6 +8,7 @@ import { ToolTip } from "./elements/ToolTip";
 import { UpgradeElement } from "./elements/UpgradeElement";
 import { IconElement } from "./elements/IconElement";
 import { TranslatedElement } from "./elements/TranslatedElement";
+import { QuantumFieldElement } from "./elements/quantum/QuantumFieldElement";
 
 export class CustomElements {
     public static initialize() {
@@ -21,5 +22,6 @@ export class CustomElements {
         customElements.define("change-log", ChangeLogElement);
         customElements.define("svg-icon", IconElement);
         customElements.define("translated-string", TranslatedElement);
+        customElements.define("quantum-field", QuantumFieldElement);
     }
 }

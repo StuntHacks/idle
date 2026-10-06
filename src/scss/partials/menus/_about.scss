@@ -1,11 +1,44 @@
 @import "../../settings/gradients.scss";
 
+@property --title-wave-cutoff {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
 #tab-about {
   .tab[data-tab="about"] {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    #title-wave {
+      position: relative;
+      width: 100vw;
+      height: 4rem;
+      margin-bottom: -5rem;
+      --title-wave-cutoff: 0%;
+      mask-image: radial-gradient(black 50%, transparent 60%), linear-gradient(90deg, black var(--title-wave-cutoff), transparent calc(var(--title-wave-cutoff) + 10%));
+      mask-composite: intersect;
+
+      quantum-field {
+        display: block;
+        width: 100%;
+        opacity: 0.5;
+
+        .field-surface {
+          height: 100%;
+        }
+      }
+
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+    }
 
     h1,
     h2 {
@@ -25,6 +58,9 @@
       animation: move-nav-gradient 5s linear infinite;
       width: 100vw;
       text-align: center;
+      z-index: 1;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      font-family: var(--font-special);
     }
 
     h2 {
@@ -72,6 +108,26 @@
       to {
         transform: translateY(0);
         opacity: 1;
+      }
+    }
+  }
+
+  #title-wave {
+    animation:
+      move-credits-up 0.5s ease-out forwards,
+      fade-in-title-wave 0.8s ease 0.1s forwards;
+
+    * {
+      animation: none;
+    }
+
+    @keyframes fade-in-title-wave {
+      from {
+        --title-wave-cutoff: -10%;
+      }
+
+      to {
+        --title-wave-cutoff: 100%;
       }
     }
   }

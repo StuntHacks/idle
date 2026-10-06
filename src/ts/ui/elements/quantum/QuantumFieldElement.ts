@@ -7,6 +7,8 @@ import { usePopoverManager } from "ui/PopoverManager";
 import { RenderLoop } from "ui/RenderLoop";
 
 export class QuantumFieldElement extends HTMLElement {
+    private noLabel: boolean = false;
+    private visualOnly: boolean = false;
     private waves: Wave[] = [];
     private data!: FieldModel;
     private subFields: FieldModel["subFields"] = [];
@@ -17,10 +19,12 @@ export class QuantumFieldElement extends HTMLElement {
     private tabContainer!: HTMLElement;
     private labelElement!: HTMLDivElement;
 
-    constructor(data: FieldModel) {
+    constructor(data: FieldModel, visualOnly = false, noLabel = false) {
         super();
         if (!data) return;
         this.data = data;
+        this.noLabel = noLabel;
+        this.visualOnly = visualOnly;
     }
 
     public setClickCallback(callback: (position: number) => void) {
@@ -81,43 +85,47 @@ export class QuantumFieldElement extends HTMLElement {
 
     connectedCallback() {
         if (!this.data) return;
-        this.labelElement = document.createElement("div");
-        this.labelElement.addEventListener("click", (e: MouseEvent) => {
-            FieldsTabUI.open(e);
-        });
-        this.labelElement.appendChild(new TranslatedElement(this.data.name));
-        this.labelElement.classList.add("field-label", this.data.gradient);
-        this.appendChild(this.labelElement);
+        if (!this.noLabel) {
+            this.labelElement = document.createElement("div");
+            this.labelElement.addEventListener("click", (e: MouseEvent) => {
+                FieldsTabUI.open(e);
+            });
+            this.labelElement.appendChild(new TranslatedElement(this.data.name));
+            this.labelElement.classList.add("field-label", this.data.gradient);
+            this.appendChild(this.labelElement);
+        }
 
         this.surface = document.createElement("div");
         this.surface.classList.add("field-surface");
-        this.surface.addEventListener("mouseenter", (e: MouseEvent) => {
-            for (let wave of this.waves) {
-                if (!wave.isHovered()) {
-                    wave.setHovered(true);
-                    wave.ripple(e.clientX, 20, 6.5, 0.05);
+
+        if (!this.visualOnly) {
+            this.surface.addEventListener("mouseenter", (e: MouseEvent) => {
+                for (let wave of this.waves) {
+                    if (!wave.isHovered()) {
+                        wave.setHovered(true);
+                        wave.ripple(e.clientX, 20, 6.5, 0.05);
+                    }
                 }
-            }
-        });
-        this.surface.addEventListener("mouseleave", () => {
-            for (let wave of this.waves) {
-                wave.setHovered(false);
-            }
-        });
-        this.surface.addEventListener("touchcancel", (e: TouchEvent) => {
-            e.preventDefault();
-            const touch = e.changedTouches[0];
-            if (touch) {
-                UI.mouseDown = true;
-                UI.mouseX = touch.clientX;
-                UI.mouseY = touch.clientY;
-            }
-        }, { passive: false });
+            });
+            this.surface.addEventListener("mouseleave", () => {
+                for (let wave of this.waves) {
+                    wave.setHovered(false);
+                }
+            });
+            this.surface.addEventListener("touchcancel", (e: TouchEvent) => {
+                e.preventDefault();
+                const touch = e.changedTouches[0];
+                if (touch) {
+                    UI.mouseDown = true;
+                    UI.mouseX = touch.clientX;
+                    UI.mouseY = touch.clientY;
+                }
+            }, { passive: false });
+            this.addEventListener("pointerdown", this.handlePress);
+            RenderLoop.subscribe(this.handleMouseDown);
+        }
+
         this.appendChild(this.surface);
-
-        this.addEventListener("pointerdown", this.handlePress);
-        RenderLoop.subscribe(this.handleMouseDown);
-
         this.tabContainer = this.closest("stage-tab") as HTMLElement;
         this.createWaves();
     }

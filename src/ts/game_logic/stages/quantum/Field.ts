@@ -40,7 +40,6 @@ export interface FieldModel {
 
 export class QuantumField {
     private locked: boolean = false;
-    private index: number;
     private data: FieldModel;
     private fieldElement: QuantumFieldElement;
     private fieldPosition: DOMRect = new DOMRect();
@@ -152,11 +151,10 @@ export class QuantumField {
         this.multiChance = override && useFlag(override.requirement) ? override.chance : (multi.chance ?? 0.1);
     }
 
-    constructor(field: FieldModel, index: number, key?: string) {
-        this.index = index;
+    constructor(field: FieldModel, index: number, key?: string, container?: HTMLElement, visualOnly = false, noLabel = false) {
         this.data = field;
         this.clickDelay = field.clickDelay;
-        this.fieldElement = new QuantumFieldElement(field);
+        this.fieldElement = new QuantumFieldElement(field, visualOnly, noLabel);
         this.updateSubFields();
 
         const requirements = new Set(field.subFields.map((sub) => sub.requirement).filter((r): r is string => !!r));
@@ -166,7 +164,7 @@ export class QuantumField {
 
         if (key) this.fieldElement.id = `${key}-field`;
 
-        if (index > 1 && !useFlag(`quantum.fields.extra${index}`)) {
+        if (!visualOnly && index > 1 && !useFlag(`quantum.fields.extra${index}`)) {
             this.fieldElement.classList.add("hidden");
             this.fieldElement.style.display = "none";
             this.locked = true;
@@ -185,15 +183,17 @@ export class QuantumField {
             }
         }
 
-        this.fieldElement.setClickCallback((position: number) => {
-            if (this.clickDelay < 1) return;
-            let now = performance.now();
-            if ((now - this.lastClick) < this.clickDelay) return;
-            this.lastClick = now;
-            this.gainParticle(position, false, true);
-        });
+        if (!visualOnly) {
+            this.fieldElement.setClickCallback((position: number) => {
+                if (this.clickDelay < 1) return;
+                let now = performance.now();
+                if ((now - this.lastClick) < this.clickDelay) return;
+                this.lastClick = now;
+                this.gainParticle(position, false, true);
+            });
+        }
 
-        requireElement("quantum-fields-container").appendChild(this.fieldElement);
+        (container ?? requireElement("quantum-fields-container")).appendChild(this.fieldElement);
         window.addEventListener("resize", this.updatePosition.bind(this));
         setTimeout(this.updatePosition.bind(this), 100);
     }

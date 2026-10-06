@@ -14,6 +14,7 @@ import { initNotifications } from "./NotificationManager";
 import { ImportPopover } from "./popovers/ImportPopover";
 import { CustomElements } from "./CustomElements";
 import { requireChild, requireElement } from "utils/dom";
+import { AboutUI } from "./About";
 
 export class UI {
     private static saveIndicator: HTMLElement;
@@ -60,13 +61,14 @@ export class UI {
         OfflineProgressUI.initialize();
         QuantumUI.initialize();
         SettingsUI.initialize();
+        AboutUI.initialize();
         initPopoverManager();
         initNotifications();
         this.initializeBottomBar();
         this.updateDarkMode();
     }
 
-    private static handleMenuTabs(tab: string): boolean {
+    public static toggleMenuTab(tab: string): boolean {
         if (UI.getActiveStage() === tab && UI.lastStageTab !== "") {
             UI.switchStageTab(UI.lastStageTab);
             return false;
@@ -90,17 +92,17 @@ export class UI {
         });
 
         requireElement("settings-button").addEventListener("click", () => {
-            UI.handleMenuTabs("settings");
+            UI.toggleMenuTab("settings");
         });
 
         requireElement("about-button").addEventListener("click", () => {
-            if (UI.handleMenuTabs("about")) {
+            if (UI.toggleMenuTab("about")) {
                 requireElement("tab-about").classList.add("slide-in");
             }
         });
 
         requireElement("version-number").addEventListener("click", () => {
-            UI.handleMenuTabs("version");
+            UI.toggleMenuTab("version");
         });
 
         requireElement("reset-button").addEventListener("auxclick", () => {
