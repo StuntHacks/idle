@@ -1,7 +1,6 @@
 import { handleError } from "utils/handleError";
 import { initGame, stopGame } from "./game_logic/Game";
 import { requireElement } from "utils/dom";
-import { UI } from "ui/UI";
 
 const crash = (e: unknown) => {
     stopGame();
