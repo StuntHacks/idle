@@ -40,6 +40,7 @@ export interface SaveFile {
 export type Flags = { [key: string]: boolean | Flags };
 export type QuantumFieldType = "lepton" | "quark" | "gluon" | "higgs" | "electroweak" | "neutrino";
 export type UpgradeType = "flag" | "additive" | "multiplicative" | "additive_multiplicative";
+export type RequirementMode = "all" | "any";
 
 export interface UpgradeDef {
     id: string;
@@ -55,6 +56,7 @@ export interface UpgradeDef {
     continuous?: false;
     icon?: string;
     requirements?: string[];
+    requirementMode?: RequirementMode;
 }
 
 export interface ContinuousUpgradeDef {
@@ -69,6 +71,7 @@ export interface ContinuousUpgradeDef {
     scale: number;
     icon?: string;
     requirements?: string[];
+    requirementMode?: RequirementMode;
 }
 
 export type AnyUpgradeDef = UpgradeDef | ContinuousUpgradeDef;
