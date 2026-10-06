@@ -18,8 +18,8 @@
       width: 100vw;
       height: 4rem;
       margin-bottom: -5rem;
-      --title-wave-cutoff: 0%;
-      mask-image: radial-gradient(black 50%, transparent 60%), linear-gradient(90deg, black var(--title-wave-cutoff), transparent calc(var(--title-wave-cutoff) + 10%));
+      --title-wave-cutoff: -30%;
+      mask-image: radial-gradient(black 50%, transparent 60%), linear-gradient(90deg, black var(--title-wave-cutoff), transparent calc(var(--title-wave-cutoff) + 30%));
       mask-composite: intersect;
 
       quantum-field {
@@ -115,7 +115,7 @@
   #title-wave {
     animation:
       move-credits-up 0.5s ease-out forwards,
-      fade-in-title-wave 0.8s ease 0.1s forwards;
+      fade-in-title-wave 1s ease 0.1s forwards;
 
     * {
       animation: none;
@@ -123,7 +123,7 @@
 
     @keyframes fade-in-title-wave {
       from {
-        --title-wave-cutoff: -10%;
+        --title-wave-cutoff: -30%;
       }
 
       to {
