@@ -298,7 +298,7 @@
       "electronGain": "Electron Gain",
       "quarkGain": "Quark Gain",
       "gluonGain": "Gluon Gain",
-      "fermionGain": "Fermion Gain",
+      "fermionGain": "All Fermion Gain",
       "bosonGain": "Boson Gain",
       "fieldGain": "Field Particle Gain",
       "energyGain": "Energy Gain",
