@@ -56,10 +56,14 @@ export class ParticleConverter {
         return Math.max(50, new Decimal(this.baseInterval).multiply(useStatHandler().get("conversion_speed")?.total ?? 1).toNumber());
     }
 
+    private checkUnlock(): boolean {
+        const hash = this.color === "rgb" ? "quarks-total" : `quarks-${this.color}`;
+        return useInferredCurrency<QuarkAggregate>(hash).getAmount().gte(this.required);
+    }
+
     public update(tickLength: number, catchingUp: boolean) {
         if (this.locked) {
-            const unlocked = useInferredCurrency<QuarkAggregate>("quarks-rgb").getAmount().gte(this.required);
-            if (unlocked) {
+            if (this.checkUnlock()) {
                 this.toggleLock(false);
                 useNotif({
                     title: useTranslation(`notifications.quantum.unlocks.converters.${this.color}`),
@@ -199,7 +203,7 @@ export class ParticleConverter {
         const saved = useSave((s) => s.stages.quantum.converters[this.index]);
         const unlocked = (
             !saved.locked ||
-            useInferredCurrency<QuarkAggregate>("quarks-rgb").getAmount().gte(this.required)
+            this.checkUnlock()
         );
         this.toggleLock(!unlocked);
         this.running = (this.acc > 0) && !this.locked;
