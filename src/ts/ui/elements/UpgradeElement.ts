@@ -4,7 +4,7 @@ import { useTranslation } from "i18n/i18n";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { UpgradeDef } from "types/SaveFile";
 import Decimal from "break_eternity.js";
-import { InferredCurrencyCallback, useCurrency, useCurrencyHandler } from "game_logic/currencies/Currencies";
+import { useCurrencyHandler } from "game_logic/currencies/Currencies";
 import { Numbers } from "numbers/numbers";
 import { useFlag, useSaveHandler } from "SaveHandler/SaveHandler";
 import { useStat, useStatHandler } from "game_logic/StatHandler";
@@ -159,21 +159,11 @@ export class UpgradeElement extends HTMLElement {
             this.classList.add("completed");
         }
 
-        const getOwned = (): Decimal | undefined => {
-            const c = useCurrency(this.def.currency);
-            if (!c) return undefined;
-            return c.inferred ? c.handler.getAmount() : c.amount;
-        };
-
-        const checkCost = (total: Decimal | undefined = getOwned()) => {
-            this.affordable = total !== undefined && total?.greaterThanOrEqualTo(this.getCost());
+        const checkCost = () => {
+            this.affordable = useCurrencyHandler().canAfford(this.def.currency, this.getCost());
             this.classList.toggle("disabled", !this.affordable);
         };
-
-        const currencyCallback: InferredCurrencyCallback = (_hash, _type, _amount, _before, total) => {
-            checkCost(total);
-        };
-        useCurrencyHandler().registerCallback(currencyCallback, this.def.currency);
+        useCurrencyHandler().registerCallback(checkCost, this.def.currency);
 
         this.appendChild(this.detailsElement);
         this.appendChild(this.costElement);

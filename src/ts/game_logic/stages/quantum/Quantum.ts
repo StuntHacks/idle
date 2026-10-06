@@ -13,7 +13,7 @@ import { QuantumUI } from "ui/stages/Quantum";
 import { Numbers } from "numbers/numbers";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { useInferredCurrency } from "game_logic/currencies/Currencies";
-import { TotalQuarks } from "game_logic/currencies/inferred/TotalQuarks";
+import { QuarkAggregate } from "game_logic/currencies/inferred/QuarkAggregate";
 import { UpgradeElement } from "ui/elements/UpgradeElement";
 import { useNotif } from "ui/NotificationManager";
 import { useTranslation } from "i18n/i18n";
@@ -180,7 +180,7 @@ export class QuantumStage implements Stage {
 
         const saved = useSave((s) => s.stages.quantum.unlocks);
         if (!this.unlocks.forces) {
-            if (saved.forces || useInferredCurrency<TotalQuarks>("quarks-rgb").getAmount().gte(1e6)) {
+            if (saved.forces || useInferredCurrency<QuarkAggregate>("quarks-total").getAmount().gte(1e6)) {
                 if (!saved.forces) {
                     useNotif({
                         title: useTranslation("notifications.quantum.unlocks.forces"),

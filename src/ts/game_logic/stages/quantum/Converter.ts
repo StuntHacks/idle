@@ -5,10 +5,10 @@ import Decimal from "break_eternity.js";
 import { useTranslation } from "i18n/i18n";
 import { Numbers } from "numbers/numbers";
 import { TICK_LENGTH } from "game_logic/Game";
-import { useInferredCurrency } from "game_logic/currencies/Currencies";
-import { QuarkColor } from "game_logic/currencies/inferred/QuarkColor";
+import { useInferredCurrency, useQuarkPool } from "game_logic/currencies/Currencies";
+import { QuarkCost, QuarkPool } from "game_logic/currencies/QuarkPool";
+import { QuarkAggregate } from "game_logic/currencies/inferred/QuarkAggregate";
 import { Energy } from "game_logic/currencies/inferred/Energy";
-import { TotalQuarks } from "game_logic/currencies/inferred/TotalQuarks";
 import { useNotif } from "ui/NotificationManager";
 import { UI } from "ui/UI";
 import { requireAttribute } from "utils/dom";
@@ -58,7 +58,7 @@ export class ParticleConverter {
 
     public update(tickLength: number, catchingUp: boolean) {
         if (this.locked) {
-            const unlocked = useInferredCurrency<TotalQuarks>("quarks-rgb").getAmount().gte(this.required);
+            const unlocked = useInferredCurrency<QuarkAggregate>("quarks-rgb").getAmount().gte(this.required);
             if (unlocked) {
                 this.toggleLock(false);
                 useNotif({
@@ -79,16 +79,15 @@ export class ParticleConverter {
         if (!this.enabled) return;
 
         const interval = this.getInterval();
-        const currency = this.color === "rgb" ?
-            useInferredCurrency<TotalQuarks>("quarks-rgb") :
-            useInferredCurrency<QuarkColor>(`quarks-${this.color}`);
+        const quarks = useQuarkPool();
         const energy = useInferredCurrency<Energy>("energy");
         const input = this.getCost();
+        const quarkCost = this.getQuarkCosts();
         let amount = new Decimal(0);
 
         const start = (): boolean => {
-            if (!currency.canSpend(input) || !energy.canSpend(this.energyCost)) return false;
-            currency.spend(input);
+            if (!quarks.canAfford(quarkCost) || !energy.canSpend(this.energyCost)) return false;
+            quarks.spend(quarkCost);
             energy.spend(this.energyCost);
             this.committed = input;
             return true;
@@ -135,9 +134,13 @@ export class ParticleConverter {
             }
         }
     }
-
     private getCost(): Decimal {
         return new Decimal(this.color === "rgb" ? 1 : 3).multiply(this.input);
+    }
+
+    private getQuarkCosts(): QuarkCost[] {
+        if (this.color === "rgb") return QuarkPool.getTripletCost(this.getCost());
+        return [{ filter: { colors: [this.color] }, amount: this.getCost() }];
     }
 
     public setInput(input: Decimal, energyCost: Decimal) {
@@ -196,7 +199,7 @@ export class ParticleConverter {
         const saved = useSave((s) => s.stages.quantum.converters[this.index]);
         const unlocked = (
             !saved.locked ||
-            useInferredCurrency<TotalQuarks>(`quarks-rgb`).getAmount().gte(this.required)
+            useInferredCurrency<QuarkAggregate>("quarks-rgb").getAmount().gte(this.required)
         );
         this.toggleLock(!unlocked);
         this.running = (this.acc > 0) && !this.locked;

@@ -53,7 +53,8 @@
         { "hash": "quarks-green", "stage": "quantum", "group": "quark-colors" },
         { "hash": "quarks-blue", "stage": "quantum", "group": "quark-colors" },
 
-        { "hash": "quarks-rgb", "stage": "quantum", "group": "quark-colors" }
+        { "hash": "quarks-total", "stage": "quantum", "group": "quark-colors" },
+        { "hash": "quarks-triplets", "stage": "quantum", "group": "quark-colors" }
     ],
     "quarkFlavors": ["up", "down", "strange", "charm", "top", "bottom"],
     "initialFlavors": ["up", "down"]

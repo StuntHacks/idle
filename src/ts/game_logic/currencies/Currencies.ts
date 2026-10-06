@@ -6,67 +6,67 @@ import currencyData from "../data/currencies.json";
 import { Logger } from "utils/Logger";
 import { OfflineResults } from "game_logic/Game";
 import { useSettings } from "utils/SettingsHandler";
-import { QuarkFlavor } from "./inferred/QuarkFlavor";
-import { QuarkColor } from "./inferred/QuarkColor";
-import { TotalQuarks } from "./inferred/TotalQuarks";
+import { QuarkAggregate, QuarkTriplets } from "./inferred/QuarkAggregate";
+import { QuarkFilter, QuarkPool } from "./QuarkPool";
 
-const COLORS = ["red", "green", "blue"] as const;
 const FLAVORS = currencyData.quarkFlavors;
+
+export type QuarkCurrency = { quarks: QuarkFilter[] };
+export type CostCurrency = string | QuarkCurrency;
 
 export class CurrencyHandler {
     private currencyMap = new Map<string, Currency | InferredCurrency>();
-    private colorAggregates = new Map<string, QuarkColor>();
+    public readonly quarks: QuarkPool;
 
-    private constructor() {
+    public constructor() {
         for (const { className, hash, stage, group, important } of currencyData.normal) {
             this.register(className, hash, stage, group, important);
         }
+
+        this.quarks = new QuarkPool({
+            getAmount: (hash) => (this.currencyMap.get(hash) as Currency | undefined)?.amount ?? new Decimal(0),
+            spend: (hash, amount) => this.spend(hash, amount),
+            registerCallback: (hash, callback) => this.registerCallback(callback, hash),
+        }, FLAVORS, currencyData.initialFlavors);
 
         Energy.initialize(this);
         this.initializeQuarks();
         this.loadFromSave();
     }
 
-    public static create(): CurrencyHandler {
-        return new CurrencyHandler();
-    }
-
     private initializeQuarks() {
-        const initialFlavors = currencyData.initialFlavors;
+        const aggregates: [string, QuarkAggregate][] = [
+            ...FLAVORS.map((flavor): [string, QuarkAggregate] =>
+                [`quarks-${flavor}`, new QuarkAggregate(`quarks-${flavor}`, this.quarks, { flavors: [flavor] })]),
+            ...QuarkPool.COLORS.map((color): [string, QuarkAggregate] =>
+                [`quarks-${color}`, new QuarkAggregate(`quarks-${color}`, this.quarks, { colors: [color] })]),
+            ["quarks-total", new QuarkAggregate("quarks-total", this.quarks, {})],
+            ["quarks-triplets", new QuarkTriplets("quarks-triplets", this.quarks)],
+        ];
 
-        for (const flavor of FLAVORS) {
-            const instance = new QuarkFlavor(flavor);
-            const entry = currencyData.inferred.find(c => c.hash === `quarks-${flavor}`);
+        for (const [hash, instance] of aggregates) {
+            const entry = currencyData.inferred.find(c => c.hash === hash);
             if (entry) {
-                this.registerInferred(`quarks-${flavor}`, instance, entry.stage, entry.group, entry.important ?? false);
+                this.registerInferred(hash, instance, entry.stage, entry.group, entry.important ?? false);
             }
-        }
-
-        for (const color of COLORS) {
-            const instance = new QuarkColor(color, initialFlavors);
-            const entry = currencyData.inferred.find(c => c.hash === `quarks-${color}`);
-            if (entry) {
-                this.registerInferred(`quarks-${color}`, instance, entry.stage, entry.group, entry.important ?? false);
-                this.colorAggregates.set(color, instance);
-            }
-        }
-
-        const rgb = currencyData.inferred.find(c => c.hash === "quarks-rgb");
-        if (rgb) {
-            this.registerInferred("quarks-rgb", new TotalQuarks(), rgb.stage, rgb.group, rgb.important ?? false);
         }
     }
 
     public unlockQuarkFlavor(flavor: string) {
-        for (const aggregate of this.colorAggregates.values()) {
-            aggregate.unlockFlavor(flavor);
-        }
+        this.quarks.unlockFlavor(flavor);
     }
 
     public lockQuarkFlavor(flavor: string) {
-        for (const aggregate of this.colorAggregates.values()) {
-            aggregate.lockFlavor(flavor);
+        this.quarks.lockFlavor(flavor);
+    }
+
+    public canAfford(currency: CostCurrency, amount: Decimal): boolean {
+        if (typeof currency !== "string") {
+            return this.quarks.canAfford(currency.quarks.map((filter) => ({ filter, amount })));
         }
+        const c = this.get(currency);
+        if (!c) return false;
+        return c.inferred ? c.handler.canSpend(amount) : c.amount.gte(amount);
     }
 
     public register(className: string, hash: string, stage: string, group: string, important: boolean = false) {
@@ -85,7 +85,15 @@ export class CurrencyHandler {
         this.currencyMap.set(hash, { hash, handler, stage, group, important, inferred: true });
     }
 
-    public registerCallback(callback: CurrencyCallback | InferredCurrencyCallback, hash: string) {
+    public registerCallback(callback: CurrencyCallback | InferredCurrencyCallback, cost: CostCurrency) {
+        if (typeof cost !== "string") {
+            for (const filter of cost.quarks) {
+                this.quarks.registerCallback(filter, callback);
+            }
+            return;
+        }
+
+        const hash = cost;
         const currency = this.currencyMap.get(hash);
         if (!currency) {
             Logger.warning("Currencies", `Unknown hash "${hash}"`);
@@ -160,7 +168,12 @@ export class CurrencyHandler {
         }
     }
 
-    public spend(hash: string, amount: Decimal): boolean {
+    public spend(cost: CostCurrency, amount: Decimal): boolean {
+        if (typeof cost !== "string") {
+            return this.quarks.spend(cost.quarks.map((filter) => ({ filter, amount })));
+        }
+
+        const hash = cost;
         const currency = this.currencyMap.get(hash);
         if (!currency) {
             Logger.warning("Currencies", `Unknown hash "${hash}"`);
@@ -245,12 +258,15 @@ export const useCurrency = (hash: string): Currency | InferredCurrency | undefin
     if (!_instance) throw new Error("Call initCurrencyHandler() first");
     return _instance.get(hash);
 };
+export const useQuarkPool = (): QuarkPool => {
+    return useCurrencyHandler().quarks;
+};
 export const useCurrencyHandler = (): CurrencyHandler => {
     if (!_instance) throw new Error("Call initCurrencyHandler() first");
     return _instance;
 };
 export const initCurrencyHandler = (): CurrencyHandler => {
-    _instance = CurrencyHandler.create();
+    _instance = new CurrencyHandler();
     return _instance;
 };
 

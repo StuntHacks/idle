@@ -1,6 +1,7 @@
 import { SAVE_FILE_VERSION } from "SaveHandler/SaveHandler";
 import Decimal from "break_eternity.js";
 import { QuantumStageUnlocks } from "game_logic/stages/quantum/Quantum";
+import { CostCurrency } from "game_logic/currencies/Currencies";
 
 export interface SaveFile {
     version: typeof SAVE_FILE_VERSION;
@@ -50,7 +51,7 @@ export interface UpgradeDef {
     cost: number;
     costScaling?: number;
     levels?: number;
-    currency: string;
+    currency: CostCurrency;
     continuous?: false;
     icon?: string;
     requirements?: string[];

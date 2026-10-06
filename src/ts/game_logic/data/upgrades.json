@@ -173,7 +173,13 @@
                         "target": "quantum.gluons_unlocked",
                         "type": "flag",
                         "cost": 333000,
-                        "currency": "quarks-red,quarks-green,quarks-blue",
+                        "currency": {
+                            "quarks": [
+                                { "colors": ["red"] },
+                                { "colors": ["green"] },
+                                { "colors": ["blue"] }
+                            ]
+                        },
                         "icon": "resource-gluon"
                     },
                     {
@@ -254,7 +260,13 @@
                         "target": "quantum.preconfinement",
                         "type": "flag",
                         "cost": 333000,
-                        "currency": "quarks-red,quarks-green,quarks-blue",
+                        "currency": {
+                            "quarks": [
+                                { "colors": ["red"] },
+                                { "colors": ["green"] },
+                                { "colors": ["blue"] }
+                            ]
+                        },
                         "requirements": [
                             "max_conversion_input_1",
                             "conversion_speed_1"
