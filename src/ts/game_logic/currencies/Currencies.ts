@@ -13,6 +13,7 @@ const FLAVORS = currencyData.quarkFlavors;
 
 export type QuarkCurrency = { quarks: QuarkFilter[] };
 export type CostCurrency = string | QuarkCurrency;
+export type Cost = { currency: CostCurrency; amount: Decimal };
 
 export class CurrencyHandler {
     private currencyMap = new Map<string, Currency | InferredCurrency>();
@@ -25,7 +26,7 @@ export class CurrencyHandler {
 
         this.quarks = new QuarkPool({
             getAmount: (hash) => (this.currencyMap.get(hash) as Currency | undefined)?.amount ?? new Decimal(0),
-            spend: (hash, amount) => this.spend(hash, amount),
+            spend: (hash, amount) => this.spend({ currency: hash, amount }),
             registerCallback: (hash, callback) => this.registerCallback(callback, hash),
         }, FLAVORS, currencyData.initialFlavors);
 
@@ -60,13 +61,32 @@ export class CurrencyHandler {
         this.quarks.lockFlavor(flavor);
     }
 
-    public canAfford(currency: CostCurrency, amount: Decimal): boolean {
-        if (typeof currency !== "string") {
-            return this.quarks.canAfford(currency.quarks.map((filter) => ({ filter, amount })));
+    public canAfford(costs: Cost | Cost[]): boolean {
+        const check = (cost: Cost) => {
+            if (typeof cost.currency !== "string") {
+                return this.quarks.canAfford(cost.currency.quarks.map((filter) => ({ filter, amount: cost.amount })));
+            }
+            const currency = this.get(cost.currency);
+            if (!currency) return false;
+            return currency.inferred ? currency.handler.canSpend(cost.amount) : currency.amount.gte(cost.amount);
+        } 
+
+        const c = Array.isArray(costs) ? CurrencyHandler.mergeCosts(costs) : CurrencyHandler.mergeCosts([costs]);
+        return c.every((cost) => check(cost));
+    }
+
+    public static mergeCosts(costs: Cost[]): Cost[] {
+        if (costs.length < 2) return costs;
+
+        const merged = new Map<string, Cost>();
+        for (const cost of costs) {
+            const key = typeof cost.currency === "string" ? cost.currency : JSON.stringify(cost.currency);
+            const existing = merged.get(key);
+            if (!existing || cost.amount.gt(existing.amount)) {
+                merged.set(key, cost);
+            }
         }
-        const c = this.get(currency);
-        if (!c) return false;
-        return c.inferred ? c.handler.canSpend(amount) : c.amount.gte(amount);
+        return [...merged.values()];
     }
 
     public register(className: string, hash: string, stage: string, group: string, important: boolean = false) {
@@ -168,34 +188,40 @@ export class CurrencyHandler {
         }
     }
 
-    public spend(cost: CostCurrency, amount: Decimal): boolean {
-        if (typeof cost !== "string") {
-            return this.quarks.spend(cost.quarks.map((filter) => ({ filter, amount })));
-        }
+    public spend(costs: Cost | Cost[]): boolean {
+        const trySpend = (cost: Cost): boolean => {
+            if (typeof cost.currency !== "string") {
+                return this.quarks.spend(cost.currency.quarks.map((filter) => ({ filter, amount: cost.amount })));
+            }
 
-        const hash = cost;
-        const currency = this.currencyMap.get(hash);
-        if (!currency) {
-            Logger.warning("Currencies", `Unknown hash "${hash}"`);
-            return false;
-        }
+            const hash = cost.currency;
+            const currency = this.currencyMap.get(hash);
+            if (!currency) {
+                Logger.warning("Currencies", `Unknown hash "${hash}"`);
+                return false;
+            }
 
-        if (currency.inferred) {
-            return (currency as InferredCurrency).handler.spend(amount);
-        }
+            if (currency.inferred) {
+                return (currency as InferredCurrency).handler.spend(cost.amount);
+            }
 
-        const normal = currency as Currency;
-        if (!normal.amount.greaterThanOrEqualTo(amount)) return false;
+            const normal = currency as Currency;
+            if (!normal.amount.greaterThanOrEqualTo(cost.amount)) return false;
 
-        const before = normal.amount;
-        const total = before.minus(amount);
-        normal.amount = total;
+            const before = normal.amount;
+            const total = before.minus(cost.amount);
+            normal.amount = total;
 
-        for (const callback of normal.callbacks) {
-            callback(hash, "spend", amount, before, total);
-        }
+            for (const callback of normal.callbacks) {
+                callback(hash, "spend", cost.amount, before, total);
+            }
 
-        return true;
+            return true;
+        };
+
+        const c = Array.isArray(costs) ? CurrencyHandler.mergeCosts(costs) : [costs];
+        if (!this.canAfford(c)) return false;
+        return c.every((cost) => trySpend(cost));
     }
 
     public set(hash: string, amount: Decimal) {

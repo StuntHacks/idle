@@ -5,7 +5,7 @@ import Decimal from "break_eternity.js";
 import get from "lodash/get";
 import { useFlag, useSaveHandler } from "SaveHandler/SaveHandler";
 import { Logger } from "utils/Logger";
-import { useCurrencyHandler } from "./currencies/Currencies";
+import { Cost, CurrencyHandler, useCurrencyHandler } from "./currencies/Currencies";
 import { curves } from "./CurveFunctions";
 
 const stats = statsData as StatData;
@@ -109,17 +109,40 @@ class StatHandler {
         };
     }
 
-    public calculateCost(def: UpgradeDef, currentLevel: number, amount: number): Decimal {
-        const cost = new Decimal(def.cost);
+    public calculateCost(def: UpgradeDef, currentLevel: number, amount: number): Cost[] {
         const scaling = new Decimal(def.costScaling ?? 1);
-        if (scaling.eq(1)) {
-            return cost.multiply(amount);
+        const factor = scaling.eq(1)
+            ? new Decimal(amount)
+            : scaling.pow(currentLevel)
+                .multiply(scaling.pow(amount).minus(1))
+                .divide(scaling.minus(1));
+
+        return def.cost.map(({ currency, amount }) => ({ currency, amount: factor.multiply(amount) }));
+    }
+
+    private static parseUpgrades(data: unknown) {
+        if (Array.isArray(data)) {
+            for (const entry of data) {
+                StatHandler.parseUpgrades(entry);
+            }
+            return;
         }
 
-        return cost
-            .multiply(scaling.pow(currentLevel))
-            .multiply(scaling.pow(amount).minus(1))
-            .divide(scaling.minus(1));
+        if (typeof data !== "object" || data === null) return;
+
+        const def = data as Partial<UpgradeDef>;
+        if (!Array.isArray(def.cost)) {
+            for (const value of Object.values(data)) {
+                StatHandler.parseUpgrades(value);
+            }
+            return;
+        }
+
+        const costs = def.cost.map(({ currency, amount }) => ({ currency, amount: new Decimal(amount) }));
+        def.cost = CurrencyHandler.mergeCosts(costs);
+        if (def.cost.length !== costs.length) {
+            Logger.warning("StatHandler", `Double currency in "${def.id}"`);
+        }
     }
 
     public getUpgradeEffect(def: UpgradeDef, currentLevel: number): Decimal | null {
@@ -194,14 +217,14 @@ class StatHandler {
         }
 
         if (def.continuous) {
-            Logger.error("StatHandler", `"${id}" is continuous - use feed() instead`);
+            Logger.error("StatHandler", `"${id}" is continuous`);
             return false;
         }
 
         const normalDef = def as UpgradeDef;
 
         if (normalDef.type === "flag") {
-            if (purchase && !useCurrencyHandler().spend(normalDef.currency, new Decimal(normalDef.cost))) {
+            if (purchase && !useCurrencyHandler().spend(this.calculateCost(normalDef, 0, 1))) {
                 return false;
             }
             useFlag(normalDef.target, true);
@@ -223,7 +246,7 @@ class StatHandler {
         const actualAmount = Math.min(amount, levelsRemaining);
         const cost = this.calculateCost(normalDef, currentLevel, actualAmount);
 
-        if (purchase && !useCurrencyHandler().spend(normalDef.currency, cost)) return false;
+        if (purchase && !useCurrencyHandler().spend(cost)) return false;
 
         if (!existing) {
             savedUpgrades.push({ id: normalDef.id, accessor: namespace, levels: actualAmount });
@@ -236,6 +259,8 @@ class StatHandler {
     }
 
     constructor() {
+        StatHandler.parseUpgrades(upgradesData);
+
         for (const stat in stats) {
             const def = stats[stat];
             this.stats[stat] = {

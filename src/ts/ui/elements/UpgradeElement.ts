@@ -42,12 +42,12 @@ export class UpgradeElement extends HTMLElement {
     }
 
     private getCost(): Decimal {
-        return useStatHandler().calculateCost(this.def, this.getCurrentLevel(), 1);
+        return useStatHandler().calculateCost(this.def, this.getCurrentLevel(), 1)[0].amount;
     }
 
     private updateCost() {
         const cost = this.getCost();
-        switch (this.def.currency) {
+        switch (this.def.cost[0].currency) {
             case "energy":
                 this.costElement.innerText = Energy.getFormatted(cost, undefined, "ceil");
                 break;
@@ -160,10 +160,13 @@ export class UpgradeElement extends HTMLElement {
         }
 
         const checkCost = () => {
-            this.affordable = useCurrencyHandler().canAfford(this.def.currency, this.getCost());
+            this.affordable = useCurrencyHandler().canAfford({
+                currency: this.def.cost[0].currency,
+                amount: this.getCost()
+            });
             this.classList.toggle("disabled", !this.affordable);
         };
-        useCurrencyHandler().registerCallback(checkCost, this.def.currency);
+        useCurrencyHandler().registerCallback(checkCost, this.def.cost[0].currency);
 
         this.appendChild(this.detailsElement);
         this.appendChild(this.costElement);
