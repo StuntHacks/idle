@@ -29,6 +29,7 @@ export const handleError = (e: unknown) => {
     document.getElementById("error-screen-reset-button")?.addEventListener("click", function() {
         if (window.confirm("Are you sure you want to reset? If the error is persistent, this will most likely fix it, but your progress will be gone. MAKE SURE TO HAVE A BACKUP!")) {
             localStorage.removeItem(SAVE_FILE_NAME);
+            localStorage.removeItem(`${SAVE_FILE_NAME}_bak`);
             localStorage.removeItem("idledynamics_settings");
             location.reload();
         }
