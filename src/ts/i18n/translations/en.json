@@ -34,7 +34,8 @@
     "copied": "Copied!",
     "noEffect": "No effect",
     "max": "Max",
-    "maxed": "Maxed"
+    "maxed": "Maxed",
+    "buyMax": "Buy Max"
   },
   "notifications": {
     "quantum": {
