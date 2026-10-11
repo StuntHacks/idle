@@ -46,7 +46,7 @@ export class QuantumFluctuator {
     }
 
     private getInterval() {
-        return useStatHandler().get(`fluctuator_interval_multiplier_${this.index}`).total.multiply(this.baseInterval).toNumber();
+        return Math.max(useStatHandler().get(`fluctuator_interval_multiplier_${this.index}`).total.multiply(this.baseInterval).toNumber(), 50);
     }
 
     private getRandomPosition() {
