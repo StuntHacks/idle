@@ -84,6 +84,34 @@ export class UpgradeElement extends HTMLElement {
         }
     }
 
+    private checkCost = () => {
+        this.affordable = useCurrencyHandler().canAfford({
+            currency: this.def.cost[0].currency,
+            amount: this.getCost()
+        });
+        this.classList.toggle("disabled", !this.affordable);
+    };
+
+    public buy = (amount: number = 1) => {
+        if (this.isCompleted()) return;
+
+        const result = useStatHandler().gainUpgrade(this.namespace, this.def.id, true, amount);
+        if (!result) return;
+
+        this.updateCost();
+        this.updateLevels();
+        this.updateCurrentEffect();
+        this.checkCost();
+
+        if (this.isCompleted()) {
+            this.classList.add("completed-transition");
+            this.addEventListener("animationend", () => {
+                this.classList.remove("completed-transition");
+                this.classList.add("completed");
+            }, { once: true });
+        }
+    }
+
     connectedCallback() {
         const id = requireAttribute(this, "upgrade");
         this.namespace = requireAttribute(this, "namespace");
@@ -156,37 +184,16 @@ export class UpgradeElement extends HTMLElement {
             this.classList.add("completed");
         }
 
-        const checkCost = () => {
-            this.affordable = useCurrencyHandler().canAfford({
-                currency: this.def.cost[0].currency,
-                amount: this.getCost()
-            });
-            this.classList.toggle("disabled", !this.affordable);
-        };
-        useCurrencyHandler().registerCallback(checkCost, this.def.cost[0].currency);
+        useCurrencyHandler().registerCallback(this.checkCost, this.def.cost[0].currency);
 
         this.appendChild(this.detailsElement);
         this.appendChild(this.costElement);
-        checkCost();
+        this.checkCost();
 
-        this.costElement.addEventListener("click", () => {
-            if (this.isCompleted()) return;
-
-            const result = useStatHandler().gainUpgrade(this.namespace, this.def.id, true);
-            if (!result) return;
-
-            this.updateCost();
-            this.updateLevels();
-            this.updateCurrentEffect();
-            checkCost();
-
-            if (this.isCompleted()) {
-                this.classList.add("completed-transition");
-                this.addEventListener("animationend", () => {
-                    this.classList.remove("completed-transition");
-                    this.classList.add("completed");
-                }, { once: true });
-            }
+        this.costElement.addEventListener("click", () => this.buy(1));
+        this.costElement.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+            this.buy(-1);
         });
     }
 }

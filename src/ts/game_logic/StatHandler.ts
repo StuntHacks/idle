@@ -233,6 +233,25 @@ class StatHandler {
 
         if (normalDef.levels && currentLevel >= normalDef.levels) return false;
 
+        if (amount < 0) {
+            const max = normalDef.levels ? normalDef.levels - currentLevel : 1;
+
+            if (!purchase) {
+                amount = max;
+            } else {
+                amount = 0;
+
+                while (
+                    amount < max &&
+                    useCurrencyHandler().canAfford(this.calculateCost(normalDef, currentLevel, amount + 1))
+                ) {
+                    amount++;
+                }
+
+                if (amount === 0) return false;
+            }
+        }
+
         const levelsRemaining = normalDef.levels ? normalDef.levels - currentLevel : amount;
         const actualAmount = Math.min(amount, levelsRemaining);
         const cost = this.calculateCost(normalDef, currentLevel, actualAmount);
