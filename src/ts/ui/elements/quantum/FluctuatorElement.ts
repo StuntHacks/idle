@@ -9,6 +9,10 @@ export class FluctuatorElement extends HTMLElement {
     private toggleCallback?: ToggleCallback;
     private upgradeCallback?: () => void;
 
+    public setUpgradeEnabled(enabled: boolean) {
+        this.upgradeButton.classList.toggle("disabled", !enabled);
+    }
+
     public setEnabled(enabled: boolean) {
         this.toggleAttribute("disabled", !enabled);
     }

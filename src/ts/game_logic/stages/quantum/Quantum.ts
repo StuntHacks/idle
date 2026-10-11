@@ -210,6 +210,13 @@ export class QuantumStage implements Stage {
             }
         }
 
+        for (const fluctuator of this.fluctuators) {
+            if (fluctuator.canUpgrade() && !fluctuator.isMaxed()) {
+                energy = true;
+                break;
+            }
+        }
+
         // let unlockedConverters = false;
         for (const converter of this.converters) {
             if (converter.isBlocked()) {

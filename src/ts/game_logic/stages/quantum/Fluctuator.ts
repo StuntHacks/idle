@@ -7,6 +7,7 @@ import { UpgradeDef } from "types/SaveFile";
 import Decimal from "break_eternity.js";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { useTranslation } from "i18n/i18n";
+import { useCurrencyHandler } from "game_logic/currencies/Currencies";
 
 export class QuantumFluctuator {
     private baseInterval: number = constants.quantum.fluctuators.interval;
@@ -42,8 +43,20 @@ export class QuantumFluctuator {
         this.updateCost();
     }
 
+    public canUpgrade = () => {
+        return useCurrencyHandler().canAfford({
+            currency: this.upgradeDef.cost[0].currency,
+            amount: this.getCost()
+        });
+    }
+
+    public isMaxed = () => {
+        return this.getInterval() <= 50;
+    }
+
     private updateCost() {
-        this.element.setCost(this.getInterval() <= 50 ? useTranslation("misc.max") : Energy.getFormatted(this.getCost(), 0));
+        if (this.isMaxed()) this.element.setUpgradeEnabled(false);
+        this.element.setCost(this.isMaxed() ? useTranslation("misc.max") : Energy.getFormatted(this.getCost(), 0));
     }
 
     private getCost(): Decimal {

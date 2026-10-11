@@ -195,7 +195,7 @@ fluctuator-block {
         .settings .upgrade-button,
         .stat .disable-button {
             cursor: pointer;
-            transition: background-color 150ms;
+            transition: background-color 150ms, color 150ms;
 
             &:hover {
                 background-color: #0009;
@@ -203,6 +203,11 @@ fluctuator-block {
 
             &:active {
                 background-color: #000a;
+            }
+
+            &.disabled {
+                pointer-events: none;
+                color: transparent;
             }
         }
     }
