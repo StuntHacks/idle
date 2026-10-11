@@ -295,7 +295,7 @@
                 &:has(particle-converter:not([locked])) {
                     .info {
                         opacity: 1;
-                        pointer-events: auto;
+                        pointer-events: inherit;
                     }
 
                     #active-converters {
@@ -304,7 +304,7 @@
 
                     #quark-conversion-input {
                         opacity: 1;
-                        pointer-events: auto;
+                        pointer-events: inherit;
                     }
                 }
 
