@@ -10,7 +10,6 @@ import { Currency, useCurrency } from "game_logic/currencies/Currencies";
 import { Logger } from "utils/Logger";
 import { Numbers } from "numbers/numbers";
 import { initPopoverManager, usePopover } from "./PopoverManager";
-import { initNotifications } from "./NotificationManager";
 import { ImportPopover } from "./popovers/ImportPopover";
 import { CustomElements } from "./CustomElements";
 import { requireChild, requireElement } from "utils/dom";
@@ -63,7 +62,6 @@ export class UI {
         SettingsUI.initialize();
         AboutUI.initialize();
         initPopoverManager();
-        initNotifications();
         this.initializeBottomBar();
         this.updateDarkMode();
     }

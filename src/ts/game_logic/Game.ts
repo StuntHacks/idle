@@ -10,6 +10,8 @@ import { initStatHandler } from "./StatHandler";
 import { initCurrencyHandler, useCurrencyHandler } from "./currencies/Currencies";
 import Decimal from "break_eternity.js";
 import { RenderClock } from "ui/RenderClock";
+import { initNotifications } from "ui/NotificationManager";
+import { initTutorials } from "ui/TutorialManager";
 
 export interface Stage {
     update(tickLength: number, catchingUp: boolean): void;
@@ -33,6 +35,8 @@ class Game {
         initCurrencyHandler();
         initStatHandler();
         initTranslator();
+        initNotifications();
+        initTutorials();
         UI.initialize();
 
         this.stages = [new QuantumStage()];
