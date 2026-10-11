@@ -408,6 +408,13 @@ particle-converter {
         }
     }
 
+    &[disabled] .arrow .progress {
+        &::before,
+        &::after {
+            animation-play-state: paused;
+        }
+    }
+
     .output {
         background-color: #fff1;
         padding: 10px 20px;
