@@ -62,12 +62,6 @@
         }
     }
 
-    &.updated {
-        .updated-label {
-            display: inline-block;
-        }
-    }
-
     change-log {
         margin-bottom: 3rem;
 
@@ -100,4 +94,8 @@
             }
         }
     }
+}
+
+#tab-version.updated .stage-main-content h2 .updated-label {
+    display: inline-block;
 }
