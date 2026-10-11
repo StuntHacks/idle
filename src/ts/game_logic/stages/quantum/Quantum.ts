@@ -20,6 +20,8 @@ import { UI } from "ui/UI";
 import { ForceTreeElement } from "ui/elements/quantum/ForceTreeElement";
 import { UpgradeNodeElement } from "ui/elements/quantum/UpgradeNodeElement";
 import { requireChild, requireElement } from "utils/dom";
+import constants from "game_logic/data/constants.json";
+import { Logger } from "utils/Logger";
 
 export interface QuantumStageUnlocks {
     forces: boolean;
@@ -96,7 +98,12 @@ export class QuantumStage implements Stage {
         this.fields = [];
         this.fluctuators = [];
         for (let i = 0; i < 6; i++) {
-            const key = useSave((s) => s.stages.quantum.fields[i]?.selected) ?? Object.keys(FIELD_DATA)[i];
+            const saved = useSave((s) => s.stages.quantum.fields[i]?.selected);
+            const fallback = Object.keys(FIELD_DATA)[i];
+            if (saved && !FIELD_DATA[saved]) {
+                Logger.warning("QuantumStage", `Unknown field ${saved} saved in slot ${i}. Using ${fallback} instead`);
+            }
+            const key = saved && FIELD_DATA[saved] ? saved : fallback;
             this.fields.push(
                 new QuantumField(FIELD_DATA[key], i, key)
             );
@@ -178,7 +185,7 @@ export class QuantumStage implements Stage {
 
         const saved = useSave((s) => s.stages.quantum.unlocks);
         if (!this.unlocks.forces) {
-            if (saved.forces || useInferredCurrency<QuarkAggregate>("quarks-total").getAmount().gte(1e6)) {
+            if (saved.forces || useInferredCurrency<QuarkAggregate>("quarks-total").getAmount().gte(constants.quantum.unlocks.forces)) {
                 if (!saved.forces) {
                     useNotif({
                         title: useTranslation("notifications.quantum.unlocks.forces"),
