@@ -32,7 +32,9 @@
     "importClipboardFailed": "Error reading from clipboard",
     "copy": "Copy to clipboard",
     "copied": "Copied!",
-    "noEffect": "No effect"
+    "noEffect": "No effect",
+    "max": "Max",
+    "maxed": "Maxed"
   },
   "notifications": {
     "quantum": {

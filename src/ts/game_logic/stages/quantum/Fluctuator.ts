@@ -5,6 +5,8 @@ import constants from "game_logic/data/constants.json";
 import { useStatHandler } from "game_logic/StatHandler";
 import { UpgradeDef } from "types/SaveFile";
 import Decimal from "break_eternity.js";
+import { Energy } from "game_logic/currencies/inferred/Energy";
+import { useTranslation } from "i18n/i18n";
 
 export class QuantumFluctuator {
     private baseInterval: number = constants.quantum.fluctuators.interval;
@@ -37,7 +39,11 @@ export class QuantumFluctuator {
     public tryUpgrade() {
         useStatHandler().gainUpgrade("quantum.energy.fluctuators", this.upgradeDef.id, true);
         this.element.setInterval(this.getInterval());
-        this.element.setCost(this.getCost());
+        this.updateCost();
+    }
+
+    private updateCost() {
+        this.element.setCost(this.getInterval() <= 50 ? useTranslation("misc.max") : Energy.getFormatted(this.getCost(), 0));
     }
 
     private getCost(): Decimal {
@@ -99,7 +105,7 @@ export class QuantumFluctuator {
         this.field = field;
         this.upgradeDef = useStatHandler().getUpgradeDef("quantum.energy.fluctuators", `fluctuator_interval_multiplier_${index}`) as UpgradeDef;
         this.element.setInterval(this.getInterval());
-        this.element.setCost(this.getCost());
+        this.updateCost();
 
         const saved = useSave((s) => s.stages.quantum.fluctuators);
         this.toggle(saved[this.index] ?? true);

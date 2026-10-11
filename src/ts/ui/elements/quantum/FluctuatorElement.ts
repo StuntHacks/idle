@@ -1,5 +1,3 @@
-import Decimal from "break_eternity.js";
-import { Energy } from "game_logic/currencies/inferred/Energy";
 import { requireChild } from "utils/dom";
 type ToggleCallback = (force?: boolean) => void;
 
@@ -37,8 +35,8 @@ export class FluctuatorElement extends HTMLElement {
         this.intervalElement.textContent = `${interval.toFixed(0)}ms`;
     }
 
-    public setCost(cost: Decimal) {
-        this.costElement.textContent = Energy.getFormatted(cost);
+    public setCost(cost: string) {
+        this.costElement.textContent = cost;
     }
 
     constructor() {
