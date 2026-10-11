@@ -1,9 +1,10 @@
 import { useFlag, useSave, useSaveHandler } from "SaveHandler/SaveHandler";
 import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
 import { QuantumField } from "./Field";
+import constants from "game_logic/data/constants.json";
 
 export class QuantumFluctuator {
-    private baseInterval: number = 1000;
+    private baseInterval: number = constants.quantum.fluctuators.interval;
     private enabled: boolean = false;
     private locked: boolean = true;
     private element: FluctuatorElement;

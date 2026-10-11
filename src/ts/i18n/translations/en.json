@@ -15,11 +15,11 @@
     "ok": "Ok",
     "unlocks": {
       "quantum": {
-        "converter1": "300 red Quarks",
-        "converter2": "3000 green Quarks",
-        "converter3": "30000 blue Quarks",
-        "converter4": "1.50e5 Quarks",
-        "forces": "1.00e6 Quarks"
+        "converter1": "$0 red Quarks",
+        "converter2": "$0 green Quarks",
+        "converter3": "$0 blue Quarks",
+        "converter4": "$0 Quarks",
+        "forces": "$0 Quarks"
       }
     },
     "exportSave": "Export save",

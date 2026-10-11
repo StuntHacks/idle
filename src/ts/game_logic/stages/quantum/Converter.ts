@@ -12,9 +12,10 @@ import { Energy } from "game_logic/currencies/inferred/Energy";
 import { useNotif } from "ui/NotificationManager";
 import { UI } from "ui/UI";
 import { requireAttribute } from "utils/dom";
+import constants from "game_logic/data/constants.json";
 
 export class ParticleConverter {
-    private baseInterval: number = 5000;
+    private baseInterval: number;
     private input: Decimal = new Decimal(1);
     private committed: Decimal = new Decimal(0);
     private energyCost: Decimal = new Decimal(0);
@@ -187,9 +188,12 @@ export class ParticleConverter {
     constructor(index: number, element: ConverterElement, callback: (index: number) => void, acc?: number) {
         this.element = element;
         this.element.setToggleCallback(() => this.callback(this.index));
-        this.baseInterval = parseInt(this.element.getAttribute("interval") ?? "5000");
+        this.color = this.element.className;
+        const config = constants.quantum.converters[this.color as keyof typeof constants.quantum.converters];
+        if (!config) throw new Error(`Missing constants for ${this.color} converter`);
+        this.baseInterval = config.interval;
+        this.required = new Decimal(config.required);
         this.target = requireAttribute(this.element, "target");
-        this.required = new Decimal(this.element.getAttribute("required") ?? 300);
         this.element.setInterval(this.getInterval());
 
         this.acc = acc ?? 0;
@@ -197,7 +201,6 @@ export class ParticleConverter {
         this.index = index;
         this.element.setProgress(this.acc, this.getInterval(), TICK_LENGTH);
 
-        this.color = this.element.className;
         this.title = useTranslation(useStat(this.target).title);
 
         const saved = useSave((s) => s.stages.quantum.converters[this.index]);

@@ -1,0 +1,28 @@
+{
+    "quantum": {
+        "unlocks": {
+            "forces": 1e6
+        },
+        "converters": {
+            "red": {
+                "interval": 10000,
+                "required": 300
+            },
+            "green": {
+                "interval": 20000,
+                "required": 3000
+            },
+            "blue": {
+                "interval": 45000,
+                "required": 30000
+            },
+            "rgb": {
+                "interval": 90000,
+                "required": 1.5e5
+            }
+        },
+        "fluctuators": {
+            "interval": 1000
+        }
+    }
+}

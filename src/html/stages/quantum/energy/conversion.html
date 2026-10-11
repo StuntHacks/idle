@@ -30,11 +30,11 @@
         <translated-string class="section-title" id="active-converters"></translated-string>
     </div>
     <div class="converters">
-        <particle-converter class="red" interval="10000" target="energy_gain">
+        <particle-converter class="red" target="energy_gain">
             <div class="unlocked-text">
                 <translated-string>misc.unlockedAt</translated-string>
                 <div class="resource particle quark main red"></div>
-                <translated-string>misc.unlocks.quantum.converter1</translated-string>
+                <translated-string interpolate='[{ "constant": "quantum.converters.red.required" }]'>misc.unlocks.quantum.converter1</translated-string>
             </div>
             <div class="input">
                 <div class="circle">
@@ -54,11 +54,11 @@
             </div>
             <div class="output"></div>
         </particle-converter>
-        <particle-converter class="green" interval="20000" target="quark_gain" required="3000">
+        <particle-converter class="green" target="quark_gain">
             <div class="unlocked-text">
                 <translated-string>misc.unlockedAt</translated-string>
                 <div class="resource particle quark main green"></div>
-                <translated-string>misc.unlocks.quantum.converter2</translated-string>
+                <translated-string interpolate='[{ "constant": "quantum.converters.green.required" }]'>misc.unlocks.quantum.converter2</translated-string>
             </div>
             <div class="input">
                 <div class="circle">
@@ -78,11 +78,11 @@
             </div>
             <div class="output"></div>
         </particle-converter>
-        <particle-converter class="blue" interval="45000" target="conversion_energy_scaling" required="30000">
+        <particle-converter class="blue" target="conversion_energy_scaling">
             <div class="unlocked-text">
                 <translated-string>misc.unlockedAt</translated-string>
                 <div class="resource particle quark main blue"></div>
-                <translated-string>misc.unlocks.quantum.converter3</translated-string>
+                <translated-string interpolate='[{ "constant": "quantum.converters.blue.required" }]'>misc.unlocks.quantum.converter3</translated-string>
             </div>
             <div class="input">
                 <div class="circle">
@@ -102,11 +102,11 @@
             </div>
             <div class="output"></div>
         </particle-converter>
-        <particle-converter class="rgb" interval="90000" target="fermion_gain" required="1.50e5">
+        <particle-converter class="rgb" target="fermion_gain">
             <div class="unlocked-text">
                 <translated-string>misc.unlockedAt</translated-string>
                 <div class="resource particle quark main rgb"></div>
-                <translated-string>misc.unlocks.quantum.converter4</translated-string>
+                <translated-string interpolate='[{ "constant": "quantum.converters.rgb.required" }]'>misc.unlocks.quantum.converter4</translated-string>
             </div>
             <div class="input">
                 <div class="circle">

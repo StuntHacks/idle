@@ -17,6 +17,10 @@ class Translator {
         return result ?? id;
     }
 
+    public interpolate(text: string, values: string[]): string {
+        return text.replace(/\$(\d+)/g, (placeholder, index) => values[Number(index)] ?? placeholder);
+    }
+
     constructor() {
         this.translations = {
             "en": en,
@@ -29,6 +33,10 @@ let _instance: Translator;
 export const useTranslation = (id: string, lang?: string): string => {
     if (!_instance) throw new Error("Call initTranslator() first");
     return _instance.getTranslation(id, lang);
+};
+export const useTranslator = (): Translator => {
+    if (!_instance) throw new Error("Call initTranslator() first");
+    return _instance;
 };
 export const initTranslator = () => {
     _instance = new Translator();

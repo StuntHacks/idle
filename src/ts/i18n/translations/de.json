@@ -14,7 +14,7 @@
     "letMeIn": "Lass' mich rein",
     "unlocks": {
       "quantum": {
-        "forces": "1.00e6 gesamten Quarks"
+        "forces": "$0 gesamten Quarks"
       }
     },
     "ok": "Ok",
