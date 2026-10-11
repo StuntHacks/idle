@@ -1,3 +1,5 @@
+import Decimal from "break_eternity.js";
+import { Energy } from "game_logic/currencies/inferred/Energy";
 import { requireChild } from "utils/dom";
 type ToggleCallback = (force?: boolean) => void;
 
@@ -5,6 +7,7 @@ export class FluctuatorElement extends HTMLElement {
     private disableButton!: HTMLSpanElement;
     private upgradeButton!: HTMLElement;
     private intervalElement!: HTMLSpanElement;
+    private costElement!: HTMLSpanElement;
     private toggleCallback?: ToggleCallback;
     private upgradeCallback?: () => void;
 
@@ -34,12 +37,17 @@ export class FluctuatorElement extends HTMLElement {
         this.intervalElement.textContent = `${interval.toFixed(0)}ms`;
     }
 
+    public setCost(cost: Decimal) {
+        this.costElement.textContent = Energy.getFormatted(cost);
+    }
+
     constructor() {
         super();
     }
 
     connectedCallback() {
-        this.intervalElement = requireChild(this, ".interval");
+        this.intervalElement = requireChild(this, ".interval > span");
+        this.costElement = requireChild(this, ".cost");
         this.upgradeButton = requireChild(this, ".upgrade-button");
         this.disableButton = requireChild(this, ".disable-button");
     }

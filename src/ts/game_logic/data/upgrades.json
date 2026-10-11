@@ -93,79 +93,79 @@
             ],
             "fluctuators": [
                 {
-                    "id": "fluctuator_speed_1",
-                    "title": "upgrades.quantum.energy.fluctuatorSpeed.title",
-                    "target": "fluctuator_speed_1",
-                    "type": "additive",
-                    "amount": 1,
+                    "id": "fluctuator_interval_multiplier_0",
+                    "title": "upgrades.quantum.energy.fluctuatorIntervalMultiplier.title",
+                    "target": "fluctuator_interval_multiplier_0",
+                    "type": "multiplicative",
+                    "amount": 0.9,
                     "cost": [
                         {
                             "currency": "energy",
-                            "amount": 1000000000
+                            "amount": 2000000000
                         }
                     ],
-                    "costScaling": 4,
-                    "levels": 18
+                    "costScaling": 20,
+                    "levels": 29
                 },
                 {
-                    "id": "fluctuator_speed_2",
-                    "title": "upgrades.quantum.energy.fluctuatorSpeed.title",
-                    "target": "fluctuator_speed_2",
-                    "type": "additive",
-                    "amount": 1,
+                    "id": "fluctuator_interval_multiplier_1",
+                    "title": "upgrades.quantum.energy.fluctuatorIntervalMultiplier.title",
+                    "target": "fluctuator_interval_multiplier_1",
+                    "type": "multiplicative",
+                    "amount": 0.9,
                     "cost": [
                         {
                             "currency": "energy",
-                            "amount": 1000000000
+                            "amount": 2000000000
                         }
                     ],
-                    "costScaling": 4,
-                    "levels": 18
+                    "costScaling": 20,
+                    "levels": 29
                 },
                 {
-                    "id": "fluctuator_speed_3",
-                    "title": "upgrades.quantum.energy.fluctuatorSpeed.title",
-                    "target": "fluctuator_speed_3",
-                    "type": "additive",
-                    "amount": 1,
+                    "id": "fluctuator_interval_multiplier_2",
+                    "title": "upgrades.quantum.energy.fluctuatorIntervalMultiplier.title",
+                    "target": "fluctuator_interval_multiplier_2",
+                    "type": "multiplicative",
+                    "amount": 0.9,
                     "cost": [
                         {
                             "currency": "energy",
-                            "amount": 1000000000
+                            "amount": 2000000000
                         }
                     ],
-                    "costScaling": 4,
-                    "levels": 18
+                    "costScaling": 20,
+                    "levels": 29
                 },
                 {
-                    "id": "fluctuator_speed_4",
-                    "title": "upgrades.quantum.energy.fluctuatorSpeed.title",
-                    "target": "fluctuator_speed_4",
-                    "type": "additive",
-                    "amount": 1,
+                    "id": "fluctuator_interval_multiplier_3",
+                    "title": "upgrades.quantum.energy.fluctuatorIntervalMultiplier.title",
+                    "target": "fluctuator_interval_multiplier_3",
+                    "type": "multiplicative",
+                    "amount": 0.9,
                     "cost": [
                         {
                             "currency": "energy",
-                            "amount": 1000000000
+                            "amount": 2000000000
                         }
                     ],
-                    "costScaling": 4,
-                    "levels": 18
+                    "costScaling": 20,
+                    "levels": 29
                 },
                 {
-                    "id": "fluctuator_speed_5",
-                    "title": "upgrades.quantum.energy.fluctuatorSpeed.title",
-                    "target": "fluctuator_speed_5",
-                    "type": "additive",
-                    "amount": 1,
+                    "id": "fluctuator_interval_multiplier_4",
+                    "title": "upgrades.quantum.energy.fluctuatorIntervalMultiplier.title",
+                    "target": "fluctuator_interval_multiplier_4",
+                    "type": "multiplicative",
+                    "amount": 0.9,
                     "cost": [
                         {
                             "currency": "energy",
-                            "amount": 1000000000
+                            "amount": 2000000000
                         }
                     ],
-                    "costScaling": 4,
-                    "levels": 18
+                    "costScaling": 20,
+                    "levels": 29
                 }
             ],
             "converters": [

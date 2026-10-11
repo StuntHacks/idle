@@ -1,6 +1,6 @@
 import statsData from "./data/stats.json";
 import upgradesData from "game_logic/data/upgrades.json";
-import { AnyUpgradeDef, ContinuousUpgradeDef, UpgradeDef, SavedUpgrade, SavedContinuousUpgrade } from "types/SaveFile";
+import { AnyUpgradeDef, ContinuousUpgradeDef, UpgradeDef, SavedContinuousUpgrade } from "types/SaveFile";
 import Decimal from "break_eternity.js";
 import get from "lodash/get";
 import { useFlag, useSaveHandler } from "SaveHandler/SaveHandler";
@@ -13,10 +13,14 @@ const stats = statsData as StatData;
 class StatHandler {
     private stats: Stats = {};
 
-    private getUpgradeDef(saved: SavedUpgrade | SavedContinuousUpgrade): AnyUpgradeDef | null {
-        const list: AnyUpgradeDef[] | undefined = get(upgradesData, saved.accessor);
+    public getUpgradeDef(namespace: string, id: string): AnyUpgradeDef | null {
+        const list: AnyUpgradeDef[] | undefined = get(upgradesData, namespace);
         if (!Array.isArray(list)) return null;
-        return list.find((u) => u.id === saved.id) ?? null;
+        return list.find((u) => u.id === id) ?? null;
+    }
+
+    public getUpgradeLevel(id: string): number {
+        return useSaveHandler().getUpgrades().find((u) => u.id === id)?.levels ?? 0;
     }
 
     public update(stat: string) {
@@ -30,12 +34,12 @@ class StatHandler {
         const savedContinuous = save.getContinuousUpgrades();
 
         const relevant = savedUpgrades.flatMap((saved) => {
-            const def = this.getUpgradeDef(saved);
+            const def = this.getUpgradeDef(saved.accessor, saved.id);
             return def?.target === stat && !def.continuous ? [{ saved, def: def as UpgradeDef }] : [];
         });
 
         const relevantContinuous = savedContinuous.flatMap((saved) => {
-            const def = this.getUpgradeDef(saved);
+            const def = this.getUpgradeDef(saved.accessor, saved.id);
             return def?.target === stat && def.continuous ? [{ saved: saved as SavedContinuousUpgrade, def: def as ContinuousUpgradeDef }] : [];
         });
 
@@ -161,13 +165,7 @@ class StatHandler {
     }
 
     public feed(namespace: string, id: string, amount: Decimal): void {
-        const defList: AnyUpgradeDef[] | undefined = get(upgradesData, namespace);
-        if (!Array.isArray(defList)) {
-            Logger.error("StatHandler", `Invalid namespace "${namespace}"`);
-            return;
-        }
-
-        const def = defList.find((u) => u.id === id);
+        const def = this.getUpgradeDef(namespace, id);
         if (!def?.continuous) {
             Logger.error("StatHandler", `"${id}" is not a continuous upgrade`);
             return;
@@ -186,8 +184,7 @@ class StatHandler {
     }
 
     public getContinuousEffect(namespace: string, id: string, additional: Decimal = new Decimal(0)): Decimal | null {
-        const defList: AnyUpgradeDef[] | undefined = get(upgradesData, namespace);
-        const def = defList?.find((u) => u.id === id) as ContinuousUpgradeDef | undefined;
+        const def = this.getUpgradeDef(namespace, id);
         if (!def?.continuous) return null;
 
         const curveFn = curves[def.curve];
@@ -204,13 +201,7 @@ class StatHandler {
         purchase: boolean = false,
         amount: number = 1
     ): boolean {
-        const defList: AnyUpgradeDef[] | undefined = get(upgradesData, namespace);
-        if (!Array.isArray(defList)) {
-            Logger.error("StatHandler", `Invalid namespace "${namespace}"`);
-            return false;
-        }
-
-        const def = defList.find((u) => u.id === id);
+        const def = this.getUpgradeDef(namespace, id);
         if (!def) {
             Logger.error("StatHandler", `Upgrade "${id}" not found in "${namespace}"`);
             return false;

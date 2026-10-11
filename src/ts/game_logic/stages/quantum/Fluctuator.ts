@@ -2,6 +2,9 @@ import { useFlag, useSave, useSaveHandler } from "SaveHandler/SaveHandler";
 import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
 import { QuantumField } from "./Field";
 import constants from "game_logic/data/constants.json";
+import { useStatHandler } from "game_logic/StatHandler";
+import { UpgradeDef } from "types/SaveFile";
+import Decimal from "break_eternity.js";
 
 export class QuantumFluctuator {
     private baseInterval: number = constants.quantum.fluctuators.interval;
@@ -12,6 +15,7 @@ export class QuantumFluctuator {
     private field: QuantumField;
     private acc: number = 0;
     private positionsBuffer: number[] = [];
+    private upgradeDef: UpgradeDef;
 
     public toggleLock(force?: boolean) {
         this.locked = typeof force === "boolean" ? force : !this.locked;
@@ -31,12 +35,18 @@ export class QuantumFluctuator {
     }
 
     public tryUpgrade() {
-        this.baseInterval *= 0.9;
-        this.element.setInterval(this.baseInterval);
+        useStatHandler().gainUpgrade("quantum.energy.fluctuators", this.upgradeDef.id, true);
+        this.element.setInterval(this.getInterval());
+        this.element.setCost(this.getCost());
+    }
+
+    private getCost(): Decimal {
+        const level = useStatHandler().getUpgradeLevel(this.upgradeDef.id);
+        return useStatHandler().calculateCost(this.upgradeDef, level, 1)[0].amount;
     }
 
     private getInterval() {
-        return this.baseInterval;
+        return useStatHandler().get(`fluctuator_interval_multiplier_${this.index}`).total.multiply(this.baseInterval).toNumber();
     }
 
     private getRandomPosition() {
@@ -87,7 +97,10 @@ export class QuantumFluctuator {
         this.element.setUpgradeCallback(this.tryUpgrade.bind(this));
         this.index = index;
         this.field = field;
-        
+        this.upgradeDef = useStatHandler().getUpgradeDef("quantum.energy.fluctuators", `fluctuator_interval_multiplier_${index}`) as UpgradeDef;
+        this.element.setInterval(this.getInterval());
+        this.element.setCost(this.getCost());
+
         const saved = useSave((s) => s.stages.quantum.fluctuators);
         this.toggle(saved[this.index] ?? true);
         this.toggleLock(!useFlag(this.getFlagString()));

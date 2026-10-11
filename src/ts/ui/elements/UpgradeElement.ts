@@ -1,12 +1,10 @@
-import upgrades from "game_logic/data/upgrades.json";
-import get from "lodash/get";
 import { useTranslation } from "i18n/i18n";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { UpgradeDef } from "types/SaveFile";
 import Decimal from "break_eternity.js";
 import { useCurrencyHandler } from "game_logic/currencies/Currencies";
 import { Numbers } from "numbers/numbers";
-import { useFlag, useSaveHandler } from "SaveHandler/SaveHandler";
+import { useFlag } from "SaveHandler/SaveHandler";
 import { useStat, useStatHandler } from "game_logic/StatHandler";
 import { requireAttribute } from "utils/dom";
 
@@ -26,8 +24,7 @@ export class UpgradeElement extends HTMLElement {
     }
 
     private getCurrentLevel(): number {
-        const saved = useSaveHandler().getUpgrades().find((u) => u.id === this.def.id);
-        return saved ? saved.levels : 0;
+        return useStatHandler().getUpgradeLevel(this.def.id);
     }
 
     public isCompleted(): boolean {
@@ -88,9 +85,9 @@ export class UpgradeElement extends HTMLElement {
     }
 
     connectedCallback() {
-        const id = this.getAttribute("upgrade");
+        const id = requireAttribute(this, "upgrade");
         this.namespace = requireAttribute(this, "namespace");
-        this.def = get(upgrades, this.namespace).find((u: UpgradeDef) => u.id === id) as UpgradeDef;
+        this.def = useStatHandler().getUpgradeDef(this.namespace, id) as UpgradeDef;
 
         this.detailsElement = document.createElement("div");
         this.detailsElement.classList.add("details");

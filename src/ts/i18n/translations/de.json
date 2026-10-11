@@ -267,8 +267,8 @@
         "higherCharge": {
           "title": "Higher Charge"
         },
-        "fluctuatorSpeed": {
-          "title": "Fluctuations-Intervall"
+        "fluctuatorIntervalMultiplier": {
+          "title": "Fluctuations-Intervall Multiplikator"
         }
       }
     }

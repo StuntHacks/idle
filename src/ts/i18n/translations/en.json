@@ -335,8 +335,8 @@
         "higherCharge": {
           "title": "Higher Charge"
         },
-        "fluctuatorSpeed": {
-          "title": "Fluctuator Speed"
+        "fluctuatorIntervalMultiplier": {
+          "title": "Fluctuator Interval Multiplier"
         },
         "particleConverters": {
           "title": "Particle Converters",
