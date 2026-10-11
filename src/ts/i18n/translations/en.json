@@ -260,6 +260,7 @@
           "information": "Here you can spend energy to convert combinations of particles into continuously growing boosts",
           "quarksUsed": "Base particles used per conversion",
           "energyUsed": "Energy used per conversion",
+          "energyScaling": "Scales by <strong>$0x</strong> every order of magnitude",
           "perConversion": "conversion",
           "enable": "Click to turn on",
           "disable": "Click to turn off",
