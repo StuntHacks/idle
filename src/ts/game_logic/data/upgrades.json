@@ -238,8 +238,8 @@
                         "amount": 1.2,
                         "cost": [
                             {
-                                "currency": "bosons-gluon",
-                                "amount": 100
+                                "currency": "leptons-electron",
+                                "amount": 5e7
                             }
                         ],
                         "costScaling": 1.1,
@@ -256,8 +256,8 @@
                         "amount": 1,
                         "cost": [
                             {
-                                "currency": "bosons-gluon",
-                                "amount": 10
+                                "currency": "quarks-triplets",
+                                "amount": 250000
                             }
                         ],
                         "costScaling": 1.1,
@@ -283,7 +283,8 @@
                         "requirements": [
                             "fermion_gain_1",
                             "boson_gain_1"
-                        ]
+                        ],
+                        "requirementMode": "any"
                     },
                     {
                         "id": "conversion_speed_1",
