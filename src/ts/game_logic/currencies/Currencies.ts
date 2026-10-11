@@ -221,7 +221,19 @@ export class CurrencyHandler {
 
         const c = Array.isArray(costs) ? CurrencyHandler.mergeCosts(costs) : [costs];
         if (!this.canAfford(c)) return false;
-        return c.every((cost) => trySpend(cost));
+
+        // check if enough quarks
+        const isQuarks = (cost: Cost) => typeof cost.currency !== "string" || cost.currency.startsWith("quarks-");
+        const quarks = c.filter(isQuarks);
+        if (quarks.length < 2) return c.every((cost) => trySpend(cost));
+
+        const cells = this.quarks.getCombinations({}, true);
+        const before = cells.map((hash) => (this.currencyMap.get(hash) as Currency).amount);
+        if (!quarks.every((cost) => trySpend(cost))) {
+            cells.forEach((hash, i) => this.set(hash, before[i]));
+            return false;
+        }
+        return c.filter((cost) => !isQuarks(cost)).every((cost) => trySpend(cost));
     }
 
     public set(hash: string, amount: Decimal) {
