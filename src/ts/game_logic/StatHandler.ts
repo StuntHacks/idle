@@ -124,6 +124,25 @@ class StatHandler {
         return def.cost.map(({ currency, amount }) => ({ currency, amount: factor.multiply(amount) }));
     }
 
+    public getRemainingLevels(def: UpgradeDef, currentLevel: number): number {
+        if (def.levels) return Math.max(def.levels - currentLevel, 0);
+        return currentLevel > 0 ? 0 : 1;
+    }
+
+    public getAffordableLevels(def: UpgradeDef, currentLevel: number): number {
+        const max = this.getRemainingLevels(def, currentLevel);
+        let amount = 0;
+
+        while (
+            amount < max &&
+            useCurrencyHandler().canAfford(this.calculateCost(def, currentLevel, amount + 1))
+        ) {
+            amount++;
+        }
+
+        return amount;
+    }
+
     private static parseUpgrades(data: unknown) {
         if (Array.isArray(data)) {
             for (const entry of data) {
@@ -234,22 +253,11 @@ class StatHandler {
         if (normalDef.levels && currentLevel >= normalDef.levels) return false;
 
         if (amount < 0) {
-            const max = normalDef.levels ? normalDef.levels - currentLevel : 1;
+            amount = purchase
+                ? this.getAffordableLevels(normalDef, currentLevel)
+                : this.getRemainingLevels(normalDef, currentLevel);
 
-            if (!purchase) {
-                amount = max;
-            } else {
-                amount = 0;
-
-                while (
-                    amount < max &&
-                    useCurrencyHandler().canAfford(this.calculateCost(normalDef, currentLevel, amount + 1))
-                ) {
-                    amount++;
-                }
-
-                if (amount === 0) return false;
-            }
+            if (amount === 0) return false;
         }
 
         const levelsRemaining = normalDef.levels ? normalDef.levels - currentLevel : amount;

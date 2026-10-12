@@ -7,6 +7,7 @@ import { Numbers } from "numbers/numbers";
 import { useFlag } from "SaveHandler/SaveHandler";
 import { useStat, useStatHandler } from "game_logic/StatHandler";
 import { requireAttribute } from "utils/dom";
+import { UI } from "ui/UI";
 
 export class UpgradeElement extends HTMLElement {
     private def!: UpgradeDef;
@@ -15,6 +16,8 @@ export class UpgradeElement extends HTMLElement {
 
     private detailsElement!: HTMLDivElement;
     private costElement!: HTMLSpanElement;
+    private costText!: Text;
+    private amountLabelElement!: HTMLSpanElement;
     private levelsElement?: HTMLSpanElement;
     private currentEffectElement?: HTMLSpanElement;
     private tooltip?: HTMLElement;
@@ -38,20 +41,33 @@ export class UpgradeElement extends HTMLElement {
         return this.affordable;
     }
 
-    private getCost(): Decimal {
-        return useStatHandler().calculateCost(this.def, this.getCurrentLevel(), 1)[0].amount;
+    private getCost(amount: number = 1): Decimal {
+        return useStatHandler().calculateCost(this.def, this.getCurrentLevel(), amount)[0].amount;
     }
 
     private updateCost() {
-        const cost = this.getCost();
-        switch (this.def.cost[0].currency) {
-            case "energy":
-                this.costElement.innerText = Energy.getFormatted(cost, undefined, "ceil");
-                break;
-            default:
-                this.costElement.innerText = Numbers.getFormatted(cost, undefined, undefined, "ceil");
-                break;
+        let amount = 1;
+        if (UI.shiftDown && !this.isCompleted()) {
+            amount = Math.max(useStatHandler().getAffordableLevels(this.def, this.getCurrentLevel()), 1);
         }
+
+        const cost = this.getCost(amount);
+        const text = this.def.cost[0].currency === "energy"
+            ? Energy.getFormatted(cost, undefined, "ceil")
+            : Numbers.getFormatted(cost, undefined, undefined, "ceil");
+
+        if (this.costText.data !== text) {
+            this.costText.data = text;
+        }
+
+        const showLabel = amount > 1;
+        const label = `(${amount})`;
+
+        if (showLabel && this.amountLabelElement.innerText !== label) {
+            this.amountLabelElement.innerText = label;
+        }
+
+        this.amountLabelElement.hidden = !showLabel;
     }
 
     private updateCurrentEffect() {
@@ -90,6 +106,11 @@ export class UpgradeElement extends HTMLElement {
             amount: this.getCost()
         });
         this.classList.toggle("disabled", !this.affordable);
+        if (UI.shiftDown) this.updateCost();
+    };
+
+    private onShiftChange = () => {
+        this.updateCost();
     };
 
     public buy = (amount: number = 1) => {
@@ -178,6 +199,10 @@ export class UpgradeElement extends HTMLElement {
 
         this.costElement = document.createElement("span");
         this.costElement.classList.add("cost");
+        this.costText = document.createTextNode("");
+        this.amountLabelElement = document.createElement("span");
+        this.amountLabelElement.classList.add("amount-label");
+        this.costElement.append(this.costText, this.amountLabelElement);
         this.updateCost();
 
         if (this.isCompleted()) {
@@ -190,10 +215,16 @@ export class UpgradeElement extends HTMLElement {
         this.appendChild(this.costElement);
         this.checkCost();
 
-        this.costElement.addEventListener("click", () => this.buy(1));
+        this.costElement.addEventListener("click", (e) => this.buy(e.shiftKey ? -1 : 1));
         this.costElement.addEventListener("contextmenu", (e) => {
             e.preventDefault();
             this.buy(-1);
         });
+
+        UI.registerCallback("shift", this.onShiftChange);
+    }
+
+    disconnectedCallback() {
+        UI.unregisterCallback("shift", this.onShiftChange);
     }
 }
