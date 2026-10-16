@@ -53,20 +53,24 @@ export class OfflineProgressUI {
                         if (!currency) continue;
                         const element = document.createElement("div");
                         groupContainer.appendChild(element);
+
+                        const negative = gain.amount.lt(0);
+                        const absolute = gain.amount.abs();
                         let amount = "";
                         switch (gain.hash) {
                             case "energy":
-                                amount = Energy.getFormatted(gain.amount);
+                                amount = Energy.getFormatted(absolute);
                                 break;
                             default:
-                                amount = Numbers.getFormatted(gain.amount);
+                                amount = Numbers.getFormatted(absolute);
                         }
 
                         const label = document.createElement("span");
-                        label.textContent = `+${amount}`;
+                        label.textContent = `${negative ? "-" : "+"}${amount}`;
                         element.appendChild(label);
 
                         element.classList.add("gain", gain.hash);
+                        element.classList.toggle("negative", negative);
 
                         const particle = document.createElement("div");
                         particle.className = `resource ${currency.className || ""}`;

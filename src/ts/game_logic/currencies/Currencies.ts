@@ -17,6 +17,7 @@ export type Cost = { currency: CostCurrency; amount: Decimal };
 
 export class CurrencyHandler {
     private currencyMap = new Map<string, Currency | InferredCurrency>();
+    private changes: Map<string, Decimal> | null = null;
     public readonly quarks: QuarkPool;
 
     public constructor() {
@@ -103,6 +104,16 @@ export class CurrencyHandler {
             return;
         }
         this.currencyMap.set(hash, { hash, handler, stage, group, important, inferred: true });
+
+        if (handler.isPersisted) {
+            handler.registerCallback((_hash, type, amount, before, total) => this.recordChange(hash, type, amount, before, total));
+        }
+    }
+
+    private recordChange(hash: string, type: "gain" | "spend" | "set", amount: Decimal, before: Decimal, total: Decimal) {
+        if (!this.changes) return;
+        const change = type === "gain" ? amount : type === "spend" ? amount.neg() : total.minus(before);
+        this.changes.set(hash, (this.changes.get(hash) ?? new Decimal(0)).plus(change));
     }
 
     public registerCallback(callback: CurrencyCallback | InferredCurrencyCallback, cost: CostCurrency) {
@@ -139,6 +150,7 @@ export class CurrencyHandler {
     }
 
     public snapshot(): Map<string, Decimal> {
+        this.changes = new Map();
         const snap = new Map<string, Decimal>();
         for (const [hash, currency] of this.currencyMap) {
             const amount = currency.inferred
@@ -151,15 +163,22 @@ export class CurrencyHandler {
 
     public diff(snapshot: Map<string, Decimal>): OfflineResults {
         const results: OfflineResults = {};
+        const changes = this.changes;
+        this.changes = null;
 
         for (const [hash, currency] of this.currencyMap) {
-            const before = snapshot.get(hash) ?? new Decimal(0);
-            const after = currency.inferred
-                ? (currency as InferredCurrency).handler.getAmount()
-                : (currency as Currency).amount;
+            let gained: Decimal;
+            if (changes && (!currency.inferred || currency.handler.isPersisted)) {
+                gained = changes.get(hash) ?? new Decimal(0);
+            } else {
+                const before = snapshot.get(hash) ?? new Decimal(0);
+                const after = currency.inferred
+                    ? (currency as InferredCurrency).handler.getAmount()
+                    : (currency as Currency).amount;
+                gained = after.minus(before);
+            }
 
-            const gained = after.minus(before);
-            if (gained.lte(0)) continue;
+            if (gained.eq(0)) continue;
 
             const { stage, group } = currency;
             if (!results[stage]) results[stage] = {};
@@ -182,6 +201,7 @@ export class CurrencyHandler {
         const before = currency.amount;
         const total = before.plus(amount);
         currency.amount = total;
+        this.recordChange(hash, "gain", amount, before, total);
 
         for (const callback of currency.callbacks) {
             callback(hash, "gain", amount, before, total);
@@ -211,6 +231,7 @@ export class CurrencyHandler {
             const before = normal.amount;
             const total = before.minus(cost.amount);
             normal.amount = total;
+            this.recordChange(hash, "spend", cost.amount, before, total);
 
             for (const callback of normal.callbacks) {
                 callback(hash, "spend", cost.amount, before, total);
@@ -245,6 +266,7 @@ export class CurrencyHandler {
 
         const before = currency.amount;
         currency.amount = amount;
+        this.recordChange(hash, "set", amount, before, amount);
 
         for (const callback of currency.callbacks) {
             callback(hash, "set", amount, before, amount);
