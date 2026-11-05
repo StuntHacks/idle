@@ -55,14 +55,15 @@ class Game {
 
     public async start() {
         const now = Date.now();
-        let savedTimestamp = useSave().timestamp ?? now;
-        if (useSettings().gameplay.settings.noOfflineTime?.value) {
-            savedTimestamp = now;
-        }
-        const offlineGap = now - savedTimestamp;
+        const offlineGap = Math.max(0, now - (useSave().timestamp ?? now));
+        const noOfflineTime = useSettings().gameplay.settings.noOfflineTime?.value;
 
-        if (offlineGap > 5000) {
-            await this.calculateOfflineProgress(useSettings().gameplay.settings.noOfflineTime?.value ? 0 : offlineGap);
+        if (noOfflineTime) {
+            useSave((save) => save.startTime += offlineGap);
+        }
+
+        if (!noOfflineTime && offlineGap > 5000) {
+            await this.calculateOfflineProgress(offlineGap);
         } else {
             OfflineProgressUI.dismiss();
         }

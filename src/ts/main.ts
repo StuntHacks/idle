@@ -1,6 +1,7 @@
 import { handleError } from "utils/handleError";
 import { initGame, stopGame } from "./game_logic/Game";
 import { requireElement } from "utils/dom";
+import { useSaveHandler } from "SaveHandler/SaveHandler";
 
 const crash = (e: unknown) => {
     stopGame();
@@ -19,7 +20,8 @@ export const main = async () => {
         const game = initGame();
 
         requireElement("magic-button").addEventListener("click", () => {
-            game.timeskip(3 * 3600);
+            useSaveHandler().saveData(false, Date.now() - 2 * 3600 * 1000);
+            useSaveHandler().reloadWithoutSaving();
         });
 
         game.start();
