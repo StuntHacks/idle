@@ -1,14 +1,13 @@
-import upgrades from "game_logic/data/upgrades.json";
-import get from "lodash/get";
 import { useTranslation } from "i18n/i18n";
 import { Energy } from "game_logic/currencies/inferred/Energy";
 import { UpgradeDef } from "types/SaveFile";
 import Decimal from "break_eternity.js";
 import { useCurrencyHandler } from "game_logic/currencies/Currencies";
 import { Numbers } from "numbers/numbers";
-import { useFlag, useSaveHandler } from "SaveHandler/SaveHandler";
+import { useFlag } from "SaveHandler/SaveHandler";
 import { useStat, useStatHandler } from "game_logic/StatHandler";
 import { requireAttribute } from "utils/dom";
+import { UI } from "ui/UI";
 
 export class UpgradeElement extends HTMLElement {
     private def!: UpgradeDef;
@@ -17,6 +16,8 @@ export class UpgradeElement extends HTMLElement {
 
     private detailsElement!: HTMLDivElement;
     private costElement!: HTMLSpanElement;
+    private costText!: Text;
+    private amountLabelElement!: HTMLSpanElement;
     private levelsElement?: HTMLSpanElement;
     private currentEffectElement?: HTMLSpanElement;
     private tooltip?: HTMLElement;
@@ -26,8 +27,7 @@ export class UpgradeElement extends HTMLElement {
     }
 
     private getCurrentLevel(): number {
-        const saved = useSaveHandler().getUpgrades().find((u) => u.id === this.def.id);
-        return saved ? saved.levels : 0;
+        return useStatHandler().getUpgradeLevel(this.def.id);
     }
 
     public isCompleted(): boolean {
@@ -41,20 +41,33 @@ export class UpgradeElement extends HTMLElement {
         return this.affordable;
     }
 
-    private getCost(): Decimal {
-        return useStatHandler().calculateCost(this.def, this.getCurrentLevel(), 1);
+    private getCost(amount: number = 1): Decimal {
+        return useStatHandler().calculateCost(this.def, this.getCurrentLevel(), amount)[0].amount;
     }
 
     private updateCost() {
-        const cost = this.getCost();
-        switch (this.def.currency) {
-            case "energy":
-                this.costElement.innerText = Energy.getFormatted(cost, undefined, "ceil");
-                break;
-            default:
-                this.costElement.innerText = Numbers.getFormatted(cost, undefined, undefined, "ceil");
-                break;
+        let amount = 1;
+        if (UI.shiftDown && !this.isCompleted()) {
+            amount = Math.max(useStatHandler().getAffordableLevels(this.def, this.getCurrentLevel()), 1);
         }
+
+        const cost = this.getCost(amount);
+        const text = this.def.cost[0].currency === "energy"
+            ? Energy.getFormatted(cost, undefined, "ceil")
+            : Numbers.getFormatted(cost, undefined, undefined, "ceil");
+
+        if (this.costText.data !== text) {
+            this.costText.data = text;
+        }
+
+        const showLabel = amount > 1;
+        const label = `(${amount})`;
+
+        if (showLabel && this.amountLabelElement.innerText !== label) {
+            this.amountLabelElement.innerText = label;
+        }
+
+        this.amountLabelElement.hidden = !showLabel;
     }
 
     private updateCurrentEffect() {
@@ -87,10 +100,43 @@ export class UpgradeElement extends HTMLElement {
         }
     }
 
+    private checkCost = () => {
+        this.affordable = useCurrencyHandler().canAfford({
+            currency: this.def.cost[0].currency,
+            amount: this.getCost()
+        });
+        this.classList.toggle("disabled", !this.affordable);
+        if (UI.shiftDown) this.updateCost();
+    };
+
+    private onShiftChange = () => {
+        this.updateCost();
+    };
+
+    public buy = (amount: number = 1) => {
+        if (this.isCompleted()) return;
+
+        const result = useStatHandler().gainUpgrade(this.namespace, this.def.id, true, amount);
+        if (!result) return;
+
+        this.updateCost();
+        this.updateLevels();
+        this.updateCurrentEffect();
+        this.checkCost();
+
+        if (this.isCompleted()) {
+            this.classList.add("completed-transition");
+            this.addEventListener("animationend", () => {
+                this.classList.remove("completed-transition");
+                this.classList.add("completed");
+            }, { once: true });
+        }
+    }
+
     connectedCallback() {
-        const id = this.getAttribute("upgrade");
+        const id = requireAttribute(this, "upgrade");
         this.namespace = requireAttribute(this, "namespace");
-        this.def = get(upgrades, this.namespace).find((u: UpgradeDef) => u.id === id) as UpgradeDef;
+        this.def = useStatHandler().getUpgradeDef(this.namespace, id) as UpgradeDef;
 
         this.detailsElement = document.createElement("div");
         this.detailsElement.classList.add("details");
@@ -153,40 +199,32 @@ export class UpgradeElement extends HTMLElement {
 
         this.costElement = document.createElement("span");
         this.costElement.classList.add("cost");
+        this.costText = document.createTextNode("");
+        this.amountLabelElement = document.createElement("span");
+        this.amountLabelElement.classList.add("amount-label");
+        this.costElement.append(this.costText, this.amountLabelElement);
         this.updateCost();
 
         if (this.isCompleted()) {
             this.classList.add("completed");
         }
 
-        const checkCost = () => {
-            this.affordable = useCurrencyHandler().canAfford(this.def.currency, this.getCost());
-            this.classList.toggle("disabled", !this.affordable);
-        };
-        useCurrencyHandler().registerCallback(checkCost, this.def.currency);
+        useCurrencyHandler().registerCallback(this.checkCost, this.def.cost[0].currency);
 
         this.appendChild(this.detailsElement);
         this.appendChild(this.costElement);
-        checkCost();
+        this.checkCost();
 
-        this.costElement.addEventListener("click", () => {
-            if (this.isCompleted()) return;
-
-            const result = useStatHandler().gainUpgrade(this.namespace, this.def.id, true);
-            if (!result) return;
-
-            this.updateCost();
-            this.updateLevels();
-            this.updateCurrentEffect();
-            checkCost();
-
-            if (this.isCompleted()) {
-                this.classList.add("completed-transition");
-                this.addEventListener("animationend", () => {
-                    this.classList.remove("completed-transition");
-                    this.classList.add("completed");
-                }, { once: true });
-            }
+        this.costElement.addEventListener("click", (e) => this.buy(e.shiftKey ? -1 : 1));
+        this.costElement.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+            this.buy(-1);
         });
+
+        UI.registerCallback("shift", this.onShiftChange);
+    }
+
+    disconnectedCallback() {
+        UI.unregisterCallback("shift", this.onShiftChange);
     }
 }

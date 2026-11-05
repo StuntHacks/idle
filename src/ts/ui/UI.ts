@@ -10,7 +10,6 @@ import { Currency, useCurrency } from "game_logic/currencies/Currencies";
 import { Logger } from "utils/Logger";
 import { Numbers } from "numbers/numbers";
 import { initPopoverManager, usePopover } from "./PopoverManager";
-import { initNotifications } from "./NotificationManager";
 import { ImportPopover } from "./popovers/ImportPopover";
 import { CustomElements } from "./CustomElements";
 import { requireChild, requireElement } from "utils/dom";
@@ -18,11 +17,17 @@ import { AboutUI } from "./About";
 
 export class UI {
     private static saveIndicator: HTMLElement;
+    public static shiftDown: boolean = false;
     public static mouseDown: boolean = false;
     public static mouseX: number = 0;
     public static mouseY: number = 0;
     private static lastStageTab: string = "quantum";
     private static currencyContainerMap = new Map<string, HTMLElement>();
+    private static callbacks: { [key: string]: ((state: boolean) => void)[] } = {
+        "shift": [],
+        "mouse": [],
+        "touch": []
+    };
 
     public static initialize() {
         CustomElements.initialize();
@@ -31,10 +36,14 @@ export class UI {
         window.addEventListener("mousedown", UI.updateMouseState);
         window.addEventListener("mousemove", UI.updateMouseState);
         window.addEventListener("mouseup", UI.updateMouseState);
+        window.addEventListener("keydown", UI.updateKeyboardState);
+        window.addEventListener("keyup", UI.updateKeyboardState);
+        window.addEventListener("blur", () => UI.setShiftDown(false));
 
         window.addEventListener("touchstart", UI.updateTouchState, { passive: true });
         window.addEventListener("touchmove", UI.updateTouchState, { passive: true });
         window.addEventListener("touchend", UI.updateTouchState, { passive: true });
+        window.addEventListener("touchcancel", UI.updateTouchState, { passive: true });
 
         for (const element of Array.from(document.querySelectorAll<HTMLElement>(".js-sidescroll"))) {
             element.addEventListener('wheel', (event: WheelEvent) => {
@@ -63,9 +72,25 @@ export class UI {
         SettingsUI.initialize();
         AboutUI.initialize();
         initPopoverManager();
-        initNotifications();
         this.initializeBottomBar();
         this.updateDarkMode();
+    }
+
+    public static registerCallback(input: string, callback: (state: boolean) => void) {
+        if (!UI.callbacks[input]) {
+            UI.callbacks[input] = [];
+        }
+        UI.callbacks[input].push(callback);
+    }
+
+    public static unregisterCallback(input: string, callback: (state: boolean) => void) {
+        const callbacks = UI.callbacks[input];
+        if (!callbacks) return;
+
+        const index = callbacks.indexOf(callback);
+        if (index > -1) {
+            callbacks.splice(index, 1);
+        }
     }
 
     public static toggleMenuTab(tab: string): boolean {
@@ -175,24 +200,47 @@ export class UI {
     }
 
     private static updateMouseState(e: MouseEvent) {
-        let flags = e.buttons !== undefined ? e.buttons : e.which;
-        UI.mouseDown = (flags & 1) === 1;
+        const buttons = e.buttons !== undefined ? e.buttons : e.which;
+        const old = UI.mouseDown;
+        UI.mouseDown = Boolean(buttons & 1);
+
+        if (UI.mouseDown !== old) {
+            UI.callbacks["mouse"].forEach(callback => callback(UI.mouseDown));
+        }
+
         UI.mouseX = e.clientX;
         UI.mouseY = e.clientY;
+        UI.setShiftDown(e.shiftKey);
     }
 
     private static updateTouchState(e: TouchEvent) {
+        const old = UI.mouseDown;
+
         if (e.type === "touchend" || e.type === "touchcancel") {
             UI.mouseDown = false;
-            return;
+        } else {
+            const touch = e.touches[0];
+            if (touch) {
+                UI.mouseDown = true;
+                UI.mouseX = touch.clientX;
+                UI.mouseY = touch.clientY;
+            }
         }
 
-        const touch = e.touches[0];
-        if (touch) {
-            UI.mouseDown = true;
-            UI.mouseX = touch.clientX;
-            UI.mouseY = touch.clientY;
+        if (UI.mouseDown !== old) {
+            UI.callbacks["touch"].forEach(callback => callback(UI.mouseDown));
         }
+    }
+
+    private static updateKeyboardState(e: KeyboardEvent) {
+        UI.setShiftDown(e.shiftKey);
+    }
+
+    private static setShiftDown(state: boolean) {
+        if (UI.shiftDown === state) return;
+
+        UI.shiftDown = state;
+        UI.callbacks["shift"].forEach(callback => callback(state));
     }
 
     public static flashSaveIndicator() {

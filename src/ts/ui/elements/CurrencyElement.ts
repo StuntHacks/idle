@@ -3,6 +3,7 @@ import { Numbers } from "numbers/numbers";
 import { QuantumFieldElement } from "./quantum/QuantumFieldElement";
 import Decimal from "break_eternity.js";
 import { RenderLoop } from "ui/RenderLoop";
+import { Constants } from "game_logic/Constants";
 
 export class CurrencyElement extends HTMLElement {
     private currencies: string[] = [];
@@ -61,7 +62,10 @@ export class CurrencyElement extends HTMLElement {
 
         if (this.hasAttribute("counter")) {
             this.counter = true;
-            this.max = this.getAttribute("max") ?? undefined;
+            const max = this.getAttribute("max");
+            this.max = max
+                ? Constants.getFormatted(max, this.precision, { upper: this.cutoffUpper, lower: this.cutoffLower })
+                : this.getAttribute("max") ?? undefined;
         }
 
         const fieldId = this.getAttribute("field-id");

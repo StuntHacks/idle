@@ -22,6 +22,7 @@ gulp.task("build-svg-sprite", function () {
             .replace(/[\\/]/g, "-");
 
           contents = contents
+            .replace(/\r\n?/g, "\n")
             .replace(/<\?xml[^>]*>/g, "")
             .replace(/<!DOCTYPE[^>]*>/g, "")
             .replace(/style="[^"]*"/g, "")

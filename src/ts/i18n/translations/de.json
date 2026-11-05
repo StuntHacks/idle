@@ -14,7 +14,7 @@
     "letMeIn": "Lass' mich rein",
     "unlocks": {
       "quantum": {
-        "forces": "1.00e6 gesamten Quarks"
+        "forces": "$0 gesamten Quarks"
       }
     },
     "ok": "Ok",
@@ -267,8 +267,8 @@
         "higherCharge": {
           "title": "Higher Charge"
         },
-        "fluctuatorSpeed": {
-          "title": "Fluctuations-Intervall"
+        "fluctuatorIntervalMultiplier": {
+          "title": "Fluctuations-Intervall Multiplikator"
         }
       }
     }

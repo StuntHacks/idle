@@ -10,6 +10,8 @@ import { initStatHandler } from "./StatHandler";
 import { initCurrencyHandler, useCurrencyHandler } from "./currencies/Currencies";
 import Decimal from "break_eternity.js";
 import { RenderClock } from "ui/RenderClock";
+import { initNotifications } from "ui/NotificationManager";
+import { initTutorials } from "ui/TutorialManager";
 
 export interface Stage {
     update(tickLength: number, catchingUp: boolean): void;
@@ -33,6 +35,8 @@ class Game {
         initCurrencyHandler();
         initStatHandler();
         initTranslator();
+        initNotifications();
+        initTutorials();
         UI.initialize();
 
         this.stages = [new QuantumStage()];
@@ -51,14 +55,15 @@ class Game {
 
     public async start() {
         const now = Date.now();
-        let savedTimestamp = useSave().timestamp ?? now;
-        if (useSettings().gameplay.settings.noOfflineTime?.value) {
-            savedTimestamp = now;
-        }
-        const offlineGap = now - savedTimestamp;
+        const offlineGap = Math.max(0, now - (useSave().timestamp ?? now));
+        const noOfflineTime = useSettings().gameplay.settings.noOfflineTime?.value;
 
-        if (offlineGap > 5000) {
-            await this.calculateOfflineProgress(useSettings().gameplay.settings.noOfflineTime?.value ? 0 : offlineGap);
+        if (noOfflineTime) {
+            useSave((save) => save.startTime += offlineGap);
+        }
+
+        if (!noOfflineTime && offlineGap > 5000) {
+            await this.calculateOfflineProgress(offlineGap);
         } else {
             OfflineProgressUI.dismiss();
         }

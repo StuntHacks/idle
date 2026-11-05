@@ -1,9 +1,16 @@
 import { useFlag, useSave, useSaveHandler } from "SaveHandler/SaveHandler";
 import { FluctuatorElement } from "ui/elements/quantum/FluctuatorElement";
 import { QuantumField } from "./Field";
+import constants from "game_logic/data/constants.json";
+import { useStatHandler } from "game_logic/StatHandler";
+import { UpgradeDef } from "types/SaveFile";
+import Decimal from "break_eternity.js";
+import { Energy } from "game_logic/currencies/inferred/Energy";
+import { useTranslation } from "i18n/i18n";
+import { useCurrencyHandler } from "game_logic/currencies/Currencies";
 
 export class QuantumFluctuator {
-    private baseInterval: number = 1000;
+    private baseInterval: number = constants.quantum.fluctuators.interval;
     private enabled: boolean = false;
     private locked: boolean = true;
     private element: FluctuatorElement;
@@ -11,6 +18,7 @@ export class QuantumFluctuator {
     private field: QuantumField;
     private acc: number = 0;
     private positionsBuffer: number[] = [];
+    private upgradeDef: UpgradeDef;
 
     public toggleLock(force?: boolean) {
         this.locked = typeof force === "boolean" ? force : !this.locked;
@@ -30,12 +38,34 @@ export class QuantumFluctuator {
     }
 
     public tryUpgrade() {
-        this.baseInterval *= 0.9;
-        this.element.setInterval(this.baseInterval);
+        useStatHandler().gainUpgrade("quantum.energy.fluctuators", this.upgradeDef.id, true);
+        this.element.setInterval(this.getInterval());
+        this.updateCost();
+    }
+
+    public canUpgrade = () => {
+        return useCurrencyHandler().canAfford({
+            currency: this.upgradeDef.cost[0].currency,
+            amount: this.getCost()
+        });
+    }
+
+    public isMaxed = () => {
+        return this.getInterval() <= 50;
+    }
+
+    private updateCost() {
+        if (this.isMaxed()) this.element.setUpgradeEnabled(false);
+        this.element.setCost(this.isMaxed() ? useTranslation("misc.max") : Energy.getFormatted(this.getCost(), 0));
+    }
+
+    private getCost(): Decimal {
+        const level = useStatHandler().getUpgradeLevel(this.upgradeDef.id);
+        return useStatHandler().calculateCost(this.upgradeDef, level, 1)[0].amount;
     }
 
     private getInterval() {
-        return this.baseInterval;
+        return Math.max(useStatHandler().get(`fluctuator_interval_multiplier_${this.index}`).total.multiply(this.baseInterval).toNumber(), 50);
     }
 
     private getRandomPosition() {
@@ -86,7 +116,10 @@ export class QuantumFluctuator {
         this.element.setUpgradeCallback(this.tryUpgrade.bind(this));
         this.index = index;
         this.field = field;
-        
+        this.upgradeDef = useStatHandler().getUpgradeDef("quantum.energy.fluctuators", `fluctuator_interval_multiplier_${index}`) as UpgradeDef;
+        this.element.setInterval(this.getInterval());
+        this.updateCost();
+
         const saved = useSave((s) => s.stages.quantum.fluctuators);
         this.toggle(saved[this.index] ?? true);
         this.toggleLock(!useFlag(this.getFlagString()));

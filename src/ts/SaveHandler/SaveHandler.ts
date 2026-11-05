@@ -120,22 +120,22 @@ export class SaveHandler {
         }
     }
 
-    public getEncoded(): string {
+    public getEncoded(timestamp: number = Date.now()): string {
         return this.encode(JSON.stringify({
             ...this.save,
-            timestamp: Date.now(),
+            timestamp,
             gameVersion: Utils.getVersionString(),
         } as SaveFile));
     }
 
-    public saveData(fresh: boolean = false): void {
+    public saveData(fresh: boolean = false, timestamp: number = Date.now()): void {
         if (this.reloading) return;
 
         if (!fresh) {
             this.saveCurrencies();
         }
 
-        let data = this.getEncoded();
+        let data = this.getEncoded(timestamp);
         const last = localStorage.getItem(SAVE_FILE_NAME);
         if (last) localStorage.setItem(`${SAVE_FILE_NAME}_bak`, last);
         localStorage.setItem(SAVE_FILE_NAME, data);

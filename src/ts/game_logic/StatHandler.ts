@@ -1,11 +1,11 @@
 import statsData from "./data/stats.json";
 import upgradesData from "game_logic/data/upgrades.json";
-import { AnyUpgradeDef, ContinuousUpgradeDef, UpgradeDef, SavedUpgrade, SavedContinuousUpgrade } from "types/SaveFile";
+import { AnyUpgradeDef, ContinuousUpgradeDef, UpgradeDef, SavedContinuousUpgrade } from "types/SaveFile";
 import Decimal from "break_eternity.js";
 import get from "lodash/get";
 import { useFlag, useSaveHandler } from "SaveHandler/SaveHandler";
 import { Logger } from "utils/Logger";
-import { useCurrencyHandler } from "./currencies/Currencies";
+import { Cost, CurrencyHandler, useCurrencyHandler } from "./currencies/Currencies";
 import { curves } from "./CurveFunctions";
 
 const stats = statsData as StatData;
@@ -13,10 +13,14 @@ const stats = statsData as StatData;
 class StatHandler {
     private stats: Stats = {};
 
-    private getUpgradeDef(saved: SavedUpgrade | SavedContinuousUpgrade): AnyUpgradeDef | null {
-        const list: AnyUpgradeDef[] | undefined = get(upgradesData, saved.accessor);
+    public getUpgradeDef(namespace: string, id: string): AnyUpgradeDef | null {
+        const list: AnyUpgradeDef[] | undefined = get(upgradesData, namespace);
         if (!Array.isArray(list)) return null;
-        return list.find((u) => u.id === saved.id) ?? null;
+        return list.find((u) => u.id === id) ?? null;
+    }
+
+    public getUpgradeLevel(id: string): number {
+        return useSaveHandler().getUpgrades().find((u) => u.id === id)?.levels ?? 0;
     }
 
     public update(stat: string) {
@@ -30,12 +34,12 @@ class StatHandler {
         const savedContinuous = save.getContinuousUpgrades();
 
         const relevant = savedUpgrades.flatMap((saved) => {
-            const def = this.getUpgradeDef(saved);
+            const def = this.getUpgradeDef(saved.accessor, saved.id);
             return def?.target === stat && !def.continuous ? [{ saved, def: def as UpgradeDef }] : [];
         });
 
         const relevantContinuous = savedContinuous.flatMap((saved) => {
-            const def = this.getUpgradeDef(saved);
+            const def = this.getUpgradeDef(saved.accessor, saved.id);
             return def?.target === stat && def.continuous ? [{ saved: saved as SavedContinuousUpgrade, def: def as ContinuousUpgradeDef }] : [];
         });
 
@@ -109,17 +113,59 @@ class StatHandler {
         };
     }
 
-    public calculateCost(def: UpgradeDef, currentLevel: number, amount: number): Decimal {
-        const cost = new Decimal(def.cost);
+    public calculateCost(def: UpgradeDef, currentLevel: number, amount: number): Cost[] {
         const scaling = new Decimal(def.costScaling ?? 1);
-        if (scaling.eq(1)) {
-            return cost.multiply(amount);
+        const factor = scaling.eq(1)
+            ? new Decimal(amount)
+            : scaling.pow(currentLevel)
+                .multiply(scaling.pow(amount).minus(1))
+                .divide(scaling.minus(1));
+
+        return def.cost.map(({ currency, amount }) => ({ currency, amount: factor.multiply(amount) }));
+    }
+
+    public getRemainingLevels(def: UpgradeDef, currentLevel: number): number {
+        if (def.levels) return Math.max(def.levels - currentLevel, 0);
+        return currentLevel > 0 ? 0 : 1;
+    }
+
+    public getAffordableLevels(def: UpgradeDef, currentLevel: number): number {
+        const max = this.getRemainingLevels(def, currentLevel);
+        let amount = 0;
+
+        while (
+            amount < max &&
+            useCurrencyHandler().canAfford(this.calculateCost(def, currentLevel, amount + 1))
+        ) {
+            amount++;
         }
 
-        return cost
-            .multiply(scaling.pow(currentLevel))
-            .multiply(scaling.pow(amount).minus(1))
-            .divide(scaling.minus(1));
+        return amount;
+    }
+
+    private static parseUpgrades(data: unknown) {
+        if (Array.isArray(data)) {
+            for (const entry of data) {
+                StatHandler.parseUpgrades(entry);
+            }
+            return;
+        }
+
+        if (typeof data !== "object" || data === null) return;
+
+        const def = data as Partial<UpgradeDef>;
+        if (!Array.isArray(def.cost)) {
+            for (const value of Object.values(data)) {
+                StatHandler.parseUpgrades(value);
+            }
+            return;
+        }
+
+        const costs = def.cost.map(({ currency, amount }) => ({ currency, amount: new Decimal(amount) }));
+        def.cost = CurrencyHandler.mergeCosts(costs);
+        if (def.cost.length !== costs.length) {
+            Logger.warning("StatHandler", `Double currency in "${def.id}"`);
+        }
     }
 
     public getUpgradeEffect(def: UpgradeDef, currentLevel: number): Decimal | null {
@@ -138,13 +184,7 @@ class StatHandler {
     }
 
     public feed(namespace: string, id: string, amount: Decimal): void {
-        const defList: AnyUpgradeDef[] | undefined = get(upgradesData, namespace);
-        if (!Array.isArray(defList)) {
-            Logger.error("StatHandler", `Invalid namespace "${namespace}"`);
-            return;
-        }
-
-        const def = defList.find((u) => u.id === id);
+        const def = this.getUpgradeDef(namespace, id);
         if (!def?.continuous) {
             Logger.error("StatHandler", `"${id}" is not a continuous upgrade`);
             return;
@@ -163,8 +203,7 @@ class StatHandler {
     }
 
     public getContinuousEffect(namespace: string, id: string, additional: Decimal = new Decimal(0)): Decimal | null {
-        const defList: AnyUpgradeDef[] | undefined = get(upgradesData, namespace);
-        const def = defList?.find((u) => u.id === id) as ContinuousUpgradeDef | undefined;
+        const def = this.getUpgradeDef(namespace, id);
         if (!def?.continuous) return null;
 
         const curveFn = curves[def.curve];
@@ -181,27 +220,21 @@ class StatHandler {
         purchase: boolean = false,
         amount: number = 1
     ): boolean {
-        const defList: AnyUpgradeDef[] | undefined = get(upgradesData, namespace);
-        if (!Array.isArray(defList)) {
-            Logger.error("StatHandler", `Invalid namespace "${namespace}"`);
-            return false;
-        }
-
-        const def = defList.find((u) => u.id === id);
+        const def = this.getUpgradeDef(namespace, id);
         if (!def) {
             Logger.error("StatHandler", `Upgrade "${id}" not found in "${namespace}"`);
             return false;
         }
 
         if (def.continuous) {
-            Logger.error("StatHandler", `"${id}" is continuous - use feed() instead`);
+            Logger.error("StatHandler", `"${id}" is continuous`);
             return false;
         }
 
         const normalDef = def as UpgradeDef;
 
         if (normalDef.type === "flag") {
-            if (purchase && !useCurrencyHandler().spend(normalDef.currency, new Decimal(normalDef.cost))) {
+            if (purchase && !useCurrencyHandler().spend(this.calculateCost(normalDef, 0, 1))) {
                 return false;
             }
             useFlag(normalDef.target, true);
@@ -219,11 +252,19 @@ class StatHandler {
 
         if (normalDef.levels && currentLevel >= normalDef.levels) return false;
 
+        if (amount < 0) {
+            amount = purchase
+                ? this.getAffordableLevels(normalDef, currentLevel)
+                : this.getRemainingLevels(normalDef, currentLevel);
+
+            if (amount === 0) return false;
+        }
+
         const levelsRemaining = normalDef.levels ? normalDef.levels - currentLevel : amount;
         const actualAmount = Math.min(amount, levelsRemaining);
         const cost = this.calculateCost(normalDef, currentLevel, actualAmount);
 
-        if (purchase && !useCurrencyHandler().spend(normalDef.currency, cost)) return false;
+        if (purchase && !useCurrencyHandler().spend(cost)) return false;
 
         if (!existing) {
             savedUpgrades.push({ id: normalDef.id, accessor: namespace, levels: actualAmount });
@@ -236,6 +277,8 @@ class StatHandler {
     }
 
     constructor() {
+        StatHandler.parseUpgrades(upgradesData);
+
         for (const stat in stats) {
             const def = stats[stat];
             this.stats[stat] = {

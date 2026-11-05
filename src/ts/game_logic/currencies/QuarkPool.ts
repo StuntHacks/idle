@@ -65,7 +65,7 @@ export class QuarkPool {
 
     public canAfford(cost: QuarkCost[]): boolean {
         const checkValidity = (cost: QuarkCost[]) => {
-            if (cost.length < 2) return;
+            if (cost.length < 2) return true;
 
             const costs = new Set<string>();
             for (const part of cost) {

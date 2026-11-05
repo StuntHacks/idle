@@ -31,5 +31,12 @@
         "changes": [
             "Implemented particle conversion"
         ]
+    },
+    {
+        "version": "0.0.15",
+        "date": "11.10.2026",
+        "changes": [
+            "Implemented proper fluctuator upgrading"
+        ]
     }
 ]

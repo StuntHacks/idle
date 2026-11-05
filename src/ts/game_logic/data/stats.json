@@ -74,5 +74,25 @@
     "hadron_gain": {
         "base": 1,
         "title": "stats.quantum.hadronGain"
+    },
+    "fluctuator_interval_multiplier_0": {
+        "base": 1,
+        "title": "stats.quantum.fluctuatorIntervalMultiplier0"
+    },
+    "fluctuator_interval_multiplier_1": {
+        "base": 1,
+        "title": "stats.quantum.fluctuatorIntervalMultiplier1"
+    },
+    "fluctuator_interval_multiplier_2": {
+        "base": 1,
+        "title": "stats.quantum.fluctuatorIntervalMultiplier2"
+    },
+    "fluctuator_interval_multiplier_3": {
+        "base": 1,
+        "title": "stats.quantum.fluctuatorIntervalMultiplier3"
+    },
+    "fluctuator_interval_multiplier_4": {
+        "base": 1,
+        "title": "stats.quantum.fluctuatorIntervalMultiplier4"
     }
 }

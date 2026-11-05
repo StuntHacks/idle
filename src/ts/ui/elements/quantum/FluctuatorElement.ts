@@ -5,8 +5,13 @@ export class FluctuatorElement extends HTMLElement {
     private disableButton!: HTMLSpanElement;
     private upgradeButton!: HTMLElement;
     private intervalElement!: HTMLSpanElement;
+    private costElement!: HTMLSpanElement;
     private toggleCallback?: ToggleCallback;
     private upgradeCallback?: () => void;
+
+    public setUpgradeEnabled(enabled: boolean) {
+        this.upgradeButton.classList.toggle("disabled", !enabled);
+    }
 
     public setEnabled(enabled: boolean) {
         this.toggleAttribute("disabled", !enabled);
@@ -34,12 +39,17 @@ export class FluctuatorElement extends HTMLElement {
         this.intervalElement.textContent = `${interval.toFixed(0)}ms`;
     }
 
+    public setCost(cost: string) {
+        this.costElement.textContent = cost;
+    }
+
     constructor() {
         super();
     }
 
     connectedCallback() {
-        this.intervalElement = requireChild(this, ".interval");
+        this.intervalElement = requireChild(this, ".interval > span");
+        this.costElement = requireChild(this, ".cost");
         this.upgradeButton = requireChild(this, ".upgrade-button");
         this.disableButton = requireChild(this, ".disable-button");
     }
